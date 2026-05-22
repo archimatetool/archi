@@ -57,7 +57,7 @@ public class NotesSection extends AbstractECorePropertySection {
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.NotesSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
-        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.NotesSection_2);
         
         fTextNotesControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.NOTES_CONTENT__NOTES) {

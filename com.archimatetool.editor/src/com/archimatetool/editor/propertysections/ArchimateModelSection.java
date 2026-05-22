@@ -73,7 +73,7 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.ArchimateModelSection_2, STANDARD_LABEL_WIDTH, SWT.NONE);
 
         // Text
-        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.ArchimateModelSection_4);
         
         fTextPurpose = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE) {

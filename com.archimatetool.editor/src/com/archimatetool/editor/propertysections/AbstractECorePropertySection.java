@@ -16,6 +16,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
@@ -281,10 +282,17 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         createLabel(parent, Messages.AbstractECorePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
         // Text
-        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(hint);
         
-        PropertySectionTextControl textDoc = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
+        return createDocumentationPropertySectionTextControl(styledTextControl.getControl());
+    }
+    
+    /**
+     * Create a PropertySectionTextControl for Documentation
+     */
+    protected PropertySectionTextControl createDocumentationPropertySectionTextControl(StyledText styledText) {
+        return new PropertySectionTextControl(styledText, IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
             @Override
             protected void textChanged(String oldText, String newText) {
                 if(getEObjects() != null) {
@@ -304,7 +312,5 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
                 }
             }
         };
-        
-        return textDoc;
     }
 }

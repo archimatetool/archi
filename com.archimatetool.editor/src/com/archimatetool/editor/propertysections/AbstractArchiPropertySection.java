@@ -8,6 +8,7 @@ package com.archimatetool.editor.propertysections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -146,17 +147,24 @@ public abstract class AbstractArchiPropertySection extends AbstractPropertySecti
      * @return A StyledTextControl
      */
     protected StyledTextControl createStyledTextControl(Composite parent, int style) {
-        StyledTextControl styledTextControl = new StyledTextControl(parent, style | SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        return createStyledTextControl(parent, style, true);
+    }
+    
+    /**
+     * @param parent Parent
+     * @param style The style
+     * @param renderLinks if true will render links
+     * @return A StyledTextControl
+     */
+    protected StyledTextControl createStyledTextControl(Composite parent, int style, boolean renderLinks) {
+        StyledTextControl styledTextControl = new StyledTextControl(parent, style | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP, renderLinks);
         
         // Add listener to disable global actions when it gets the focus
         addGlobalActionDisablementListener(styledTextControl.getControl());
         
-        //Text textControl = getWidgetFactory().createText(parent, null, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
-        GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-        // This stops excess size if the control contains a lot of text
-        gd.widthHint = 100;
-        gd.heightHint = 100;
-        styledTextControl.getControl().setLayoutData(gd);
+        // 100 width and height hint stops excess size if the control contains a lot of text
+        GridDataFactory.create(GridData.FILL_BOTH).hint(100, 100).applyTo(styledTextControl.getControl());
+        
         return styledTextControl;
     }
     

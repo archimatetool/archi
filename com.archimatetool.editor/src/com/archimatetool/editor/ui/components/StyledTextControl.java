@@ -5,14 +5,12 @@
  */
 package com.archimatetool.editor.ui.components;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -29,11 +27,11 @@ import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.PartInitException;
 
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ThemeUtils;
@@ -76,6 +74,9 @@ public class StyledTextControl {
     
     private String originalText = "", editedText = ""; //$NON-NLS-1$ //$NON-NLS-2$
     private String message;
+    
+    // Whether to render http ftp type text as links
+    private boolean renderLinks = true;
     
     private Listener eventListener = this::handleEvent;
     private LineStyleListener lineStyleListener = this::lineGetStyle;
@@ -125,22 +126,34 @@ public class StyledTextControl {
     };
 
     public StyledTextControl(Composite parent, int style) {
-        this(new StyledText(parent, style));
+        this(parent, style, true);
     }
     
     public StyledTextControl(StyledText styledText) {
+        this(styledText, true);
+    }
+    
+    public StyledTextControl(Composite parent, int style, boolean renderLinks) {
+        this(new StyledText(parent, style), renderLinks);
+    }
+    
+    public StyledTextControl(StyledText styledText, boolean renderLinks) {
         fStyledText = styledText;
         fStyledText.setLeftMargin(PlatformUtils.isWindows() ? 4 : 2);
         fStyledText.setKeyBinding(ST.SELECT_ALL, ST.SELECT_ALL);
         
-        fHandCursor = new Cursor(styledText.getDisplay(), SWT.CURSOR_HAND);
+        this.renderLinks = renderLinks;
         
         for(int type : eventTypes) {
             fStyledText.addListener(type, eventListener);
         }
         
-        // Line Style
-        fStyledText.addLineStyleListener(lineStyleListener);
+        if(renderLinks) {
+            // Cursor for links
+            fHandCursor = new Cursor(styledText.getDisplay(), SWT.CURSOR_HAND);
+            // Line Style
+            fStyledText.addLineStyleListener(lineStyleListener);
+        }
         
         // Key presses
         fStyledText.addVerifyKeyListener(verifyKeyListener);
@@ -211,14 +224,11 @@ public class StyledTextControl {
      * Hook into a right-click menu
      */
     private void hookContextMenu() {
-        MenuManager menuMgr = new MenuManager("#PopupMenu1"); //$NON-NLS-1$
+        MenuManager menuMgr = new MenuManager("#StyledTextPopup"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
         
-        menuMgr.addMenuListener(new IMenuListener() {
-            @Override
-            public void menuAboutToShow(IMenuManager manager) {
-                fillContextMenu(manager);
-            }
+        menuMgr.addMenuListener(manager -> {
+            fillContextMenu(manager);
         });
         
         Menu menu = menuMgr.createContextMenu(fStyledText);
@@ -267,6 +277,10 @@ public class StyledTextControl {
      * Scan for links in the text
      */
     private void scanLinks() {
+        if(!renderLinks) {
+            return;
+        }
+        
         fLinkInfos = new ArrayList<>();
         Matcher matcher = HTMLUtils.HTML_LINK_PATTERN.matcher(fStyledText.getText());
         
@@ -281,9 +295,11 @@ public class StyledTextControl {
      * otherwise returns null
      */
     private String getLinkAt(int offset) {
-        for(LinkInfo info : fLinkInfos) {
-            if(offset >= info.start && offset < info.end) {
-                return info.link;
+        if(fLinkInfos != null) {
+            for(LinkInfo info : fLinkInfos) {
+                if(offset >= info.start && offset < info.end) {
+                    return info.link;
+                }
             }
         }
         return null;
@@ -327,17 +343,16 @@ public class StyledTextControl {
      * Mouse Up - Open link if Mod Key is pressed and on link
      */
     private void doMouseUp(Event e) {
+        if(!renderLinks) {
+            return;
+        }
+        
         if(isModKeyPressed(e)) {
             // Open link in Browser
             int offset = fStyledText.getOffsetAtPoint(new Point(e.x, e.y));
             String link = getLinkAt(offset);
             if(link != null) {
-                try {
-                    HTMLUtils.openLinkInBrowser(link);
-                }
-                catch(PartInitException | MalformedURLException ex) {
-                    ex.printStackTrace();
-                }
+                Program.launch(link);
             }
         }
     }
@@ -346,6 +361,10 @@ public class StyledTextControl {
      * Mouse Move - Update cursor if Mod Key is pressed
      */
     private void doMouseMove(Event e) {
+        if(!renderLinks) {
+            return;
+        }
+        
         if(isModKeyPressed(e)) {
             int offset = fStyledText.getOffsetAtPoint(new Point(e.x, e.y));
             if(getLinkAt(offset) != null) {
@@ -365,7 +384,7 @@ public class StyledTextControl {
      */
     private void doKeyDown(Event e) {
         // Hand Cursor
-        if(e.keyCode == SWT.MOD1) {
+        if(renderLinks && e.keyCode == SWT.MOD1) {
             Point pt = fStyledText.getDisplay().getCursorLocation();
             pt = fStyledText.toControl(pt);
             int offset = fStyledText.getOffsetAtPoint(pt);
@@ -408,7 +427,7 @@ public class StyledTextControl {
      * Key up
      */
     private void doKeyUp(Event e) {
-        if(e.keyCode == SWT.MOD1) {
+        if(renderLinks && e.keyCode == SWT.MOD1) {
             setCursor(null);
         }
     }

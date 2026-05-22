@@ -52,7 +52,7 @@ public class TextContentSection extends AbstractECorePropertySection {
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.TextContentSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
-        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.TextContentSection_2);
         
         fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.TEXT_CONTENT__CONTENT) {

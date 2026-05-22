@@ -94,7 +94,7 @@ public class HintContentSection extends AbstractECorePropertySection {
         
         createLabel(parent, Messages.HintContentSection_3, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
-        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.HintContentSection_5);
         
         fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.HINT_PROVIDER__HINT_CONTENT) {

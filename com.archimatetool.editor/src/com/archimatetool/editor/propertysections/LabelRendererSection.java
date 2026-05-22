@@ -62,7 +62,7 @@ public class LabelRendererSection extends AbstractECorePropertySection {
     protected void createControls(Composite parent) {
         createLabel(parent, Messages.LabelRendererSection_0, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
         
-        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.NONE);
+        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.LabelRendererSection_1);
         
         fTextRender = new PropertySectionTextControl(styledTextControl.getControl(), TextRenderer.FEATURE_NAME) {
