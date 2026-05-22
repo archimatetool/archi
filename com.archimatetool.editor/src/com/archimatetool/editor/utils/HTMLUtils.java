@@ -27,7 +27,10 @@ public class HTMLUtils {
     /**
      * The reg expression for HTML links
      */
-    public static final String HTML_LINK_REGEX = "(http|https|ftp|file)://\\S+";
+    public static final String HTML_LINK_REGEX = "(?i)\\b((https?|ftps?|file)://)" +                  // protocol
+                                                 "[-a-zA-Z0-9@:%._\\+~#=\\[\\]/]+" +                  // host/path
+                                                 "(?:[-a-zA-Z0-9()@:%_\\+.~#?&/=!\\[\\]]+)*" +        // query params + fragment
+                                                 "(?<![:.,?!\\)])";                                   // do not end with trailing punctuation
     
     /**
      * The compiled pattern to match HTML links
