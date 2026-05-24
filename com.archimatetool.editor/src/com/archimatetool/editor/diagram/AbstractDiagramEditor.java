@@ -22,11 +22,13 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.zoom.MouseLocationZoomScrollPolicy;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
@@ -42,6 +44,7 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.gef.tools.CreationTool;
+import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.DirectEditAction;
@@ -128,6 +131,7 @@ import com.archimatetool.editor.diagram.actions.ToggleSnapToAlignmentGuidesActio
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
+import com.archimatetool.editor.diagram.figures.MarqueeSelectionFigure;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
@@ -330,6 +334,17 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
             protected GridLayer createGridLayer() {
                 // Use new HierarchicalGridLayer
                 return new HierarchicalGridLayer();
+            }
+            
+            @Override
+            public DragTracker getDragTracker(Request req) {
+                // Use a CustomMarqueeRectangleFigure
+                return new MarqueeDragTracker() {
+                    @Override
+                    protected IFigure createMarqueeRectangleFigure() {
+                        return new MarqueeSelectionFigure();
+                    }
+                };
             }
         });
     }
