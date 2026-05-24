@@ -5,9 +5,11 @@
  */
 package com.archimatetool.editor.diagram.policies;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
@@ -19,6 +21,12 @@ import com.archimatetool.editor.diagram.commands.CreateDiagramObjectCommand;
 import com.archimatetool.editor.diagram.commands.SetConstraintObjectCommand;
 import com.archimatetool.editor.diagram.editparts.IConstrainedSizeEditPart;
 import com.archimatetool.editor.diagram.editparts.INonResizableEditPart;
+import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.MarqueeBlockFigure;
+import com.archimatetool.editor.model.IArchiveManager;
+import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
@@ -34,6 +42,9 @@ import com.archimatetool.model.ILockable;
 public class DiagramLayoutPolicy
 extends XYLayoutEditPolicy {
     
+    private boolean useCreationFigure = false;
+    private boolean useResizeFigure = false;
+
     @Override
     protected Command getCreateCommand(CreateRequest request) {
         Rectangle bounds = (Rectangle)getConstraintFor(request);
@@ -45,13 +56,78 @@ extends XYLayoutEditPolicy {
         if(isChildEditPartLocked(child)) {
             return new LockedResizableEditPolicy();
         }
+        
         if(child instanceof INonResizableEditPart) {
-            return new NonResizableEditPolicy();
+            return new NonResizableEditPolicy() {
+                @Override
+                protected IFigure createDragSourceFeedbackFigure() {
+                    return createChildDragSourceFeedbackFigure(child);
+                }
+            };
         }
+        
         if(child instanceof IConstrainedSizeEditPart) {
             return new ConstrainedResizableEditPolicy();
         }
-        return new ResizableEditPolicy();
+        
+        return new ResizableEditPolicy() {
+            @Override
+            protected IFigure createDragSourceFeedbackFigure() {
+                return createChildDragSourceFeedbackFigure(child);
+            }
+        };
+    }
+    
+    @Override
+    protected IFigure createSizeOnDropFeedback(CreateRequest createRequest) {
+        IFigure figure = null;
+        
+        if(useCreationFigure && createRequest.getNewObject() instanceof IDiagramModelObject dmo) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dmo);
+            if(provider != null) {
+                GraphicalEditPart editPart = (GraphicalEditPart)provider.createEditPart();
+                editPart.setModel(dmo);
+                dmo.setAdapter(IArchiveManager.class, ((IAdapter)getHost().getModel()).getAdapter(IArchiveManager.class));
+                figure = editPart.getFigure();
+                ((IDiagramModelObjectFigure)figure).refreshVisuals();
+            }
+        }
+        
+        if(figure == null) {
+            figure = new MarqueeBlockFigure();
+        }
+        
+        addFeedback(figure);
+        return figure;
+    }
+    
+    protected IFigure createChildDragSourceFeedbackFigure(EditPart child) {
+        IFigure figure = null;
+        
+        if(useResizeFigure && child.getModel() instanceof IDiagramModelObject dmo) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(dmo);
+            if(provider != null) {
+                IDiagramModelObject dmoCopy = (IDiagramModelObject)dmo.getCopy();
+                dmoCopy.setAdapter(IArchiveManager.class, dmo.getAdapter(IArchiveManager.class));
+                dmoCopy.setAlpha(Math.min(120, dmo.getAlpha()));
+                dmoCopy.setLineAlpha(Math.min(120, dmo.getLineAlpha()));
+                dmoCopy.setFontColor("#bbbbbb"); //$NON-NLS-1$
+                dmoCopy.setIconColor("#bbbbbb"); //$NON-NLS-1$
+                //dmoCopy.setName("");
+                
+                GraphicalEditPart editPart = (GraphicalEditPart)provider.createEditPart();
+                editPart.setModel(dmoCopy);
+                figure = editPart.getFigure();
+                ((IDiagramModelObjectFigure)figure).refreshVisuals();
+            }
+        }
+        
+        if(figure == null) {
+            figure = new MarqueeBlockFigure();
+        }
+        
+        addFeedback(figure);
+        return figure;
     }
     
     @Override
@@ -62,8 +138,8 @@ extends XYLayoutEditPolicy {
         }
 
         // Return a command that can move and/or resize a child
-        if(constraint instanceof Rectangle) {
-            return new SetConstraintObjectCommand(request, (IDiagramModelObject)child.getModel(), (Rectangle)constraint);
+        if(constraint instanceof Rectangle rect) {
+            return new SetConstraintObjectCommand(request, (IDiagramModelObject)child.getModel(), rect);
         }
 
         return null;
@@ -74,7 +150,7 @@ extends XYLayoutEditPolicy {
      * @return True id child EditPart is locked
      */
     protected boolean isChildEditPartLocked(EditPart child) {
-        return child.getModel() instanceof ILockable && ((ILockable)child.getModel()).isLocked();
+        return child.getModel() instanceof ILockable lockable && lockable.isLocked();
     }
     
     /*
