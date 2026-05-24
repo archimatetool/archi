@@ -485,7 +485,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         return new PaletteViewerProvider(getEditDomain()) {
             @Override
             protected void hookPaletteViewer(PaletteViewer viewer) {
+                // Set custom PaletteColorProvider *before* setting PaletteViewer
+                viewer.setColorProvider(CustomPaletteColorProvider.getInstance());
+                
+                // Set custom PaletteEditPartFactory *before* setting PaletteViewer
+                viewer.setEditPartFactory(CustomPaletteEditPartFactory.getInstance());
+                
+                // Set PaletteViewer
                 super.hookPaletteViewer(viewer);
+                
+                // Call this *after* super
                 AbstractDiagramEditor.this.configurePaletteViewer(viewer);
             }
         };
