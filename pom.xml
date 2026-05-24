@@ -13,6 +13,8 @@
     <properties>
         <revision>5.9.0-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
     </properties>
     
     <repositories>
@@ -75,6 +77,37 @@
                 <module>com.archimatetool.editor.product</module>
                 <module>com.archimatetool.editor.site</module>
             </modules>
+            <!-- Replace @build.timestamp@ in the plugin.properties file -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>replace-build-timestamp</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>resources</goal>
+                                </goals>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.basedir}/com.archimatetool.editor</directory>
+                                            <filtering>true</filtering>
+                                            <includes>
+                                                <include>plugin.properties</include>
+                                            </includes>
+                                            <targetPath>${project.basedir}/com.archimatetool.editor</targetPath>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 
@@ -98,6 +131,8 @@
                     </archive>
                     <!-- Each module's timestamp is taken from its last commit date and time  -->
                     <timestampProvider>jgit</timestampProvider>
+                    <!-- Ignore this because we are replacing @build.timestamp@ in the plugin.properties file -->
+                    <jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree>
                 </configuration>
                 <dependencies>
                     <dependency>

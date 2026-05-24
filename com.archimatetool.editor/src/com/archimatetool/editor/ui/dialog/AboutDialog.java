@@ -144,7 +144,7 @@ public class AboutDialog extends TrayDialog {
         }
         
         final String version = Messages.AboutDialog_2 + ArchiPlugin.getInstance().getVersion();
-        final String build = Messages.AboutDialog_3 + ArchiPlugin.getInstance().getBuild();
+        final String build = Messages.AboutDialog_3 + ArchiPlugin.getInstance().getResourceString("%build.timestamp"); //$NON-NLS-1$
         final String copyright = ArchiPlugin.getInstance().getResourceString("%aboutCopyright"); //$NON-NLS-1$
         
         FontData fd = imageControl.getFont().getFontData()[0];
