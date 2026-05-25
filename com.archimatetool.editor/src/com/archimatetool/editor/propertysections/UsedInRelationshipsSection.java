@@ -10,14 +10,16 @@ import java.text.Collator;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -25,7 +27,6 @@ import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -141,6 +142,9 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
                 LocalSelectionTransfer.getTransfer().setSelection(null);
             }
         });
+        
+        // Enable tooltips
+        ColumnViewerToolTipSupport.enableFor(tableViewer);
     }
     
     @Override
@@ -159,25 +163,34 @@ public class UsedInRelationshipsSection extends AbstractECorePropertySection {
         return true;
     }
     
-    private static class UsedInRelationshipsTableLabelProvider extends LabelProvider implements IFontProvider {
+    private static class UsedInRelationshipsTableLabelProvider extends CellLabelProvider implements IFontProvider {
         Font fontItalic = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
         
         @Override
-        public String getText(Object element) {
+        public void update(ViewerCell cell) {
+            cell.setText(getText(cell.getElement()));
+            cell.setImage(ArchiLabelProvider.INSTANCE.getImage(cell.getElement()));
+        }
+        
+        private String getText(Object element) {
             IArchimateRelationship relationship = (IArchimateRelationship)element;
-            String name = ArchiLabelProvider.INSTANCE.getLabel(relationship) + " ("; //$NON-NLS-1$
-            name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getSource());
-            name += " - "; //$NON-NLS-1$
-            name += ArchiLabelProvider.INSTANCE.getLabel(relationship.getTarget());
-            name += ")"; //$NON-NLS-1$
-            return ArchimateModelUtils.getParentFolderHierarchyAsString(relationship, '/') + name;
+            StringBuilder sb = new StringBuilder(ArchiLabelProvider.INSTANCE.getLabel(relationship));
+            sb.append(" ("); //$NON-NLS-1$
+            sb.append(ArchiLabelProvider.INSTANCE.getLabel(relationship.getSource()));
+            sb.append(" - "); //$NON-NLS-1$
+            sb.append(ArchiLabelProvider.INSTANCE.getLabel(relationship.getTarget()));
+            sb.append(")"); //$NON-NLS-1$
+            return sb.toString();
         }
         
         @Override
-        public Image getImage(Object element) {
-            return ArchiLabelProvider.INSTANCE.getImage(element);
+        public String getToolTipText(Object element) {
+            final int maxLength = 120;
+            IArchimateRelationship relationship = (IArchimateRelationship)element;
+            String text = ArchimateModelUtils.getParentFolderHierarchyAsString(relationship, true, '/') + ArchiLabelProvider.INSTANCE.getLabel(relationship);
+            return text.length() <= maxLength ? text : text.substring(0, maxLength - 3) + "..."; //$NON-NLS-1$
         }
-
+        
         @Override
         public Font getFont(Object element) {
             // Italicise unused elements

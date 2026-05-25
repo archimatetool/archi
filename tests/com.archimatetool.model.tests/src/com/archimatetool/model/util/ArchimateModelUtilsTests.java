@@ -183,7 +183,7 @@ public class ArchimateModelUtilsTests {
         IArchimateModel model = IArchimateFactory.eINSTANCE.createArchimateModel();
         model.setDefaults();
 
-        assertTrue(ArchimateModelUtils.getParentFolderHierarchy(model).isEmpty());
+        assertTrue(ArchimateModelUtils.getParentFolderHierarchy(model, true).isEmpty());
         
         IFolder folder1 = IArchimateFactory.eINSTANCE.createFolder();
         folder1.setName("subFolder1");
@@ -196,11 +196,20 @@ public class ArchimateModelUtilsTests {
         IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
         folder2.getElements().add(element);
         
-        List<IFolder> folders = ArchimateModelUtils.getParentFolderHierarchy(element);
+        List<IFolder> folders = ArchimateModelUtils.getParentFolderHierarchy(element, false);
+        assertEquals(2, folders.size());
         assertEquals(folder1, folders.get(0));
         assertEquals(folder2, folders.get(1));
         
-        assertEquals("subFolder1/subFolder2/", ArchimateModelUtils.getParentFolderHierarchyAsString(element, '/'));
+        assertEquals("subFolder1/subFolder2/", ArchimateModelUtils.getParentFolderHierarchyAsString(element, false, '/'));
+        
+        folders = ArchimateModelUtils.getParentFolderHierarchy(element, true);
+        assertEquals(3, folders.size());
+        assertEquals(model.getFolder(FolderType.BUSINESS), folders.get(0));
+        assertEquals(folder1, folders.get(1));
+        assertEquals(folder2, folders.get(2));
+        
+        assertEquals("Business/subFolder1/subFolder2/", ArchimateModelUtils.getParentFolderHierarchyAsString(element, true, '/'));
     }
     
     @Test

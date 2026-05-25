@@ -244,13 +244,14 @@ public class ArchimateModelUtils {
     /**
      * Get the parent folder hierarchy of an eObject as a string
      * @param eObject The object
+     * @param getRoot if true the root folder is included
      * @param separator The separator
-     * @return The parent folder hierarchy as a string. Example - "subFolder1/subFolder2"
+     * @return The parent folder hierarchy as a string. Example - "subFolder1/subFolder2/"
      */
-    public static String getParentFolderHierarchyAsString(EObject eObject, char separator) {
+    public static String getParentFolderHierarchyAsString(EObject eObject, boolean getRoot, char separator) {
         StringBuilder sb = new StringBuilder();
         
-        for(IFolder folder : getParentFolderHierarchy(eObject)) {
+        for(IFolder folder : getParentFolderHierarchy(eObject, getRoot)) {
             sb.append(folder.getName());
             sb.append(separator);
         }
@@ -261,9 +262,10 @@ public class ArchimateModelUtils {
     /**
      * Get the parent folder hierarchy of an eObject
      * @param eObject The object
+     * @param getRoot if true the root folder is included
      * @return The parent folder hierarchy 
      */
-    public static List<IFolder> getParentFolderHierarchy(EObject eObject) {
+    public static List<IFolder> getParentFolderHierarchy(EObject eObject, boolean getRoot) {
         List<IFolder> folders = new ArrayList<>();
 
         EObject parent = eObject.eContainer();
@@ -276,7 +278,7 @@ public class ArchimateModelUtils {
         Collections.reverse(folders);
         
         // Remove root folder
-        if(!folders.isEmpty()) {
+        if(!getRoot && !folders.isEmpty()) {
             folders.removeFirst();
         }
 

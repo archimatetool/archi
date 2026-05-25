@@ -8,15 +8,16 @@ package com.archimatetool.editor.propertysections;
 import java.text.Collator;
 
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -98,9 +99,14 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
             }
         });
         
-        tableViewer.setLabelProvider(new LabelProvider() {
+        tableViewer.setLabelProvider(new CellLabelProvider() {
             @Override
-            public String getText(Object element) {
+            public void update(ViewerCell cell) {
+                cell.setText(getText(cell.getElement()));
+                cell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM));
+            }
+            
+            private String getText(Object element) {
                 IDiagramModel dm = (IDiagramModel)element;
 
                 // Display label according to ancestor folder's label expression, if present and preference is set
@@ -109,17 +115,20 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
                     if(expression != null) {
                         String text = StringUtils.normaliseNewLineCharacters(TextRenderer.getDefault().renderWithExpression(dm, expression));
                         if(text != null) {
-                            return ArchimateModelUtils.getParentFolderHierarchyAsString(dm, '/') + text;
+                            return text;
                         }
                     }
                 }
                 
-                return ArchimateModelUtils.getParentFolderHierarchyAsString(dm, '/') + dm.getName();
+                return dm.getName();
             }
             
             @Override
-            public Image getImage(Object element) {
-                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM);
+            public String getToolTipText(Object element) {
+                final int maxLength = 120;
+                IDiagramModel dm = (IDiagramModel)element;
+                String text = ArchimateModelUtils.getParentFolderHierarchyAsString(dm, true, '/') + dm.getName();
+                return text.length() <= maxLength ? text : text.substring(0, maxLength - 3) + "..."; //$NON-NLS-1$
             }
         });
         
@@ -136,6 +145,9 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         });
         
         tableViewer.setComparator(new ViewerComparator(Collator.getInstance()));
+        
+        // Enable tooltips
+        ColumnViewerToolTipSupport.enableFor(tableViewer);
     }
     
     @Override
