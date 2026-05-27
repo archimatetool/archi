@@ -11,7 +11,7 @@
     <name>Archi</name>
 
     <properties>
-        <revision>5.9.0-SNAPSHOT</revision>
+        <revision>5.10.0-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
