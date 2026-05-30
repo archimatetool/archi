@@ -28,7 +28,7 @@ jobs:
     - name: Set up Maven
       uses: stCarolas/setup-maven@v5.1
       with:
-        maven-version: 3.9.12
+        maven-version: 3.9.16
         
     - name: Run Maven tests (Linux with virtual display)
       if: ${{ runner.os == 'Linux' }}
