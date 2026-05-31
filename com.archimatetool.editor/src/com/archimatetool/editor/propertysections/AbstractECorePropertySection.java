@@ -65,7 +65,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
             removeAdapter();
             
             // Get the correct EObjects
-            eObjects = getFilteredObjects(selection.toList());
+            eObjects = getFilteredObjects(selection.toArray());
             
             // Update section
             update();
@@ -112,7 +112,7 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
      * 
      * @return A list of filtered adaptable objects according to type
      */
-    private List<IArchimateModelObject> getFilteredObjects(List<?> objects) {
+    private List<IArchimateModelObject> getFilteredObjects(Object[] objects) {
         List<IArchimateModelObject> list = new ArrayList<>();
         
         IObjectFilter filter = getFilter();
@@ -129,16 +129,10 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         }
         
         // Only use the objects that are in *one* model - the model in the first selected object
-        if(!list.isEmpty()) {
-            IArchimateModel firstModel = list.get(0).getArchimateModel();
-            
+        if(list.size() > 1) {
+            IArchimateModel firstModel = list.getFirst().getArchimateModel();
             // Remove objects with different parent models
-            for(int i = list.size() - 1; i >= 1; i--) {
-                IArchimateModelObject eObject = list.get(i);
-                if(eObject.getArchimateModel() != firstModel) {
-                    list.remove(eObject);
-                }
-            }
+            list.removeIf(eObject -> eObject.getArchimateModel() != firstModel);
         }
         
         return list;
