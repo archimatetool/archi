@@ -283,6 +283,7 @@ implements INavigatorView, ISelectionListener {
     @Override
     protected void selectAll() {
         fTreeViewer.getTree().selectAll();
+        fTreeViewer.setSelection(fTreeViewer.getStructuredSelection()); // send out selection event
     }
     
     private void setElement(Object object) {

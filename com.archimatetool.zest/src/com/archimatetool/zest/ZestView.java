@@ -189,6 +189,7 @@ implements IZestView, ISelectionListener {
     @Override
     protected void selectAll() {
         fGraphViewer.getGraphControl().selectAll();
+        fGraphViewer.setSelection(fGraphViewer.getStructuredSelection()); // send out selection event
     }
     
     private void setElement(Object object) {

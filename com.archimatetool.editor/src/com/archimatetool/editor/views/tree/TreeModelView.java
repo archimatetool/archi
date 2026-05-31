@@ -253,6 +253,7 @@ implements ITreeModelView, IUIRequestListener {
     protected void selectAll() {
         if(fTreeViewer != null) {
             fTreeViewer.getTree().selectAll();
+            fTreeViewer.setSelection(fTreeViewer.getStructuredSelection()); // send out selection event
         }
     }
     
