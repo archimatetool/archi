@@ -38,6 +38,11 @@ public class DiagramConnectionLabelPositionSection extends AbstractMultiControlS
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private DiagramConnectionLabelPositionComposite positionComposite;
     private DiagramConnectionLabelRelativePositionComposite positionRelativeComposite;
     
@@ -114,7 +119,7 @@ public class DiagramConnectionLabelPositionSection extends AbstractMultiControlS
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

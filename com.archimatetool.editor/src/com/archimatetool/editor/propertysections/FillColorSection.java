@@ -40,6 +40,11 @@ public class FillColorSection extends AbstractMultiControlSection {
         }
     }
     
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private FillColorComposite fillColorComposite;
     private GradientComposite gradientComposite;
     
@@ -116,7 +121,7 @@ public class FillColorSection extends AbstractMultiControlSection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 
     @Override

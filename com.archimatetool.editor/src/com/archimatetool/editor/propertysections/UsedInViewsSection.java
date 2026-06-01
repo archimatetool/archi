@@ -60,6 +60,11 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private IArchimateConcept archimateConcept;
     private TableViewer tableViewer;
     
@@ -158,7 +163,7 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

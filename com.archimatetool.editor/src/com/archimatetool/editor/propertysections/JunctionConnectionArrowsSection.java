@@ -48,6 +48,11 @@ public class JunctionConnectionArrowsSection extends AbstractECorePropertySectio
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Button buttonHideArrowHeads;
     
     @Override
@@ -116,6 +121,6 @@ public class JunctionConnectionArrowsSection extends AbstractECorePropertySectio
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

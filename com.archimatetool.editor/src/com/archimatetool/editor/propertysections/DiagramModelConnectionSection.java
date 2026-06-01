@@ -60,6 +60,11 @@ public class DiagramModelConnectionSection extends AbstractECorePropertySection 
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Combo fComboRouterType;
     
     private String[] comboItems = {
@@ -136,6 +141,6 @@ public class DiagramModelConnectionSection extends AbstractECorePropertySection 
 
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

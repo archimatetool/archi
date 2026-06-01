@@ -46,6 +46,11 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private PropertySectionTextControl fTextName;
     private Text fTextFile;
     private PropertySectionTextControl fTextPurpose;
@@ -144,7 +149,7 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
 
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

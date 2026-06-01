@@ -46,6 +46,11 @@ public class DiagramConnectionLabelSection extends AbstractECorePropertySection 
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Button fButtonDisplayName;
     
     @Override
@@ -107,6 +112,6 @@ public class DiagramConnectionLabelSection extends AbstractECorePropertySection 
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

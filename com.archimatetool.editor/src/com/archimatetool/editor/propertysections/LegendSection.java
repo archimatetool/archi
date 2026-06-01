@@ -52,6 +52,11 @@ public class LegendSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Button buttonDisplayElements;
     private Button buttonDisplayRelations;
     private Button buttonDisplaySpecializationElements;
@@ -229,6 +234,6 @@ public class LegendSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

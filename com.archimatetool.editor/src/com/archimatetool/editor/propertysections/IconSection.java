@@ -73,6 +73,11 @@ public class IconSection extends ImageChooserSection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Image fImage;
     private Canvas fCanvas;
     private Combo fComboPosition;
@@ -208,7 +213,7 @@ public class IconSection extends ImageChooserSection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 
     @Override

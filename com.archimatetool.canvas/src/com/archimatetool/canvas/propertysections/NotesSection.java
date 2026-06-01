@@ -51,6 +51,11 @@ public class NotesSection extends AbstractECorePropertySection {
     }
 
     
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private PropertySectionTextControl fTextNotesControl;
     
     @Override
@@ -107,7 +112,7 @@ public class NotesSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

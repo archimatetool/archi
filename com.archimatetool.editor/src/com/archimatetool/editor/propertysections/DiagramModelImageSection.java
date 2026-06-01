@@ -38,6 +38,11 @@ public class DiagramModelImageSection extends ImageChooserSection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     @Override
     protected void createControls(Composite parent) {
         createImageButton(parent);
@@ -49,7 +54,7 @@ public class DiagramModelImageSection extends ImageChooserSection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 
     @Override

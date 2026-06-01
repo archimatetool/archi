@@ -46,6 +46,11 @@ public class LockedSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Button fButtonLocked;
     
     @Override
@@ -95,6 +100,6 @@ public class LockedSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

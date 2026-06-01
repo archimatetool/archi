@@ -60,6 +60,11 @@ public class SketchModelBackgroundSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Combo fComboBackground;
     
     @Override
@@ -125,6 +130,6 @@ public class SketchModelBackgroundSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

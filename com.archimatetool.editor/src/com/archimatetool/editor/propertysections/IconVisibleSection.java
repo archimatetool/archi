@@ -54,6 +54,11 @@ public class IconVisibleSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Combo fIconVisibleCombo; // ArchiMate Draw2D icon
     
     private String[] VISIBLE_CHOICES = {
@@ -95,7 +100,7 @@ public class IconVisibleSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 
     @Override

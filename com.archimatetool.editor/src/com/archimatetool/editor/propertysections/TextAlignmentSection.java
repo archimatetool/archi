@@ -54,6 +54,11 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Composite parentComposite;
     private Composite textPositionComposite;
     
@@ -295,6 +300,6 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

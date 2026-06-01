@@ -33,6 +33,11 @@ public class AccessRelationshipSection extends AbstractECorePropertySection {
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
     /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
+    /**
      * Filter to show or reject this section depending on input value
      */
     public static class Filter extends ObjectFilter {
@@ -123,6 +128,6 @@ public class AccessRelationshipSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -22,12 +21,6 @@ public interface IObjectFilter {
      * @return The required object or null
      */
     Object adaptObject(Object object);
-
-    /**
-     * @return True if the feature should be exposed on the object
-     * @deprecated Use shouldExposeFeature(EObject eObject, String featureName)
-     */
-    boolean shouldExposeFeature(EObject eObject, EAttribute feature);
 
     /**
      * @return True if the feature should be exposed on the object

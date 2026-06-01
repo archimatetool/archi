@@ -61,6 +61,11 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         }
     }
     
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private ImageFigure figure1, figure2;
 
     @Override
@@ -103,7 +108,7 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
 
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

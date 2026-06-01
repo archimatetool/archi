@@ -48,6 +48,11 @@ public class ImageSourceSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Combo fImageSourceCombo;
     
     private String[] IMAGE_SOURCE_CHOICES = {
@@ -88,7 +93,7 @@ public class ImageSourceSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 
     @Override

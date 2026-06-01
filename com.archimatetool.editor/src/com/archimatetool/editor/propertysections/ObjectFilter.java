@@ -6,7 +6,6 @@
 package com.archimatetool.editor.propertysections;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IFilter;
 
@@ -29,8 +28,8 @@ public abstract class ObjectFilter implements IFilter, IObjectFilter {
             return object;
         }
         
-        if(object instanceof IAdaptable) {
-            object = ((IAdaptable)object).getAdapter(getAdaptableType());
+        if(object instanceof IAdaptable adaptable) {
+            object = adaptable.getAdapter(getAdaptableType());
             return isRequiredType(object) ? object : null;
         }
         
@@ -38,16 +37,8 @@ public abstract class ObjectFilter implements IFilter, IObjectFilter {
     }
     
     @Override
-    @Deprecated
-    public boolean shouldExposeFeature(EObject eObject, EAttribute feature) {
-        return shouldExposeFeature(eObject, feature.getName());
-    }
-    
-    
-    @Override
     public boolean shouldExposeFeature(EObject eObject, String featureName) {
         IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(eObject);
-        
         if(provider != null) {
             return provider.shouldExposeFeature(featureName);
         }

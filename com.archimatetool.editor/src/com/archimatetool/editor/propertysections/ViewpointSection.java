@@ -67,6 +67,11 @@ public class ViewpointSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private ComboViewer fComboViewer;
     
     /**
@@ -163,6 +168,6 @@ public class ViewpointSection extends AbstractECorePropertySection {
 
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

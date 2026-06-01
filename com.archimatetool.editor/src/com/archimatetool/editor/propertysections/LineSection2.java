@@ -43,6 +43,11 @@ public class LineSection2 extends AbstractMultiControlSection {
         }
     }
     
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private OpacityComposite opacityComposite;
     private LineStyleComposite linestyleComposite;
     
@@ -135,7 +140,7 @@ public class LineSection2 extends AbstractMultiControlSection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

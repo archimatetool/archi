@@ -38,7 +38,7 @@ public class HintContentSection extends AbstractECorePropertySection {
     
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
 
-    /**
+   /**
      * Filter to show or reject this section depending on input value
      */
     public static class Filter extends ObjectFilter {
@@ -63,6 +63,11 @@ public class HintContentSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private PropertySectionTextControl fTextTitleControl;
     private PropertySectionTextControl fTextContentControl;
 
@@ -148,7 +153,7 @@ public class HintContentSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

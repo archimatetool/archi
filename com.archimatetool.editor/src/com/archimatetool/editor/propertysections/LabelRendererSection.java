@@ -47,6 +47,11 @@ public class LabelRendererSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     @Override
     protected void notifyChanged(Notification msg) {
         Object feature = msg.getFeature();
@@ -99,7 +104,7 @@ public class LabelRendererSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

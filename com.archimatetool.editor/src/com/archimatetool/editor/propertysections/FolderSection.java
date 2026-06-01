@@ -38,6 +38,11 @@ public class FolderSection extends AbstractNameDocumentationSection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     
     @Override
     protected void createControls(Composite parent) {
@@ -63,6 +68,6 @@ public class FolderSection extends AbstractNameDocumentationSection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

@@ -50,6 +50,11 @@ public class IconColorSection extends AbstractECorePropertySection {
         }
     }
     
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private ColorChooser fColorChooser;
 
     /**
@@ -126,7 +131,7 @@ public class IconColorSection extends AbstractECorePropertySection {
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     @Override

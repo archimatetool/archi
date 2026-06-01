@@ -46,6 +46,11 @@ public class AssociationRelationshipSection extends AbstractECorePropertySection
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Button fButtonDirected;
     
     @Override
@@ -97,6 +102,6 @@ public class AssociationRelationshipSection extends AbstractECorePropertySection
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 }

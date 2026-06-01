@@ -47,6 +47,11 @@ public class JunctionTypeSection extends AbstractECorePropertySection {
         }
     }
 
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private Combo fComboType;
     
     private static final String[] fComboTypeItems = {
@@ -129,7 +134,7 @@ public class JunctionTypeSection extends AbstractECorePropertySection {
 
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
 
 }

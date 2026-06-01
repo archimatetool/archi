@@ -54,6 +54,11 @@ public class DiagramConnectionLineStyleSection extends AbstractECorePropertySect
         }
     }
     
+    /**
+     * Singleton Filter instance
+     */
+    private static final Filter FILTER = new Filter();
+    
     private StyleSelector fLineStyleSelector;
     private StyleSelector fSourceArrowSelector;
     private StyleSelector fTargetArrowSelector;
@@ -106,7 +111,7 @@ public class DiagramConnectionLineStyleSection extends AbstractECorePropertySect
     
     @Override
     protected IObjectFilter getFilter() {
-        return new Filter();
+        return FILTER;
     }
     
     protected abstract class StyleSelector {
