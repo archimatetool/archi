@@ -61,6 +61,8 @@ import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.util.TransferDragSourceListener;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -320,7 +322,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Create the Root Edit Part
      */
     protected void createRootEditPart(GraphicalViewer viewer) {
-        viewer.setRootEditPart(new ScalableFreeformRootEditPart(false));
+        viewer.setRootEditPart(new ScalableFreeformRootEditPart());
     }
     
     @Override
@@ -344,7 +346,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Create a drop target listener for this palette viewer
         // this will enable model element creation by dragging a CombinatedTemplateCreationEntries 
         // from the palette into the editor
-        viewer.addDropTargetListener(new PaletteTemplateTransferDropTargetListener(this));
+        viewer.addDropTargetListener((TransferDropTargetListener)new PaletteTemplateTransferDropTargetListener(this));
         
         // Set some Properties
         setProperties();
@@ -504,7 +506,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
         
         // Register as drag source to drag onto the canvas
-        viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+        viewer.addDragSourceListener((TransferDragSourceListener)new TemplateTransferDragSourceListener(viewer));
 
         /*
          * Tool Changed

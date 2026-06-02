@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.EditPart;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
@@ -93,11 +93,11 @@ public abstract class AbstractArchimateElementEditPart extends AbstractConnected
         
         // Junction connection arrow/blob heads visible or hidden
         if(IFeatures.isFeatureNotification(msg, IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS)) {
-            for(Object o : getTargetConnections()) {
-                ((EditPart)o).refresh();
+            for(ConnectionEditPart connectionEditPart : getTargetConnections()) {
+                connectionEditPart.refresh();
             }
-            for(Object o : getSourceConnections()) {
-                ((EditPart)o).refresh();
+            for(ConnectionEditPart connectionEditPart : getSourceConnections()) {
+                connectionEditPart.refresh();
             }
             return;
         }

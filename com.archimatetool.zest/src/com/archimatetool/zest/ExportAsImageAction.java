@@ -34,7 +34,7 @@ public class ExportAsImageAction extends Action {
     
     @Override
     public void run() {
-        IFigure figure = (IFigure)graphViewer.getGraphControl().getRootLayer().getChildren().get(0);
+        IFigure figure = graphViewer.getGraphControl().getRootLayer().getChildren().get(0);
         String name = ArchiLabelProvider.INSTANCE.getLabel(graphViewer.getInput());
         
         WizardDialog dialog = new ExtendedWizardDialog(graphViewer.getControl().getShell(),

@@ -21,6 +21,7 @@ import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.SnapToHelper;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -114,9 +115,9 @@ implements IEditPartFilterProvider {
      * Refresh all child figures
      */
     protected void refreshChildrenFigures() {
-        for(Object editPart : getChildren()) {
-            if(editPart instanceof AbstractBaseEditPart) {
-                ((AbstractBaseEditPart)editPart).refreshChildrenFigures();
+        for(EditPart editPart : getChildren()) {
+            if(editPart instanceof AbstractBaseEditPart baseEditPart) {
+                baseEditPart.refreshChildrenFigures();
             }
         }
     }

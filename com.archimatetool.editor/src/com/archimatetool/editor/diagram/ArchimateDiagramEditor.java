@@ -17,6 +17,7 @@ import org.eclipse.help.IContext;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -109,7 +110,7 @@ implements IArchimateDiagramEditor {
         viewer.setContents(getModel());
         
         // Native DnD
-        viewer.addDropTargetListener(new ArchimateDiagramTransferDropTargetListener(viewer));
+        viewer.addDropTargetListener((TransferDropTargetListener)new ArchimateDiagramTransferDropTargetListener(viewer));
     }
     
     @Override
@@ -159,7 +160,6 @@ implements IArchimateDiagramEditor {
      * Add some extra Actions - *after* the graphical viewer has been created
      */
     @Override
-    @SuppressWarnings("unchecked")
     protected void createActions(GraphicalViewer viewer) {
         super.createActions(viewer);
         

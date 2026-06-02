@@ -239,7 +239,6 @@ public class RoundedPolylineConnection extends PolylineConnection {
 	/**
 	 * @return all connections on the connection layer except this one
 	 */
-	@SuppressWarnings("unchecked")
     private List<Connection> getOtherConnections() {
 	    if(getParent() instanceof ConnectionLayer layer) {
 	        return layer.getChildren().stream()
