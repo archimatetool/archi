@@ -5,91 +5,159 @@
  */
 package com.archimatetool.editor.ui.textrender;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.archimatetool.model.IArchimateModelObject;
 
 /**
- * If/Nvl Label Renderer
- * 
+ * If/Nvl Label Renderer – true conditional evaluation, supports nested expressions
+ * and escape sequences. Uses a regex to locate the start of an expression, then
+ * parses manually to correctly handle inner <code>${...}</code> blocks.
+ *
  * @author Jean-Baptiste Sarrodie
  */
 @SuppressWarnings("nls")
 public class IfRenderer extends AbstractTextRenderer {
 
-    private static final String startOfExpression = "\\$" + allPrefixesGroup + "\\{";
-    private static final String notStartOfExpression = "(?!" + startOfExpression + ")";
-    private static final String acceptedChar = "(?:[^:\\}\\\\]|\\\\:|\\\\\\\\)";
-    private static final String textWithoutExpressions = "(?:\\\\:|" + notStartOfExpression + acceptedChar + ")*";
-    
-    private static final Pattern IF_THEN_ELSE_PATTERN = Pattern.compile("\\$\\{if:(?<IF>" + textWithoutExpressions + "):(?<THEN>"
-            + textWithoutExpressions + "):(?<ELSE>" + textWithoutExpressions + ")\\}");
-    private static final Pattern IF_THEN_PATTERN = Pattern.compile("\\$\\{if:(?<IF>" + textWithoutExpressions + "):(?<THEN>" + textWithoutExpressions + ")\\}");
-    private static final Pattern NVL_PATTERN = Pattern.compile("\\$\\{nvl:(?<COND>" + textWithoutExpressions + "):(?<ALT>" + textWithoutExpressions + ")\\}");
+    // Matches the beginning of an if or nvl expression, allowing optional spaces
+    private static final Pattern START_PATTERN = Pattern.compile("\\$\\{ *(if|nvl) *:");
 
     @Override
     public String render(IArchimateModelObject object, String text) {
-        // First checking with String.contains() to optimize a bit and use
-        // Matcher only if needed
-        if(text.contains("{if:")) {
-            text = renderIfThenElse(text);
-            text = renderIfThen(text);
+        StringBuilder result = new StringBuilder();
+        int lastEnd = 0;
+        Matcher matcher = START_PATTERN.matcher(text);
+
+        while (matcher.find()) {
+            String keyword = matcher.group(1);
+            int contentStart = matcher.end();
+
+            // Find the matching closing brace, handling nesting and escapes
+            int braceDepth = 0;
+            int pos = contentStart;
+            while (pos < text.length()) {
+                char c = text.charAt(pos);
+                // Handle backslash escapes: \} and \{
+                if (c == '\\' && pos + 1 < text.length() &&
+                    (text.charAt(pos + 1) == '}' || text.charAt(pos + 1) == '{')) {
+                    pos += 2;
+                    continue;
+                }
+                if (c == '$' && pos + 1 < text.length() && text.charAt(pos + 1) == '{') {
+                    braceDepth++;
+                    pos += 2;
+                    continue;
+                }
+                if (c == '}') {
+                    if (braceDepth == 0) {
+                        break; // Found the outer closing brace
+                    }
+                    braceDepth--;
+                }
+                pos++;
+            }
+
+            if (pos >= text.length()) {
+                // Unclosed expression: treat the start as literal text and move on
+                result.append(text, matcher.start(), contentStart);
+                lastEnd = contentStart;
+                continue;
+            }
+
+            // Append the literal text before the expression
+            result.append(text, lastEnd, matcher.start());
+
+            // Extract the inner content
+            String inner = text.substring(contentStart, pos);
+
+            // Split inner into parts using ':' not inside nested expressions and not escaped
+            String[] parts = splitParts(inner);
+
+            // Evaluate and replace
+            String replacement = evaluate(object, keyword, parts);
+            result.append(replacement != null ? replacement : "");
+
+            lastEnd = pos + 1; // continue after the closing brace
         }
 
-        if(text.contains("{nvl:")) {
-            text = renderNvl(text);
-        }
-
-        return text;
+        result.append(text.substring(lastEnd));
+        return result.toString();
     }
 
-    private String renderIfThen(String text) {
-        Matcher matcher = IF_THEN_PATTERN.matcher(text);
-
-        while(matcher.find()) {
-            String ifCondition = matcher.group("IF");
-            String ifThen = matcher.group("THEN");
-            String s = "";
-
-            s = ifCondition.isBlank() ? "" : ifThen;
-            s = s == null ? "" : s;
-            text = text.replace(matcher.group(), s);
+    /**
+     * Splits the inner content by ':' that are not escaped and not inside a ${...} block.
+     * Escaped colons (\:) are preserved in the output.
+     */
+    private String[] splitParts(String s) {
+        List<String> parts = new ArrayList<>();
+        int start = 0;
+        int braceDepth = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            // Handle escaped colon
+            if (c == '\\' && i + 1 < s.length() && s.charAt(i + 1) == ':') {
+                i++; // skip the colon, keeping the backslash in the part
+                continue;
+            }
+            // Start of a nested expression
+            if (c == '$' && i + 1 < s.length() && s.charAt(i + 1) == '{') {
+                braceDepth++;
+                i++; // skip the '{' (the loop will increment again)
+                continue;
+            }
+            if (c == '}') {
+                braceDepth--;
+                continue;
+            }
+            if (c == ':' && braceDepth == 0) {
+                parts.add(s.substring(start, i));
+                start = i + 1;
+            }
         }
-
-        return text;
+        parts.add(s.substring(start));
+        return parts.toArray(new String[0]);
     }
 
-    private String renderIfThenElse(String text) {
-        Matcher matcher = IF_THEN_ELSE_PATTERN.matcher(text);
+    private String evaluate(IArchimateModelObject object, String keyword, String[] parts) {
+        if ("if".equals(keyword)) {
+            if (parts.length < 2) {
+                return "";
+            }
+            String ifRaw   = parts[0];
+            String thenRaw = parts[1];
+            String elseRaw = parts.length >= 3 ? parts[2] : "";
 
-        while(matcher.find()) {
-            String ifCondition = matcher.group("IF");
-            String ifThen = matcher.group("THEN");
-            String ifElse = matcher.group("ELSE");
-            String s = "";
+            // Render each part using the full rendering pipeline
+            String ifVal   = renderPart(object, ifRaw);
+            String thenVal = renderPart(object, thenRaw);
+            String elseVal = renderPart(object, elseRaw);
 
-            s = ifCondition.isBlank() ? ifElse : ifThen;
-            s = s == null ? "" : s;
-            text = text.replace(matcher.group(), s);
+            boolean conditionTrue = ifVal != null && !ifVal.isBlank();
+            return conditionTrue ? thenVal : elseVal;
+        } else if ("nvl".equals(keyword)) {
+            if (parts.length != 2) {
+                return "";
+            }
+            String condRaw = parts[0];
+            String altRaw  = parts[1];
+
+            String condVal = renderPart(object, condRaw);
+            String altVal  = renderPart(object, altRaw);
+
+            boolean condBlank = condVal == null || condVal.isBlank();
+            return condBlank ? altVal : condVal;
         }
-
-        return text;
+        return "";
     }
 
-    private String renderNvl(String text) {
-        Matcher matcher = NVL_PATTERN.matcher(text);
-
-        while(matcher.find()) {
-            String nvlCondition = matcher.group("COND");
-            String nvlAlternate = matcher.group("ALT");
-            String s = "";
-
-            s = nvlCondition.isBlank() ? nvlAlternate : nvlCondition;
-            s = s == null ? "" : s;
-            text = text.replace(matcher.group(), s);
-        }
-
-        return text;
+    /**
+     * Renders a sub‑expression through the entire text rendering chain.
+     * This resolves nested ${property:...}, ${name}, etc.
+     */
+    private String renderPart(IArchimateModelObject object, String text) {
+        return TextRenderer.getDefault().render(object, text);
     }
 }
