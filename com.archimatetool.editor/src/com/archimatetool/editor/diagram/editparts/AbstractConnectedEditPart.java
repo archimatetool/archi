@@ -12,7 +12,6 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.ConnectionEditPart;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -203,11 +202,11 @@ implements NodeEditPart {
      * Refresh the connection anchors to return updated ones
      */
     protected void refreshConnectionAnchors() {
-        for(Object editPart : getSourceConnections()) {
-            ((EditPart)editPart).refresh();
+        for(ConnectionEditPart connectionEditPart : getSourceConnections()) {
+            connectionEditPart.refresh();
         }
-        for(Object editPart : getTargetConnections()) {
-            ((EditPart)editPart).refresh();
+        for(ConnectionEditPart connectionEditPart : getTargetConnections()) {
+            connectionEditPart.refresh();
         }
     }
     

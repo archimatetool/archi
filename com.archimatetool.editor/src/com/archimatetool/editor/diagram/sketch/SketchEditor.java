@@ -12,6 +12,7 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -65,7 +66,7 @@ implements ISketchEditor {
         viewer.setContents(getModel());
         
         // Native DnD
-        viewer.addDropTargetListener(new SketchDiagramTransferDropTargetListener(viewer));
+        viewer.addDropTargetListener((TransferDropTargetListener)new SketchDiagramTransferDropTargetListener(viewer));
     }
     
     @Override

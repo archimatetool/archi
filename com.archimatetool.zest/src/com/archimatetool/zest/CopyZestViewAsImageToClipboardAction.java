@@ -48,7 +48,7 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
             public void run() {
                 Image image = null;
                 try {
-                    IFigure figure = (IFigure)graphViewer.getGraphControl().getRootLayer().getChildren().get(0);
+                    IFigure figure = graphViewer.getGraphControl().getRootLayer().getChildren().get(0);
                     image = DiagramUtils.createImage(figure, 1, 10);
                     ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
                     ClipboardImageTransfer.copyImageDataToClipboard(imageData);
