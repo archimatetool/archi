@@ -56,8 +56,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private ComboViewer fThemeComboViewer;
     
     private Button fUseThemes;
+    private Button fUseDirtyIndicator;
     private Button fShowStatusLineButton;
-    
+
     private Button fMacNativeItemHeightButton;
     
     private IThemeEngine themeEngine;
@@ -140,6 +141,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             fThemeComboViewer.getCombo().setEnabled(!highContrastMode);
         }
         
+        // Circle Dirty indicator
+        fUseDirtyIndicator = new Button(client, SWT.CHECK);
+        fUseDirtyIndicator.setText(Messages.AppearancePreferencePage_3);
+        fUseDirtyIndicator.setLayoutData(createHorizontalGridData(2));
+        
         // Show Status Line
         fShowStatusLineButton = new Button(client, SWT.CHECK);
         fShowStatusLineButton.setText(Messages.AppearancePreferencePage_2);
@@ -208,8 +214,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fUseThemes.setSelection(themeEngine != null);
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
+        fUseDirtyIndicator.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.SHOW_DIRTY_INDICATOR_ON_TABS, false));
         
-        // Mac native item height
+        // Mac native item heightr
         if(fMacNativeItemHeightButton != null) {
             boolean useNativeItemHeights = getPreferenceStore().getBoolean(MAC_ITEM_HEIGHT_PROPERTY_KEY);
             fMacNativeItemHeightButton.setSelection(useNativeItemHeights);
@@ -249,6 +256,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // Enable Theming
         swtPrefs.putBoolean(ThemeUtils.THEME_ENABLED, fUseThemes.getSelection());
         
+        // Dirty indicator
+        swtPrefs.putBoolean(ThemeUtils.SHOW_DIRTY_INDICATOR_ON_TABS, fUseDirtyIndicator.getSelection());
+        
         try {
             // Have to do this for it to persist
             swtPrefs.flush();
@@ -276,6 +286,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         fUseThemes.setSelection(true);
+        fUseDirtyIndicator.setSelection(ThemeUtils.getDefaultSwtRendererPreferences().getBoolean(ThemeUtils.SHOW_DIRTY_INDICATOR_ON_TABS, false));
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
         
         if(fMacNativeItemHeightButton != null) {
