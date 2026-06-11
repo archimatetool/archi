@@ -373,7 +373,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Trackpad pinch-to-zoom gesture
         ZoomManager zoomManager = getAdapter(ZoomManager.class);
         if(zoomManager != null) {
-            getGraphicalViewer().getControl().addListener(SWT.Gesture, new PinchZoomGestureHandler(zoomManager));
+            getGraphicalViewer().getControl().addGestureListener(new PinchZoomGestureHandler(zoomManager));
         }
     }
 

@@ -7,8 +7,8 @@ package com.archimatetool.editor.diagram.tools;
 
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.events.GestureEvent;
+import org.eclipse.swt.events.GestureListener;
 
 /**
  * Handles trackpad pinch-to-zoom gestures.
@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Listener;
  *
  * @author Yassin Chibrani - Derks
  */
-public class PinchZoomGestureHandler implements Listener {
+public class PinchZoomGestureHandler implements GestureListener {
 
     private final ZoomManager zoomManager;
     private double initialZoom;
@@ -28,7 +28,7 @@ public class PinchZoomGestureHandler implements Listener {
     }
 
     @Override
-    public void handleEvent(Event event) {
+    public void gesture(GestureEvent event) {
         switch(event.detail) {
             case SWT.GESTURE_BEGIN -> initialZoom = zoomManager.getZoom();
             case SWT.GESTURE_MAGNIFY -> {
