@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="autolink-0.12.0.jar" sourcepath="autolink-0.12.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="commonmark-ext-autolink-0.28.0.jar" sourcepath="commonmark-ext-autolink-0.28.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="commonmark-0.28.0.jar" sourcepath="commonmark-0.28.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="commonmark-ext-gfm-tables-0.28.0.jar" sourcepath="commonmark-ext-gfm-tables-0.28.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="commonmark-ext-gfm-strikethrough-0.28.0.jar" sourcepath="commonmark-ext-gfm-strikethrough-0.28.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="commonmark-ext-ins-0.28.0.jar" sourcepath="commonmark-ext-ins-0.28.0-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -227,3 +227,20 @@ input[type=range]::-moz-range-thumb {
     transform: translateY(-50%);
 	padding-right: 5px;
 }
+
+/* For embedded markdown */
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body li {
+    padding-left: revert;
+    list-style-type: revert;
+    line-height: 1em;
+}
+
+.markdown-body table,
+.markdown-body th,
+.markdown-body td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    padding: 5px 8px;
+}

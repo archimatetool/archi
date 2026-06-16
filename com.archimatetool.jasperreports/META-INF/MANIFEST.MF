@@ -21,7 +21,8 @@ Bundle-ClassPath: com.archimatetool.jasperreports.jar,
  lib/openpdf-2.0.3.jar
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- com.archimatetool.editor
+ com.archimatetool.editor,
+ com.archimatetool.markdown
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.archimatetool.jasperreports.JasperReportsPlugin
 Export-Package: com.archimatetool.jasperreports,

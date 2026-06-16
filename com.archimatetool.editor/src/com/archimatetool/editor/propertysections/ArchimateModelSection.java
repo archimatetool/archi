@@ -52,7 +52,7 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
     
     private PropertySectionTextControl fTextName;
     private Text fTextFile;
-    private PropertySectionTextControl fTextPurpose;
+    private MarkdownControl purposeMarkdownControl;
     
     @Override
     protected void createControls(Composite parent) {
@@ -77,18 +77,23 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
         createLabel(parent, Messages.ArchimateModelSection_2, STANDARD_LABEL_WIDTH, SWT.NONE);
 
         // Text
-        StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
-        styledTextControl.setMessage(Messages.ArchimateModelSection_4);
-        PropertySectionTextControl textControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE);
-
-        textControl.setOnTextChanged((oldText, newText) -> {
-            if(getFirstSelectedObject() instanceof IArchimateModel model && isAlive(model)) {
-                Command cmd = new EObjectFeatureCommand(Messages.ArchimateModelSection_3, model,
-                        IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, newText);
-                if(cmd.canExecute()) {
-                    executeCommand(cmd);
+        purposeMarkdownControl = new MarkdownControl(parent, this);
+        purposeMarkdownControl.setPropertySectionTextControl(markdownParent -> {
+            StyledTextControl styledTextControl = createStyledTextControl(markdownParent, SWT.NONE, true);
+            styledTextControl.setMessage(Messages.ArchimateModelSection_4);
+            PropertySectionTextControl textControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE);
+            
+            textControl.setOnTextChanged((oldText, newText) -> {
+                if(getFirstSelectedObject() instanceof IArchimateModel model && isAlive(model)) {
+                    Command cmd = new EObjectFeatureCommand(Messages.ArchimateModelSection_3, model,
+                                                            IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, newText);
+                    if(cmd.canExecute()) {
+                        executeCommand(cmd);
+                    }
                 }
-            }
+            });
+            
+            return textControl;
         });
     }
 
@@ -139,7 +144,8 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
         if(isExecutingCommand()) {
             return; 
         }
-        fTextPurpose.refresh(getFirstSelectedObject());
+        
+        purposeMarkdownControl.update();
     }
 
     @Override

@@ -201,4 +201,7 @@ public interface IPreferenceConstants {
     
     // Maximum number of diagrams to open at once when opening model with option enabled or from "open" menu actions
     String MAX_DIAGRAMS_TO_OPEN_AT_ONCE = "maxDiagramsToOpenAtOnce";
+    
+    // Markdwon mode
+    String MARKDOWN_MODE = "markdownMode";
 }

@@ -128,4 +128,8 @@ OTHER DEALINGS IN THE SOFTWARE.
          id="com.archimatetool.modelimporter.commandline"
          version="0.0.0"/>
 
+   <plugin
+         id="com.archimatetool.markdown"
+         version="0.0.0"/>
+
 </feature>

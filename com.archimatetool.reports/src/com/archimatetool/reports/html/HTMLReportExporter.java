@@ -22,6 +22,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -50,16 +52,17 @@ import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.markdown.MarkdownUtils;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.IFolder;
-import com.archimatetool.model.IIdentifier;
 import com.archimatetool.reports.ArchiReportsPlugin;
 
 
@@ -88,6 +91,12 @@ public class HTMLReportExporter {
      */
     private Map<String, BoundsWithAbsolutePosition> childBoundsMap = new HashMap<String, BoundsWithAbsolutePosition>();
     
+    /**
+     * Features that can be converted to Markdown
+     */
+    private final List<EStructuralFeature> markdownFeatures = List.of(IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE,
+                                                                      IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION);
+
     private IProgressMonitor progressMonitor;
     
     static class CancelledException extends IOException {
@@ -318,8 +327,8 @@ public class HTMLReportExporter {
      */
     private void writeElements(File elementsFolder, ST stFrame, List<EObject> list) throws IOException {
         for(EObject object : list) {
-            if(object instanceof IArchimateConcept) {
-                writeElement(new File(elementsFolder, ((IIdentifier) object).getId() + ".html"), stFrame, object); //$NON-NLS-1$
+            if(object instanceof IArchimateConcept concept) {
+                writeElement(new File(elementsFolder, concept.getId() + ".html"), stFrame, object); //$NON-NLS-1$
             }
         }
     }
@@ -327,10 +336,10 @@ public class HTMLReportExporter {
     /**
      * Write a single element
      */
-    private void writeElement(File elementFile, ST stFrame, EObject component) throws IOException {
+    private void writeElement(File elementFile, ST stFrame, EObject eObject) throws IOException {
         stFrame.remove("element"); //$NON-NLS-1$
         //frame.remove("children");
-        stFrame.add("element", component); //$NON-NLS-1$
+        stFrame.add("element", renderMarkdown(eObject)); //$NON-NLS-1$
         
         try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(elementFile), "UTF8")) { //$NON-NLS-1$
             writer.write(stFrame.render());
@@ -346,9 +355,9 @@ public class HTMLReportExporter {
         for(IDiagramModel dm : fModel.getDiagramModels()) {
             for(Iterator<EObject> iter =  dm.eAllContents(); iter.hasNext();) {
                 EObject eObject = iter.next();
-                if(eObject instanceof IDiagramModelObject && !(eObject instanceof IDiagramModelArchimateObject) 
-                        && !(eObject instanceof IDiagramModelReference)) {
-                    writeElement(new File(objectsFolder, ((IIdentifier) eObject).getId() + ".html"), stFrame, eObject); //$NON-NLS-1$
+                if(eObject instanceof IDiagramModelObject dmo && !(eObject instanceof IDiagramModelArchimateObject) 
+                                                              && !(eObject instanceof IDiagramModelReference)) {
+                    writeElement(new File(objectsFolder, dmo.getId() + ".html"), stFrame, eObject); //$NON-NLS-1$
                 }
             }
         }
@@ -380,7 +389,7 @@ public class HTMLReportExporter {
             }
 
             stFrame.remove("element"); //$NON-NLS-1$
-            stFrame.add("element", dm); //$NON-NLS-1$
+            stFrame.add("element", renderMarkdown(dm)); //$NON-NLS-1$
             
             stFrame.remove("map"); //$NON-NLS-1$
             stFrame.add("map", childBoundsMap); //$NON-NLS-1$
@@ -457,6 +466,29 @@ public class HTMLReportExporter {
         }
     }
     
+    /**
+     * Render markdown in eObject if any is present
+     * @return a copy of eObject with the changed content or eObject if no changes were made
+     */
+    private <T extends EObject> T renderMarkdown(T eObject) {
+        boolean copied = false; // We've made a copy of eObject
+
+        // Check all potential features
+        for(EStructuralFeature feature : markdownFeatures) {
+            if(eObject.eClass().getEStructuralFeature(feature.getName()) != null && eObject.eGet(feature) instanceof String value
+                                                                           && MarkdownUtils.isMarkdown(value)) {
+                if(!copied) {
+                    eObject = EcoreUtil.copy(eObject);
+                    copied = true;
+                }
+                
+                eObject.eSet(feature, MarkdownUtils.convertMarkdownToDiv(value));
+            }
+        }
+        
+        return eObject;
+    }
+
     private void checkProgressCancelled() throws CancelledException {
         if(progressMonitor != null) {
             if(PlatformUI.isWorkbenchRunning() && Display.getCurrent() != null) {
@@ -534,8 +566,8 @@ public class HTMLReportExporter {
         childBoundsMap.put(dmo.getId(), newBounds);
         
         // Children
-        if(dmo instanceof IDiagramModelContainer) {
-            for(IDiagramModelObject child: ((IDiagramModelContainer)dmo).getChildren() ) {
+        if(dmo instanceof IDiagramModelContainer dmc) {
+            for(IDiagramModelObject child: dmc.getChildren() ) {
                 addNewBounds(child, newBounds.getX1(), newBounds.getY1());
             }
         }

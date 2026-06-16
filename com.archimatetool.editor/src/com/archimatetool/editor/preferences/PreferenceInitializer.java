@@ -178,5 +178,7 @@ implements IPreferenceConstants {
         store.setDefault(SEARCHFILTER_NAME, true);
         
         store.setDefault(MAX_DIAGRAMS_TO_OPEN_AT_ONCE, 100);
+        
+        store.setDefault(MARKDOWN_MODE, 0);
     }
 }

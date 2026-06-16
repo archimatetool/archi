@@ -21,6 +21,21 @@
     <br/>
     
     <p class="boxout"><img src="../Images/tip.png" class="tipImage" alt="tip" width="40" height="40" />Note - some properties are only available when the object is selected in a View (for example, fill colour or line width).</p>
+
+    <br/>
+
+    <h2>Using Markdown in Text Fields</h2>
+    <p>You can use Markdown (and HTML) for the Documentation of a selected object in the Properties Window and this can be previewed in the same field. To the right of the Documentation field press the toolbar button "Edit" or "View" to toggle between the two modes.</p>
+
+    <p>Because Markdown can only be rendered in an embedded browser component some limitations should be noted:</p>
+
+    <ul>
+        <li>Markdown is rendered in the Documentation field in "View" mode</li>
+        <li>If Markdown is used in a Documentation field and it is referenced using the "${documentation}" label expression it is rendered as simple text in a diagram figure. HTML is not rendered as simple text and is shown "as is".</li>
+        <li>Markdown is rendered when exporting a model to a <a href="reporting-html.html">HTML Report</a> but is not rendered in diagram figures. (See the next point).</li>
+        <li>Markdown is not rendered in diagram figures. If content that uses it is referenced by a label expression it is rendered as simple text.</li>
+        <li>Markdown is not rendered when exporting a model to a <a href="reporting-jasper.html">Jasper Report</a>. It is rendered as simple text.</li>
+    </ul>
     
     <p>&nbsp;</p>
 

@@ -325,6 +325,20 @@ public class Messages extends NLS {
 
     public static String LockedSection_0;
 
+    public static String MarkdownControl_0;
+
+    public static String MarkdownControl_1;
+
+    public static String MarkdownControl_2;
+
+    public static String MarkdownControl_3;
+
+    public static String MarkdownControl_4;
+
+    public static String MarkdownControl_5;
+
+    public static String MarkdownControl_6;
+
     public static String NameSection_0;
 
     public static String NoteBorderTypeSection_0;

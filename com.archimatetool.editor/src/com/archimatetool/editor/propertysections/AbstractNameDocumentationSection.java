@@ -23,13 +23,13 @@ public abstract class AbstractNameDocumentationSection extends AbstractECoreProp
     private static final String HELP_ID = "com.archimatetool.help.elementPropertySection"; //$NON-NLS-1$
     
     protected PropertySectionTextControl fTextName;
-    protected PropertySectionTextControl fTextDocumentation;
+    protected MarkdownControl documentationMarkdownControl;
     
     @Override
     protected void createControls(Composite parent) {
         fTextName = createNameControl(parent, Messages.AbstractNameDocumentationSection_0);
-        fTextDocumentation = createDocumentationControl(parent, Messages.AbstractNameDocumentationSection_1);
-
+        documentationMarkdownControl = createDocumentationMarkdownControl(parent, Messages.AbstractNameDocumentationSection_1);
+        
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
     }
@@ -73,8 +73,7 @@ public abstract class AbstractNameDocumentationSection extends AbstractECoreProp
             return; 
         }
         
-        fTextDocumentation.refresh(getFirstSelectedObject());
-        fTextDocumentation.setEditable(!isLocked(getFirstSelectedObject()));
+        documentationMarkdownControl.update();
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
+import com.archimatetool.markdown.MarkdownUtils;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
@@ -46,67 +47,64 @@ public class FieldDataFactory {
     public static final String IMAGE_PATH = "imagePath";
     public static final String VIEWPOINT = "viewpoint";
     
-
     public static Object getFieldValue(Object dataElement, String fieldName) {
         if(THIS.equals(fieldName)) {
             return dataElement;
         }
         
-        if(ID.equals(fieldName) && dataElement instanceof IIdentifier) {
-            return ((IIdentifier)dataElement).getId();
+        if(ID.equals(fieldName) && dataElement instanceof IIdentifier identifier) {
+            return identifier.getId();
         }
         
-        if(NAME.equals(fieldName) && dataElement instanceof INameable) {
-            String name = ((INameable)dataElement).getName();
+        if(NAME.equals(fieldName) && dataElement instanceof INameable nameable) {
+            String name = nameable.getName();
             if(name == null || "".equals(name)) {
-                name = ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+                name = ArchiLabelProvider.INSTANCE.getDefaultName(nameable.eClass());
             }
             return name;
         }
         
-        if(TYPE.equals(fieldName) && dataElement instanceof EObject) {
+        if(TYPE.equals(fieldName) && dataElement instanceof EObject eObject) {
             // Class name
-            String value = ArchiLabelProvider.INSTANCE.getDefaultName(((EObject)dataElement).eClass());
+            String value = ArchiLabelProvider.INSTANCE.getDefaultName(eObject.eClass());
             
             // Profile Name
-            if(dataElement instanceof IProfiles && ((IProfiles)dataElement).getPrimaryProfile() != null) {
-                value += " (" + ((IProfiles)dataElement).getPrimaryProfile().getName() + ")";
+            if(dataElement instanceof IProfiles profiles && profiles.getPrimaryProfile() != null) {
+                value += " (" + profiles.getPrimaryProfile().getName() + ")";
             }
             
             return value;
         }
         
-        if(DOCUMENTATION.equals(fieldName) && dataElement instanceof IDocumentable) {
-            String s = ((IDocumentable)dataElement).getDocumentation();
-            return StringUtils.isSet(s) ? s : null;
+        if(DOCUMENTATION.equals(fieldName) && dataElement instanceof IDocumentable documentable) {
+            String text = documentable.getDocumentation();
+            return StringUtils.isSet(text) ? MarkdownUtils.convertMarkdownToText(text) : null;
         }
         
-        if(PURPOSE.equals(fieldName) && dataElement instanceof IArchimateModel) {
-            String s = ((IArchimateModel)dataElement).getPurpose();
-            return StringUtils.isSet(s) ? s : null;
+        if(PURPOSE.equals(fieldName) && dataElement instanceof IArchimateModel model) {
+            String text = model.getPurpose();
+            return StringUtils.isSet(text) ? MarkdownUtils.convertMarkdownToText(text) : null;
         }
         
-        if(RELATION_SOURCE.equals(fieldName) && dataElement instanceof IArchimateRelationship) {
-            IArchimateRelationship relation = (IArchimateRelationship)dataElement;
+        if(RELATION_SOURCE.equals(fieldName) && dataElement instanceof IArchimateRelationship relation) {
             IArchimateConcept source = relation.getSource();
             String s = source.getName();
             return StringUtils.isSet(s) ? s : null;
         }
         
-        if(RELATION_TARGET.equals(fieldName) && dataElement instanceof IArchimateRelationship) {
-            IArchimateRelationship relation = (IArchimateRelationship)dataElement;
+        if(RELATION_TARGET.equals(fieldName) && dataElement instanceof IArchimateRelationship relation) {
             IArchimateConcept target = relation.getTarget();
             String s = target.getName();
             return StringUtils.isSet(s) ? s : null;
         }
         
-        if(INFLUENCE_STRENGTH.equals(fieldName) && dataElement instanceof IInfluenceRelationship) {
-            String s = ((IInfluenceRelationship)dataElement).getStrength();
+        if(INFLUENCE_STRENGTH.equals(fieldName) && dataElement instanceof IInfluenceRelationship relation) {
+            String s = relation.getStrength();
             return StringUtils.isSet(s) ? s : null;
         }
 
-        if(ACCESS_TYPE.equals(fieldName) && dataElement instanceof IAccessRelationship) {
-            return ((IAccessRelationship)dataElement).getAccessType();
+        if(ACCESS_TYPE.equals(fieldName) && dataElement instanceof IAccessRelationship relation) {
+            return relation.getAccessType();
         }
         
         return null;

@@ -283,6 +283,24 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
     }
     
     /**
+     * Create a Documentation Markdown control
+     */
+    protected MarkdownControl createDocumentationMarkdownControl(Composite parent, String hint) {
+        // Label
+        createLabel(parent, Messages.AbstractECorePropertySection_2, ITabbedLayoutConstants.STANDARD_LABEL_WIDTH, SWT.NONE);
+        
+        // Markdown Control
+        MarkdownControl markDownControl = new MarkdownControl(parent, this);
+        markDownControl.setPropertySectionTextControl(markdownParent -> {
+            StyledTextControl styledTextControl = createStyledTextControl(markdownParent, SWT.NONE, true);
+            styledTextControl.setMessage(hint);
+            return createDocumentationPropertySectionTextControl(styledTextControl.getControl());
+        });
+        
+        return markDownControl;
+    }
+    
+    /**
      * Create a PropertySectionTextControl for Documentation
      */
     protected PropertySectionTextControl createDocumentationPropertySectionTextControl(StyledText styledText) {

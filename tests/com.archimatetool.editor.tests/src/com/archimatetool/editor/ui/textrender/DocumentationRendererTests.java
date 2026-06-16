@@ -144,5 +144,30 @@ public class DocumentationRendererTests extends AbstractTextRendererTests {
         String result = renderer.render(source, "$assignment:target{documentation}");
         assertEquals("Target Documentation", result);
     }
-
+    
+    @Test
+    public void render_Documentation_With_Markdown() {
+        String doc = """
+        1. List 1
+        1. List 2
+        
+        **bold**
+        _italic_""";
+        
+        String expected = """
+        1. List 1
+        2. List 2
+        
+        bold
+        italic""";
+        
+        renderer.setRenderMarkdown(true);
+        dmo.getArchimateConcept().setDocumentation(doc);
+        String result = renderer.render(dmo, "${documentation}");
+        assertEquals(expected, result);
+        
+        renderer.setRenderMarkdown(false);
+        result = renderer.render(dmo, "${documentation}");
+        assertEquals(doc, result);
+    }
 }
