@@ -183,6 +183,7 @@ public class IconicDelegate {
         
         switch(fIconic.getImagePosition()) {
             case IIconic.ICON_POSITION_TOP_LEFT:
+            case IIconic.ICON_POSITION_TOP_LEFT_SMALL:
                 x += leftOffset;
                 y += topOffset;
                 break;
@@ -251,10 +252,15 @@ public class IconicDelegate {
             
             drawImage(imageBounds, graphics, x, y, newWidth, newHeight);
         }
+        else if(fIconic.getImagePosition() == IIconic.ICON_POSITION_TOP_LEFT_SMALL)
+        {         
+            drawImage(imageBounds, graphics, x, y, IIconic.IMAGE_SIZE_FOR_TOP_LEFT, IIconic.IMAGE_SIZE_FOR_TOP_LEFT);
+        }
         // Full image size
         else if(fMaxImageSize == MAX_IMAGESIZE) {
             graphics.drawImage(fImage, x, y);
         }
+
         // Scaled image size
         else {
             drawImage(imageBounds, graphics, x, y, width, height);

@@ -186,6 +186,8 @@ public class Messages extends NLS {
     public static String IconSection_12;
 
     public static String IconSection_13;
+    
+    public static String IconSection_14;
 
     public static String IconSection_2;
 

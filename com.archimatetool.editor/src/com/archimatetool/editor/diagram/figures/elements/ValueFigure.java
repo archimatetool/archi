@@ -74,6 +74,13 @@ public class ValueFigure extends AbstractMotivationFigure {
                 left = rect.width / offset;
                 break;
 
+            case IIconic.ICON_POSITION_TOP_LEFT_SMALL:
+                top = rect.height / offset;
+                left = rect.width / offset;
+                right = IIconic.IMAGE_SIZE_FOR_TOP_LEFT;
+                bottom = IIconic.IMAGE_SIZE_FOR_TOP_LEFT;
+                break;  
+                
             case IIconic.ICON_POSITION_TOP_RIGHT:
                 top = rect.height / offset;
                 right = -(rect.width / offset);

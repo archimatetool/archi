@@ -91,6 +91,7 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
             case IIconic.ICON_POSITION_TOP_LEFT:
             case IIconic.ICON_POSITION_BOTTOM_LEFT:
+            case IIconic.ICON_POSITION_TOP_LEFT_SMALL:
                 left = 10;
                 break;
 

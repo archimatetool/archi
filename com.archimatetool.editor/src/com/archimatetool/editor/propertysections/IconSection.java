@@ -89,7 +89,8 @@ public class IconSection extends ImageChooserSection {
         Messages.IconSection_6,
         Messages.IconSection_7,
         Messages.IconSection_8,
-        Messages.IconSection_13
+        Messages.IconSection_13,
+        Messages.IconSection_14
     };
     
     /**
@@ -301,7 +302,7 @@ public class IconSection extends ImageChooserSection {
         }
         
         int position = ((IIconic)selected).getImagePosition();
-        if(position < IIconic.ICON_POSITION_TOP_LEFT || position > IIconic.ICON_POSITION_FILL) {
+        if(position < IIconic.ICON_POSITION_TOP_LEFT || position > IIconic.ICON_POSITION_TOP_LEFT_SMALL) {
             position = IIconic.ICON_POSITION_TOP_RIGHT;
         }
         

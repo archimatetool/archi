@@ -102,9 +102,14 @@ public class ResetAspectRatioAction extends SelectionAction {
                     otherRatio = ((float) size.height / (float) size.width);
                 }
                 // Iconic and fill type is fill and has an image
-                else {
+                else if (isIconicWithImageFill(dmo, figure))
+                {
                     Rectangle imageBounds = figure.getIconicDelegate().getImage().getBounds();
                     otherRatio = ((float) imageBounds.height / (float) imageBounds.width);
+                }
+                else //top_left_icon
+                {
+                	otherRatio = 1;
                 }
                 
                 // If the ratio is different (within tolerance)

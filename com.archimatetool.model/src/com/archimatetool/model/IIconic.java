@@ -34,6 +34,9 @@ public interface IIconic extends IDiagramModelObject, IDiagramModelImageProvider
     int ICON_POSITION_BOTTOM_CENTRE = 7;
     int ICON_POSITION_BOTTOM_RIGHT = 8;
     int ICON_POSITION_FILL = 9;
+    int ICON_POSITION_TOP_LEFT_SMALL = 10;
+    
+    int IMAGE_SIZE_FOR_TOP_LEFT = 30;
     
     /**
      * Returns the value of the '<em><b>Image Position</b></em>' attribute.
