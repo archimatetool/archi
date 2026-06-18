@@ -144,12 +144,7 @@ public final class DiagramUtils {
     }
 
     private static ModelReferencedImage createModelReferencedImage(IFigure figure, double scale, int margin) {
-        if(scale <= 0) {
-            scale = 1;
-        }
-        if(scale > 5) {
-            scale = 5;
-        }
+        scale = Math.clamp(scale, 0.1, 5);
         
         Rectangle bounds = getMinimumBounds(figure);
         if(bounds == null) {
@@ -163,8 +158,6 @@ public final class DiagramUtils {
         GC gc = new GC(image);
         SWTGraphics graphics = new SWTGraphics(gc);
         
-        // If scaled, then scale now
-        // Issue #621: SWTGraphics supports scale() so no need to use ScaledGraphics
         if(scale != 1) {
             graphics.scale(scale);
         }
