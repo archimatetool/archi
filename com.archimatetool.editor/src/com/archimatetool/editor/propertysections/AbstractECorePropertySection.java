@@ -27,9 +27,11 @@ import com.archimatetool.model.IAdapter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.IDocumentable;
 import com.archimatetool.model.IFeature;
 import com.archimatetool.model.IFeatures;
 import com.archimatetool.model.ILockable;
+import com.archimatetool.model.INameable;
 import com.archimatetool.model.util.LightweightEContentAdapter;
 
 
@@ -243,27 +245,25 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
         // Text
         Text textControl = createSingleTextControl(parent, SWT.NONE);
         textControl.setMessage(hint);
+        PropertySectionTextControl textName = new PropertySectionTextControl(textControl, IArchimatePackage.Literals.NAMEABLE__NAME);
         
-        PropertySectionTextControl textName = new PropertySectionTextControl(textControl, IArchimatePackage.Literals.NAMEABLE__NAME) {
-            @Override
-            protected void textChanged(String oldText, String newText) {
-                if(getEObjects() != null) {
-                    CompoundCommand result = new NonNotifyingCompoundCommand(Messages.AbstractECorePropertySection_1);
+        textName.setOnTextChanged((oldText, newText) -> {
+            if(getEObjects() != null) {
+                CompoundCommand result = new NonNotifyingCompoundCommand(Messages.AbstractECorePropertySection_1);
 
-                    for(EObject eObject : getEObjects()) {
-                        if(isAlive(eObject)) {
-                            Command cmd = new EObjectFeatureCommand(Messages.AbstractECorePropertySection_1, eObject,
-                                    IArchimatePackage.Literals.NAMEABLE__NAME, newText);
-                            if(cmd.canExecute()) {
-                                result.add(cmd);
-                            }
+                for(EObject eObject : getEObjects()) {
+                    if(eObject instanceof INameable nameable && isAlive(nameable)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.AbstractECorePropertySection_1, nameable,
+                                                                IArchimatePackage.Literals.NAMEABLE__NAME, newText);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
                         }
                     }
-
-                    executeCommand(result.unwrap());
                 }
+
+                executeCommand(result.unwrap());
             }
-        };
+        });
 
         return textName;
     }
@@ -286,25 +286,26 @@ public abstract class AbstractECorePropertySection extends AbstractArchiProperty
      * Create a PropertySectionTextControl for Documentation
      */
     protected PropertySectionTextControl createDocumentationPropertySectionTextControl(StyledText styledText) {
-        return new PropertySectionTextControl(styledText, IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION) {
-            @Override
-            protected void textChanged(String oldText, String newText) {
-                if(getEObjects() != null) {
-                    CompoundCommand result = new CompoundCommand(Messages.AbstractECorePropertySection_3);
+        PropertySectionTextControl textControl = new PropertySectionTextControl(styledText, IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION);
+        
+        textControl.setOnTextChanged((oldText, newText) -> {
+            if(getEObjects() != null) {
+                CompoundCommand result = new CompoundCommand(Messages.AbstractECorePropertySection_3);
 
-                    for(EObject eObject : getEObjects()) {
-                        if(isAlive(eObject)) {
-                            Command cmd = new EObjectFeatureCommand(Messages.AbstractECorePropertySection_3 , eObject,
-                                    IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, newText);
-                            if(cmd.canExecute()) {
-                                result.add(cmd);
-                            }
+                for(EObject eObject : getEObjects()) {
+                    if(eObject instanceof IDocumentable documentable && isAlive(documentable)) {
+                        Command cmd = new EObjectFeatureCommand(Messages.AbstractECorePropertySection_3 , documentable,
+                                IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION, newText);
+                        if(cmd.canExecute()) {
+                            result.add(cmd);
                         }
                     }
-
-                    executeCommand(result.unwrap());
                 }
+
+                executeCommand(result.unwrap());
             }
-        };
+        });
+        
+        return textControl;
     }
 }

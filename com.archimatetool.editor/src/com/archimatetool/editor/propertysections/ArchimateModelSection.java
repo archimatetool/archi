@@ -8,7 +8,6 @@ package com.archimatetool.editor.propertysections;
 import java.io.File;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -80,21 +79,17 @@ public class ArchimateModelSection extends AbstractECorePropertySection {
         // Text
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.ArchimateModelSection_4);
-        
-        fTextPurpose = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE) {
-            @Override
-            protected void textChanged(String oldText, String newText) {
-                EObject model = getFirstSelectedObject();
+        PropertySectionTextControl textControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE);
 
-                if(isAlive(model)) {
-                    Command cmd = new EObjectFeatureCommand(Messages.ArchimateModelSection_3, getFirstSelectedObject(),
-                            IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, newText);
-                    if(cmd.canExecute()) {
-                        executeCommand(cmd);
-                    }
+        textControl.setOnTextChanged((oldText, newText) -> {
+            if(getFirstSelectedObject() instanceof IArchimateModel model && isAlive(model)) {
+                Command cmd = new EObjectFeatureCommand(Messages.ArchimateModelSection_3, model,
+                        IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE, newText);
+                if(cmd.canExecute()) {
+                    executeCommand(cmd);
                 }
             }
-        };
+        });
     }
 
     @Override

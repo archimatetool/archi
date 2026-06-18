@@ -66,10 +66,10 @@ public class InfluenceRelationshipSection extends AbstractECorePropertySection {
         
         Text text = createSingleTextControl(parent, SWT.NONE);
         text.setMessage(Messages.InfluenceRelationshipSection_2);
+        fTextStrength = new PropertySectionTextControl(text, IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH);
         
-        fTextStrength = new PropertySectionTextControl(text, IArchimatePackage.Literals.INFLUENCE_RELATIONSHIP__STRENGTH) {
-            @Override
-            protected void textChanged(String oldText, String newText) {
+        fTextStrength.setOnTextChanged((oldText, newText) -> {
+            if(getEObjects() != null) {
                 CompoundCommand result = new CompoundCommand();
 
                 for(EObject relationship : getEObjects()) {
@@ -84,7 +84,7 @@ public class InfluenceRelationshipSection extends AbstractECorePropertySection {
 
                 executeCommand(result.unwrap());
             }
-        };
+        });
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);

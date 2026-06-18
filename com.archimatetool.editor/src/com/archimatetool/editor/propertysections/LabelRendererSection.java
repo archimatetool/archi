@@ -69,10 +69,10 @@ public class LabelRendererSection extends AbstractECorePropertySection {
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.LabelRendererSection_1);
+        fTextRender = new PropertySectionTextControl(styledTextControl.getControl(), TextRenderer.FEATURE_NAME);
         
-        fTextRender = new PropertySectionTextControl(styledTextControl.getControl(), TextRenderer.FEATURE_NAME) {
-            @Override
-            protected void textChanged(String oldText, String newText) {
+        fTextRender.setOnTextChanged((oldText, newText) -> {
+            if(getEObjects() != null) {
                 CompoundCommand result = new CompoundCommand();
                 
                 for(EObject eObject : getEObjects()) {
@@ -86,7 +86,7 @@ public class LabelRendererSection extends AbstractECorePropertySection {
 
                 executeCommand(result.unwrap());
             }
-        };
+        });
         
         // Help ID
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);

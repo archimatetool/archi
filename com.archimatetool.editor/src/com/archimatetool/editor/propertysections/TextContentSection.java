@@ -58,10 +58,10 @@ public class TextContentSection extends AbstractECorePropertySection {
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.TextContentSection_2);
+        fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.TEXT_CONTENT__CONTENT);
         
-        fTextContentControl = new PropertySectionTextControl(styledTextControl.getControl(), IArchimatePackage.Literals.TEXT_CONTENT__CONTENT) {
-            @Override
-            protected void textChanged(String oldText, String newText) {
+        fTextContentControl.setOnTextChanged((oldText, newText) -> {
+            if(getEObjects() != null) {
                 CompoundCommand result = new CompoundCommand();
                 
                 for(EObject textContent : getEObjects()) {
@@ -76,7 +76,7 @@ public class TextContentSection extends AbstractECorePropertySection {
 
                 executeCommand(result.unwrap());
             }
-        };
+        });
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTextContentControl.getTextControl(), HELP_ID);

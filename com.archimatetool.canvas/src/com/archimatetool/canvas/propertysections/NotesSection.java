@@ -64,16 +64,16 @@ public class NotesSection extends AbstractECorePropertySection {
         
         StyledTextControl styledTextControl = createStyledTextControl(parent, SWT.BORDER);
         styledTextControl.setMessage(Messages.NotesSection_2);
+        fTextNotesControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.NOTES_CONTENT__NOTES);
         
-        fTextNotesControl = new PropertySectionTextControl(styledTextControl.getControl(), ICanvasPackage.Literals.NOTES_CONTENT__NOTES) {
-            @Override
-            protected void textChanged(String oldText, String newText) {
+        fTextNotesControl.setOnTextChanged((oldText, newText) -> {
+            if(getEObjects() != null) {
                 CompoundCommand result = new CompoundCommand();
 
                 for(EObject notesContent : getEObjects()) {
                     if(isAlive(notesContent)) {
                         Command cmd = new EObjectFeatureCommand(Messages.NotesSection_1, notesContent,
-                                ICanvasPackage.Literals.NOTES_CONTENT__NOTES, newText);
+                                                                ICanvasPackage.Literals.NOTES_CONTENT__NOTES, newText);
                         
                         if(cmd.canExecute()) {
                             result.add(cmd);
@@ -83,7 +83,7 @@ public class NotesSection extends AbstractECorePropertySection {
 
                 executeCommand(result.unwrap());
             }
-        };
+        });
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(fTextNotesControl.getTextControl(), HELP_ID);

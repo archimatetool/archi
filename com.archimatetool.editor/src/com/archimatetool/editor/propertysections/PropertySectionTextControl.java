@@ -5,6 +5,9 @@
  */
 package com.archimatetool.editor.propertysections;
 
+import java.util.Objects;
+import java.util.function.BiConsumer;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.SWT;
@@ -24,7 +27,7 @@ import com.archimatetool.model.IFeatures;
  * 
  * @author Phillip Beauvoir
  */
-public abstract class PropertySectionTextControl {
+public class PropertySectionTextControl {
     
     private Control fTextControl;
 
@@ -33,6 +36,11 @@ public abstract class PropertySectionTextControl {
     private String fFeatureName;
     
     private Listener eventListener = this::handleEvent;
+    
+    /**
+     * Consumer for textChanged
+     */
+    private BiConsumer<String, String> onTextChanged;
     
     /**
      * @param textControl The Text Control
@@ -53,6 +61,10 @@ public abstract class PropertySectionTextControl {
     }
     
     private void init(Control textControl) {
+        if(!(textControl instanceof Text || textControl instanceof StyledText)) {
+            throw new IllegalArgumentException("Control must be Text or StyledText"); //$NON-NLS-1$
+        }
+        
         fTextControl = textControl;
         
         // FocusOut updates the text
@@ -61,33 +73,33 @@ public abstract class PropertySectionTextControl {
         // Listen for Enter (or Ctrl+Enter) keypress
         textControl.addListener(SWT.DefaultSelection, eventListener);
         
-        textControl.addDisposeListener((event)-> {
+        textControl.addDisposeListener(e -> {
             textControl.removeListener(SWT.FocusOut, eventListener);
             textControl.removeListener(SWT.DefaultSelection, eventListener);
             fDataElement = null;
         });
     }
     
-    /**
-     * This no longer does anything.<br>
-     * Use Text.setMessage(String) or StyledTextControl.setMessage(String)
-     * @see org.eclipse.swt.widgets.Text
-     * @param hint
-     */
-    @Deprecated
-    public void setHint(String hint) {
-    }
-    
     public Control getTextControl() {
         return fTextControl;
     }
     
+    /**
+     * Set consumer to handle when text changes
+     * First param is oldText, second param is newText
+     * @param onTextChanged The consumer
+     * @since 5.10
+     */
+    public void setOnTextChanged(BiConsumer<String, String> onTextChanged) {
+        this.onTextChanged = Objects.requireNonNull(onTextChanged);
+    }
+
     public void setEditable(boolean editable) {
-        if(isStyledTextControl()) {
-            ((StyledText)getTextControl()).setEditable(editable);
+        if(getTextControl() instanceof StyledText styledText) {
+            styledText.setEditable(editable);
         }
-        else {
-            ((Text)getTextControl()).setEditable(editable);
+        else if(getTextControl() instanceof Text text) {
+            text.setEditable(editable);
         }
     }
     
@@ -104,7 +116,7 @@ public abstract class PropertySectionTextControl {
         String newText = getText();
         String oldText = getTextFromDataElement();
         
-        if(!newText.equals(oldText)) {
+        if(!Objects.equals(newText, oldText)) {
             textChanged(oldText, newText);
         }
     }
@@ -116,45 +128,41 @@ public abstract class PropertySectionTextControl {
         }
         
         // Get text from Archi Feature
-        if(fDataElement instanceof IFeatures && fFeatureName != null) {
-            return StringUtils.safeString(((IFeatures)fDataElement).getFeatures().getString(fFeatureName, "")); //$NON-NLS-1$
+        if(fDataElement instanceof IFeatures features && fFeatureName != null) {
+            return StringUtils.safeString(features.getFeatures().getString(fFeatureName, "")); //$NON-NLS-1$
         }
         
         return ""; //$NON-NLS-1$
     }
     
     private String getText() {
-        if(isStyledTextControl()) {
-            return ((StyledText)getTextControl()).getText();
+        if(getTextControl() instanceof StyledText styledText) {
+            return styledText.getText();
         }
-        else {
-            return ((Text)getTextControl()).getText();
+        else if(getTextControl() instanceof Text text) {
+            return text.getText();
         }
+        return ""; //$NON-NLS-1$
     }
     
     private void setText(String s) {
-        if(isStyledTextControl()) {
-            ((StyledText)getTextControl()).setText(s);
+        if(getTextControl() instanceof StyledText styledText) {
+            styledText.setText(s);
         }
-        else {
-            ((Text)getTextControl()).setText(s);
+        else if(getTextControl() instanceof Text text) {
+            text.setText(s);
         }
     }
     
-    @SuppressWarnings("unused")
-    private boolean isSingleTextControl() {
-        return (getTextControl().getStyle() & SWT.SINGLE) != 0;
-    }
-    
-    private boolean isStyledTextControl() {
-        return getTextControl() instanceof StyledText;
-    }
-
     /**
-     * Clients should over-ride this to react to text changes
+     * Clients can over-ride this to react to text changes
      * @param oldText The old text
      * @param newText The new changed text
+     * @deprecated since 5.10 use {@link #setOnTextChanged(BiConsumer)}
      */
     protected void textChanged(String oldText, String newText) {
+        if(onTextChanged != null) {
+            onTextChanged.accept(oldText, newText);
+        }
     }
 }
