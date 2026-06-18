@@ -1,4 +1,5 @@
 # Remove some junk produced by Tycho product build
 instructions.configure=\
 org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/Archic.exe);\
-org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/readme/);
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/readme/);\
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/p2/org.eclipse.equinox.p2.core/);
