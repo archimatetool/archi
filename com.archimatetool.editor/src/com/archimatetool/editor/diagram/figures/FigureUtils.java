@@ -8,9 +8,7 @@ package com.archimatetool.editor.diagram.figures;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.ScalableFigure;
-import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
@@ -28,31 +26,20 @@ import org.eclipse.swt.widgets.Display;
 public class FigureUtils {
 
     /**
-     * @param figure
-     * @return The Current Zoom drawing scale for a Figure
+     * Get the current scale from the Figure's ancestor Figure
+     * This will be the zoom factor in a GEF diagram or the scale set in Graphics.scale(scale) in DiagramUtils
      */
     public static double getFigureScale(IFigure figure) {
-        if(figure instanceof ScalableFigure) {
-            return ((ScalableFigure)figure).getScale();
+        while(figure != null) {
+            if(figure instanceof ScalableFigure scalableFigure) {
+                return scalableFigure.getScale();
+            }
+            figure = figure.getParent();
         }
         
-        return figure == null ? 1.0 : getFigureScale(figure.getParent());
-    }
-    
-    /**
-     * @param graphics
-     * @return The scale factor of the Graphics instance
-     */
-    public static double getGraphicsScale(Graphics graphics) {
-        if(graphics instanceof SWTGraphics) {
-            return ((SWTGraphics)graphics).getScale();
-        }
-        else if(graphics instanceof ScaledGraphics) {
-            return graphics.getAbsoluteScale();
-        }
         return 1.0;
     }
-
+    
     /**
      * Gradient Direction
      */
