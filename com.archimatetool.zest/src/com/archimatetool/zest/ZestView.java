@@ -9,15 +9,16 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
@@ -25,12 +26,8 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ResourceLocator;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -107,6 +104,8 @@ implements IZestView, ISelectionListener {
     private IAction zoomInAction;
     private IAction zoomOutAction;
     private IAction zoomNormalAction;
+    
+    private IAction routerAction;
   
     private DrillDownManager fDrillDownManager;
     
@@ -124,25 +123,25 @@ implements IZestView, ISelectionListener {
         fGraphViewer = new ZestGraphViewer(parent, SWT.NONE);
         fGraphViewer.getGraphControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
         
+        // Layout
         fGraphViewer.setLayoutAlgorithm(new SpringLayoutAlgorithm());
         
+        // Router
+        fGraphViewer.getGraphControl().setRouter(Objects.equals(IPreferenceConstants.VISUALISER_ROUTER_MANHATTAN,
+                                                 ArchiZestPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ROUTER)) ?
+                                                 new ManhattanConnectionRouter() : null);
+        
         // Graph selection listener
-        fGraphViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                // Update actions
-                updateActions();
-                // Need to do this in order for Tabbed Properties View to update on Selection
-                getSite().getSelectionProvider().setSelection(event.getSelection());
-            }
+        fGraphViewer.addSelectionChangedListener(event -> {
+            // Update actions
+            updateActions();
+            // Need to do this in order for Tabbed Properties View to update on Selection
+            getSite().getSelectionProvider().setSelection(event.getSelection());
         });
         
         // Double-click
-        fGraphViewer.addDoubleClickListener(new IDoubleClickListener() {
-            @Override
-            public void doubleClick(DoubleClickEvent event) {
-                fDrillDownManager.goInto();
-            }
+        fGraphViewer.addDoubleClickListener(event -> {
+            fDrillDownManager.goInto();
         });
 
         fDrillDownManager = new DrillDownManager(this);
@@ -171,17 +170,12 @@ implements IZestView, ISelectionListener {
     
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-        if(part == this) {
+        if(part == this || fActionPinContent.isChecked()) {
             return;
         }
         
-        if(fActionPinContent.isChecked()) {
-            return;
-        }
-        
-        if(selection instanceof IStructuredSelection && !selection.isEmpty()) {
-            Object object = ((IStructuredSelection)selection).getFirstElement();
-            setElement(object);
+        if(selection instanceof IStructuredSelection structuredSelection && !structuredSelection.isEmpty()) {
+            setElement(structuredSelection.getFirstElement());
         }
     }
     
@@ -194,16 +188,15 @@ implements IZestView, ISelectionListener {
     private void setElement(Object object) {
         IArchimateConcept concept = null;
         
-        if(object instanceof IArchimateConcept) {
-            concept = (IArchimateConcept)object;
+        if(object instanceof IArchimateConcept c) {
+            concept = c; 
         }
-        else if(object instanceof IAdaptable) {
-            concept = ((IAdaptable)object).getAdapter(IArchimateConcept.class);
+        else if(object instanceof IAdaptable adaptable) {
+            concept = adaptable.getAdapter(IArchimateConcept.class);
         }
         
         fDrillDownManager.setNewInput(concept);
         updateActions();
-        
         updateLabel();
     }
     
@@ -260,7 +253,7 @@ implements IZestView, ISelectionListener {
      * Update the Local Actions depending on the selection, and undo/redo actions
      */
     void updateActions() {
-        IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
+        IStructuredSelection selection = getViewer().getStructuredSelection();
         fActionProperties.update();
         fActionSelectInModelTree.setEnabled(!selection.isEmpty());
         
@@ -302,6 +295,9 @@ implements IZestView, ISelectionListener {
 
         // Direction
         menuManager.add(createDirectionMenu());
+        
+        // Router
+        menuManager.add(routerAction);
 
 		menuManager.add(new Separator());
 		
@@ -365,7 +361,7 @@ implements IZestView, ISelectionListener {
 
             @Override
             public ImageDescriptor getImageDescriptor() {
-                return ResourceLocator.imageDescriptorFromBundle(ArchiZestPlugin.PLUGIN_ID, "img/layout.gif").orElse(null); //$NON-NLS-1$
+                return ResourceLocator.imageDescriptorFromBundle(ArchiZestPlugin.PLUGIN_ID, "img/layout.png").orElse(null); //$NON-NLS-1$
             }
         };
 
@@ -392,11 +388,28 @@ implements IZestView, ISelectionListener {
 
             @Override
             public void run() {
-                IStructuredSelection selection = (IStructuredSelection)getViewer().getSelection();
+                IStructuredSelection selection = getViewer().getStructuredSelection();
                 ITreeModelView view = (ITreeModelView)ViewManager.showViewPart(ITreeModelView.ID, true);
                 if(view != null && !selection.isEmpty()) {
                     view.getViewer().setSelection(new StructuredSelection(selection.toArray()), true);
                 }
+            }
+        };
+        
+        routerAction = new Action(Messages.ZestView_18, IAction.AS_CHECK_BOX) {
+            {
+                setToolTipText(getText());
+                setChecked(Objects.equals(IPreferenceConstants.VISUALISER_ROUTER_MANHATTAN,
+                        ArchiZestPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.VISUALISER_ROUTER)));
+            }
+            
+            @Override
+            public void run() {
+                getViewer().getGraphControl().setRouter(isChecked() ? new ManhattanConnectionRouter() : null);
+                getViewer().doApplyLayout();
+                // Store in prefs
+                ArchiZestPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.VISUALISER_ROUTER, isChecked() ? 
+                                                                            IPreferenceConstants.VISUALISER_ROUTER_MANHATTAN : ""); //$NON-NLS-1$
             }
         };
         
@@ -464,7 +477,7 @@ implements IZestView, ISelectionListener {
 
             @Override
             public void run() {
-                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                IStructuredSelection selection = fGraphViewer.getStructuredSelection();
                 // set depth
                 int depth = Integer.valueOf(getId());
                 getContentProvider().setDepth(depth);
@@ -488,7 +501,7 @@ implements IZestView, ISelectionListener {
         getContentProvider().setViewpointFilter(ViewpointManager.INSTANCE.getViewpoint(viewpointID));
 
         // Viewpoint actions
-        fViewpointActions = new ArrayList<IAction>();
+        fViewpointActions = new ArrayList<>();
 
         for(IViewpoint vp : ViewpointManager.INSTANCE.getAllViewpoints()) {
             IAction action = createViewpointMenuAction(vp);
@@ -526,7 +539,7 @@ implements IZestView, ISelectionListener {
     }
 
     private void createElementsActions() {
-        fAllElementActions = new ArrayList<IAction>();
+        fAllElementActions = new ArrayList<>();
 
         // The "All" option
         fNoneElementAction = createElementAction(null);
@@ -566,8 +579,7 @@ implements IZestView, ISelectionListener {
         // Elements
         else {
             for(String s : elementPrefs.split(" ")) { //$NON-NLS-1$
-                EClass elementClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(s);
-                if(elementClass != null) {
+                if(IArchimatePackage.eINSTANCE.getEClassifier(s) instanceof EClass elementClass) {
                     getContentProvider().addElementFilter(elementClass);
                     for(IAction a : fAllElementActions) {
                         if(a.getId().equals(elementClass.getName())) {
@@ -580,9 +592,9 @@ implements IZestView, ISelectionListener {
     }
 
     private List<IAction> createElementActionsGroup(EClass[] eClasses) {
-        List<IAction> actions = new ArrayList<IAction>();
+        List<IAction> actions = new ArrayList<>();
 
-        ArrayList<EClass> list = new ArrayList<EClass>(Arrays.asList(eClasses));
+        ArrayList<EClass> list = new ArrayList<>(Arrays.asList(eClasses));
         list.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
 
         for(EClass elem : list) {
@@ -611,7 +623,7 @@ implements IZestView, ISelectionListener {
                 
                 // update viewer
                 fGraphViewer.setInput(fGraphViewer.getInput());
-                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                IStructuredSelection selection = fGraphViewer.getStructuredSelection();
                 fGraphViewer.setSelection(selection);
                 fGraphViewer.doApplyLayout();
                 updateLabel();
@@ -642,14 +654,14 @@ implements IZestView, ISelectionListener {
     }
 
     private void createRelationshipsActions() {
-        fRelationshipActions = new ArrayList<IAction>();
+        fRelationshipActions = new ArrayList<>();
 
         // The "All" option
         fNoneRelationshipAction = createRelationshipMenuAction(null);
         fRelationshipActions.add(fNoneRelationshipAction);
 
         // Then get all relationships and sort them
-        ArrayList<EClass> list = new ArrayList<EClass>(Arrays.asList(ArchimateModelUtils.getRelationsClasses()));
+        ArrayList<EClass> list = new ArrayList<>(Arrays.asList(ArchimateModelUtils.getRelationsClasses()));
         list.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
         
         for(EClass rel : list) {
@@ -666,8 +678,7 @@ implements IZestView, ISelectionListener {
         // Relations
         else {
             for(String s : relationsPrefs.split(" ")) { //$NON-NLS-1$
-                EClass relationClass = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(s);
-                if(relationClass != null) {
+                if(IArchimatePackage.eINSTANCE.getEClassifier(s) instanceof EClass relationClass) {
                     getContentProvider().addRelationshipFilter(relationClass);
                     for(IAction a : fRelationshipActions) {
                         if(a.getId().equals(relationClass.getName())) {
@@ -744,7 +755,7 @@ implements IZestView, ISelectionListener {
 
             @Override
             public void run() {
-                IStructuredSelection selection = (IStructuredSelection)fGraphViewer.getSelection();
+                IStructuredSelection selection = fGraphViewer.getStructuredSelection();
                 // Set orientation
                 getContentProvider().setDirection(orientation);
                 // Store in prefs
@@ -778,30 +789,22 @@ implements IZestView, ISelectionListener {
      * Hook into a right-click menu
      */
     private void hookContextMenu() {
-        MenuManager menuMgr = new MenuManager("#ZestViewPopupMenu"); //$NON-NLS-1$
+        MenuManager menuMgr = new MenuManager(null, "#ZestViewPopupMenu"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
-
-        menuMgr.addMenuListener(new IMenuListener() {
-
-            @Override
-            public void menuAboutToShow(IMenuManager manager) {
-                fillContextMenu(manager);
-            }
+        menuMgr.addMenuListener(manager -> {
+            fillContextMenu(manager);
         });
 
         Menu menu = menuMgr.createContextMenu(getViewer().getControl());
         getViewer().getControl().setMenu(menu);
-
         getSite().registerContextMenu(menuMgr, getViewer());
     }
 
     /**
      * Fill context menu when user right-clicks
-     * 
-     * @param manager
      */
     private void fillContextMenu(IMenuManager manager) {
-        Object selected = ((IStructuredSelection)getViewer().getSelection()).getFirstElement();
+        Object selected = getViewer().getStructuredSelection().getFirstElement();
         boolean isEmpty = selected == null;
 
         fDrillDownManager.addNavigationActions(manager);
@@ -824,6 +827,9 @@ implements IZestView, ISelectionListener {
         
         // Direction
         manager.add(createDirectionMenu());
+        
+        // Router
+        manager.add(routerAction);
 
         manager.add(new Separator());
 
@@ -954,11 +960,6 @@ implements IZestView, ISelectionListener {
     public void dispose() {
         super.dispose();
         
-        // Explicit dispose seems to be needed if the GraphViewer is displaying scrollbars
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=373191
-        // In fact, Graph.dispose() seems never to be called
-        // fGraphViewer.getControl().dispose();
-        
         // Unregister selection listener
         getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
     }
@@ -975,7 +976,7 @@ implements IZestView, ISelectionListener {
         // Model Closed
         if(propertyName == IEditorModelManager.PROPERTY_MODEL_REMOVED) {
             Object input = getViewer().getInput();
-            if(input instanceof IArchimateModelObject && ((IArchimateModelObject)input).getArchimateModel() == newValue) {
+            if(input instanceof IArchimateModelObject modelObject && modelObject.getArchimateModel() == newValue) {
                 fDrillDownManager.reset();
             }
         }

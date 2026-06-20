@@ -13,12 +13,15 @@ package com.archimatetool.zest;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public interface IPreferenceConstants {
     
-    String VISUALISER_DEPTH = "visualiserDepth"; //$NON-NLS-1$
-    String VISUALISER_VIEWPOINT = "visualiserViewpoint"; //$NON-NLS-1$
-    String VISUALISER_DIRECTION = "visualiserDirection"; //$NON-NLS-1$
-    String VISUALISER_RELATIONSHIPS = "visualiserRelationships"; //$NON-NLS-1$
-    String VISUALISER_ELEMENTS = "visualiserElements"; //$NON-NLS-1$
-    
+    String VISUALISER_DEPTH = "visualiserDepth";
+    String VISUALISER_VIEWPOINT = "visualiserViewpoint";
+    String VISUALISER_DIRECTION = "visualiserDirection";
+    String VISUALISER_RELATIONSHIPS = "visualiserRelationships";
+    String VISUALISER_ELEMENTS = "visualiserElements";
+
+    String VISUALISER_ROUTER = "visualiserRouter";
+    String VISUALISER_ROUTER_MANHATTAN = "manhattan";
 }
