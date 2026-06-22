@@ -28,7 +28,10 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
+import com.archimatetool.model.IJunction;
+import com.archimatetool.model.ILocation;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProfiles;
 
@@ -444,4 +447,82 @@ public class ArchimateModelUtilsTests {
         profile2.setName("OSCAR");
         profile2.setConceptType(IArchimatePackage.eINSTANCE.getBusinessRole().getName());
     }
-} 
+
+    // =====================================================================================================
+    // Tests for Grouping/Location -> Aggregation/Composition -> Junction constraint bypass (issue #1229)
+    // =====================================================================================================
+
+    @Test
+    public void testIsValidRelationship_GroupingAggregationToJunctionWithExistingRelationships() {
+        // Grouping -> Aggregation -> Junction that already has a Triggering relationship should be allowed
+        IGrouping grouping = IArchimateFactory.eINSTANCE.createGrouping();
+        IJunction junction = IArchimateFactory.eINSTANCE.createJunction();
+
+        // Give the Junction an existing Triggering relationship (making it a "Triggering Junction")
+        IArchimateElement otherElement = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateRelationship triggeringRel = IArchimateFactory.eINSTANCE.createTriggeringRelationship();
+        triggeringRel.connect(junction, otherElement);
+
+        // Aggregation from Grouping to this Junction must now be valid despite the type mismatch
+        assertTrue(ArchimateModelUtils.isValidRelationship(grouping, junction,
+                IArchimatePackage.eINSTANCE.getAggregationRelationship()));
+    }
+
+    @Test
+    public void testIsValidRelationship_GroupingCompositionToJunctionWithExistingRelationships() {
+        // Grouping -> Composition -> Junction that already has a Triggering relationship should be allowed
+        IGrouping grouping = IArchimateFactory.eINSTANCE.createGrouping();
+        IJunction junction = IArchimateFactory.eINSTANCE.createJunction();
+
+        IArchimateElement otherElement = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateRelationship triggeringRel = IArchimateFactory.eINSTANCE.createTriggeringRelationship();
+        triggeringRel.connect(junction, otherElement);
+
+        assertTrue(ArchimateModelUtils.isValidRelationship(grouping, junction,
+                IArchimatePackage.eINSTANCE.getCompositionRelationship()));
+    }
+
+    @Test
+    public void testIsValidRelationship_LocationAggregationToJunctionWithExistingRelationships() {
+        // Location -> Aggregation -> Junction that already has a Triggering relationship should be allowed
+        ILocation location = IArchimateFactory.eINSTANCE.createLocation();
+        IJunction junction = IArchimateFactory.eINSTANCE.createJunction();
+
+        IArchimateElement otherElement = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateRelationship triggeringRel = IArchimateFactory.eINSTANCE.createTriggeringRelationship();
+        triggeringRel.connect(junction, otherElement);
+
+        assertTrue(ArchimateModelUtils.isValidRelationship(location, junction,
+                IArchimatePackage.eINSTANCE.getAggregationRelationship()));
+    }
+
+    @Test
+    public void testIsValidRelationship_NonGroupingAggregationToJunctionWithMixedTypes_StillBlocked() {
+        // A regular element -> Aggregation -> Junction that already has a Triggering relationship
+        // should still be blocked (Junction homogeneity preserved for non-Grouping/Location elements)
+        IArchimateElement businessActor = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IJunction junction = IArchimateFactory.eINSTANCE.createJunction();
+
+        IArchimateElement otherElement = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateRelationship triggeringRel = IArchimateFactory.eINSTANCE.createTriggeringRelationship();
+        triggeringRel.connect(junction, otherElement);
+
+        assertFalse(ArchimateModelUtils.isValidRelationship(businessActor, junction,
+                IArchimatePackage.eINSTANCE.getAggregationRelationship()));
+    }
+
+    @Test
+    public void testIsValidRelationship_JunctionToJunctionWithDifferentType_StillBlocked() {
+        // Junction -> Triggering -> Junction that already has an Association relationship
+        // should still be blocked (normal Junction homogeneity preserved)
+        IJunction sourceJunction = IArchimateFactory.eINSTANCE.createJunction();
+        IJunction targetJunction = IArchimateFactory.eINSTANCE.createJunction();
+
+        IArchimateElement otherElement = IArchimateFactory.eINSTANCE.createBusinessActor();
+        IArchimateRelationship existingRel = IArchimateFactory.eINSTANCE.createAssociationRelationship();
+        existingRel.connect(targetJunction, otherElement);
+
+        assertFalse(ArchimateModelUtils.isValidRelationship(sourceJunction, targetJunction,
+                IArchimatePackage.eINSTANCE.getTriggeringRelationship()));
+    }
+}
