@@ -51,37 +51,20 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        graphics.setAlpha(getAlpha());
-        graphics.setBackgroundColor(getFillColor());
-        Pattern gradient = applyGradientPattern(graphics, rect);
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
         Path path = getFigurePath(rect);
         
+        // Fill
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
 
-        // Line
-        graphics.setForegroundColor(getLineColor());
-        graphics.setAlpha(getLineAlpha());
-        graphics.drawPath(path);
-        
-        path.dispose();
-        
         // Image Icon
-        //drawIconImage(graphics, bounds, 0, 0, 0, 0);
-        //drawIconImage(graphics, bounds, bounds.height / 5 + 1, 0, -(bounds.height / 5 + 1), 0);
-        
         int top = 0, right = 0, left = 0, bottom = 0;
-        
         switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
             case IIconic.ICON_POSITION_TOP_LEFT:
             case IIconic.ICON_POSITION_TOP_RIGHT:
@@ -97,9 +80,16 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
                 bottom = -(rect.height / OFFSET / 3);
                 break;
         }
-        
-        drawIconImage(graphics, rect, top, right, bottom, left);
+        drawIconImage(graphics, getBounds().getCopy(), top, right, bottom, left);
 
+        // Line
+        graphics.setForegroundColor(getLineColor());
+        graphics.setAlpha(getLineAlpha());
+        graphics.setLineWidth(getLineWidth());
+        graphics.drawPath(path);
+        
+        path.dispose();
+        
         graphics.popState();
     }
     
@@ -185,7 +175,7 @@ public class FunctionFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 16 - getLineWidth(), rect.y + 19);
+        return new Point(rect.x + rect.width - 16, rect.y + 19);
     }
     
     @Override

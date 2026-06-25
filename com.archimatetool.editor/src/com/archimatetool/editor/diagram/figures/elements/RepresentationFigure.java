@@ -23,6 +23,7 @@ import com.archimatetool.model.ITextPosition;
  * Representation Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class RepresentationFigure extends DeliverableFigure {
     
@@ -41,37 +42,33 @@ public class RepresentationFigure extends DeliverableFigure {
 
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-
-        graphics.setAlpha(getAlpha());
-        
-        Path path = getFigurePath(6, rect, (float)getLineWidth() / 2);
+        Path path = getFigurePath(6, rect, 0);
         
         // Main Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
         graphics.fillPath(path);
         disposeGradientPattern(graphics, gradient);
         
+        // Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        //drawIconImage(graphics, getBounds().getCopy(), TOP_MARGIN, 0, -TOP_MARGIN, 0);
+
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
         graphics.drawPath(path);
+        
         path.dispose();
         
         // Line
         graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width, rect.y + TOP_MARGIN);
         
-        // Icon
-        // drawIconImage(graphics, bounds);
-        drawIconImage(graphics, rect, TOP_MARGIN, 0, -TOP_MARGIN, 0);
-
         graphics.popState();
     }
 

@@ -21,6 +21,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for an Assessment
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class AssessmentFigure extends AbstractMotivationFigure {
     
@@ -37,19 +38,8 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds());
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
-        setFigurePositionFromTextPosition(rect);
-
         int radius = getRadius(rect);
         Point center = getCenter(rect);
 
@@ -58,13 +48,15 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
         
-        Path path = new Path(null);
-        path.addArc((float)center.preciseX() - radius, (float)center.preciseY() - radius, (radius * 2), (radius * 2), 0.0F, 360.0F);
+        Path path = getCirclePath(radius, center);
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+
         // Lines
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPath(path);
@@ -77,14 +69,18 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         
         Point intersection = getCircleIntersection(x1, y1, center.preciseX(), center.preciseY(), center.preciseX(), center.preciseY(), radius);
         if(intersection != null) {
-            graphics.setClip(rect); // Need this so line doesn't draw out of bounds at bottom of rect
-            graphics.drawLine((int)Math.round(intersection.preciseX()), (int)Math.round(intersection.preciseY() - 1), x1, y1);
+            graphics.drawLine((int)Math.round(intersection.preciseX()), (int)Math.round(intersection.preciseY() - 1), x1 + radius + 1, y1 - radius - 1);
         }
         
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
         graphics.popState();
+    }
+    
+    private Path getCirclePath(int radius, Point center) {
+        Path path = new Path(null);
+        path.addArc((float)center.preciseX() - radius, (float)center.preciseY() - radius,
+                    radius * 2, radius * 2,
+                    0.0f, 360.0f);
+        return path;
     }
     
     private int getRadius(Rectangle rect) {
@@ -95,8 +91,8 @@ public class AssessmentFigure extends AbstractMotivationFigure {
     
     private Point getCenter(Rectangle rect) {
         int radius = getRadius(rect);
-        int figureWidth = (int)(radius * 2.5f);
-        int figureHeight = (int)(radius * 2.5f);
+        int figureWidth = (int)(radius * 2.5f)  - getLineWidth() - 1;
+        int figureHeight = (int)(radius * 2.5f) - getLineWidth() - 1;
         return new PrecisionPoint(rect.x + rect.width - radius - (rect.width - figureWidth) / 2,
                 rect.y + radius + (rect.height - figureHeight) / 2);
     }
@@ -170,7 +166,7 @@ public class AssessmentFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 14 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 15, rect.y + 6);
     }
     
     @Override

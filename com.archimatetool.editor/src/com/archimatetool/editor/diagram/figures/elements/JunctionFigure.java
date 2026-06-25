@@ -10,11 +10,11 @@ import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IJunction;
 
@@ -36,24 +36,19 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         
         graphics.setAntialias(SWT.ON);
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
         switch(((IJunction)getDiagramModelArchimateObject().getArchimateElement()).getType()) {
             case IJunction.AND_JUNCTION_TYPE:
             default:
                 graphics.setAlpha(getAlpha());
                 graphics.setBackgroundColor(getFillColor());
-                graphics.fillOval(rect);
+                graphics.fillOval(getBounds());
                 break;
 
             case IJunction.OR_JUNCTION_TYPE:
-                setLineWidth(graphics, rect);
                 graphics.setAlpha(getLineAlpha());
                 graphics.setForegroundColor(getLineColor());
-                graphics.drawOval(rect);
+                graphics.setLineWidth(getLineWidth());
+                FigureUtils.drawOvalPath(graphics, applyLineWidthOffset(graphics));
                 break;
         }
         

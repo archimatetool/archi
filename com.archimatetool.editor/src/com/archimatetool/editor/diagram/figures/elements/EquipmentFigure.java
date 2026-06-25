@@ -26,6 +26,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Equipment Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class EquipmentFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -47,19 +48,12 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds().getCopy().shrink(2, 2));
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
-        setFigurePositionFromTextPosition(rect);
-        
+        // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
@@ -82,6 +76,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
         disposeGradientPattern(graphics, gradient);
         
         // Lines
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
 
@@ -94,9 +89,6 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
         drawCircle(graphics, rect1);
         drawCircle(graphics, rect2);
 
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
         graphics.popState();
     }
     
@@ -250,7 +242,7 @@ public class EquipmentFigure extends AbstractTextControlContainerFigure implemen
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 18 - getLineWidth(), rect.y + 17);
+        return new Point(rect.x + rect.width - 19, rect.y + 17);
     }
     
     @Override

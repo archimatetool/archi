@@ -22,10 +22,10 @@ import com.archimatetool.editor.ui.IIconDelegate;
  */
 public class RequirementFigure extends AbstractMotivationFigure {
     
-    protected IFigureDelegate fAltFigureDelegate;
+    protected IFigureDelegate figureDelegate;
     
     public RequirementFigure() {
-        fAltFigureDelegate = new ParallelogramFigureDelegate(this, false);
+        figureDelegate = new ParallelogramFigureDelegate(this, false);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class RequirementFigure extends AbstractMotivationFigure {
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 18 - getLineWidth(), rect.y + 8);
+        return new Point(rect.x + rect.width - 19, rect.y + 8);
     }
     
     @Override
@@ -101,6 +101,6 @@ public class RequirementFigure extends AbstractMotivationFigure {
     
     @Override
     public IFigureDelegate getFigureDelegate() {
-        return getDiagramModelArchimateObject().getType() == 0 ? null : fAltFigureDelegate;
+        return getDiagramModelArchimateObject().getType() == 0 ? null : figureDelegate;
     }
 }

@@ -27,6 +27,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Interaction Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class InteractionFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -49,37 +50,32 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        // Adjust size by line width
+        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
+        rect.shrink(shrink, shrink);
+
+        // And then set figure position
+        rect = getFigurePositionFromTextPosition(rect, 1 / 0.86); // Should match 'FRACTION' defined in getFigurePath()
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
-        setFigurePositionFromTextPosition(rect, 1 / 0.86); // Should match 'FRACTION' defined in getFigurePath()
-        
+        Path path = getFigurePath(rect);
+
+        // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = getFigurePath(rect);
-        
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
         // Line
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        
         graphics.drawPath(path);
-        
+
         path.dispose();
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -89,7 +85,8 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
         final float GAP = 1 - FRACTION;  // gap to use for diameter in landscape bounds
         
         float diameter;
-        int x1 = rect.x, x2;
+        int x1 = rect.x;
+        int x2;
 
         // width < height or same
         if(rect.width <= rect.height) {
@@ -103,14 +100,12 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
             x2 = (int)(x1 + diameter + (diameter * GAP));
         }
 
-        int y = (int)(rect.y + (rect.height - diameter) / 2);
+        float y = rect.y + (rect.height - diameter) / 2f;
         
         Path path = new Path(null);
         
         path.addArc(x1, y, diameter, diameter, 90, 180);
         path.close();
-        
-        path.moveTo(x1 + (diameter / 2), y);
         
         path.addArc(x2 - diameter, y, diameter, diameter, 270, 180);
         path.close();
@@ -177,7 +172,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 11 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 12, rect.y + 5);
     }
     
     @Override

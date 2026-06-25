@@ -18,6 +18,7 @@ import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
  * Cylinder Figure Delegate
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class CylinderFigureDelegate extends AbstractFigureDelegate {
     
@@ -31,41 +32,42 @@ public class CylinderFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle rect = getBounds();
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
+        // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
         
-        Path path = new Path(null);
-        
-        path.addArc(rect.x, rect.y, rect.width / OFFSET, rect.height, 90, 180);
-        path.lineTo((rect.x + rect.width) - (rect.width / OFFSET * 2), rect.y + rect.height);
-        path.addArc((rect.x + rect.width) - (rect.width / OFFSET), rect.y, rect.width / OFFSET, rect.height, 270, 180);
-        
+        Path path = createPath(rect);
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
+        
+        // Image Icon
+        getOwner().drawIconImage(graphics, getBounds());
         
         // Lines
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
         graphics.drawPath(path);
         
         path.dispose();
         
-        graphics.drawLine(rect.x + (rect.width / OFFSET / 2), rect.y, (rect.x + rect.width) - (rect.width / OFFSET / 2), rect.y);
-        graphics.drawArc((rect.x + rect.width) - (rect.width / OFFSET), rect.y, rect.width / OFFSET, rect.height, 90, 180);
-        
-        // Image Icon
-        getOwner().drawIconImage(graphics, rect, 0, 0, 0, 0);
+        Path path2 = new Path(null);
+        path2.addArc((rect.x + rect.width) - (rect.width / OFFSET), rect.y, rect.width / OFFSET, rect.height, 90, 180);
+        graphics.drawPath(path2);
+        path2.dispose();
         
         graphics.popState();
+    }
+    
+    private Path createPath(Rectangle rect) {
+        Path path = new Path(null);
+        path.addArc(rect.x, rect.y, rect.width / OFFSET, rect.height, 90, 180);
+        path.addArc((rect.x + rect.width) - (rect.width / OFFSET), rect.y, rect.width / OFFSET, rect.height, 270, 180);
+        path.close();
+        return path;
     }
 }
