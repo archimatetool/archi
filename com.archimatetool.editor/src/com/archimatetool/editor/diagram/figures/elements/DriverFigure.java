@@ -20,6 +20,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Figure for a Driver
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class DriverFigure extends AbstractMotivationFigure {
     
@@ -41,15 +42,7 @@ public class DriverFigure extends AbstractMotivationFigure {
 
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Reduce by one pixel in case of bottom/right postion
-        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
-        
-        int lineWidth = (int)(Math.sqrt(rect.width * rect.height) / 20);
-        graphics.setLineWidth(lineWidth);
-        
-        setFigurePositionFromTextPosition(rect);
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds());
 
         // Fill
         graphics.setAlpha(getAlpha());
@@ -57,6 +50,9 @@ public class DriverFigure extends AbstractMotivationFigure {
         Pattern gradient = applyGradientPattern(graphics, rect);
         
         Path path = new Path(null);
+        
+        int lineWidth = (int)(Math.sqrt(getBounds().width * getBounds().height) / 20);
+        graphics.setLineWidth(lineWidth);
         
         int radius = getRadius(rect);
         int actualRadius = getRadius(rect) - Math.round(radius / 10.0f) - lineWidth / 2;
@@ -67,6 +63,9 @@ public class DriverFigure extends AbstractMotivationFigure {
         graphics.fillPath(path);
         
         disposeGradientPattern(graphics, gradient);
+        
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
         // Outline
         graphics.setAlpha(getLineAlpha());
@@ -98,9 +97,6 @@ public class DriverFigure extends AbstractMotivationFigure {
         
         radius = Math.round(radius / 4.0f);
         graphics.fillOval(center.x - radius, center.y - radius, 2 * radius, 2 * radius);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -184,7 +180,7 @@ public class DriverFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 20 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 20, rect.y + 6);
     }
     
     @Override

@@ -116,7 +116,7 @@ public class ProcessFigure extends AbstractTextControlContainerFigure implements
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 11);
+        return new Point(rect.x + rect.width - 18, rect.y + 10);
     }
 
     @Override

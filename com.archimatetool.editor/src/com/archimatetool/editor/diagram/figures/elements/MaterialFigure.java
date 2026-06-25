@@ -25,6 +25,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Material Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class MaterialFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -47,22 +48,11 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        // Adjust size by line width
+        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
+        rect.shrink(shrink, shrink);
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        // Get this *after* setLineWidth
-        Rectangle imageBounds = rect.getCopy();
-        
-        setFigurePositionFromTextPosition(rect, 10/9.0); // Should match 'figureHeight'
-        
-        graphics.setAlpha(getAlpha());
-        graphics.setBackgroundColor(getFillColor());
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = new Path(null);
+        rect = getFigurePositionFromTextPosition(rect, 10/9.0); // Should match 'figureHeight'
         
         int figureWidth = rect.width;
         int figureHeight = rect.height;
@@ -80,42 +70,48 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         int xMargin = (rect.width - figureWidth) / 2;
         int yMargin = (rect.height - figureHeight) / 2;
         
-        path.moveTo(rect.x + xMargin + figureWidth / 4, rect.y + yMargin);
-        path.lineTo(rect.x + xMargin, rect.y + yMargin + figureHeight / 2);
-        path.lineTo(rect.x + xMargin + figureWidth / 4, rect.y + yMargin + figureHeight);
-        path.lineTo(rect.x + xMargin + 3 * figureWidth / 4, rect.y + yMargin + figureHeight);
-        path.lineTo(rect.x + xMargin + figureWidth, rect.y + yMargin + figureHeight / 2);
-        path.lineTo(rect.x + xMargin + 3 * figureWidth / 4, rect.y + yMargin);
-        path.lineTo(rect.x + xMargin + figureWidth / 4, rect.y + yMargin);
+        Path path = createPath(rect, xMargin, yMargin, figureWidth, figureHeight);
         
+        // Fill
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
         
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
+        // Lines
+        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.drawPath(path);
-        
         path.dispose();
         
         path = new Path(null);
-        
-        // Inner lines
         path.moveTo(rect.x + xMargin + 3 * figureWidth / 8, rect.y + yMargin + figureHeight / 10);
         path.lineTo(rect.x + xMargin + figureWidth / 6, rect.y + yMargin + figureHeight / 2);
         path.moveTo(rect.x + xMargin + figureWidth / 3, rect.y + yMargin + figureHeight - figureHeight / 7);
         path.lineTo(rect.x + xMargin + figureWidth - figureWidth / 3, rect.y + yMargin + figureHeight - figureHeight / 7);
         path.moveTo(rect.x + xMargin + figureWidth - 3 * figureWidth / 8, rect.y + yMargin + figureHeight / 10);
         path.lineTo(rect.x + xMargin + figureWidth - figureWidth / 6, rect.y + yMargin + figureHeight / 2);
-        
         graphics.drawPath(path);
-        
         path.dispose();
         
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
         graphics.popState();
+    }
+    
+    private Path createPath(Rectangle rect, int xMargin, int yMargin, int figureWidth, int figureHeight) {
+        Path path = new Path(null);
+        path.moveTo(rect.x + xMargin + figureWidth / 4, rect.y + yMargin);
+        path.lineTo(rect.x + xMargin, rect.y + yMargin + figureHeight / 2);
+        path.lineTo(rect.x + xMargin + figureWidth / 4, rect.y + yMargin + figureHeight);
+        path.lineTo(rect.x + xMargin + 3 * figureWidth / 4, rect.y + yMargin + figureHeight);
+        path.lineTo(rect.x + xMargin + figureWidth, rect.y + yMargin + figureHeight / 2);
+        path.lineTo(rect.x + xMargin + 3 * figureWidth / 4, rect.y + yMargin);
+        path.close();
+        return path;
     }
     
     /**
@@ -188,7 +184,7 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 11 - getLineWidth(), rect.y + 12);
+        return new Point(rect.x + rect.width - 12, rect.y + 12);
     }
 
     @Override

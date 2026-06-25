@@ -15,12 +15,14 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
+import org.eclipse.swt.internal.DPIUtil;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
@@ -28,9 +30,9 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.FontFactory;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelContainer;
@@ -47,8 +49,8 @@ import com.archimatetool.model.IIconic;
 public abstract class AbstractDiagramModelObjectFigure extends Figure
 implements IDiagramModelObjectFigure {
     
-    // Use line width offset handling
-    boolean useLineOffset = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.USE_FIGURE_LINE_OFFSET);
+    // If true the figure is being drawn with a translated offset. When erase() is called we can increase the bounds so artefacts are not drawn
+    private boolean translatedOffset;
     
     private IDiagramModelObject diagramModelObject;
     
@@ -147,49 +149,94 @@ implements IDiagramModelObjectFigure {
     }
     
     /**
-     * Set the line width to that in the diagram model and compensate the figure bounds width and height for this line width and translate the graphics instance
-     * @param graphics The graphics instance
-     * @param bounds The bounds of the object
+     * Adjust the figure's full bounds as necessary depending on the figure's line width.
+     * @param graphics The graphics instance.
+     * @return The adjusted bounds of the figure used to draw the figure (or a copy of the orginal bounds if no adjustment was made)
      */
-    protected void setLineWidth(Graphics graphics, Rectangle bounds) {
-        setLineWidth(graphics, getLineWidth(), bounds);
+    protected Rectangle applyLineWidthOffset(Graphics graphics) {
+        return applyLineWidthOffset(graphics, getBounds());
     }
     
     /**
-     * Set the line width and compensate the figure bounds width and height for the line width and translate the graphics instance
-     * @param graphics The graphics instance
-     * @param lineWidth The line width
-     * @param figureBounds The bounds of the figure
+     * Adjust the provided bounds as necessary depending on the figure's line width.
+     * @param graphics The graphics instance.
+     * @param figureBounds The bounds of the part of the figure to be adjusted.
+     * @return The adjusted bounds of the figureBounds (or a copy of the original figureBounds if no adjustment was made)
      */
-    protected void setLineWidth(Graphics graphics, int lineWidth, Rectangle figureBounds) {
-        graphics.setLineWidth(lineWidth);
+    @SuppressWarnings("restriction")
+    protected Rectangle applyLineWidthOffset(Graphics graphics, Rectangle figureBounds) {
+        translatedOffset = false; // reset this
+        
+        // Use a copy of figureBounds
+        figureBounds = figureBounds.getCopy();
+        
+        // If this is GraphicsToGraphics2DAdaptor (SVG) don't apply this as that draws borders on the outside of the figure
+        if(!(graphics instanceof SWTGraphics)) {
+            return figureBounds;
+        }
         
         // Sanity check in case we have a bounds that is too small to be reduced
         if(figureBounds.width < 5 || figureBounds.height < 5) {
-            return;
+            return figureBounds;
         }
 
         final double scale = FigureUtils.getFigureScale(this);
+        final int lineWidth = getLineWidth();
         
-        // If line width is 1 and scale is 100% and don't use line offset then don't apply an offset
-        // useLineOffset is false if Mac/Linux or user set preference off on Windows
-        // Typically we want it on for Windows where display scaling > 100%
-        if(lineWidth == 1 && scale == 1.0 && !useLineOffset) {
-            return;
+        // If line width is 1 and scale is 1 check whether to use an offset.
+        // This is false on Mac/Linux and true on Windows with monitor scaling > 100%
+        if(lineWidth == 1 && scale == 1 && !(PlatformUtils.isWindows() && DPIUtil.getDeviceZoom() > 100)) {
+            figureBounds.resize(-1, -1);
+            return figureBounds;
         }
-    
-        // Width and height reduced by line width
+        
+        // If linewidth is even just shrink by half of lineWidth
+        if((lineWidth & 1) == 0) {
+            figureBounds.shrink(lineWidth / 2, lineWidth / 2);
+            return figureBounds;
+        }
+        
+        // If scale is below 1 the bottom/right rectangle lines might be clipped
+        if(scale < 1) {
+            figureBounds.resize(-1, -1);
+        }
+        
+        // Resize by lineWidth (this will be 1 or 3)
         figureBounds.resize(-lineWidth, -lineWidth);
         
         // x,y offset is half of line width
-        float offset = (float)lineWidth / 2;
+        float offset = lineWidth / 2.0f;
         
-        // If this is a non hi-res device and scale == 100% round up to integer to stop anti-aliasing
-        if(ImageFactory.getDeviceZoom() == 100 && scale == 1.0) {
+        // If this is a non hi-res device and scale is 1 round up to integer to stop anti-aliasing
+        // Not sure if this is still needed so provide an option of -Dfigure.snapToOffset=true, the default is false
+        if(DPIUtil.getDeviceZoom() == 100 && scale == 1 && Boolean.getBoolean("figure.snapToOffset")) { //$NON-NLS-1$
             offset = (float)Math.ceil(offset);
         }
         
+        // Translate graphics x,y by the offset (0.5 or 1.5)
         graphics.translate(offset, offset);
+        
+        // Set this to true for erase()
+        translatedOffset = true;
+        
+        return figureBounds;
+    }
+    
+    /**
+     * Over-ride this so we can erase an extra width/height if the figure is drawn with a translated offset.
+     * This ensures that artefacts are not drawn when the figure is erased.
+     * We access {@link #bounds} directly so we don't send notifications using {@link #setBounds}
+     */
+    @Override
+    public void erase() {
+        if(!translatedOffset) {
+            super.erase();
+            return;
+        }
+        
+        bounds.resize(1, 1);
+        super.erase();
+        bounds.resize(-1, -1);
     }
     
     /**
@@ -317,6 +364,15 @@ implements IDiagramModelObjectFigure {
     public void drawIconImage(Graphics graphics, Rectangle drawArea) {
         if(hasIconImage()) {
             getIconicDelegate().drawIcon(graphics, drawArea); // Call this directly in case offsets are set elsewhere
+        }
+    }
+    
+    /**
+     * If there is a delegate, draw the icon image in the given area
+     */
+    public void drawIconImage(Graphics graphics, Rectangle figureBounds, Rectangle drawArea) {
+        if(hasIconImage()) {
+            getIconicDelegate().drawIcon(graphics, figureBounds, drawArea); // Call this directly in case offsets are set elsewhere
         }
     }
     

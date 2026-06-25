@@ -157,4 +157,42 @@ public class FigureUtils {
         
         return path;
     }
+    
+    /**
+     * Draw an oval using a Path
+     */
+    public static void drawOvalPath(Graphics graphics, Rectangle rect) {
+        drawOvalPath(graphics, rect.x, rect.y, rect.width, rect.height);
+    }
+
+    /**
+     * Draw an oval using a Path
+     */
+    public static void drawOvalPath(Graphics graphics, float x, float y, float width, float height) {
+        Path path = createOvalPath(x, y, width, height);
+        graphics.drawPath(path);
+        path.dispose();
+    }
+    
+    /**
+     * Fill an oval using a Path
+     */
+    public static void fillOvalPath(Graphics graphics, Rectangle rect) {
+        fillOvalPath(graphics, rect.x, rect.y, rect.width, rect.height);
+    }
+
+    /**
+     * Fill an oval using a Path
+     */
+    public static void fillOvalPath(Graphics graphics, float x, float y, float width, float height) {
+        Path path = createOvalPath(x, y, width, height);
+        graphics.fillPath(path);
+        path.dispose();
+    }
+    
+    private static Path createOvalPath(float x, float y, float width, float height) {
+        Path path = new Path(null);
+        path.addArc(x, y, width, height, 0, 360);
+        return path;
+    }
 }

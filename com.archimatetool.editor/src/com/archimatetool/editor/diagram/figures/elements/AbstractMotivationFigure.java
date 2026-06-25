@@ -6,13 +6,11 @@
 package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -20,10 +18,11 @@ import com.archimatetool.model.IDiagramModelObject;
  * Figure for a Motiviation Element
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public abstract class AbstractMotivationFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
-    protected static final int FLANGE = 10;
+    protected static final int INSET = 10;
     
     protected AbstractMotivationFigure() {
         super(TEXT_FLOW_CONTROL);
@@ -38,54 +37,56 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
 
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        Rectangle rect;
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        final boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
+        // Have to apply the offset for the fill also so it lines up with the outline
         if(drawOutline) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
+            rect = applyLineWidthOffset(graphics);
         }
-       
-        PointList points = new PointList();
-        points.addPoint(rect.x + FLANGE, rect.y);
-        points.addPoint(rect.x + rect.width - FLANGE, rect.y);
-        points.addPoint(rect.x + rect.width, rect.y + FLANGE);
-        points.addPoint(rect.x + rect.width, rect.y + rect.height - FLANGE);
-        points.addPoint(rect.x + rect.width - FLANGE, rect.y + rect.height);
-        points.addPoint(rect.x + FLANGE, rect.y + rect.height);
-        points.addPoint(rect.x, rect.y + rect.height - FLANGE);
-        points.addPoint(rect.x, rect.y + FLANGE);
-        
-        graphics.setAlpha(getAlpha());
+        else {
+            rect = getBounds().getCopy();
+        }
         
         // Fill
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        //graphics.fillPolygon(points);
-        Path path = FigureUtils.createPathFromPoints(points);
+        Path path = createFigurePath(rect);
         graphics.fillPath(path);
         path.dispose();
-        
         disposeGradientPattern(graphics, gradient);
+
+        // Image Icon
+        Rectangle imageArea = new Rectangle(rect.x + INSET / 2, rect.y + INSET / 2, rect.width - INSET, rect.height - INSET);
+        drawIconImage(graphics, getBounds().getCopy(), imageArea);
 
         // Line
         if(drawOutline) {
+            setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
+            graphics.setLineWidth(getLineWidth());
             graphics.setForegroundColor(getLineColor());
-            graphics.drawPolygon(points);
+            path = createFigurePath(rect);
+            graphics.drawPath(path);
+            path.dispose();
         }
 
-        // Image Icon
-        Rectangle imageArea = new Rectangle(rect.x + FLANGE / 2, rect.y + FLANGE / 2, rect.width - FLANGE, rect.height - FLANGE);
-        drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
-
         graphics.popState();
+    }
+    
+    private Path createFigurePath(Rectangle rect) {
+        Path path = new Path(null);
+        path.moveTo(rect.x + INSET, rect.y);
+        path.lineTo(rect.x + rect.width - INSET, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + INSET);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height - INSET);
+        path.lineTo(rect.x + rect.width - INSET, rect.y + rect.height);
+        path.lineTo(rect.x + INSET, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height - INSET);
+        path.lineTo(rect.x, rect.y + INSET);
+        path.close();
+        return path;
     }
 }

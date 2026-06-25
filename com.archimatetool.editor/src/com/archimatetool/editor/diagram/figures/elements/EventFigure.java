@@ -25,6 +25,7 @@ import com.archimatetool.editor.ui.IIconDelegate;
  * Event Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class EventFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -45,54 +46,52 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
 
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        int indent = Math.min(rect.height / 3, rect.width / 3);
-        int centre_y = rect.y + rect.height / 2 - 1;
-        int arc_startx = rect.x + rect.width - indent;
-        
-        graphics.setAlpha(getAlpha());
+        Path path = createPath(rect);
         
         // Main Fill
-        Path path = new Path(null);
-        path.moveTo(rect.x, rect.y);
-        path.lineTo(rect.x + indent, centre_y);
-        path.lineTo(rect.x, rect.y + rect.height);
-        path.lineTo(arc_startx, rect.y + rect.height);
-        path.addArc(arc_startx - indent, rect.y, indent * 2, rect.height, -90, 180);
-        path.lineTo(rect.x, rect.y);
-        path.lineTo(rect.x + indent, centre_y);
-        
+        graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
-
         Pattern gradient = applyGradientPattern(graphics, rect);
-
         graphics.fillPath(path);
-        
         disposeGradientPattern(graphics, gradient);
+
+        // Icon
+        drawIconImage(graphics, getBounds().getCopy());
 
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
         graphics.drawPath(path);
+        
         path.dispose();
         
-        // Icon
-        drawIconImage(graphics, rect);
-
         graphics.popState();
+    }
+    
+    private Path createPath(Rectangle rect) {
+        int indent = Math.min(rect.height / 3, rect.width / 3);
+        int centre_y = rect.y + rect.height / 2 - 1;
+        int arc_startx = rect.x + rect.width - indent;
+        float lineOffset = getLineWidth() / 2.0f;
+
+        Path path = new Path(null);
+        path.moveTo(rect.x + lineOffset, rect.y);
+        path.lineTo(rect.x + indent, centre_y);
+        path.lineTo(rect.x + lineOffset, rect.y + rect.height);
+        path.lineTo(arc_startx, rect.y + rect.height);
+        path.addArc(arc_startx - indent, rect.y, indent * 2, rect.height, -90, 180);
+        path.close();
+        return path;
     }
 
     /**
      * Draw the icon
      */
-    protected void drawIcon(Graphics graphics) {
+    private void drawIcon(Graphics graphics) {
         if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
         }
@@ -161,7 +160,7 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
      */
     protected Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 7);
+        return new Point(rect.x + rect.width - 20, rect.y + 6);
     }
 
     @Override

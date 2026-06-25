@@ -16,6 +16,7 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.internal.DPIUtil;
 
 import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.editor.ArchiPlugin;
@@ -25,7 +26,6 @@ import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -104,25 +104,20 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         });
     }
 
+    @SuppressWarnings("restriction")
     @Override
     protected void paintFigure(Graphics graphics) {
         graphics.pushState();
-        
+
         graphics.setAntialias(SWT.ON);
         
         graphics.setAlpha(getAlpha());
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
         // Bug on Linux hi-res using Graphics.fillGradient()
-        // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=568864
-        if(PlatformUtils.isLinux() && ImageFactory.getDeviceZoom() > 100) {
+        // See https://github.com/eclipse-platform/eclipse.platform.swt/issues/3107
+        if(PlatformUtils.isLinux() && DPIUtil.getDeviceZoom() > 100) {
             graphics.setBackgroundColor(getFillColor());
             graphics.fillRectangle(rect);
         }
@@ -132,15 +127,17 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
             graphics.fillGradient(rect, false);
         }
         
-        // Icon
-        drawIconImage(graphics, rect);
+        // Icon Image
+        drawIconImage(graphics, getBounds().getCopy());
         
         // Border
         if(getBorderColor() != null) {
+            rect = applyLineWidthOffset(graphics);
             graphics.setAlpha(getLineAlpha());
+            graphics.setLineWidth(getLineWidth());
             
-            float lineOffset = (float)getLineWidth() / 2;
-
+            float lineOffset = getLineWidth() / 2.0f;
+            
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
             Path path = new Path(null);
             path.moveTo(rect.x - lineOffset, rect.y);

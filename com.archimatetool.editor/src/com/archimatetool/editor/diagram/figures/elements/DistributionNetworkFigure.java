@@ -20,12 +20,11 @@ import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
-
-
 /**
  * DistributionNetwork Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class DistributionNetworkFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -48,21 +47,19 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-
-        // Reduce by one pixel in case of bottom/right postion
-        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds(), 5/3.0);
         
         // Calculate line width depending on size
-        int lineWidth = (int)Math.max(3, Math.sqrt(rect.width * rect.height) / 24);
+        int lineWidth = (int)Math.max(3, Math.sqrt(getBounds().width * getBounds().height) / 24);
 
-        setFigurePositionFromTextPosition(rect, 5/3.0);
-        
         // Shrink the arrow size area depending on line width
         Dimension arrowSize = getArrowSize(rect);
         rect.shrink(lineWidth, lineWidth);
         arrowSize = getArrowSize(rect);
 
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
+        
         // Fill
         fillSection(graphics, rect, arrowSize);
 
@@ -75,9 +72,6 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         drawArrows(graphics, rect, arrowSize);
         
         drawHorizontalLine(graphics, rect, arrowSize);
-        
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
         
         graphics.popState();
     }
@@ -126,26 +120,18 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
 
     private void drawArrows(Graphics graphics, Rectangle rect, Dimension arrow) {
         graphics.setLineCap(SWT.CAP_ROUND);
-
-        graphics.drawLine(rect.x + arrow.width,
-                          rect.y + rect.height / 2 - arrow.height / 2,
-                          rect.x,
-                          rect.y + rect.height / 2);
         
-        graphics.drawLine(rect.x,
-                          rect.y + rect.height / 2,
-                          rect.x + arrow.width,
-                          rect.y + rect.height / 2 + arrow.height / 2);
+        Path path = new Path(null);
+        path.moveTo(rect.x + arrow.width, rect.y + rect.height / 2 - arrow.height / 2);
+        path.lineTo(rect.x, rect.y + rect.height / 2);
+        path.lineTo(rect.x + arrow.width, rect.y + rect.height / 2 + arrow.height / 2);
         
-        graphics.drawLine(rect.x + rect.width - arrow.width,
-                          rect.y + rect.height / 2 - arrow.height / 2,
-                          rect.x + rect.width,
-                          rect.y + rect.height / 2);
+        path.moveTo(rect.x + rect.width - arrow.width, rect.y + rect.height / 2 - arrow.height / 2);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height / 2);
+        path.lineTo(rect.x + rect.width - arrow.width, rect.y + rect.height / 2 + arrow.height / 2);
         
-        graphics.drawLine(rect.x + rect.width,
-                          rect.y + rect.height / 2,
-                          rect.x + rect.width - arrow.width,
-                          rect.y + rect.height / 2 + arrow.height / 2);
+        graphics.drawPath(path);
+        path.dispose();
     }
 
     private Rectangle getLine1(Rectangle rect, Dimension arrow) {
@@ -240,7 +226,7 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
 
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 12);
+        return new Point(rect.x + rect.width - 20, rect.y + 12);
     }
     
     @Override

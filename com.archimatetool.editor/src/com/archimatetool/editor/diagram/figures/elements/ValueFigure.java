@@ -14,6 +14,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IIconic;
 
@@ -24,6 +25,7 @@ import com.archimatetool.model.IIconic;
  * Value Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ValueFigure extends AbstractMotivationFigure {
 
@@ -40,32 +42,17 @@ public class ValueFigure extends AbstractMotivationFigure {
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-        
-        graphics.setAlpha(getAlpha());
-        
+        // Fill
         graphics.setBackgroundColor(getFillColor());
-        
+        graphics.setAlpha(getAlpha());
         Pattern gradient = applyGradientPattern(graphics, rect);
-
-        graphics.fillOval(rect);
-        
+        FigureUtils.fillOvalPath(graphics, rect);
         disposeGradientPattern(graphics, gradient);
 
-        // Outline
-        graphics.setAlpha(getLineAlpha());
-        graphics.setForegroundColor(getLineColor());
-        graphics.drawOval(rect);
-        
         // Icon
-        // drawIconImage(graphics, bounds);
-        
         int top = 0, right = 0, left = 0, bottom = 0;
         int offset = 6;
         switch(((IIconic)getDiagramModelObject()).getImagePosition()) {
@@ -89,12 +76,14 @@ public class ValueFigure extends AbstractMotivationFigure {
                 right = -(rect.width / offset);
                 break;
         }
-        drawIconImage(graphics, rect, top, right, bottom, left);
-
-        //Rectangle iconArea = new Rectangle(bounds.x + (bounds.width / 6), bounds.y + (bounds.height / 6),
-        //        bounds.width - (bounds.width / 3), bounds.height - (bounds.height / 3));
-        //drawIconImage(graphics, iconArea, 0, 0, 0, 0);
-
+        drawIconImage(graphics, getBounds().getCopy(), top, right, bottom, left);
+        
+        // Outline
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
+        FigureUtils.drawOvalPath(graphics, rect);
+        
         graphics.popState();
     }
 
@@ -149,7 +138,7 @@ public class ValueFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds().getCopy();
-        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 7);
+        return new Point(rect.x + rect.width - 19, rect.y + 7);
     }
 
     @Override

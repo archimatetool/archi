@@ -19,7 +19,6 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
@@ -51,46 +50,33 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
+        final boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        graphics.setAntialias(SWT.ON);
-        
-        graphics.setAlpha(getAlpha());
-        
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        if(drawOutline) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-        
-        graphics.setBackgroundColor(getFillColor());
-        graphics.setForegroundColor(getLineColor());
-        
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        int[] mainRectangle;
-        
+        // Rectangle type
         if(getDiagramModelArchimateObject().getType() == 0) {
-            mainRectangle = new int[] {
-                    rect.x, rect.y,
-                    rect.x + rect.width, rect.y,
-                    rect.x + rect.width, rect.y + rect.height,
-                    rect.x, rect.y + rect.height
-            };
+            // Fill
+            graphics.setBackgroundColor(getFillColor());
+            graphics.setAlpha(getAlpha());
+            Pattern gradient = applyGradientPattern(graphics, rect);
+            graphics.fillRectangle(rect);
+            disposeGradientPattern(graphics, gradient);
             
-            Path path = FigureUtils.createPathFromPoints(mainRectangle);
-            graphics.fillPath(path);
-            path.dispose();
-            
-            // Icon
+            // Icon Image
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(0);
-                drawIconImage(graphics, rect);
+                drawIconImage(graphics, getBounds().getCopy());
+            }
+            
+            // Outline
+            if(drawOutline) {
+                graphics.setForegroundColor(getLineColor());
+                setLineStyle(graphics);
+                graphics.setAlpha(getLineAlpha());
+                graphics.setLineWidth(getLineWidth());
+                graphics.drawRectangle(applyLineWidthOffset(graphics));
             }
         }
+        // Tabbed
         else {
             tabWidth = (int)(rect.width / INSET);
             tabHeight = TOPBAR_HEIGHT;
@@ -108,59 +94,62 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
                 tabHeight = Math.max(TOPBAR_HEIGHT, textHeight);
             }
             
-            mainRectangle = new int[] {
-                    rect.x, rect.y + tabHeight,
-                    rect.x + rect.width, rect.y + tabHeight,
-                    rect.x + rect.width, rect.y + rect.height,
-                    rect.x, rect.y + rect.height
-            };
+            //rect = applyLineWidthOffset(graphics);
             
-            int[] fillShape = new int[] {
-                    rect.x, rect.y,
-                    rect.x + tabWidth, rect.y,
-                    rect.x + tabWidth, rect.y + tabHeight,
-                    rect.getRight().x, rect.y + tabHeight,
-                    rect.getRight().x, rect.getBottom().y,
-                    rect.x, rect.getBottom().y
-            };
+            // Top rectangle fill
+            graphics.setBackgroundColor(getFillColor());
+            graphics.setAlpha(getAlpha());
+            Pattern gradient = applyGradientPattern(graphics, rect);
+            graphics.fillRectangle(createTopRectangle(rect));
             
-            Path path = FigureUtils.createPathFromPoints(fillShape);
-            graphics.fillPath(path);
-            path.dispose();
-            
-            // Icon
+            // Main rectangle fill
+            graphics.fillRectangle(createMainRectangle(rect));
+            disposeGradientPattern(graphics, gradient);
+
+            // Icon Image
             if(getIconicDelegate() != null) {
                 getIconicDelegate().setTopOffset(tabHeight);
-                drawIconImage(graphics, rect);
+                drawIconImage(graphics, getBounds().getCopy());
             }
 
             if(drawOutline) {
+                graphics.setForegroundColor(getLineColor());
                 graphics.setAlpha(getLineAlpha());
-                path = new Path(null);
+                graphics.setLineWidth(getLineWidth());
+                setLineStyle(graphics);
+                
+                rect = applyLineWidthOffset(graphics);
+
+                // Main rectangle
+                graphics.drawRectangle(createMainRectangle(rect));
+                
+                // Top rectangle
+                Path path = new Path(null);
                 path.moveTo(rect.x, rect.y + tabHeight);
                 path.lineTo(rect.x, rect.y);
-                path.lineTo(rect.x + tabWidth, rect.y);
-                path.lineTo(rect.x + tabWidth, rect.y + tabHeight);
+                path.lineTo(rect.x + tabWidth - 1, rect.y);
+                path.lineTo(rect.x + tabWidth - 1, rect.y + tabHeight);
                 graphics.drawPath(path);
                 path.dispose();
             }
         }
         
-        disposeGradientPattern(graphics, gradient);
-
-        // Outlines
-        if(drawOutline) {
-            graphics.setAlpha(getLineAlpha());
-            graphics.drawPolygon(mainRectangle);
-        }
-        
         graphics.popState();
         
+        // Draw this *after* popState
         if(getDiagramModelArchimateObject().getType() == 0) {
             drawIcon(graphics);
         }
     }
     
+    private Rectangle createTopRectangle(Rectangle rect) {
+        return new Rectangle(rect.x, rect.y, tabWidth, tabHeight);
+    }
+
+    private Rectangle createMainRectangle(Rectangle rect) {
+        return new Rectangle(rect.x, rect.y + tabHeight, rect.width, rect.height - tabHeight);
+    }
+
     @Override
     protected Rectangle calculateTextControlBounds() {
         Rectangle rect = getBounds().getCopy();
@@ -271,7 +260,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 17, rect.y + 6);
     }
     
     @Override
