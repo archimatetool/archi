@@ -5,11 +5,15 @@
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
         <repository location="https://download.eclipse.org/releases/2026-06"/>
         <unit id="org.eclipse.sdk.ide" version="4.40.0.I20260601-0713"/>
-        <unit id="org.eclipse.gef.sdk.feature.group" version="3.28.0.202605171958"/>
-        <unit id="org.eclipse.zest.sdk.feature.group" version="3.28.0.202605171958"/>
         <unit id="org.eclipse.emf.compare.feature.group" version="3.3.28.202605071334"/>
         <unit id="org.eclipse.jgit.feature.group" version="7.7.0.202606012155-r"/>
         <unit id="org.eclipse.jgit.ssh.apache.feature.group" version="7.7.0.202606012155-r"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+        <repository location="https://archimatetool.github.io/gef-classic/p2"/>
+        <!-- repository location="https://download.eclipse.org/tools/gef/classic/nightly/latest"/ -->
+        <unit id="org.eclipse.gef.sdk.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.zest.sdk.feature.group" version="0.0.0"/>
     </location>
 </locations>
 </target>
