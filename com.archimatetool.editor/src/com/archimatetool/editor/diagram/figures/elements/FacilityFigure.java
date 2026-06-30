@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -44,12 +45,8 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
         }
         
         graphics.pushState();
-        
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
-        
-        // And then set the figure position
-        rect = getFigurePositionFromTextPosition(rect);
+    
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds());
         
         Path path = getFigurePath(rect);
 
@@ -67,7 +64,7 @@ public class FacilityFigure extends AbstractTextControlContainerFigure implement
         graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
 
         path.dispose();
         

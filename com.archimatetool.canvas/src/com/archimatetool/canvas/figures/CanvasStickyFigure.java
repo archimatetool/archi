@@ -132,25 +132,24 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         
         // Border
         if(getBorderColor() != null) {
-            rect = applyLineWidthOffset(graphics);
+            graphics.setLineWidth(2); // twice line width for clip
             graphics.setAlpha(getLineAlpha());
-            graphics.setLineWidth(getLineWidth());
-            
-            float lineOffset = getLineWidth() / 2.0f;
             
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
             Path path = new Path(null);
-            path.moveTo(rect.x - lineOffset, rect.y);
+            path.moveTo(rect.x, rect.y);
             path.lineTo(rect.x + rect.width, rect.y);
             path.lineTo(rect.x + rect.width, rect.y + rect.height);
+            graphics.setClip(path);
             graphics.drawPath(path);
             path.dispose();
 
             graphics.setForegroundColor(getBorderColor());
             path = new Path(null);
-            path.moveTo(rect.x, rect.y - lineOffset);
+            path.moveTo(rect.x, rect.y);
             path.lineTo(rect.x, rect.y + rect.height);
-            path.lineTo(rect.x + rect.width + lineOffset, rect.y + rect.height);
+            path.lineTo(rect.x + rect.width, rect.y + rect.height);
+            graphics.setClip(path);
             graphics.drawPath(path);
             path.dispose();
         }

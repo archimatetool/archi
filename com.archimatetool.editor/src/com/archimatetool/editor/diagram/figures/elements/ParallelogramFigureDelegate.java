@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 
 
 /**
@@ -36,8 +37,7 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
 
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds();
         
         Path path = createPath(rect);
 
@@ -52,13 +52,13 @@ public class ParallelogramFigureDelegate extends AbstractFigureDelegate {
         getOwner().drawIconImage(graphics, getBounds());
 
         // Outline
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         path.dispose();
         
         if(withSlash) {
+            graphics.setLineWidth(getLineWidth());
             path = new Path(null);
             path.moveTo(rect.x + FLANGE + 20, rect.y);
             path.lineTo(rect.x + 20, rect.y + rect.height);

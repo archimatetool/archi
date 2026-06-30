@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -56,10 +57,9 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         drawIconImage(graphics, getBounds().getCopy());
 
         // Lines
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         
@@ -69,6 +69,7 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         
         Point intersection = getCircleIntersection(x1, y1, center.preciseX(), center.preciseY(), center.preciseX(), center.preciseY(), radius);
         if(intersection != null) {
+            graphics.setLineWidth(getLineWidth());
             graphics.drawLine((int)Math.round(intersection.preciseX()), (int)Math.round(intersection.preciseY() - 1), x1 + radius + 1, y1 - radius - 1);
         }
         
@@ -91,8 +92,8 @@ public class AssessmentFigure extends AbstractMotivationFigure {
     
     private Point getCenter(Rectangle rect) {
         int radius = getRadius(rect);
-        int figureWidth = (int)(radius * 2.5f)  - getLineWidth() - 1;
-        int figureHeight = (int)(radius * 2.5f) - getLineWidth() - 1;
+        int figureWidth = (int)(radius * 2.5f);
+        int figureHeight = (int)(radius * 2.5f);
         return new PrecisionPoint(rect.x + rect.width - radius - (rect.width - figureWidth) / 2,
                 rect.y + radius + (rect.height - figureHeight) / 2);
     }

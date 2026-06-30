@@ -43,14 +43,7 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Adjust size by line width
-        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
-        rect.shrink(shrink, shrink);
-
-        // And then set figure position
-        rect = getFigurePositionFromTextPosition(rect);
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds());
         
         // Fill
         graphics.setAlpha(getAlpha());
@@ -63,10 +56,9 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
         drawIconImage(graphics, getBounds().getCopy());
         
         // Line
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        FigureUtils.drawOvalPath(graphics, rect);
+        FigureUtils.drawOvalPath(graphics, rect, getLineWidth());
         
         graphics.popState();
     }
