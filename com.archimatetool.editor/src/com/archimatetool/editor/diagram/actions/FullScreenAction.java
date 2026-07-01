@@ -80,7 +80,7 @@ public class FullScreenAction extends WorkbenchPartAction {
         Object actionOrCommandId;
     }
     
-    private Listener keyListener = (e) -> {
+    private Listener keyListener = e -> {
         // Escape pressed, close this Shell
         if(e.keyCode == SWT.ESC) {
             e.doit = false; // Consume key press
@@ -270,6 +270,7 @@ public class FullScreenAction extends WorkbenchPartAction {
 
         // Commands
         addCommandKeyBinding(service, IWorkbenchCommandConstants.FILE_SAVE);
+        addCommandKeyBinding(service, NewElementHandler.ID);
     }
     
     /**

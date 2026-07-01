@@ -92,10 +92,11 @@ implements IPreferenceConstants {
         store.setDefault(GRID_SIZE, 12);
         store.setDefault(MARGIN_WIDTH, 5);
         
-        store.setDefault(EDIT_NAME_ON_NEW_OBJECT, true);
         store.setDefault(PALETTE_STATE, true);
         store.setDefault(VIEW_TOOLTIPS, true);
+        store.setDefault(EDIT_NAME_ON_NEW_OBJECT, true);
         store.setDefault(SHOW_SPECIALIZATIONS_IN_PALETTE, true);
+        store.setDefault(SHOW_QUICK_ADD_ON_TRIGGER, true);
         
         store.setDefault(DIAGRAM_OBJECT_RESIZE_BEHAVIOUR, 0);
         store.setDefault(DIAGRAM_PASTE_SPECIAL_BEHAVIOR, 0);

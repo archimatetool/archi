@@ -36,18 +36,16 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Spinner fGridSizeSpinner;
     private Spinner fMarginWidthSpinner;
     
-    private Button fViewTooltipsButton;
-    
     private Button fPaletteStateButton;
-    
+    private Button fViewTooltipsButton;
+    private Button fEditNameOnNewObjectButton;
     private Button fShowSpecializationsPaletteButton;
+    private Button fQuickAddButton;
         
     private Button fViewpointsFilterModelTreeButton;
     private Button fViewpointsHidePaletteElementsButton;
     private Button fViewpointsGhostDiagramElementsButton;
     private Button fViewpointsHideMagicConnectorElementsButton;
-    
-    private Button fEditNameOnNewObjectButton;
     
     private Button[] fPasteSpecialButtons;
     
@@ -96,21 +94,30 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fMarginWidthSpinner.setMinimum(0);
         fMarginWidthSpinner.setMaximum(100);
 
+        // Palette open when opening Views
         fPaletteStateButton = new Button(viewGroup, SWT.CHECK);
         fPaletteStateButton.setText(Messages.DiagramPreferencePage_6);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fPaletteStateButton);
         
+        // Show tooltips
         fViewTooltipsButton = new Button(viewGroup, SWT.CHECK);
         fViewTooltipsButton.setText(Messages.DiagramPreferencePage_7);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fViewTooltipsButton);
         
+        // Edit name after creating new object
         fEditNameOnNewObjectButton = new Button(viewGroup, SWT.CHECK);
         fEditNameOnNewObjectButton.setText(Messages.DiagramPreferencePage_24);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fEditNameOnNewObjectButton);
         
+        // Show Specializations in Palette
         fShowSpecializationsPaletteButton = new Button(viewGroup, SWT.CHECK);
         fShowSpecializationsPaletteButton.setText(Messages.DiagramPreferencePage_9);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fShowSpecializationsPaletteButton);
+        
+        // Trigger to add new element
+        fQuickAddButton = new Button(viewGroup, SWT.CHECK);
+        fQuickAddButton.setText(Messages.DiagramPreferencePage_3);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fQuickAddButton);
         
         // -------------- Viewpoints ----------------------------
 
@@ -172,15 +179,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fPaletteStateButton.setSelection(getPreferenceStore().getBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getBoolean(VIEW_TOOLTIPS));
+        fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
         fShowSpecializationsPaletteButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATIONS_IN_PALETTE));
+        fQuickAddButton.setSelection(getPreferenceStore().getBoolean(SHOW_QUICK_ADD_ON_TRIGGER));
         
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
         fViewpointsHideMagicConnectorElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS));
         
         fViewpointsGhostDiagramElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS));
-        
-        fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
         
         for(int i = 0; i < fPasteSpecialButtons.length; i++) {
         	fPasteSpecialButtons[i].setSelection(getPreferenceStore().getInt(DIAGRAM_PASTE_SPECIAL_BEHAVIOR) == i);
@@ -203,14 +210,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         getPreferenceStore().setValue(PALETTE_STATE, fPaletteStateButton.getSelection());
         getPreferenceStore().setValue(VIEW_TOOLTIPS, fViewTooltipsButton.getSelection());
+        getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObjectButton.getSelection());
         getPreferenceStore().setValue(SHOW_SPECIALIZATIONS_IN_PALETTE, fShowSpecializationsPaletteButton.getSelection());
+        getPreferenceStore().setValue(SHOW_QUICK_ADD_ON_TRIGGER, fQuickAddButton.getSelection());
         
         getPreferenceStore().setValue(VIEWPOINTS_FILTER_MODEL_TREE, fViewpointsFilterModelTreeButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, fViewpointsHidePaletteElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS, fViewpointsHideMagicConnectorElementsButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS, fViewpointsGhostDiagramElementsButton.getSelection());
-        
-        getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObjectButton.getSelection());
         
         for(int i = 0; i < fPasteSpecialButtons.length; i++) {
             if(fPasteSpecialButtons[i].getSelection()) {
@@ -234,15 +241,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         fPaletteStateButton.setSelection(getPreferenceStore().getDefaultBoolean(PALETTE_STATE));
         fViewTooltipsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEW_TOOLTIPS));
+        fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
         fShowSpecializationsPaletteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATIONS_IN_PALETTE));
+        fQuickAddButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_QUICK_ADD_ON_TRIGGER));
         
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
         fViewpointsHideMagicConnectorElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_MAGIC_CONNECTOR_ELEMENTS));
         
         fViewpointsGhostDiagramElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS));
-        
-        fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
         
         for(int i = 0; i < fPasteSpecialButtons.length; i++) {
             fPasteSpecialButtons[i].setSelection(getPreferenceStore().getDefaultInt(DIAGRAM_PASTE_SPECIAL_BEHAVIOR) == i);
