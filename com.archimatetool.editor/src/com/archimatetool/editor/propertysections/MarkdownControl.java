@@ -21,6 +21,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.LocationListener;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -58,6 +59,9 @@ public class MarkdownControl {
     private Label browserErrorLabel;
     private IAction modeAction;
     private IPropertyChangeListener prefsListener;
+    
+    // If this is true back or forward was triggered
+    private boolean isNavigating;
     
     /**
      * @param parent Parent composite
@@ -199,6 +203,13 @@ public class MarkdownControl {
                 return browserErrorLabel;
             }
             
+            browser.addLocationListener(LocationListener.changedAdapter(event -> {
+                if(isNavigating && isBrowserHome(browser.getUrl())) {
+                    isNavigating = false;
+                    updatePreview();
+                }
+            }));
+            
             MenuManager menuManager = new MenuManager();
             menuManager.setRemoveAllWhenShown(true);
             
@@ -216,10 +227,8 @@ public class MarkdownControl {
                     manager.add(new Action(Messages.MarkdownControl_5) {
                         @Override
                         public void run() {
+                            isNavigating = true;
                             browser.back();
-                            if(isBrowserHome(browser.getUrl())) {
-                                updatePreview();
-                            }
                         }
                     });
                 }
@@ -228,10 +237,8 @@ public class MarkdownControl {
                     manager.add(new Action(Messages.MarkdownControl_6) {
                         @Override
                         public void run() {
+                            isNavigating = true;
                             browser.forward();
-                            if(isBrowserHome(browser.getUrl())) {
-                                updatePreview();
-                            }
                         }
                     });
                 }

@@ -482,7 +482,7 @@ public class HTMLReportExporter {
                     copied = true;
                 }
                 
-                eObject.eSet(feature, MarkdownUtils.convertMarkdownToDiv(value));
+                eObject.eSet(feature, MarkdownUtils.convertMarkdownToDiv(value, MarkdownUtils.Option.EXTERNAL_LINKS));
             }
         }
         

@@ -11,14 +11,17 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 
 import org.commonmark.Extension;
 import org.commonmark.ext.autolink.AutolinkExtension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.ext.ins.InsExtension;
+import org.commonmark.node.Link;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.AttributeProviderFactory;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.commonmark.renderer.text.LineBreakRendering;
 import org.commonmark.renderer.text.TextContentRenderer;
@@ -34,6 +37,16 @@ import org.osgi.framework.FrameworkUtil;
  */
 @SuppressWarnings("nls")
 public final class MarkdownUtils {
+    
+    public enum Option {
+        /** Use external links so that MD -> HTML "a" tags have target="_blank" */
+        EXTERNAL_LINKS
+    }
+    
+    /**
+     * Options to use
+     */
+    private static Set<Option> optionSet;
     
     /**
      * Commonmark extensions
@@ -51,6 +64,19 @@ public final class MarkdownUtils {
                                                .extensions(extensions)
                                                .build();
     
+    
+    /**
+     * Factory for custom AttributeProvider
+     */
+    private static AttributeProviderFactory attributeProviderFactory = context -> {
+        return(node, tagName, attributes) -> {
+            // Add target=_blank to links in MD
+            if(node instanceof Link && "a".equalsIgnoreCase(tagName) && optionSet.contains(Option.EXTERNAL_LINKS)) {
+                attributes.put("target", "_blank");
+            }
+        };
+    };
+    
     /**
      * Singleton HtmlRenderer
      */
@@ -58,6 +84,7 @@ public final class MarkdownUtils {
                                                                    .extensions(extensions)
                                                                    .sanitizeUrls(true)
                                                                    .softbreak("<br/>")
+                                                                   .attributeProviderFactory(attributeProviderFactory)
                                                                    .build();
 
     /**
@@ -68,17 +95,23 @@ public final class MarkdownUtils {
                                                                                  .lineBreakRendering(LineBreakRendering.SEPARATE_BLOCKS)
                                                                                  .build();
 
+    /**
+     * The HTML wrapper
+     */
     private static String htmlWrapper;
     
     /**
      * Convert given markdown to Text string
      * @param markdown The markdown text
+     * @param options Options of type Option
      * @return The converted text
      */
-    public static String convertMarkdownToText(String markdown) {
+    public static String convertMarkdownToText(String markdown, Option... options) {
         if(!isMarkdown(markdown)) {
             return markdown;
         }
+        
+        optionSet = Set.of(options);
 
         try {
             Node document = parser.parse(markdown);
@@ -94,34 +127,39 @@ public final class MarkdownUtils {
      * Convert given markdown to HTML string with surrounding <html> tag and style
      * @param markdown The markdown text
      * @param darkMode If true use the dark mode class in the CSS
+     * @param options Options of type Option
      * @return The converted text
      */
-    public static String convertMarkdownToFullHtml(String markdown, boolean darkMode) {
-        return wrapWithHTMLBody(convertMarkdownToHtml(markdown), darkMode);
+    public static String convertMarkdownToFullHtml(String markdown, boolean darkMode, Option... options) {
+        return wrapWithHTMLBody(convertMarkdownToHtml(markdown, options), darkMode);
     }
     
     /**
      * Convert given markdown to HTML string with surrounding <div> tag
      * @param markdown The markdown text
+     * @param options Options of type Option
      * @return The converted text
      */
-    public static String convertMarkdownToDiv(String markdown) {
+    public static String convertMarkdownToDiv(String markdown, Option... options) {
         if(!isMarkdown(markdown)) {
             return markdown;
         }
         
-        return "<div class=\"markdown-body\">%s</div>".formatted(convertMarkdownToHtml(markdown));
+        return "<div class=\"markdown-body\">%s</div>".formatted(convertMarkdownToHtml(markdown, options));
     }
     
     /**
      * Convert given markdown to HTML string
      * @param markdown The markdown text
+     * @param options Options of type Option
      * @return The converted text
      */
-    public static String convertMarkdownToHtml(String markdown) {
+    public static String convertMarkdownToHtml(String markdown, Option... options) {
         if(!isMarkdown(markdown)) {
             return markdown;
         }
+        
+        optionSet = Set.of(options);
         
         try {
             Node document = parser.parse(markdown);
