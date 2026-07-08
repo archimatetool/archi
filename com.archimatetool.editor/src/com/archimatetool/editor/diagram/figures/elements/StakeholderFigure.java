@@ -103,7 +103,7 @@ public class StakeholderFigure extends AbstractMotivationFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 20 - getLineWidth(), rect.y + 9);
+        return new Point(rect.x + rect.width - 20, rect.y + 9);
     }
     
     @Override

@@ -11,11 +11,6 @@
               label="%theme.basic">
         </theme>
 		<theme
-			basestylesheeturi="themes/eclipse/css/e4_classic.css"
-			id="org.eclipse.e4.ui.css.theme.e4_classic"
-			label="%theme.classic">
-		</theme>
-		<theme
 			basestylesheeturi="themes/eclipse/css/e4_default_gtk.css"
 			id="org.eclipse.e4.ui.css.theme.e4_default"
 			label="%theme.light"
@@ -79,12 +74,6 @@
           </themeid>
        </stylesheet>
        <stylesheet
-             uri="themes/archi/css/common/archi-globalstyle.css">
-          <themeid
-                refid="org.eclipse.e4.ui.css.theme.e4_classic">
-          </themeid>
-       </stylesheet>
-       <stylesheet
              uri="themes/eclipse/css/archi-high-contrast.css">
           <themeid
                 refid="org.eclipse.e4.ui.css.theme.high-contrast">
@@ -135,45 +124,15 @@
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
-          id="org.eclipse.gef.PALETTE_LABEL_FOREGROUND"
-          label="%PALETTE_LABEL_FOREGROUND"
-          value="0,0,0">
-    </colorDefinition>
-    <colorDefinition
-          categoryId="com.archimatetool.editor.themes"
           id="org.eclipse.gef.PALETTE_TOOLBAR_BACKGROUND"
           label="%PALETTE_TOOLBAR_BACKGROUND"
           value="245,245,245">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"
-          id="org.eclipse.gef.PALETTE_TITLE_LABEL_FOREGROUND"
-          label="%PALETTE_TITLE_LABEL_FOREGROUND"
-          value="COLOR_LIST_FOREGROUND">
-    </colorDefinition>
-    <colorDefinition
-          categoryId="com.archimatetool.editor.themes"
-          id="org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_START"
-          label="%PALETTE_TITLE_LABEL_BACKGROUND_START"
-          value="COLOR_LIST_BACKGROUND">
-    </colorDefinition>
-    <colorDefinition
-          categoryId="com.archimatetool.editor.themes"
-          id="org.eclipse.gef.PALETTE_TITLE_LABEL_BACKGROUND_END"
-          label="%PALETTE_TITLE_LABEL_BACKGROUND_END"
+          id="org.eclipse.gef.PALETTE_TITLE_BACKGROUND"
+          label="%PALETTE_TITLE_BACKGROUND"
           value="COLOR_WIDGET_BACKGROUND">
-    </colorDefinition>
-    <colorDefinition
-          categoryId="com.archimatetool.editor.themes"
-          id="org.eclipse.gef.PALETTE_ARROW_BUTTON_BACKGROUND"
-          label="%PALETTE_ARROW_BUTTON_BACKGROUND"
-          value="COLOR_LIST_BACKGROUND">
-    </colorDefinition>
-    <colorDefinition
-          categoryId="com.archimatetool.editor.themes"
-          id="org.eclipse.gef.PALETTE_ARROW_BUTTON_FOREGROUND"
-          label="%PALETTE_ARROW_BUTTON_FOREGROUND"
-          value="COLOR_WIDGET_DARK_SHADOW">
     </colorDefinition>
     <colorDefinition
           categoryId="com.archimatetool.editor.themes"

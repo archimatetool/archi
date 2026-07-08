@@ -7,6 +7,7 @@ package com.archimatetool.editor.ui;
 
 import java.util.Objects;
 
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.e4.core.contexts.IEclipseContext;
@@ -48,10 +49,10 @@ public final class ThemeUtils {
     public static final String HIGH_CONTRAST_THEME_ID = "org.eclipse.e4.ui.css.theme.high-contrast";
     
     /**
-     * SWT CSS Tabs are square by default in Eclipse 4.16 and greater
+     * Since Eclipse 4.40 the dirty indicator can be shown as a round circle on the close "x"
      * Stored in .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
      */
-    public static final String USE_ROUND_TABS = "USE_ROUND_TABS";
+    public static final String SHOW_DIRTY_INDICATOR_ON_TABS = "SHOW_DIRTY_INDICATOR_ON_TABS";
     
     /**
      * Whether the theme engine is in use or not
@@ -147,11 +148,19 @@ public final class ThemeUtils {
     }
     
     /**
-     * @return SWT Renderer Preferences
+     * @return SWT Renderer Preferences InstanceScope
      */
     public static IEclipsePreferences getSwtRendererPreferences() {
         // This is at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
         return InstanceScope.INSTANCE.getNode("org.eclipse.e4.ui.workbench.renderers.swt");
+    }
+    
+    /**
+     * @return Default SWT Renderer Preferences DefaultScope
+     */
+    public static IEclipsePreferences getDefaultSwtRendererPreferences() {
+        // This is at .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.e4.ui.workbench.renderers.swt.prefs
+        return DefaultScope.INSTANCE.getNode("org.eclipse.e4.ui.workbench.renderers.swt");
     }
     
     public static String getDefaultThemeName() {

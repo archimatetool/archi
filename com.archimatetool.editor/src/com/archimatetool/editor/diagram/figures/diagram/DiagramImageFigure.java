@@ -80,24 +80,9 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        boolean drawBorder = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        if(drawBorder) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-        
         if(fImage != null) {
-            // Safety width and height checks
-            int w1 = Math.max(0, fImage.getBounds().width);
-            int h1 = Math.max(0, fImage.getBounds().height);
-            int w2 = Math.max(0, rect.width);
-            int h2 = Math.max(0, rect.height);
-            graphics.drawImage(fImage, 0, 0, w1, h1, rect.x, rect.y, w2, h2);
+            // Draw the image with checks ensuring minimum width and height
+            graphics.drawImage(fImage, rect.x, rect.y, Math.max(0, rect.width), Math.max(0, rect.height));
         }
         else {
             graphics.setBackgroundColor(ColorConstants.white);
@@ -107,10 +92,12 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         // Border
-        if(drawBorder) {
+        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            setLineStyle(graphics);
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.drawRectangle(rect.x, rect.y, rect.width, rect.height);
+            graphics.setLineWidth(getLineWidth());
+            graphics.drawRectangle(applyLineWidthOffset(graphics));
         }
         
         graphics.popState();

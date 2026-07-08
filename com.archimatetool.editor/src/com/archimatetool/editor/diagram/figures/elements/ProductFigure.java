@@ -11,13 +11,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
-import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
-import com.archimatetool.model.IIconic;
 import com.archimatetool.model.ITextPosition;
 
 
@@ -27,6 +25,7 @@ import com.archimatetool.model.ITextPosition;
  * Product Figure
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ProductFigure extends AbstractTextControlContainerFigure implements IArchimateFigure {
     
@@ -47,29 +46,17 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
                 
                 Rectangle rect = getBounds();
                 
-                // Reduce width and height by 1 pixel
-                rect.resize(-1, -1);
-
-                // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-                setLineWidth(graphics, rect);
-
-                graphics.setAlpha(getAlpha());
-                
                 // Fill
-                graphics.setBackgroundColor(getFillColor());
+                fill(graphics, rect);
                 
-                Pattern gradient = applyGradientPattern(graphics, rect);
-
-                graphics.fillRectangle(rect);
-                
-                disposeGradientPattern(graphics, gradient);
+                // Icon
+                drawIconImage(graphics, rect);
                 
                 // Outline
-                graphics.setForegroundColor(getLineColor());
-                graphics.setAlpha(getLineAlpha());
+                rect = applyLineWidthOffset(graphics);
+                drawOutline(graphics, rect);
 
-                graphics.drawRectangle(rect);
-                
+                // Line
                 Path path = new Path(null);
                 path.moveTo(rect.x, rect.y + TOP_MARGIN);
                 path.lineTo(rect.getCenter().x, rect.y + TOP_MARGIN);
@@ -77,11 +64,6 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
                 graphics.drawPath(path);
                 path.dispose();
                 
-                // Icon
-                // getOwner().drawIconImage(graphics, bounds);
-                int topOffset = ((IIconic)getDiagramModelObject()).getImagePosition() == IIconic.ICON_POSITION_TOP_LEFT ? TOP_MARGIN : 0;
-                drawIconImage(graphics, rect, topOffset, 0, 0, 0);
-
                 graphics.popState();
             }
 
@@ -157,7 +139,7 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds().getCopy();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 17, rect.y + 6);
     }
 
     @Override

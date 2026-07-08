@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
@@ -195,7 +196,7 @@ public class DiagramEditorFindReplaceProvider extends AbstractFindReplaceProvide
      * @return A list of all matching EditParts in the viewer model as sorted and filtered by the Viewer model
      */
     List<EditPart> getMatchingEditParts(EditPart editPart, String toFind) {
-        List<EditPart> list = new ArrayList<EditPart>();
+        List<EditPart> list = new ArrayList<>();
         
         if(toFind == null) { // collect all
             list.add(editPart);
@@ -205,19 +206,19 @@ public class DiagramEditorFindReplaceProvider extends AbstractFindReplaceProvide
         }
 
         // Add connections if the option is set
-        if(isIncludeRelations() && (editPart instanceof GraphicalEditPart)) {
-            for(Object connectionEditPart : ((GraphicalEditPart)editPart).getSourceConnections()) { // (only need to get source connections, not target)
+        if(isIncludeRelations() && editPart instanceof GraphicalEditPart graphicalEditPart) {
+            for(ConnectionEditPart connectionEditPart : graphicalEditPart.getSourceConnections()) { // (only need to get source connections, not target)
                 if(toFind == null) { // collect all
-                    list.add((EditPart)connectionEditPart);
+                    list.add(connectionEditPart);
                 }
-                else if(matches((EditPart)connectionEditPart, toFind)) {
-                    list.add((EditPart)connectionEditPart);
+                else if(matches(connectionEditPart, toFind)) {
+                    list.add(connectionEditPart);
                 }
             }
         }
 
-        for(Object object : editPart.getChildren()) {
-            list.addAll(getMatchingEditParts((EditPart)object, toFind));
+        for(EditPart child : editPart.getChildren()) {
+            list.addAll(getMatchingEditParts(child, toFind));
         }
         
         return list;

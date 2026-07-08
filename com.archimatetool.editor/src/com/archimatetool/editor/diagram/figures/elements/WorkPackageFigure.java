@@ -54,12 +54,10 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds(), 8/7.0);
         
-        // Reduce by one pixel in case of bottom/right postion
-        Rectangle imageBounds = rect.getCopy().resize(-1, -1);
-        
-        setFigurePositionFromTextPosition(rect, 8/7.0);
+        // Image Icon
+        drawIconImage(graphics, getBounds().getCopy());
         
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
@@ -121,15 +119,10 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
         path.lineTo(currentPoint[0], currentPoint[1] - 1.5f * gridUnit);
         path.lineTo(currentPoint[0] + 2 * gridUnit, currentPoint[1]);
         path.lineTo(currentPoint[0], currentPoint[1] + 1.5f * gridUnit);
-        
-        // Draw triangle
         path.close();
         graphics.fillPath(path);
         path.dispose();
 
-        // Image Icon
-        drawIconImage(graphics, imageBounds, 0, 0, 0, 0);
-        
         graphics.popState();
     }
     
@@ -209,7 +202,7 @@ public class WorkPackageFigure extends AbstractTextControlContainerFigure implem
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 17 - getLineWidth(), rect.y + 6);
+        return new Point(rect.x + rect.width - 17, rect.y + 6);
     }
     
     @Override

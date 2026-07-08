@@ -7,7 +7,6 @@ package com.archimatetool.editor.diagram;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -20,17 +19,23 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.zoom.MouseLocationZoomScrollPolicy;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.gef.editparts.GridLayer;
+import org.eclipse.gef.editparts.HierarchicalGridLayer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -39,6 +44,7 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.gef.tools.CreationTool;
+import org.eclipse.gef.tools.MarqueeDragTracker;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.AlignmentAction;
 import org.eclipse.gef.ui.actions.DirectEditAction;
@@ -61,6 +67,8 @@ import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.util.TransferDragSourceListener;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
@@ -123,6 +131,7 @@ import com.archimatetool.editor.diagram.actions.ToggleSnapToAlignmentGuidesActio
 import com.archimatetool.editor.diagram.actions.ZoomNormalAction;
 import com.archimatetool.editor.diagram.dnd.PaletteTemplateTransferDropTargetListener;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
+import com.archimatetool.editor.diagram.figures.MarqueeSelectionFigure;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfo;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolEntry;
 import com.archimatetool.editor.diagram.tools.MouseWheelHorizontalScrollHandler;
@@ -320,7 +329,24 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      * Create the Root Edit Part
      */
     protected void createRootEditPart(GraphicalViewer viewer) {
-        viewer.setRootEditPart(new ScalableFreeformRootEditPart(false));
+        viewer.setRootEditPart(new ScalableFreeformRootEditPart() {
+            @Override
+            protected GridLayer createGridLayer() {
+                // Use new HierarchicalGridLayer
+                return new HierarchicalGridLayer();
+            }
+            
+            @Override
+            public DragTracker getDragTracker(Request req) {
+                // Use a CustomMarqueeRectangleFigure
+                return new MarqueeDragTracker() {
+                    @Override
+                    protected IFigure createMarqueeRectangleFigure() {
+                        return new MarqueeSelectionFigure();
+                    }
+                };
+            }
+        });
     }
     
     @Override
@@ -344,7 +370,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         // Create a drop target listener for this palette viewer
         // this will enable model element creation by dragging a CombinatedTemplateCreationEntries 
         // from the palette into the editor
-        viewer.addDropTargetListener(new PaletteTemplateTransferDropTargetListener(this));
+        viewer.addDropTargetListener((TransferDropTargetListener)new PaletteTemplateTransferDropTargetListener(this));
         
         // Set some Properties
         setProperties();
@@ -362,17 +388,20 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         ThemeUtils.setBackgroundColorIfCssThemingDisabled(viewer.getControl(), IPreferenceConstants.VIEW_BACKGROUND_COLOR);
     }
     
-    private void hookSelectionListener() {
+    protected void hookSelectionListener() {
         getGraphicalViewer().addSelectionChangedListener(event -> {
             // Update status bar. In GEF the primary object is the last selected object.
             updateStatusBarWithSelection(event.getStructuredSelection().isEmpty() ? null : event.getStructuredSelection().toList().getLast());
         });
     }
 
-    private void hookZoomListener() {
-        // Trackpad pinch-to-zoom gesture
+    protected void hookZoomListener() {
         ZoomManager zoomManager = getAdapter(ZoomManager.class);
         if(zoomManager != null) {
+            // Mouse Location Zoom
+            zoomManager.setScrollPolicy(new MouseLocationZoomScrollPolicy(getGraphicalViewer().getControl()));
+            
+            // Trackpad Pinch to Zoom
             getGraphicalViewer().getControl().addGestureListener(new PinchZoomGestureHandler(zoomManager));
         }
     }
@@ -483,7 +512,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         return new PaletteViewerProvider(getEditDomain()) {
             @Override
             protected void hookPaletteViewer(PaletteViewer viewer) {
+                // Set custom PaletteColorProvider *before* setting PaletteViewer
+                viewer.setColorProvider(CustomPaletteColorProvider.getInstance());
+                
+                // Set custom PaletteEditPartFactory *before* setting PaletteViewer
+                viewer.setEditPartFactory(CustomPaletteEditPartFactory.getInstance());
+                
+                // Set PaletteViewer
                 super.hookPaletteViewer(viewer);
+                
+                // Call this *after* super
                 AbstractDiagramEditor.this.configurePaletteViewer(viewer);
             }
         };
@@ -504,7 +542,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         }
         
         // Register as drag source to drag onto the canvas
-        viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+        viewer.addDragSourceListener((TransferDragSourceListener)new TemplateTransferDragSourceListener(viewer));
 
         /*
          * Tool Changed
@@ -578,12 +616,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     }
 
     @Override
-    public void commandStackChanged(EventObject event) {
-        super.commandStackChanged(event);
-        updateCommandStackActions(); // Need to update these too
+    public void stackChanged(CommandStackEvent event) {
+        // Do this first
         setDirty(getCommandStack().isDirty());
+
+        super.stackChanged(event);
         
-        refreshFiguresWithLabelFeature(); // Refresgh Figures with Label Features
+        if(event.isPostChangeEvent()) {
+            updateCommandStackActions(); // Need to update these too
+            refreshFiguresWithLabelFeature(); // Refresh Figures with Label Features
+        }
     }
     
     /**
@@ -647,7 +689,6 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     /**
      * Add some extra Actions - *after* the graphical viewer has been created
      */
-    @SuppressWarnings("unchecked")
     protected void createActions(GraphicalViewer viewer) {
         ActionRegistry registry = getActionRegistry();
         IAction action;
@@ -686,19 +727,29 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Direct Edit Rename
         action = new DirectEditAction(this);
-        action.setId(ActionFactory.RENAME.getId()); // Set this for Global Handler
+        action.setId(ActionFactory.RENAME.getId());
+        action.setActionDefinitionId(ActionFactory.RENAME.getCommandId());
         action.setText(Messages.AbstractDiagramEditor_4); // Externalise this one
         action.setToolTipText(Messages.AbstractDiagramEditor_13);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
-        // Change the Delete Action label
+        // Change the Delete Action label and add action definition id
         action = registry.getAction(ActionFactory.DELETE.getId());
         action.setText(Messages.AbstractDiagramEditor_2);
         action.setToolTipText(action.getText());
+        action.setActionDefinitionId(ActionFactory.DELETE.getCommandId());
         getUpdateCommandStackActions().add((UpdateAction)action);
         
+        // Undo action has action definition id
+        action = registry.getAction(ActionFactory.UNDO.getId());
+        action.setActionDefinitionId(ActionFactory.UNDO.getCommandId());
+        
+        // Redo action has action definition id
+        action = registry.getAction(ActionFactory.REDO.getId());
+        action.setActionDefinitionId(ActionFactory.REDO.getCommandId());
+
         // Delete Container
         action = new DeleteContainerAction(this);
         registry.registerAction(action);
@@ -980,7 +1031,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         List<EditPart> editParts = new ArrayList<EditPart>();
         
         for(Object object : selection) {
-            EditPart editPart = (EditPart)getGraphicalViewer().getEditPartRegistry().get(object);
+            EditPart editPart = getGraphicalViewer().getEditPartRegistry().get(object);
             if(editPart != null && editPart.isSelectable() && !editParts.contains(editPart)) {
                 editParts.add(editPart);
             }

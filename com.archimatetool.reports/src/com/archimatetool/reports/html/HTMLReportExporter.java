@@ -446,7 +446,7 @@ public class HTMLReportExporter {
 
                 // Get and store the bounds of the top-left element in the figure to act as overall x,y offset
                 Rectangle bounds = geoImage.getBounds();
-                bounds.performScale(ImageFactory.getImageDeviceZoom() / 100); // Account for device zoom level
+                bounds.performScale((double)ImageFactory.getImageDeviceZoom() / 100); // Account for device zoom level
                 diagramBoundsMap.put(dm, bounds);
 
                 ImageLoader loader = new ImageLoader();
@@ -561,7 +561,7 @@ public class HTMLReportExporter {
      */
     private void addNewBounds(IDiagramModelObject dmo, int offsetX, int offsetY) {
         // Add new bounds caled to device zoom
-        BoundsWithAbsolutePosition newBounds = new BoundsWithAbsolutePosition(dmo.getBounds(), ImageFactory.getImageDeviceZoom() / 100);
+        BoundsWithAbsolutePosition newBounds = new BoundsWithAbsolutePosition(dmo.getBounds(), (double)ImageFactory.getImageDeviceZoom() / 100);
         newBounds.setOffset(offsetX, offsetY); // Add offset
         childBoundsMap.put(dmo.getId(), newBounds);
         

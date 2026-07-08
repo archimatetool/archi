@@ -21,6 +21,7 @@ import com.archimatetool.model.ITextPosition;
  * Box Figure Delegate
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class BoxFigureDelegate extends AbstractFigureDelegate {
 
@@ -34,62 +35,61 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle rect = getBounds();
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        // Set line width here so that the whole figure is consttained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-
+        // Fill the whole figure with a darker color
         graphics.setAlpha(getAlpha());
-        
         graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
-
-        Path path = new Path(null);
-        path.moveTo(rect.x, rect.y + EDGE_SIZE);
-        path.lineTo(rect.x + EDGE_SIZE, rect.y);
-        path.lineTo(rect.x + rect.width, rect.y);
-        path.lineTo(rect.x + rect.width, rect.y + rect.height - EDGE_SIZE);
-        path.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
-        path.lineTo(rect.x, rect.y + rect.height);
-        graphics.fillPath(path);
-        path.dispose();
         
-        // Fill front rectangle
+        Path fillPath = new Path(null);
+        fillPath.moveTo(rect.x, rect.y + EDGE_SIZE);
+        fillPath.lineTo(rect.x + EDGE_SIZE, rect.y);
+        fillPath.lineTo(rect.x + rect.width, rect.y);
+        fillPath.lineTo(rect.x + rect.width, rect.y + rect.height - EDGE_SIZE);
+        fillPath.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
+        fillPath.lineTo(rect.x, rect.y + rect.height);
+        graphics.fillPath(fillPath);
+        fillPath.dispose();
+        
+        // Fill front rectangle with a lighter color and gradient (if any)
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, rect);
-
         graphics.fillRectangle(rect.x, rect.y + EDGE_SIZE, rect.width - EDGE_SIZE, rect.height - EDGE_SIZE);
-
         disposeGradientPattern(graphics, gradient);
+
+        // Image icon
+        Rectangle imageArea = new Rectangle(rect.x, rect.y + EDGE_SIZE, rect.width - EDGE_SIZE, rect.height - EDGE_SIZE);
+        getOwner().drawIconImage(graphics, getBounds(), imageArea);
 
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
         
-        path = new Path(null);
+        Path linePath1 = new Path(null);
+        linePath1.moveTo(rect.x, rect.y + EDGE_SIZE);
+        linePath1.lineTo(rect.x + EDGE_SIZE, rect.y);
+        linePath1.lineTo(rect.x + rect.width, rect.y);
+        linePath1.lineTo(rect.x + rect.width, rect.y + rect.height - EDGE_SIZE);
+        linePath1.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
+        linePath1.lineTo(rect.x, rect.y + rect.height);
+        linePath1.close();
+        graphics.drawPath(linePath1);
+        linePath1.dispose();
         
-        path.moveTo(rect.x, rect.y + EDGE_SIZE);
-        path.lineTo(rect.x + EDGE_SIZE, rect.y);
-        path.lineTo(rect.x + rect.width, rect.y);
-        path.lineTo(rect.x + rect.width, rect.y + rect.height - EDGE_SIZE);
-        path.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
-        path.lineTo(rect.x, rect.y + rect.height);
-        path.lineTo(rect.x, rect.y + EDGE_SIZE);
-        path.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE);
-        path.lineTo(rect.x + rect.width, rect.y);
-        path.moveTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE);
-        path.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
+        Path linePath2 = new Path(null);
         
-        graphics.drawPath(path);
-        path.dispose();
-
-        // Image icon
-        Rectangle imageArea = new Rectangle(rect.x, rect.y + EDGE_SIZE, rect.width - EDGE_SIZE, rect.height - EDGE_SIZE);
-        getOwner().drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
-
+        linePath2.moveTo(rect.x, rect.y + EDGE_SIZE);
+        linePath2.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE);
+        linePath2.lineTo(rect.x + rect.width, rect.y);
+        
+        linePath2.moveTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE);
+        linePath2.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
+        
+        graphics.drawPath(linePath2);
+        linePath2.dispose();
+        
         graphics.popState();
     }
     

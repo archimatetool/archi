@@ -45,6 +45,11 @@ Group > StyledText {
     color:'#org-eclipse-ui-workbench-DARK_FOREGROUND'; 
 }
 
+/* Disabled buttons should appear dimmed to distinguish them from enabled buttons */
+Button.disabled {
+    color: #777777;
+}
+
 /* ############################## Toolbar ############################## */
 /* Ensure that the labels in the tabfolder gets updated
    See Bug 552780
@@ -189,15 +194,12 @@ WebSite {
     color: #dddddd;
 }
 
-Form,
-FormHeading {
-    background-color: #505F70;
-    color: #9AC9D8;
-}
-
 Form {
+    background-color: #2F2F2F;
+    color: #9AC9D8;
+
 	/* Bug 465148: Additional styling for the Form */
-    text-background-color: #505F70;
+    text-background-color: #2F2F2F;
 
 	tb-toggle-hover-color: #313538;
 	tb-toggle-color: #313538;
@@ -205,11 +207,11 @@ Form {
 	h-hover-light-color: #313538;
 	h-bottom-keyline-2-color: #313538;
 	h-bottom-keyline-1-color: #313538;
+}
 
-	/* We also have to force the background mode (the
-	 * Label/ToolBar in the heading should inherit it).
-	 */
-    swt-background-mode: 'force';
+FormHeading {
+    background-color: #2F2F2F;
+    color: #f4f7f7;
 }
 
 Section {

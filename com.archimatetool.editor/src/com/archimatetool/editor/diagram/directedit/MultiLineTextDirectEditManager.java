@@ -8,12 +8,12 @@ import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
 import com.archimatetool.editor.utils.StringUtils;
@@ -57,13 +57,10 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
     protected CellEditor createCellEditorOn(Composite composite) {
         int alignment = SWT.LEFT;
         
-        if(getEditPart().getModel() instanceof ITextAlignment) {
-            int ta = ((ITextAlignment)getEditPart().getModel()).getTextAlignment();
-            if(ta == ITextAlignment.TEXT_ALIGNMENT_CENTER) {
-                alignment = SWT.CENTER;
-            }
-            else if(ta == ITextAlignment.TEXT_ALIGNMENT_RIGHT) {
-                alignment = SWT.RIGHT;
+        if(getEditPart().getModel() instanceof ITextAlignment textAlignment) {
+            switch(textAlignment.getTextAlignment()) {
+                case ITextAlignment.TEXT_ALIGNMENT_CENTER -> alignment = SWT.CENTER;
+                case ITextAlignment.TEXT_ALIGNMENT_RIGHT -> alignment = SWT.RIGHT;
             }
         }
         
@@ -80,11 +77,11 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
         Object model = getEditPart().getModel();
         String value = ""; //$NON-NLS-1$
         
-        if(model instanceof ITextContent) {
-            value = ((ITextContent)model).getContent();
+        if(model instanceof ITextContent textContent) {
+            value = textContent.getContent();
         }
-        else if(model instanceof INameable) {
-            value = ((INameable)model).getName();
+        else if(model instanceof INameable nameable) {
+            value = nameable.getName();
         }
         
         getCellEditor().setValue(StringUtils.safeString(value));
@@ -92,13 +89,9 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
         if(isSingleText) {
             setNormalised();
             
-            traverseListener = new TraverseListener() {
-                @Override
-                public void keyTraversed(TraverseEvent event) {
-                    if(event.detail == SWT.TRAVERSE_RETURN || event.detail == SWT.TRAVERSE_TAB_PREVIOUS
-                            || event.detail == SWT.TRAVERSE_TAB_NEXT) {
-                        commit();
-                    }
+            traverseListener = event -> {
+                if(event.detail == SWT.TRAVERSE_RETURN || event.detail == SWT.TRAVERSE_TAB_PREVIOUS || event.detail == SWT.TRAVERSE_TAB_NEXT) {
+                    commit();
                 }
             };
 
@@ -122,56 +115,76 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
     private class MultiLineCellEditorLocator implements CellEditorLocator {
         @Override
         public void relocate(CellEditor celleditor) {
-            Text text = getTextControl();
+            final Text text = getTextControl();
             
             Rectangle rect = referenceFigure.getBounds().getCopy();
-            referenceFigure.translateToAbsolute(rect);
+            referenceFigure.translateToAbsolute(rect); // rect will be scaled to display scale on Windows
             
-            // IDiagramConnectionFigure
+            // Connection
             if(getEditPart().getFigure() instanceof IDiagramConnectionFigure) {
                 if(isSingleText) {
-                    int trimWidth = text.computeTrim(0, 0, 0, 0).width;
-                    rect.width += trimWidth;
-                    if(rect.width < 100) {
-                        rect.width = 100;
-                    }
-                    int height = text.computeSize(rect.width - trimWidth, SWT.DEFAULT).y;
-                    text.setBounds(rect.x, rect.y, rect.width, height);
+                    rect.width = Math.max(getScaledValue(100), Math.min(getScaledValue(600), rect.width));  // minimum width 100, max width 600, or width
+                    rect.height = text.computeSize(rect.width - getTrimWidth(), SWT.DEFAULT).y;
                 }
                 else {
                     Point preferredSize = text.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-                    text.setBounds(rect.x, rect.y, Math.max(150, rect.width), Math.max(60, preferredSize.y));
+                    rect.width = Math.max(getScaledValue(150), rect.width);        // minimum of 150 width
+                    rect.height = Math.max(getScaledValue(60), preferredSize.y);   // minimum of 60 height
                 }
             }
-            // IDiagramModelObjectFigure
-            else {
+            // Object figure
+            else if(referenceFigure instanceof IDiagramModelObjectFigure dmoFigure) {
                 rect.x += 5;
 
-                // Single Text control
                 if(isSingleText) {
-                    int height = text.computeSize(rect.width - text.computeTrim(0, 0, 0, 0).width, SWT.DEFAULT).y;
-                    
-                    // Reference figure is not a Label so it's a figure box 
-                    if(!(referenceFigure instanceof Label)) {
-                        // Use height of the figure box or text edit control, whichever is the smallest
-                        height = Math.min(height, rect.height);
-                        
-                        // Position the y at the same y position as the figure's text control
-                        Rectangle textControlBounds = ((IDiagramModelObjectFigure)referenceFigure).getTextControl().getBounds().getCopy();
-                        ((IDiagramModelObjectFigure)referenceFigure).getTextControl().translateToAbsolute(textControlBounds);
-                        
-                        rect.y = textControlBounds.y;
-                    }
-                    
-                    rect.height = height;
+                    int height = text.computeSize(rect.width - getTrimWidth(), SWT.DEFAULT).y;
+                    // Use height of the figure box or text edit control, whichever is the smallest
+                    rect.height = Math.min(height, rect.height);
+
+                    // Position the y at the same y position as the figure's text control
+                    Rectangle textControlBounds = dmoFigure.getTextControl().getBounds().getCopy();
+                    dmoFigure.getTextControl().translateToAbsolute(textControlBounds);
+                    rect.y = textControlBounds.y;
                 }
-                // Multi Text control
                 else {
                     rect.y += 5;
                 }
-
-                text.setBounds(rect.x, rect.y, rect.width, rect.height);
             }
+            // Label
+            else if(referenceFigure instanceof Label) {
+                rect.x += 5;
+                
+                if(isSingleText) {
+                    rect.height = text.computeSize(rect.width - getTrimWidth(), SWT.DEFAULT).y;
+                }
+                else {
+                    rect.y += 5;
+                }
+            }
+            
+            text.setBounds(rect.x, rect.y, rect.width, rect.height);
+        }
+        
+        /**
+         * @return The width of the text control's trim (vertical scroll bar) scaled as needed
+         */
+        private int getTrimWidth() {
+            return getScaledValue(getTextControl().computeTrim(0, 0, 0, 0).width);
+        }
+        
+        /**
+         * On Windows calling Figure#translateToAbsolute(Rectangle) will also scale the width and height
+         * of the Rectangle by the display scale so all other values need to be scaled accordingly.
+         * 
+         * @return the value that has been scaled according to display scaling
+         */
+        private int getScaledValue(int value) {
+            // This scales by display scale and diagram zoom but we only want the display scale for the text control
+            // Dimension d = new Dimension(value, 0);
+            // referenceFigure.translateToAbsolute(d);
+            // return d.width();
+            
+            return Math.round(value * FigureUtils.getDisplayScale());
         }
     }
     

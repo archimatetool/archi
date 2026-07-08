@@ -111,6 +111,6 @@ public class PathFigure extends DistributionNetworkFigure {
      */
     private Point getIconOrigin() {
         Rectangle rect = getBounds();
-        return new Point(rect.x + rect.width - 19 - getLineWidth(), rect.y + 12);
+        return new Point(rect.x + rect.width - 20, rect.y + 10);
     }
 }

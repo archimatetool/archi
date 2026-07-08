@@ -27,42 +27,41 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     @Override
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
-
+        
         Rectangle rect = getBounds();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-
-        if(drawOutline) {
-            // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-        
-        graphics.setAlpha(getAlpha());
-        
         // Fill
-        graphics.setBackgroundColor(getFillColor());
-        
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        graphics.fillRectangle(rect);
-        
-        disposeGradientPattern(graphics, gradient);
-        
-        // Outline
-        if(drawOutline) {
-            graphics.setAlpha(getLineAlpha());
-            graphics.setForegroundColor(getLineColor());
-            graphics.drawRectangle(rect);
-        }
+        fill(graphics, rect);
         
         // Icon
-        // getOwner().drawIconImage(graphics, bounds);
-        getOwner().drawIconImage(graphics, rect, 0, 0, 0, 0);
+        drawIconImage(graphics, rect);
+        
+        // Outline
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+            setLineStyle(graphics);
+            graphics.setLineWidth(getLineWidth());
+            drawOutline(graphics, applyLineWidthOffset(graphics));
+        }
         
         graphics.popState();
+    }
+    
+    protected void fill(Graphics graphics, Rectangle rect) {
+        graphics.setAlpha(getAlpha());
+        graphics.setBackgroundColor(getFillColor());
+        Pattern gradient = applyGradientPattern(graphics, rect);
+        graphics.fillRectangle(rect);
+        disposeGradientPattern(graphics, gradient);
+    }
+    
+    protected void drawOutline(Graphics graphics, Rectangle rect) {
+        graphics.setAlpha(getLineAlpha());
+        graphics.setForegroundColor(getLineColor());
+        graphics.setLineWidth(getLineWidth());
+        graphics.drawRectangle(rect);
+    }
+    
+    protected void drawIconImage(Graphics graphics, Rectangle rect) {
+        getOwner().drawIconImage(graphics, rect);
     }
 }

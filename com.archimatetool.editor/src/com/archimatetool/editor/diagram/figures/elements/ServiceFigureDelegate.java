@@ -21,11 +21,12 @@ import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
  * Service Figure Delegate
  * 
  * @author Phillip Beauvoir
+ * @author jbsarrodie
  */
 public class ServiceFigureDelegate
 extends AbstractFigureDelegate
 implements IRoundedRectangleFigure {
-
+    
     public ServiceFigureDelegate(AbstractDiagramModelObjectFigure owner) {
         super(owner);
     }
@@ -34,37 +35,27 @@ implements IRoundedRectangleFigure {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle rect = getBounds();
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        setLineWidth(graphics, rect);
-
         Dimension arc = getArc();
         
         graphics.setAlpha(getAlpha());
-        
         graphics.setBackgroundColor(getFillColor());
-        
         Pattern gradient = applyGradientPattern(graphics, rect);
-
-        graphics.fillRoundRectangle(new Rectangle(rect.x, rect.y, rect.width, rect.height),
-                arc.width, arc.height);
-        
+        graphics.fillRoundRectangle(rect, arc.width, arc.height);
         disposeGradientPattern(graphics, gradient);
+
+        // Image Icon
+        Rectangle imageArea = new Rectangle(rect.x + arc.width / 6, rect.y + arc.height / 6, rect.width - arc.width / 3, rect.height - arc.height / 3);
+        getOwner().drawIconImage(graphics, getBounds(), imageArea);
 
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRoundRectangle(new Rectangle(rect.x, rect.y, rect.width, rect.height),
-                arc.width, arc.height);
+        graphics.setLineWidth(getLineWidth());
+        graphics.drawRoundRectangle(rect, arc.width, arc.height);
         
-        // Image Icon
-        Rectangle imageArea = new Rectangle(rect.x + arc.width / 6, rect.y + arc.height / 6, rect.width - arc.width / 3, rect.height - arc.height / 3);
-        getOwner().drawIconImage(graphics, rect, imageArea, 0, 0, 0, 0);
-
         graphics.popState();
     }
     

@@ -21,7 +21,13 @@
         <repository>
             <id>Eclipse</id>
             <layout>p2</layout>
-            <url>https://download.eclipse.org/releases/2024-06</url>
+            <url>https://download.eclipse.org/releases/2026-06</url>
+        </repository>
+        <repository>
+            <id>GEF</id>
+            <layout>p2</layout>
+            <url>https://archimatetool.github.io/gef-classic/p2</url>
+            <!-- url>https://download.eclipse.org/tools/gef/classic/nightly/latest</url -->
         </repository>
     </repositories>
 
@@ -35,7 +41,6 @@
         <module>com.archimatetool.editor.feature</module>
         <module>com.archimatetool.editor.themes</module>
         <module>com.archimatetool.export.svg</module>
-        <module>com.archimatetool.gef.feature</module>
         <module>com.archimatetool.hammer</module>
         <module>com.archimatetool.help</module>
         <module>com.archimatetool.jasperreports</module>
@@ -50,10 +55,6 @@
         <module>com.archimatetool.templates</module>
         <module>com.archimatetool.widgets</module>
         <module>com.archimatetool.zest</module>
-        <module>org.eclipse.draw2d</module>
-        <module>org.eclipse.gef</module>
-        <module>org.eclipse.zest.core</module>
-        <module>org.eclipse.zest.layouts</module>
         <module>org.opengroup.archimate.xmlexchange</module>
         <module>org.opengroup.archimate.xmlexchange.commandline</module>
     </modules>

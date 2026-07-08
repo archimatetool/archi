@@ -9,7 +9,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
@@ -19,7 +18,6 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
@@ -98,55 +96,63 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         
         Rectangle rect = getBounds().getCopy();
         
-        // Reduce width and height by 1 pixel
-        rect.resize(-1, -1);
-        
         boolean drawBorder = getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
-        // Set line width here so that the whole figure is constrained, otherwise SVG graphics will have overspill
-        if(drawBorder) {
-            setLineWidth(graphics, rect);
-            setLineStyle(graphics);
-        }
-        
-        // Fill
-        PointList points = new PointList();
-        
+        // Dog ear
         if(getDiagramModelObject().getBorderType() == IDiagramModelNote.BORDER_DOGEAR) {
-            points.addPoint(rect.x, rect.y);
-            points.addPoint(rect.getTopRight().x, rect.y);
-            points.addPoint(rect.getTopRight().x, rect.getBottomRight().y - 13);
-            points.addPoint(rect.getTopRight().x - 13, rect.getBottomRight().y);
-            points.addPoint(rect.x, rect.getBottomLeft().y);
+            // Fill
+            graphics.setAlpha(getAlpha());
+            graphics.setBackgroundColor(getFillColor());
+            Pattern gradient = applyGradientPattern(graphics, rect);
+            Path path = createDogEarPath(rect);
+            graphics.fillPath(path);
+            path.dispose();
+            disposeGradientPattern(graphics, gradient);
+            
+            // Icon
+            drawIconImage(graphics, getBounds().getCopy());
+
+            if(drawBorder) {
+                graphics.setAlpha(getLineAlpha());
+                graphics.setForegroundColor(getLineColor());
+                graphics.setLineWidth(getLineWidth());
+                setLineStyle(graphics);
+                path = createDogEarPath(applyLineWidthOffset(graphics));
+                graphics.drawPath(path);
+                path.dispose();
+            }
+            
+            path.dispose();
         }
+        // Rectangle
         else {
-            points.addPoint(rect.x, rect.y);
-            points.addPoint(rect.getTopRight().x, rect.y);
-            points.addPoint(rect.getTopRight().x, rect.getBottomRight().y);
-            points.addPoint(rect.x, rect.getBottomLeft().y);
-        }
-        
-        graphics.setAlpha(getAlpha());
-        
-        graphics.setBackgroundColor(getFillColor());
-        
-        Pattern gradient = applyGradientPattern(graphics, rect);
-        
-        Path path = FigureUtils.createPathFromPoints(points);
-        graphics.fillPath(path);
-        path.dispose();
-        
-        disposeGradientPattern(graphics, gradient);
+            graphics.setAlpha(getAlpha());
+            graphics.setBackgroundColor(getFillColor());
+            graphics.fillRectangle(rect);
+            
+            // Icon
+            drawIconImage(graphics, rect.getCopy());
 
-        // Icon
-        drawIconImage(graphics, rect);
-
-        if(drawBorder) {
-            graphics.setAlpha(getLineAlpha());
-            graphics.setForegroundColor(getLineColor());
-            graphics.drawPolygon(points);
+            if(drawBorder) {
+                graphics.setAlpha(getLineAlpha());
+                graphics.setForegroundColor(getLineColor());
+                graphics.setLineWidth(getLineWidth());
+                setLineStyle(graphics);
+                graphics.drawRectangle(applyLineWidthOffset(graphics));
+            }
         }
         
         graphics.popState();
+    }
+    
+    private Path createDogEarPath(Rectangle rect) {
+        Path path = new Path(null);
+        path.moveTo(rect.x, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height - 13);
+        path.lineTo(rect.x + rect.width - 13, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height);
+        path.close();
+        return path;
     }
 }

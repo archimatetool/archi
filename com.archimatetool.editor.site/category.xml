@@ -3,9 +3,6 @@
    <feature id="com.archimatetool.editor.feature">
       <category name="com.archimatetool"/>
    </feature>
-   <feature id="com.archimatetool.gef.feature">
-      <category name="com.archimatetool"/>
-   </feature>
    <category-def name="com.archimatetool" label="Archi">
       <description>
          Archi

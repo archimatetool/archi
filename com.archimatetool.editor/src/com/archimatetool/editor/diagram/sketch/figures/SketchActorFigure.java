@@ -30,14 +30,17 @@ public class SketchActorFigure extends AbstractLabelFigure {
     
     @Override
     protected void paintFigure(Graphics graphics) {
+        graphics.setAntialias(SWT.ON);
         graphics.setAlpha(getAlpha());
         
-        graphics.setForegroundColor(getFillColor());
-        
-        graphics.setAntialias(SWT.ON);
         Rectangle rect = getBounds().getCopy();
         
-        graphics.setLineWidth(getLineWidth() + 1);
+        int lineWidth = getLineWidth() + 1;
+        graphics.setLineWidth(lineWidth);
+        
+        rect.shrink(lineWidth / 2, lineWidth / 2);
+        
+        graphics.setForegroundColor(getFillColor());
         
         rect.height -= getLabel().getPreferredSize().height;
         

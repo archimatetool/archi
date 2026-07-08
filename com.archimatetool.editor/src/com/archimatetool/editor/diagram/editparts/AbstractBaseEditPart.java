@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.editparts;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -147,16 +148,16 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
         refreshFigure();
         
         // Connections
-        for(Object editPart : getSourceConnections()) {
-            if(editPart instanceof DiagramConnectionEditPart) {
-                ((DiagramConnectionEditPart)editPart).refreshVisuals();
+        for(ConnectionEditPart editPart : getSourceConnections()) {
+            if(editPart instanceof DiagramConnectionEditPart connectionEditPart) {
+                connectionEditPart.refreshVisuals();
             }
         }
         
         // Children
-        for(Object editPart : getChildren()) {
-            if(editPart instanceof AbstractBaseEditPart) {
-                ((AbstractBaseEditPart)editPart).refreshChildrenFigures();
+        for(GraphicalEditPart editPart : getChildren()) {
+            if(editPart instanceof AbstractBaseEditPart connectionEditPart) {
+                connectionEditPart.refreshChildrenFigures();
             }
         }
     }

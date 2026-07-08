@@ -15,7 +15,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
+import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.widgets.Display;
+
+import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -23,6 +26,7 @@ import org.eclipse.swt.widgets.Display;
  * 
  * @author Phillip Beauvoir
  */
+@SuppressWarnings("nls")
 public class FigureUtils {
 
     /**
@@ -41,6 +45,21 @@ public class FigureUtils {
     }
     
     /**
+     * Whether Draw2d scaling is enabled on Windows
+     */
+    public static boolean isAutoScaleEnabled() {
+        return PlatformUtils.isWindows() && Boolean.parseBoolean(System.getProperty("draw2d.enableAutoscale", Boolean.TRUE.toString()));
+    }
+
+    /**
+     * @return the display scaling if on Windows and draw2d enableAutoscale is true, else return 1
+     */
+    @SuppressWarnings("restriction")
+    public static float getDisplayScale() {
+        return isAutoScaleEnabled() ? DPIUtil.getDeviceZoom() / 100f : 1f;
+    }
+
+    /**
      * Gradient Direction
      */
     public static enum Direction {
@@ -58,40 +77,28 @@ public class FigureUtils {
     }
 
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class
-     * Adapted from https://www.eclipse.org/forums/index.php?t=msg&th=198946&goto=894610&#msg_894610
+     * Create a Gradient Pattern
      */
-    public static Pattern createGradient(Graphics graphics, Device device, float x1, float y1, float x2, float y2, Color color1,
-            int alpha1, Color color2, int alpha2) {
-        
-        double scale = graphics.getAbsoluteScale();
-        
-        return new Pattern(device, (int)(x1 * scale), (int)(y1 * scale), (int)(x2 * scale), (int)(y2 * scale), color1, alpha1, color2,
-                alpha2);
+    public static Pattern createGradient(Graphics graphics, Device device, float x1, float y1, float x2, float y2, Color color1, int alpha1, Color color2, int alpha2) {
+        return new Pattern(device, x1, y1, x2, y2, color1, alpha1, color2, alpha2);
     }
 
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class
-     * Adapted from https://www.eclipse.org/forums/index.php?t=msg&th=198946&goto=894610&#msg_894610
+     * Create a Gradient Pattern
      */
-    public static Pattern createGradient(Graphics graphics, Device device, float x1, float y1, float x2, float y2, Color color1,
-            Color color2) {
-        
-        double scale = graphics.getAbsoluteScale();
-        
-        return new Pattern(device, (int)(x1 * scale), (int)(y1 * scale), (int)(x2 * scale), (int)(y2 * scale), color1, color2);
+    public static Pattern createGradient(Graphics graphics, Device device, float x1, float y1, float x2, float y2, Color color1, Color color2) {
+        return new Pattern(device, x1, y1, x2, y2, color1, color2);
     }
     
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class using the given gradient direction and default gradient end color
+     * Create a Gradient Pattern
      */
     public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, Direction direction) {
         return createGradient(graphics, r, color, 255, direction);
     }
 
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class using the
-     * given gradient direction and default gradient end color and alpha transparency
+     * Create a Gradient Pattern using the given gradient direction and default gradient end color and alpha transparency
      */
     public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha, Direction direction) {
         if(direction == null) {
@@ -124,23 +131,6 @@ public class FigureUtils {
     }
 
     /**
-     * Create a Pattern class with consideration to the scale of the Graphics class using the LEFT gradient direction and default gradient end color
-     */
-    @Deprecated
-    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color) {
-        return createGradient(graphics, r, color, 255);
-    }
-
-    /**
-     * Create a Pattern class with consideration to the scale of the Graphics class
-     * using the LEFT direction and default gradient end color and alpha transparency
-     */
-    @Deprecated
-    public static Pattern createGradient(Graphics graphics, Rectangle r, Color color, int alpha) {
-        return createGradient(graphics, r, color, alpha, Direction.LEFT);
-    }
-    
-    /**
      * Create a Path from a points list
      * @param points The points list
      * @return The Path - callers should dispose of it
@@ -165,6 +155,44 @@ public class FigureUtils {
         
         path.close();
         
+        return path;
+    }
+    
+    /**
+     * Draw an oval using a Path
+     */
+    public static void drawOvalPath(Graphics graphics, Rectangle rect) {
+        drawOvalPath(graphics, rect.x, rect.y, rect.width, rect.height);
+    }
+
+    /**
+     * Draw an oval using a Path
+     */
+    public static void drawOvalPath(Graphics graphics, float x, float y, float width, float height) {
+        Path path = createOvalPath(x, y, width, height);
+        graphics.drawPath(path);
+        path.dispose();
+    }
+    
+    /**
+     * Fill an oval using a Path
+     */
+    public static void fillOvalPath(Graphics graphics, Rectangle rect) {
+        fillOvalPath(graphics, rect.x, rect.y, rect.width, rect.height);
+    }
+
+    /**
+     * Fill an oval using a Path
+     */
+    public static void fillOvalPath(Graphics graphics, float x, float y, float width, float height) {
+        Path path = createOvalPath(x, y, width, height);
+        graphics.fillPath(path);
+        path.dispose();
+    }
+    
+    private static Path createOvalPath(float x, float y, float width, float height) {
+        Path path = new Path(null);
+        path.addArc(x, y, width, height, 0, 360);
         return path;
     }
 }

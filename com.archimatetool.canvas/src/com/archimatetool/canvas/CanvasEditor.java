@@ -9,6 +9,7 @@ import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.help.HelpSystem;
 import org.eclipse.help.IContext;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -55,13 +56,13 @@ implements ICanvasEditor {
         viewer.setContents(getModel());
         
         // Native DnD
-        viewer.addDropTargetListener(new CanvasDiagramTransferDropTargetListener(viewer));
+        viewer.addDropTargetListener((TransferDropTargetListener)new CanvasDiagramTransferDropTargetListener(viewer));
 
         // File DnD
-        viewer.addDropTargetListener(new FileTransferDropTargetListener(viewer));
+        viewer.addDropTargetListener((TransferDropTargetListener)new FileTransferDropTargetListener(viewer));
         
         // URL DnD
-        viewer.addDropTargetListener(new URLTransferDropTargetListener(viewer));
+        viewer.addDropTargetListener((TransferDropTargetListener)new URLTransferDropTargetListener(viewer));
     }
     
     /**

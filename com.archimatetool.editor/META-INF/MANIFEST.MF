@@ -8,7 +8,7 @@ Bundle-Vendor: Archi
 Bundle-Localization: plugin
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.gef;bundle-version="[3.11.100,3.12.0)";visibility:=reexport,
+ org.eclipse.gef;visibility:=reexport,
  org.eclipse.help.ui,
  org.eclipse.ui,
  org.eclipse.ui.browser,

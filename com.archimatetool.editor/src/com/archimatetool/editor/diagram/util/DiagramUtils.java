@@ -19,6 +19,7 @@ import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
+import org.eclipse.swt.graphics.AutoscalingMode;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -72,7 +73,7 @@ public final class DiagramUtils {
         }
         
         GraphicalViewerImpl viewer = new GraphicalViewerImpl();
-        viewer.createControl(parent); // Use createControl not setControl so it's wrapped in a Canvas
+        viewer.createControl(parent).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops text clipping on Windows
         
         viewer.setEditPartFactory(editPartFactory);
         
@@ -207,13 +208,13 @@ public final class DiagramUtils {
         
         Rectangle minimumBounds = null;
         
-        for(Object child : figure.getChildren()) {
+        for(IFigure child : figure.getChildren()) {
             Rectangle bounds;
             if(child instanceof FreeformFigure) {
-                bounds = getMinimumBounds((IFigure)child);
+                bounds = getMinimumBounds(child);
             }
             else {
-                bounds = ((IFigure)child).getBounds();
+                bounds = child.getBounds();
             }
             
             if(bounds != null) {
