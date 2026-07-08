@@ -28,8 +28,10 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IFolder;
+import com.archimatetool.model.IGrouping;
 import com.archimatetool.model.IIdentifier;
 import com.archimatetool.model.IJunction;
+import com.archimatetool.model.ILocation;
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProfiles;
 
@@ -53,6 +55,9 @@ public class ArchimateModelUtils {
         if(sourceConcept instanceof IJunction) {
             // Has to be the same type of relationship
             for(IArchimateRelationship rel : getAllRelationshipsForConcept(sourceConcept)) {
+                if(isGroupingOrLocationAggregationOrCompositionRelationship(rel.getSource(), rel.eClass())) {
+                    continue;
+                }
                 if(!rel.eClass().equals(relationshipType)) {
                     return false;
                 }
@@ -84,6 +89,9 @@ public class ArchimateModelUtils {
             }
             // Has to be the same type of relationship
             for(IArchimateRelationship rel : getAllRelationshipsForConcept(sourceConcept)) {
+                if(isGroupingOrLocationAggregationOrCompositionRelationship(rel.getSource(), rel.eClass())) {
+                    continue;
+                }
                 if(!rel.eClass().equals(relationshipType)) {
                     return false;
                 }
@@ -92,21 +100,37 @@ public class ArchimateModelUtils {
         
         // If the target concept is a Junction check for valid relationships
         if(targetConcept instanceof IJunction) {
-            // This is an invalid indirect relationship between a concept connected to the Junction and the source concept
-            for(IArchimateRelationship rel : targetConcept.getSourceRelationships()) {
-                if(!isValidRelationship(sourceConcept.eClass(), rel.getTarget().eClass(), relationshipType)) {
-                    return false;
+            // ArchiMate 3 Appendix B: Grouping and Location may have Aggregation or Composition to any concept,
+            // including Junctions, regardless of what other relationship types the Junction already has.
+            // Bypass the Junction homogeneity constraint for these combinations.
+            boolean isStructuralFromGroupingOrLocation = isGroupingOrLocationAggregationOrCompositionRelationship(sourceConcept, relationshipType);
+
+            if(!isStructuralFromGroupingOrLocation) {
+                // This is an invalid indirect relationship between a concept connected to the Junction and the source concept
+                for(IArchimateRelationship rel : targetConcept.getSourceRelationships()) {
+                    if(!isValidRelationship(sourceConcept.eClass(), rel.getTarget().eClass(), relationshipType)) {
+                        return false;
+                    }
                 }
-            }
-            // Has to be the same type of relationship
-            for(IArchimateRelationship rel : getAllRelationshipsForConcept(targetConcept)) {
-                if(!rel.eClass().equals(relationshipType)) {
-                    return false;
+                // Has to be the same type of relationship
+                for(IArchimateRelationship rel : getAllRelationshipsForConcept(targetConcept)) {
+                    if(isGroupingOrLocationAggregationOrCompositionRelationship(rel.getSource(), rel.eClass())) {
+                        continue;
+                    }
+                    if(!rel.eClass().equals(relationshipType)) {
+                        return false;
+                    }
                 }
             }
         }
-        
+
         return isValidRelationship(sourceConcept.eClass(), targetConcept.eClass(), relationshipType);
+    }
+
+    private static boolean isGroupingOrLocationAggregationOrCompositionRelationship(IArchimateConcept sourceConcept, EClass relationshipType) {
+        return (sourceConcept instanceof IGrouping || sourceConcept instanceof ILocation)
+                && (relationshipType == IArchimatePackage.eINSTANCE.getAggregationRelationship()
+                        || relationshipType == IArchimatePackage.eINSTANCE.getCompositionRelationship());
     }
 
     /**
