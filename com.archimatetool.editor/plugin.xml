@@ -783,6 +783,12 @@
             schemeId="com.archimatetool.editor.keybindings"
             sequence="SHIFT+BS">
       </key>
+      <key
+            commandId="com.archimatetool.editor.action.newElement"
+            contextId="com.archimatetool.editor.diagram.context"
+            schemeId="com.archimatetool.editor.keybindings"
+            sequence="SHIFT+A">
+      </key>
    </extension>
    <extension
          name="Eclipse Bindings Unbound"
@@ -1089,6 +1095,13 @@
             description="%command.description.33"
             id="com.archimatetool.editor.textPositionBottom"
             name="%command.name.33">
+      </command>
+      <command
+            categoryId="org.eclipse.ui.category.edit"
+            defaultHandler="com.archimatetool.editor.diagram.actions.NewElementHandler"
+            description="Add a new ArchiMate element"
+            id="com.archimatetool.editor.action.newElement"
+            name="New ArchiMate Element">
       </command>
    </extension>
    <extension

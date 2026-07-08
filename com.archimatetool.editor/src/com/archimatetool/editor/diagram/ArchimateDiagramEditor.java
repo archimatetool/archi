@@ -18,13 +18,17 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.util.TransferDropTargetListener;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.IHandlerService;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
 import com.archimatetool.editor.diagram.actions.GenerateViewAction;
 import com.archimatetool.editor.diagram.actions.InvertConnectionAction;
+import com.archimatetool.editor.diagram.actions.NewElementHandler;
 import com.archimatetool.editor.diagram.actions.ViewpointAction;
 import com.archimatetool.editor.diagram.dnd.ArchimateDiagramTransferDropTargetListener;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
@@ -111,6 +115,20 @@ implements IArchimateDiagramEditor {
         
         // Native DnD
         viewer.addDropTargetListener((TransferDropTargetListener)new ArchimateDiagramTransferDropTargetListener(viewer));
+        
+        // New Element popup
+        viewer.getControl().addListener(SWT.MouseUp, event -> {
+            if((event.stateMask & SWT.MODIFIER_MASK) == SWT.ALT
+                         && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SHOW_QUICK_ADD_ON_TRIGGER)) {
+                try {
+                    IHandlerService handlerService = getSite().getService(IHandlerService.class);
+                    handlerService.executeCommand(NewElementHandler.ID, event);
+                }
+                catch(Exception ex) {
+                    Logger.error("Could not execute command", ex); //$NON-NLS-1$
+                }
+            }
+        });
     }
     
     @Override
