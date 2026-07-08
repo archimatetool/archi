@@ -35,7 +35,6 @@ import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("restriction")
 public class ImageFactory {
     
     private AbstractUIPlugin fPlugin;
@@ -43,6 +42,7 @@ public class ImageFactory {
     /**
      * @return The actual device zoom level.
      */
+    @SuppressWarnings("restriction")
     public static int getDeviceZoom() {
         // Note - Not sure if we need this any more...but just in case
         Display.getDefault();
@@ -56,16 +56,13 @@ public class ImageFactory {
 
     /**
      * @return The zoom level for creating images.
-     * Windows OS with scaling > 100 and Mac Retina since Eclipse 4.12 needs to export images at x2 size
-     * If Preferences are set to not use a scaled device zoom then return 100
+     * On Linux scaleImages defaults to false and this should be 100%
+     * On Mac use the device zoom
+     * On Windows use the device zoom
      */
     public static int getImageDeviceZoom() {
         boolean scaleImages = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
-        int deviceZoom = getDeviceZoom();
-        // If scaling prefs x2 is true and device zoom is 100 then return 200
-        // Else return device zoom
-        // Else 100
-        return scaleImages ? (deviceZoom == 100) ? 200 : deviceZoom : 100;
+        return scaleImages ? getDeviceZoom() : 100;
     }
     
     /**

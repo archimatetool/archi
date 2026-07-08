@@ -138,8 +138,8 @@ implements IPreferenceConstants {
         store.setDefault(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, true);
 
         store.setDefault(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, false);
-        // Windows hi-res and Mac Retina use 200 zoom, Linux is 100
-        store.setDefault(SCALE_IMAGE_EXPORT, (!PlatformUtils.isLinux() && ImageFactory.getDeviceZoom() > 100) ? true : false);
+        // Windows hi-res and Mac Retina use display scaling, Linux is 100
+        store.setDefault(SCALE_IMAGE_EXPORT, PlatformUtils.isLinux() ? false : ImageFactory.getDeviceZoom() > 100);
         
         // Animation
         store.setDefault(ANIMATE_VIEW, false);
