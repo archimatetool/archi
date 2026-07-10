@@ -5,12 +5,9 @@
  */
 package com.archimatetool.editor.diagram.util;
 
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformFigure;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.draw2d.ScalableFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.GraphicalViewer;
@@ -158,20 +155,14 @@ public final class DiagramUtils {
             bounds.expand(margin / scale, margin / scale);
         }
         
-        Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale) );
+        Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale));
         GC gc = new GC(image);
-        SWTGraphics graphics = new SWTGraphics(gc);
+        SWTGraphics graphics = new ImageGraphics(gc); // Use ImageGraphics so we can get actual scale
         
         if(scale != 1) {
             graphics.scale(scale);
         }
         
-        // Set the parent figure to our scale property figure to store the scale we're using.
-        // We can get this when we want to know the scale being used when drawing the figure.
-        if(figure.getParent() != null) {
-            new ScalePropertyFigure(scale).add(figure);
-        }
-
         // Compensate for negative co-ordinates
         graphics.translate(bounds.x * -1, bounds.y * -1);
 
@@ -228,31 +219,5 @@ public final class DiagramUtils {
         }
         
         return minimumBounds;
-    }
-    
-    /**
-     * Dummy scaled figure inserted as parent of figure in createModelReferencedImage
-     * to store scale of the graphics instance.
-     */
-    private static class ScalePropertyFigure extends Figure implements ScalableFigure {
-        private double scale;
-        
-        private ScalePropertyFigure(double scale) {
-            this.scale = scale;
-        }
-        
-        @Override
-        public double getScale() {
-            return scale;
-        }
-
-        @Override
-        public void setScale(double scale) {
-            this.scale = scale;
-        }
-        
-        @Override
-        public void paint(Graphics graphics) {
-        }
     }
 }

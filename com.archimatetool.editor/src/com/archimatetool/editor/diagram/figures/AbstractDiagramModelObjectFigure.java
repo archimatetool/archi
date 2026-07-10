@@ -180,7 +180,7 @@ implements IDiagramModelObjectFigure {
             return figureBounds;
         }
 
-        final double scale = FigureUtils.getFigureScale(this);
+        final double scale = FigureUtils.getFigureScale(graphics, this);
         final int lineWidth = getLineWidth();
         
         // If line width is 1 and scale is 1 check whether to use an offset.

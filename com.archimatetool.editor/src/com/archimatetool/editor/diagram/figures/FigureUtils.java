@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.diagram.util.ImageGraphics;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -30,8 +31,25 @@ import com.archimatetool.editor.utils.PlatformUtils;
 public class FigureUtils {
 
     /**
-     * Get the current scale from the Figure's ancestor Figure
-     * This will be the zoom factor in a GEF diagram or the scale set in Graphics.scale(scale) in DiagramUtils
+     * Get the current scale from either the figure's ancestor Figure or from ImageGraphics.getScale(). 
+     * 
+     * If figure is in a diagram, graphics will be SWTGraphics so use getFigureScale().
+     * If figure is being used in an Image graphics will be ImageGraphics so use ImageGraphics.getScale()).
+     * 
+     * This is because things can differ on Windows with display scales and we get different results with graphics.getAbsoluteScale() and getFigureScale().
+     * 
+     * For example on Windows with 200% display scale:
+     * 
+     * If figure is in a diagram FigureUtils.getFigureScale() == 1 (correct) and graphics.getAbsoluteScale() == 2 (wrong)
+     * If figure is being exported in an Image of 100% scale FigureUtils.getFigureScale() == 2 (wrong) and graphics.getAbsoluteScale() == 1 (correct)
+     */
+    public static double getFigureScale(Graphics graphics, IFigure figure) {
+        return graphics instanceof ImageGraphics imageGraphics ? imageGraphics.getScale() : getFigureScale(figure);
+    }
+
+    /**
+     * Get the current scale from figure's ancestor ScalableFigure
+     * This is only valid when the figure is in a diagram not when called from DiagramUtils image creation.
      */
     public static double getFigureScale(IFigure figure) {
         while(figure != null) {
