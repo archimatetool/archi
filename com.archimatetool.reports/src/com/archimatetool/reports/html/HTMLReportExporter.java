@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -48,6 +49,7 @@ import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.browser.IBrowserEditorInput;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.diagram.util.ModelReferencedImage;
+import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
@@ -97,6 +99,11 @@ public class HTMLReportExporter {
     private final List<EStructuralFeature> markdownFeatures = List.of(IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE,
                                                                       IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION);
 
+    /**
+     * Record used for Markdown conversion
+     */
+    private record MarkdownConversion(EObject eObject, EStructuralFeature feature, String oldValue) {}
+    
     private IProgressMonitor progressMonitor;
     
     static class CancelledException extends IOException {
@@ -114,7 +121,14 @@ public class HTMLReportExporter {
     }
     
     public HTMLReportExporter(IArchimateModel model) {
-        fModel = model;
+        // Use a copy of the model
+        fModel = EcoreUtil.copy(model);
+        
+        // Clone the ArchiveManager for images
+        IArchiveManager archiveManager = (IArchiveManager)model.getAdapter(IArchiveManager.class);
+        if(archiveManager != null) {
+            fModel.setAdapter(IArchiveManager.class, archiveManager.clone(fModel));
+        }
     }
     
     public void export() throws Exception {
@@ -339,11 +353,18 @@ public class HTMLReportExporter {
     private void writeElement(File elementFile, ST stFrame, EObject eObject) throws IOException {
         stFrame.remove("element"); //$NON-NLS-1$
         //frame.remove("children");
-        stFrame.add("element", renderMarkdown(eObject)); //$NON-NLS-1$
+        
+        // Render any MD
+        List<MarkdownConversion> conversions = renderMarkdown(eObject);
+        
+        stFrame.add("element", eObject); //$NON-NLS-1$
         
         try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(elementFile), "UTF8")) { //$NON-NLS-1$
             writer.write(stFrame.render());
         }
+        
+        // Restore old value in case it is referenced in a label expression of ${documentation}, otherwise it is converted to MD twice
+        restoreMarkdown(conversions);
 
         checkProgressCancelled();
     }
@@ -389,7 +410,10 @@ public class HTMLReportExporter {
             }
 
             stFrame.remove("element"); //$NON-NLS-1$
-            stFrame.add("element", renderMarkdown(dm)); //$NON-NLS-1$
+            
+            List<MarkdownConversion> conversions = renderMarkdown(dm);
+
+            stFrame.add("element", dm); //$NON-NLS-1$
             
             stFrame.remove("map"); //$NON-NLS-1$
             stFrame.add("map", childBoundsMap); //$NON-NLS-1$
@@ -399,6 +423,9 @@ public class HTMLReportExporter {
                 writer.write(stFrame.render());
             }
             
+            // Restore old value in case it is referenced elsewhere
+            restoreMarkdown(conversions);
+
             checkProgressCancelled();
         }
     }
@@ -468,25 +495,32 @@ public class HTMLReportExporter {
     
     /**
      * Render markdown in eObject if any is present
-     * @return a copy of eObject with the changed content or eObject if no changes were made
+     * @return a list of conversions that can be restored
      */
-    private <T extends EObject> T renderMarkdown(T eObject) {
-        boolean copied = false; // We've made a copy of eObject
-
+    private List<MarkdownConversion> renderMarkdown(EObject eObject) {
+        List<MarkdownConversion> conversions = new ArrayList<>();
+        
         // Check all potential features
         for(EStructuralFeature feature : markdownFeatures) {
-            if(eObject.eClass().getEStructuralFeature(feature.getName()) != null && eObject.eGet(feature) instanceof String value
-                                                                           && MarkdownUtils.isMarkdown(value)) {
-                if(!copied) {
-                    eObject = EcoreUtil.copy(eObject);
-                    copied = true;
-                }
-                
-                eObject.eSet(feature, MarkdownUtils.convertMarkdownToDiv(value, MarkdownUtils.Option.EXTERNAL_LINKS));
+            if(eObject.eClass().getEStructuralFeature(feature.getName()) != null && eObject.eGet(feature) instanceof String oldValue
+                                                                           && MarkdownUtils.isMarkdown(oldValue)) {
+                String newValue = MarkdownUtils.convertMarkdownToDiv(oldValue, MarkdownUtils.Option.EXTERNAL_LINKS);
+                eObject.eSet(feature, newValue);
+                conversions.add(new MarkdownConversion(eObject, feature, oldValue));
             }
         }
         
-        return eObject;
+        return conversions;
+    }
+    
+    /**
+     * Restore markdown in fields to original.
+     * This has to be done in case the text is referenced in a label expression and it will be converted twice
+     */
+    private void restoreMarkdown(List<MarkdownConversion> conversions) {
+        for(MarkdownConversion conversion : conversions) {
+            conversion.eObject().eSet(conversion.feature(), conversion.oldValue());
+        }
     }
 
     private void checkProgressCancelled() throws CancelledException {
