@@ -12,6 +12,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -69,13 +70,29 @@ public class ContractFigure extends ObjectFigure {
         contractDelegate = new ContractFigureDelegate(this);
     }
 
+    // Bounding size of the icon glyph itself (a rectangle with two header lines, see iconDelegate below)
+    private static final int ICON_WIDTH = 13;
+    private static final int ICON_HEIGHT = 10;
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
+    private static final int ICON_BOX_CORNER_RADIUS = 0;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with the top-right corner of the figure (all corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     @Override
     protected void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
     

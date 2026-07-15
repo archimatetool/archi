@@ -15,8 +15,10 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IIconic;
 
@@ -110,12 +112,56 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
     }
     
     /**
-     * Draw the icon
+     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
+     */
+    @Override
+    public Color getFillColor() {
+        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    }
+
+    /**
+     * In Outline shape style the outline uses what would otherwise have been the fill color,
+     * since the actual fill now matches the view's background
+     */
+    @Override
+    public Color getLineColor() {
+        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
+    }
+
+    // Bounding size of the icon glyph itself (see iconDelegate below)
+    private static final int ICON_WIDTH = 15;
+    private static final int ICON_HEIGHT = 10;
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    private static final int ICON_BOX_WIDTH = ICON_WIDTH + (ICON_PADDING * 2);
+    private static final int ICON_BOX_HEIGHT = ICON_HEIGHT + (ICON_PADDING * 2);
+
+    // Corner rounding for the containing box's top-right corner only, so it blends into the shape's own rounded corner
+    private static final int ICON_BOX_CORNER_RADIUS = 8;
+
+    /**
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as a white outline so the box color shows through, and the box's top-right corner flush
+     * with, and rounded to match, the top-right corner of the figure (its other corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null,  getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
+        }
+    }
+
+    /**
+     * @return The icon start position for Classic shape style
+     */
+    private Point getClassicIconOrigin() {
+        Rectangle rect = getBounds();
+        return new Point(rect.getRight().x - 19, rect.y + 7);
     }
     
     private static IIconDelegate iconDelegate = new IIconDelegate() {
@@ -169,14 +215,6 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         return iconDelegate;
     }
 
-    /**
-     * @return The icon start position
-     */
-    protected Point getIconOrigin() {
-        Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 19, rect.y + 7);
-    }
-    
     @Override
     public IFigureDelegate getFigureDelegate() {
         return getDiagramModelArchimateObject().getType() == 0 ? fMainFigureDelegate : null;
@@ -184,6 +222,6 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 25 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_BOX_WIDTH : 25) : 0;
     }
 }

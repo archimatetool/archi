@@ -117,7 +117,8 @@ implements IPreferenceConstants {
         store.setDefault(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, 1);
         store.setDefault(DEFAULT_GRADIENT, IDiagramModelObject.FEATURE_GRADIENT_DEFAULT);
         store.setDefault(SKETCH_DEFAULT_BACKGROUND, 1);
-        
+        store.setDefault(SHAPE_STYLE, SHAPE_STYLE_CLASSIC);
+
         
         // ======================================= General =======================================
         

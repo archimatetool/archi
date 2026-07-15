@@ -128,7 +128,13 @@ public interface IPreferenceConstants {
     
     // Default Figures
 
-    String DEFAULT_FIGURE_PREFIX = "defaultFigure"; 
+    String DEFAULT_FIGURE_PREFIX = "defaultFigure";
+
+    // Shape Style - which stylistic set of ArchiMate figures to use.
+    // Individual figures opt-in to SHAPE_STYLE_OUTLINE; figures that haven't been converted always render as Classic.
+    String SHAPE_STYLE = "shapeStyle";
+    String SHAPE_STYLE_CLASSIC = "classic";
+    String SHAPE_STYLE_OUTLINE = "outline";
     
     
     // ======================================= General =======================================

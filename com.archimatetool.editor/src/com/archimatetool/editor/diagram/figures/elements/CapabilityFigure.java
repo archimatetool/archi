@@ -14,8 +14,10 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -119,12 +121,54 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
     }
     
     /**
-     * Draw the icon
+     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
+     */
+    @Override
+    public Color getFillColor() {
+        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    }
+
+    /**
+     * In Outline shape style the outline uses what would otherwise have been the fill color,
+     * since the actual fill now matches the view's background
+     */
+    @Override
+    public Color getLineColor() {
+        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
+    }
+
+    // Size of the icon glyph itself (3 x 4px blocks, see iconDelegate below)
+    private static final int ICON_SIZE = 12;
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    private static final int ICON_BOX_SIZE = ICON_SIZE + (ICON_PADDING * 2);
+
+    // Corner rounding for the containing box's top-right corner only, so it blends into the shape's own rounded corner
+    private static final int ICON_BOX_CORNER_RADIUS = 6;
+
+    /**
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as a white outline so the box color shows through, and the box's top-right corner flush
+     * with, and rounded to match, the top-right corner of the figure (its other corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_SIZE, ICON_SIZE, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
+        }
+    }
+
+    /**
+     * @return The icon start position for Classic shape style
+     */
+    private Point getClassicIconOrigin() {
+        Rectangle rect = getBounds();
+        return new Point(rect.getRight().x - 17, rect.y + 5);
     }
     
     private static IIconDelegate iconDelegate = new IIconDelegate() {
@@ -189,17 +233,9 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
         return iconDelegate;
     }
 
-    /**
-     * @return The icon start position
-     */
-    private Point getIconOrigin() {
-        Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 17, rect.y + 5);
-    }
-
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 19 : 0;
+        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_BOX_SIZE : 19) : 0;
     }
 
     @Override

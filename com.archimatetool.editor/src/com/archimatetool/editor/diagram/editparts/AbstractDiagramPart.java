@@ -109,6 +109,10 @@ implements IEditPartFilterProvider {
             setAntiAlias();
             refresh();
         }
+        else if(event.getProperty() == IPreferenceConstants.SHAPE_STYLE) {
+            // Re-render every figure in the diagram so the new shape style takes effect immediately
+            refreshChildrenFigures();
+        }
     }
 
     /**

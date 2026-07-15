@@ -16,6 +16,7 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
+import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -90,11 +91,44 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
     }
     
     /**
-     * Draw the icon
+     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
+     */
+    @Override
+    public Color getFillColor() {
+        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    }
+
+    /**
+     * In Outline shape style the outline uses what would otherwise have been the fill color,
+     * since the actual fill now matches the view's background
+     */
+    @Override
+    public Color getLineColor() {
+        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
+    }
+
+    // Bounding size of the icon glyph itself (two overlapping circles, see iconDelegate below)
+    private static final int ICON_WIDTH = 14;
+    private static final int ICON_HEIGHT = 10;
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
+    private static final int ICON_BOX_CORNER_RADIUS = 0;
+
+    /**
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with the top-right corner of the figure (all corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
     
@@ -141,16 +175,16 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
     }
     
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 18, rect.y + 7);
     }
 
     @Override
     public int getIconOffset() {
-        return 20;
+        return isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 20;
     }
 
     @Override

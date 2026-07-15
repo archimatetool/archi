@@ -446,13 +446,23 @@ implements IDiagramModelObjectFigure {
         if(!isEnabled()) {
             return ColorConstants.lightGray;
         }
-        
+
         // Cache this value as it's from a FeaturesEList
         return getCachedValue(IDiagramModelObject.FEATURE_ICON_COLOR,
                 key -> {
                     String val = getDiagramModelObject().getIconColor();
                     return StringUtils.isSet(val) ? ColorFactory.get(val) : ColorConstants.black;
                 });
+    }
+
+    /**
+     * @return true if the user has selected the alternative "Outline" shape style in Preferences.
+     * Individual figures opt in to this style by consulting this method; figures that haven't been
+     * converted to support it are unaffected and always render as Classic.
+     */
+    public boolean isOutlineShapeStyle() {
+        return IPreferenceConstants.SHAPE_STYLE_OUTLINE.equals(
+                ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.SHAPE_STYLE));
     }
 
     /**
