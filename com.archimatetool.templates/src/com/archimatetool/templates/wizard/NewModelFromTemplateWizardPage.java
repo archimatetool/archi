@@ -241,7 +241,7 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
         fGallery.addListener(SWT.MouseDoubleClick, event -> {
             GalleryItem item = fGallery.getItem(new Point(event.x, event.y));
             if(item != null) {
-                ((ExtendedWizardDialog)getContainer()).finishPressed();
+                finishPressed();
             }
         });
         
@@ -335,16 +335,21 @@ public abstract class NewModelFromTemplateWizardPage extends WizardPage {
      * User wants to manage Templates
      */
     protected void handleManageTemplatesAction() {
-        getContainer().getShell().setVisible(false);
-        
-        TemplateManagerDialog dialog = createTemplateManagerDialog();
-        if(dialog.open() == Window.OK) {
-            fTemplateManager.reset();
-            fUserTableViewer.refresh();
+        try {
+            getContainer().getShell().setVisible(false);
+            
+            TemplateManagerDialog dialog = createTemplateManagerDialog();
+            if(dialog.open() == Window.OK) {
+                clearGallery();
+                fTemplateManager.reset();
+                fUserTableViewer.refresh();
+            }
+            
+            selectFirstTableItem();
         }
-        
-        getContainer().getShell().setVisible(true);
-        selectFirstTableItem();
+        finally {
+            getContainer().getShell().setVisible(true);
+        }
     }
     
     protected TemplateManagerDialog createTemplateManagerDialog() {
