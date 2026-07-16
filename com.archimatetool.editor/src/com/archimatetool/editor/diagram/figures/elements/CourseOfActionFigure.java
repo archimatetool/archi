@@ -18,7 +18,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -157,37 +156,16 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
         return null;
     }
 
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (see iconDelegate below).
-    // Note the "line of shortcut glyph" arc is a partial (80 degree) arc, not a full oval, so its actual traced
-    // extent is smaller than its 10x10 bounding oval - the real height comes out at about 16, not 22.
-    private static final int ICON_WIDTH = 21;
-    private static final int ICON_HEIGHT = 17;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
 
     // Corner rounding for the containing box's top-right corner only, so it blends into the shape's own rounded corner
     private static final int ICON_BOX_CORNER_RADIUS = 8;
-
-    // The icon delegate's "pt" origin is not the top-left of its own bounding box - it draws 8px to the left of pt
-    private static final int ICON_ORIGIN_OFFSET_X = 8;
 
     /**
      * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
@@ -198,8 +176,7 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
      */
     private void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS,
-                    ICON_ORIGIN_OFFSET_X, 0);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
@@ -222,31 +199,28 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
             }
             
             // triangle of shortcut glyph
-            Path path = new Path(null);
-            float x = pt.x - 5.4f, y = pt.y + 9f;
-
-            path.moveTo(x, y);
-            path.lineTo(x + 6f, y + 1f);
-            path.lineTo(x + 3f, y + 6.2f);
-            
+            Path path = buildTrianglePath(pt);
             graphics.fillPath(path);
             path.dispose();
-            
+
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
 
             // line of shortcut glyph
-            path = new Path(null);
+            path = buildArcLinePath(pt);
             graphics.setLineWidthFloat(2f);
-            path.addArc(pt.x - 7.5f, pt.y + 12f, 10, 10, 90, 80);
             graphics.drawPath(path);
             path.dispose();
-            
-            // 2 circles and blob
+
+            // 2 circles and blob - NOTE: fillPath() is deliberately called with only the outer circle's arc
+            // added to the path so far (matching the original, pre-refactor behavior exactly for callers like
+            // LegendGraphics that pass a non-null backgroundColor) - the other 3 arcs are added afterwards and
+            // are only ever stroked, never filled. getBounds() below doesn't reuse this exact sequencing since
+            // the final path's traced geometry (and therefore its bounds) is the same either way - only the
+            // fill/stroke behavior differs, not the extent of what's stroked.
             graphics.setLineWidthFloat(1.2f);
             path = new Path(null);
-            
             path.addArc(pt.x, pt.y, 13, 13, 0, 360);
             if(backgroundColor != null) {
                 graphics.fillPath(path);
@@ -254,14 +228,55 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
             path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
             path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
             path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
-            
             graphics.drawPath(path);
             path.dispose();
 
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Union of the three pieces drawIcon() draws above (with pt = (0, 0)): the triangle (straight
+            // lines), the partial-arc "line" stroke, and the four full circles - each rebuilt via the same
+            // path-building geometry drawIcon() itself uses, so bounds can't drift out of sync with the drawing
+            Rectangle bounds = FigureUtils.getAndDisposePathBounds(buildTrianglePath(new Point(0, 0)));
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(buildArcLinePath(new Point(0, 0))));
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(buildCirclesPath(new Point(0, 0))));
+            return bounds;
+        }
+
+        // Triangle of the shortcut glyph - straight lines only, always filled regardless of backgroundColor
+        private Path buildTrianglePath(Point pt) {
+            Path path = new Path(null);
+            float x = pt.x - 5.4f, y = pt.y + 9f;
+            path.moveTo(x, y);
+            path.lineTo(x + 6f, y + 1f);
+            path.lineTo(x + 3f, y + 6.2f);
+            return path;
+        }
+
+        // Partial (80 degree) arc "line" of the shortcut glyph - its traced extent is smaller than its 10x10
+        // bounding oval, which is exactly why this needs a Path rather than a hand-derived rectangle
+        private Path buildArcLinePath(Point pt) {
+            Path path = new Path(null);
+            path.addArc(pt.x - 7.5f, pt.y + 12f, 10, 10, 90, 80);
+            return path;
+        }
+
+        // The 2 concentric circles + central blob - all full (360 degree) ovals, so a Path isn't strictly
+        // required for these individually, but they're combined into one Path here (used by getBounds() only -
+        // drawIcon() above builds this same geometry inline, since it needs to fill only the first arc partway
+        // through construction, which this combined form can't express)
+        private Path buildCirclesPath(Point pt) {
+            Path path = new Path(null);
+            path.addArc(pt.x, pt.y, 13, 13, 0, 360);
+            path.addArc(pt.x + 2.5f, pt.y + 2.5f, 8, 8, 0, 360);
+            path.addArc(pt.x + 5f, pt.y + 5f, 3, 3, 0, 360);
+            path.addArc(pt.x + 6f, pt.y + 6f, 1f, 1f, 0, 360);
+            return path;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
@@ -276,7 +291,8 @@ public class CourseOfActionFigure extends AbstractTextControlContainerFigure imp
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 25) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 25) : 0;
     }
 
     @Override

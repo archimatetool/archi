@@ -20,7 +20,6 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
 import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ITextAlignment;
@@ -212,26 +211,10 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         return new GroupingFigureConnectionAnchor(this);
     }
     
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (two rectangles, "folder" shape, see iconDelegate below)
-    private static final int ICON_WIDTH = 13;
-    private static final int ICON_HEIGHT = 10;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
@@ -247,42 +230,49 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
      */
     private void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 graphics.fillRectangle(pt.x, pt.y, 6, 3);
             }
             graphics.drawRectangle(pt.x, pt.y, 6, 3);
-            
+
             if(backgroundColor != null) {
                 graphics.fillRectangle(pt.x, pt.y + 3, 13, 7);
             }
             graphics.drawRectangle(pt.x, pt.y + 3, 13, 7);
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // Two full (non-partial) rectangles, "folder" tab + body - their own defining rectangles already are
+            // the exact bounds, no Path needed
+            return new Rectangle(0, 0, 6, 3).union(new Rectangle(0, 3, 13, 7));
         }
     };
     
@@ -300,6 +290,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 20) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 20) : 0;
     }
 }

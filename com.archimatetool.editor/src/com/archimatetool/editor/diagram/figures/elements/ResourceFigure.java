@@ -18,7 +18,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -157,26 +156,10 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
         return path;
     }
 
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (main rectangle + nub, see iconDelegate below)
-    private static final int ICON_WIDTH = 17;
-    private static final int ICON_HEIGHT = 10;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
@@ -193,7 +176,7 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
      */
     private void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
@@ -255,11 +238,21 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
 //            graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
 //            pt.translate(3, 0);
 //            graphics.drawLine(pt.x, pt.y, pt.x, pt.y + 6);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Both the main body and the nub are rounded rectangles - rounding cuts corners inward, so their
+            // bounds equal their own defining rectangles exactly; the vertical lines drawn inside the main
+            // rectangle don't extend beyond it, so they don't affect the union
+            Rectangle main = new Rectangle(0, 0, 15, 10);
+            Rectangle nub = new Rectangle(15, 3, 2, 4);
+            return main.union(nub);
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
@@ -274,7 +267,8 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 22) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
 
     @Override

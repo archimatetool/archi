@@ -17,7 +17,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -98,36 +97,16 @@ public class LocationFigure extends AbstractTextControlContainerFigure implement
         return path;
     }
 
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (a map pin: partial arc + point, see iconDelegate below)
-    private static final int ICON_WIDTH = 10;
-    private static final int ICON_HEIGHT = 15;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
 
     // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
     private static final int ICON_BOX_CORNER_RADIUS = 0;
-
-    // The icon delegate's "pt" origin is the pin's point (bottom), not the top-left of its bounding box
-    private static final int ICON_ORIGIN_OFFSET_X = 5;
-    private static final int ICON_ORIGIN_OFFSET_Y = 15;
 
     /**
      * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
@@ -137,24 +116,23 @@ public class LocationFigure extends AbstractTextControlContainerFigure implement
      */
     private void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS,
-                    ICON_ORIGIN_OFFSET_X, ICON_ORIGIN_OFFSET_Y);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
@@ -162,20 +140,30 @@ public class LocationFigure extends AbstractTextControlContainerFigure implement
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
-            Path path = new Path(null);
-            
-            path.addArc(pt.x - 5, pt.y - 15, 10, 10, -20, 220);
-            path.lineTo(pt.x, pt.y);
-            path.close();
+
+            Path path = buildPath(pt);
             if(backgroundColor != null) {
                 graphics.fillPath(path);
             }
             graphics.drawPath(path);
-            
+
             path.dispose();
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            return FigureUtils.getAndDisposePathBounds(buildPath(new Point(0, 0)));
+        }
+
+        // The map pin shape: a partial arc (the "head") + a line down to the point + close
+        private Path buildPath(Point pt) {
+            Path path = new Path(null);
+            path.addArc(pt.x - 5, pt.y - 15, 10, 10, -20, 220);
+            path.lineTo(pt.x, pt.y);
+            path.close();
+            return path;
         }
     };
     
@@ -193,7 +181,8 @@ public class LocationFigure extends AbstractTextControlContainerFigure implement
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 16) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 16) : 0;
     }
 
     @Override

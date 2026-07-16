@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -158,22 +159,42 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
         graphics.drawLine(line2.x, line2.y, line2.width, line2.height);
     }
     
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
+    private static final int ICON_BOX_CORNER_RADIUS = 0;
+
+    /**
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with the top-right corner of the figure (all corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
+     */
     protected void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidthFloat(1.2f);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
@@ -181,18 +202,10 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
-            Path path = new Path(null);
-            
-            path.moveTo(pt.x + 1, pt.y - 2);
-            path.lineTo(pt.x + 14, pt.y - 2);
-            
-            path.moveTo(pt.x + 1, pt.y + 2);
-            path.lineTo(pt.x + 14, pt.y + 2);
 
             if(backgroundColor != null) {
                 Path path2 = new Path(null);
-                
+
                 path2.moveTo(pt.x + 1, pt.y - 2);
                 path2.lineTo(pt.x + 14, pt.y - 2);
                 path2.lineTo(pt.x + 16, pt.y + 1);
@@ -200,38 +213,63 @@ public class DistributionNetworkFigure extends AbstractTextControlContainerFigur
                 path2.lineTo(pt.x + 1, pt.y + 2);
                 path2.lineTo(pt.x, pt.y + 2);
                 path2.lineTo(pt.x, pt.y - 2);
-                
+
                 graphics.fillPath(path2);
                 path2.dispose();
             }
-            
-            path.moveTo(pt.x + 4, pt.y - 5);
-            path.lineTo(pt.x - 1, pt.y);
-            path.lineTo(pt.x + 4, pt.y + 5);
-            
-            path.moveTo(pt.x + 11, pt.y - 5);
-            path.lineTo(pt.x + 16, pt.y);
-            path.lineTo(pt.x + 11, pt.y + 5);
-     
+
+            Path path = buildPath(pt);
             graphics.drawPath(path);
             path.dispose();
 
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            return FigureUtils.getAndDisposePathBounds(buildPath(new Point(0, 0)));
+        }
+
+        // The two lines + inward-pointing arrow carets at each end that are actually stroked (not the
+        // fill-only path2 above, which is only ever built when a solid backgroundColor is supplied - never the
+        // case when drawing the Outline shape style badge, whose icon is always stroke-only)
+        private Path buildPath(Point pt) {
+            Path path = new Path(null);
+
+            path.moveTo(pt.x + 1, pt.y - 2);
+            path.lineTo(pt.x + 14, pt.y - 2);
+
+            path.moveTo(pt.x + 1, pt.y + 2);
+            path.lineTo(pt.x + 14, pt.y + 2);
+
+            path.moveTo(pt.x + 4, pt.y - 5);
+            path.lineTo(pt.x - 1, pt.y);
+            path.lineTo(pt.x + 4, pt.y + 5);
+
+            path.moveTo(pt.x + 11, pt.y - 5);
+            path.lineTo(pt.x + 16, pt.y);
+            path.lineTo(pt.x + 11, pt.y + 5);
+
+            return path;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
 
-    private Point getIconOrigin() {
+    /**
+     * @return The icon start position for Classic shape style
+     */
+    protected Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 20, rect.y + 12);
     }
-    
+
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
 
     @Override

@@ -70,15 +70,9 @@ public class ContractFigure extends ObjectFigure {
         contractDelegate = new ContractFigureDelegate(this);
     }
 
-    // Bounding size of the icon glyph itself (a rectangle with two header lines, see iconDelegate below)
-    private static final int ICON_WIDTH = 13;
-    private static final int ICON_HEIGHT = 10;
-
-    // Padding around the icon glyph inside its containing box, in Outline shape style
-    private static final int ICON_PADDING = 3;
-
-    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
-    private static final int ICON_BOX_CORNER_RADIUS = 0;
+    // Icon glyph padding/corner radius are the same as ObjectFigure's - inherits ICON_PADDING/
+    // ICON_BOX_CORNER_RADIUS from ObjectFigure rather than redeclaring them, so the two stay in sync if
+    // ObjectFigure's are ever retuned
 
     /**
      * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
@@ -89,18 +83,18 @@ public class ContractFigure extends ObjectFigure {
     @Override
     protected void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
@@ -109,7 +103,7 @@ public class ContractFigure extends ObjectFigure {
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
@@ -121,13 +115,29 @@ public class ContractFigure extends ObjectFigure {
             graphics.drawRectangle(rect);
             graphics.drawLine(pt.x, pt.y + 3, pt.x + 13, pt.y + 3);
             graphics.drawLine(pt.x, pt.y + 7, pt.x + 13, pt.y + 7);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // The rectangle itself defines the full extent - both header lines inside it don't extend beyond it
+            return new Rectangle(0, 0, 13, 10);
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
+    }
+
+    // getIconDelegate() is static, so it doesn't participate in overriding: if getIconOffset() were left
+    // inherited from ObjectFigure, its unqualified getIconDelegate() call would resolve to ObjectFigure's own
+    // icon delegate, not this class's (their bounds happen to match today, but that's not guaranteed to hold).
+    // Override explicitly so it uses its own.
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 20) : 0;
     }
 
     @Override

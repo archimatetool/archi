@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
@@ -81,8 +82,18 @@ public class AggregationConnectionFigure extends AbstractArchimateConnectionFigu
             
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the drawRectangle() + Path calls in drawIcon() above (with pt = (0, 0))
+            // Small square: drawRectangle(0, 9, 4, 4)
+            Rectangle bounds = new Rectangle(0, 9, 4, 4);
+            // Diagonal line from (4, 9) to (13, 0)
+            bounds = bounds.union(new Rectangle(4, 0, 9, 9));
+            return bounds;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }

@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -106,56 +107,88 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
         graphics.popState();
     }
     
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
+    private static final int ICON_BOX_CORNER_RADIUS = 0;
+
+    /**
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with the top-right corner of the figure (all corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
+     */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidthFloat(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
-            Path path = new Path(null);
-            
-            path.addArc(pt.x, pt.y, 5, 5, 0, 360);
-            path.addArc(pt.x + 2, pt.y - 8, 5, 5, 0, 360);
-            path.addArc(pt.x + 10, pt.y - 8, 5, 5, 0, 360);
-            path.addArc(pt.x + 8, pt.y, 5, 5, 0, 360);
-            
-            path.moveTo(pt.x + 3, pt.y);
-            path.lineTo(pt.x + 4, pt.y - 3);
-            
-            path.moveTo(pt.x + 11, pt.y);
-            path.lineTo(pt.x + 12, pt.y - 3);
-            
-            path.moveTo(pt.x + 5, pt.y + 2.5f);
-            path.lineTo(pt.x + 8, pt.y + 2.5f);
-            
-            path.moveTo(pt.x + 7, pt.y - 5.5f);
-            path.lineTo(pt.x + 10, pt.y - 5.5f);
-            
+
+            Path path = buildPath(pt);
+
             if(backgroundColor != null) {
                 graphics.fillPath(path);
             }
             graphics.drawPath(path);
             path.dispose();
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            return FigureUtils.getAndDisposePathBounds(buildPath(new Point(0, 0)));
+        }
+
+        // The four "node" circles (all full arcs) plus the connecting line segments between them
+        private Path buildPath(Point pt) {
+            Path path = new Path(null);
+
+            path.addArc(pt.x, pt.y, 5, 5, 0, 360);
+            path.addArc(pt.x + 2, pt.y - 8, 5, 5, 0, 360);
+            path.addArc(pt.x + 10, pt.y - 8, 5, 5, 0, 360);
+            path.addArc(pt.x + 8, pt.y, 5, 5, 0, 360);
+
+            path.moveTo(pt.x + 3, pt.y);
+            path.lineTo(pt.x + 4, pt.y - 3);
+
+            path.moveTo(pt.x + 11, pt.y);
+            path.lineTo(pt.x + 12, pt.y - 3);
+
+            path.moveTo(pt.x + 5, pt.y + 2.5f);
+            path.lineTo(pt.x + 8, pt.y + 2.5f);
+
+            path.moveTo(pt.x + 7, pt.y - 5.5f);
+            path.lineTo(pt.x + 10, pt.y - 5.5f);
+
+            return path;
         }
     };
     
@@ -164,16 +197,17 @@ public class CommunicationNetworkFigure extends AbstractTextControlContainerFigu
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 18, rect.y + 14);
     }
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
 
     @Override

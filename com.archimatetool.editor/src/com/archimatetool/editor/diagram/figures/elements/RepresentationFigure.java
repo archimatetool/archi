@@ -90,15 +90,11 @@ public class RepresentationFigure extends DeliverableFigure {
         return rect;
     }
     
-    // Bounding size of the icon glyph itself (DeliverableFigure's "banner" shape plus an extra header line, see iconDelegate below)
-    private static final int ICON_WIDTH = 14;
-    private static final int ICON_HEIGHT = 12;
-
-    // Padding around the icon glyph inside its containing box, in Outline shape style
-    private static final int ICON_PADDING = 3;
-
-    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
-    private static final int ICON_BOX_CORNER_RADIUS = 0;
+    // Icon glyph padding/corner radius are the same as DeliverableFigure's - inherits ICON_PADDING/
+    // ICON_BOX_CORNER_RADIUS from DeliverableFigure rather than redeclaring them, so the two stay in sync if
+    // DeliverableFigure's are ever retuned. Its own icon glyph's size and origin are, unlike those, NOT the
+    // same as DeliverableFigure's (it draws that plus an extra header line, see iconDelegate below), so those
+    // are derived from this class's own getBounds() rather than inherited.
 
     /**
      * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
@@ -109,36 +105,52 @@ public class RepresentationFigure extends DeliverableFigure {
     @Override
     protected void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             DeliverableFigure.getIconDelegate().drawIcon(graphics, foregroundColor, backgroundColor, pt);
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.pushState();
-            
+
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
-            
+
             graphics.drawLine(pt.x, pt.y + 3, pt.x + 14, pt.y + 3);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Union of the inherited DeliverableFigure glyph's bounds and this class's own extra header line
+            return DeliverableFigure.getIconDelegate().getBounds().union(new Rectangle(0, 3, 14, 0));
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
+    }
+
+    // getIconDelegate() is static, so it doesn't participate in overriding: if getIconOffset() were left
+    // inherited from DeliverableFigure, its unqualified getIconDelegate() call would resolve to
+    // DeliverableFigure's own (smaller) icon delegate, not this class's - reserving too little text margin for
+    // Representation's actual (taller, extra-header-line) badge. Override explicitly so it uses its own.
+    @Override
+    public int getIconOffset() {
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 21) : 0;
     }
 }

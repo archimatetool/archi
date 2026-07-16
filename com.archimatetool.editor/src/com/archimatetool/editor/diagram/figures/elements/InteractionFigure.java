@@ -19,7 +19,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -115,35 +114,16 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
         return path;
     }
     
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (two half-ellipses forming a circle-like shape, see iconDelegate below)
-    private static final int ICON_WIDTH = 13;
-    private static final int ICON_HEIGHT = 13;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
 
     // Corner rounding for the containing box's top-right corner only, so it blends into the shape's own rounded corner
     private static final int ICON_BOX_CORNER_RADIUS = 8;
-
-    // The icon delegate's "pt" origin is not the top-left of its own bounding box (the left half-ellipse extends 5px further left)
-    private static final int ICON_ORIGIN_OFFSET_X = 5;
 
     /**
      * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
@@ -154,32 +134,31 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
      */
     private void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS,
-                    ICON_ORIGIN_OFFSET_X, 0);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
+
             // Start at top
             Path path = new Path(null);
             path.addArc(pt.x - 5, pt.y, 10, 12, 90, 180);
@@ -189,7 +168,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
             }
             graphics.drawPath(path);
             path.dispose();
-            
+
             path = new Path(null);
             path.addArc(pt.x - 2, pt.y, 10, 12, -90, 180);
             path.lineTo(pt.x + 3, pt.y + 12.5f);
@@ -198,8 +177,25 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
             }
             graphics.drawPath(path);
             path.dispose();
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the two addArc + lineTo Path draws above (with pt = (0, 0)) so SWT computes the exact
+            // traced extent of each partial (180-degree) arc, rather than solving for it by hand
+            Path path1 = new Path(null);
+            path1.addArc(-5, 0, 10, 12, 90, 180);
+            path1.lineTo(0, -0.5f);
+            Rectangle bounds = FigureUtils.getAndDisposePathBounds(path1);
+
+            Path path2 = new Path(null);
+            path2.addArc(-2, 0, 10, 12, -90, 180);
+            path2.lineTo(3, 12.5f);
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(path2));
+
+            return bounds;
         }
     };
     
@@ -222,7 +218,8 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 20) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 20) : 0;
     }
 
     @Override

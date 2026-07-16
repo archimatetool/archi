@@ -16,7 +16,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -72,35 +71,16 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
         graphics.popState();
     }
     
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (a "lollipop" circle + line, see iconDelegate below)
-    private static final int ICON_WIDTH = 17;
-    private static final int ICON_HEIGHT = 10;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
 
     // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
     private static final int ICON_BOX_CORNER_RADIUS = 0;
-
-    // The icon delegate's "pt" origin is the circle's top-left, but the line extends 7px further left
-    private static final int ICON_ORIGIN_OFFSET_X = 7;
 
     /**
      * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
@@ -110,44 +90,52 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
      */
     private void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS,
-                    ICON_ORIGIN_OFFSET_X, 0);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
+
             Rectangle rect = new Rectangle(pt.x, pt.y, 10, 10);
-            
+
             // circle
             if(backgroundColor != null) {
                 graphics.fillOval(rect);
             }
             graphics.drawOval(rect);
-            
+
             // line
             graphics.drawLine(pt.x, pt.y + 5, pt.x - 7, pt.y + 5);
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // Full (non-partial) circle - its own defining rectangle is exact - unioned with the straight line
+            // extending 7px left of it, at the vertical mid-point
+            Rectangle circle = new Rectangle(0, 0, 10, 10);
+            Rectangle line = new Rectangle(-7, 5, 7, 0);
+            return circle.union(line);
         }
     };
     
@@ -170,7 +158,8 @@ public class InterfaceFigure extends AbstractTextControlContainerFigure implemen
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 22) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
 
     @Override

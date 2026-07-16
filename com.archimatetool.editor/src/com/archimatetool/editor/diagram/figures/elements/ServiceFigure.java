@@ -19,7 +19,6 @@ import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -50,26 +49,10 @@ public class ServiceFigure extends AbstractTextControlContainerFigure implements
         }
     }
     
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (a rounded pill shape, see iconDelegate below)
-    private static final int ICON_WIDTH = 16;
-    private static final int ICON_HEIGHT = 9;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
@@ -86,23 +69,23 @@ public class ServiceFigure extends AbstractTextControlContainerFigure implements
      */
     protected void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
@@ -110,14 +93,21 @@ public class ServiceFigure extends AbstractTextControlContainerFigure implements
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
+
             Rectangle rect = new Rectangle(pt.x, pt.y, 16, 9);
             if(backgroundColor != null) {
                 graphics.fillRoundRectangle(rect, 8, 8);
             }
             graphics.drawRoundRectangle(rect, 8, 8);
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // A full rounded rectangle (not a partial arc) - its rounded corners are inset, not outset, so the
+            // defining rectangle itself is already the exact bounds
+            return new Rectangle(0, 0, 16, 9);
         }
     };
     
@@ -150,6 +140,7 @@ public class ServiceFigure extends AbstractTextControlContainerFigure implements
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 22) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
 }

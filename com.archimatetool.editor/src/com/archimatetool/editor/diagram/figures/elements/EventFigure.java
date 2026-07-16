@@ -17,7 +17,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -90,26 +89,10 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
         return path;
     }
 
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (two half-circle "bowtie" arcs with lines, see iconDelegate below)
-    private static final int ICON_WIDTH = 16;
-    private static final int ICON_HEIGHT = 9;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
@@ -126,49 +109,49 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
      */
     private void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 Path path = new Path(null);
-                
+
                 path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
                 path.addRectangle(pt.x, pt.y, 12, 9);
                 path.addArc(pt.x - 4, pt.y, 8, 9, 270, 180);
-                
+
                 graphics.fillPath(path);
                 path.dispose();
             }
-            
+
             // arc
             Path path = new Path(null);
             path.moveTo(pt.x, pt.y);
             path.addArc(pt.x - 4, pt.y, 8, 9, 270, 180);
             graphics.drawPath(path);
             path.dispose();
-            
+
             // arc 2
             path = new Path(null);
             path.addArc(pt.x + 8, pt.y, 8, 9, 270, 180);
@@ -176,14 +159,35 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
             // lines
             path.moveTo(pt.x, pt.y);
             path.lineTo(pt.x + 12, pt.y);
-            
+
             path.moveTo(pt.x, pt.y + 9);
             path.lineTo(pt.x + 12, pt.y + 9);
-            
+
             graphics.drawPath(path);
             path.dispose();
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the two stroke-only Path draws above ("arc" and "arc 2", with pt = (0, 0)) - the fill-only
+            // rectangle + arcs built only when backgroundColor != null is excluded, since that never happens when
+            // drawing the Outline badge (same pattern as DistributionNetworkFigure)
+            Path path1 = new Path(null);
+            path1.moveTo(0, 0);
+            path1.addArc(-4, 0, 8, 9, 270, 180);
+            Rectangle bounds = FigureUtils.getAndDisposePathBounds(path1);
+
+            Path path2 = new Path(null);
+            path2.addArc(8, 0, 8, 9, 270, 180);
+            path2.moveTo(0, 0);
+            path2.lineTo(12, 0);
+            path2.moveTo(0, 9);
+            path2.lineTo(12, 9);
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(path2));
+
+            return bounds;
         }
     };
     
@@ -206,6 +210,7 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 22) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
 }

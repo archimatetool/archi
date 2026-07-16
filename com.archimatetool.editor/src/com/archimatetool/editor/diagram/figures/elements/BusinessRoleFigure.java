@@ -16,7 +16,6 @@ import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigu
 import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
-import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -45,26 +44,10 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure imple
         }
     }
     
-    /**
-     * In Outline shape style the fill always matches the view's background ("paper") color - only the outline is colored
-     */
     @Override
-    public Color getFillColor() {
-        return isOutlineShapeStyle() ? ColorFactory.getViewBackgroundColor() : super.getFillColor();
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
     }
-
-    /**
-     * In Outline shape style the outline uses what would otherwise have been the fill color,
-     * since the actual fill now matches the view's background
-     */
-    @Override
-    public Color getLineColor() {
-        return isOutlineShapeStyle() ? super.getFillColor() : super.getLineColor();
-    }
-
-    // Bounding size of the icon glyph itself (a "role" cylinder-with-flag glyph, see iconDelegate below)
-    private static final int ICON_WIDTH = 15;
-    private static final int ICON_HEIGHT = 8;
 
     // Padding around the icon glyph inside its containing box, in Outline shape style
     private static final int ICON_PADDING = 3;
@@ -80,7 +63,7 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure imple
      */
     private void drawIcon(Graphics graphics) {
         if(isOutlineShapeStyle()) {
-            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_WIDTH, ICON_HEIGHT, ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
         else if(isIconVisible()) {
             getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
@@ -104,33 +87,48 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure imple
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
-            Path path = new Path(null);
-            
-            path.addArc(pt.x, pt.y, 5, 8, 90, 180);
-            
-            path.lineTo(pt.x + 12, pt.y + 8);
-            
-            path.moveTo(pt.x + 2f, pt.y);
-            path.lineTo(pt.x + 12, pt.y);
-            
+
+            Path path = buildPath(pt);
+
             if(backgroundColor != null) {
                 path.lineTo(pt.x + 12, pt.y + 8);
                 graphics.fillPath(path);
             }
-            
+
             graphics.drawPath(path);
             path.dispose();
-            
+
             if(backgroundColor != null) {
                 graphics.fillOval(pt.x + 10, pt.y, 5, 8);
             }
             graphics.drawOval(pt.x + 10, pt.y, 5, 8);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // buildPath() covers the flag pole partial arc + connecting lines - the stroke-only geometry that's
+            // always drawn (matching backgroundColor == null, always the case for the Outline badge); the flag
+            // itself is a full oval, so its bounds equal its own defining rectangle, no Path needed for that part
+            Rectangle bounds = FigureUtils.getAndDisposePathBounds(buildPath(new Point(0, 0)));
+            bounds = bounds.union(new Rectangle(10, 0, 5, 8)); // flag oval
+            return bounds;
+        }
+
+        // The partial arc + connecting lines that make up the pole - shared by drawIcon() (which strokes it,
+        // and for a filled background also closes and fills it) and getBounds() (which only needs the
+        // stroke-only extent, since the Outline badge always draws with a null background)
+        private Path buildPath(Point pt) {
+            Path path = new Path(null);
+            path.addArc(pt.x, pt.y, 5, 8, 90, 180);
+            path.lineTo(pt.x + 12, pt.y + 8);
+            path.moveTo(pt.x + 2f, pt.y);
+            path.lineTo(pt.x + 12, pt.y);
+            return path;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
@@ -145,7 +143,8 @@ public class BusinessRoleFigure extends AbstractTextControlContainerFigure imple
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? (isOutlineShapeStyle() ? ICON_WIDTH + (ICON_PADDING * 2) : 20) : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 20) : 0;
     }
     
     @Override
