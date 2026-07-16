@@ -190,9 +190,18 @@ public class FigureUtils {
      * of any arcs/curves it contains - SWT already knows how to do that precisely.
      */
     public static Rectangle getAndDisposePathBounds(Path path) {
-        org.eclipse.swt.graphics.Rectangle bounds = path.getBounds();
+        // Path has no no-arg getBounds() - the real SWT API is getBounds(float[]), filling [x, y, width, height]
+        float[] bounds = new float[4];
+        path.getBounds(bounds);
         path.dispose();
-        return new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height);
+
+        // Round outward (floor origin, ceil extent) so the returned int Rectangle always fully contains the
+        // path's true float bounds, rather than clipping it by rounding to the nearest integer
+        int x = (int)Math.floor(bounds[0]);
+        int y = (int)Math.floor(bounds[1]);
+        int right = (int)Math.ceil(bounds[0] + bounds[2]);
+        int bottom = (int)Math.ceil(bounds[1] + bounds[3]);
+        return new Rectangle(x, y, right - x, bottom - y);
     }
 
     /**
