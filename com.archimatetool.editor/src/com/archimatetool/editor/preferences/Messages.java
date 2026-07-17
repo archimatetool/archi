@@ -65,6 +65,12 @@ public class Messages extends NLS {
 
     public static String ColoursPreferencePage_25;
 
+    public static String ColoursPreferencePage_26;
+
+    public static String ColoursPreferencePage_27;
+
+    public static String ColoursPreferencePage_28;
+
     public static String ColoursPreferencePage_3;
 
     public static String ColoursPreferencePage_4;

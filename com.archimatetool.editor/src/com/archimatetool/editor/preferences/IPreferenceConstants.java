@@ -31,6 +31,12 @@ public interface IPreferenceConstants {
 
     String DERIVE_ELEMENT_LINE_COLOR = "deriveElementLineColor";
     String SAVE_USER_DEFAULT_COLOR = "saveUserDefaultFillColorInFile";
+
+    // Default Colour Scheme - which bundled scheme currently supplies the default (non-user-set) colours.
+    // Classic Shape Style defaults to Standard; Outline Shape Style defaults to Saturated (see ColourSchemeManager).
+    String COLOUR_SCHEME = "colourScheme";
+    String COLOUR_SCHEME_STANDARD = "standard";
+    String COLOUR_SCHEME_SATURATED = "saturated";
     
     // Theme Color Definition IDs
     String VIEW_BACKGROUND_COLOR = "com.archimatetool.editor.VIEW_BACKGROUND";

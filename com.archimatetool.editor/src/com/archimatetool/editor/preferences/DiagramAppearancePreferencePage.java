@@ -219,7 +219,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(DEFAULT_GRADIENT, fDefaultGradientCombo.getSelectionIndex() - 1); // Starts at -1
         getPreferenceStore().setValue(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, fWordWrapStyleCombo.getSelectionIndex());
 
-        getPreferenceStore().setValue(SHAPE_STYLE, SHAPE_STYLE_VALUES[fShapeStyleCombo.getSelectionIndex()]);
+        String newShapeStyle = SHAPE_STYLE_VALUES[fShapeStyleCombo.getSelectionIndex()];
+        if(!newShapeStyle.equals(getPreferenceStore().getString(SHAPE_STYLE))) {
+            // Apply the matching default colour scheme before the Shape Style change takes effect,
+            // so figures pick up the new colours as soon as they refresh
+            ColourSchemeManager.applySchemeForShapeStyleIfUnmodified(newShapeStyle);
+        }
+        getPreferenceStore().setValue(SHAPE_STYLE, newShapeStyle);
 
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_WIDTH, fDefaultArchimateFigureWidthSpinner.getSelection());
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, fDefaultArchimateFigureHeightSpinner.getSelection());
