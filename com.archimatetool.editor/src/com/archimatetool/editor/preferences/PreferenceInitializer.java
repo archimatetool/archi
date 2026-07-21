@@ -10,7 +10,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ILegendOptions;
@@ -136,8 +135,8 @@ implements IPreferenceConstants {
         store.setDefault(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, true);
 
         store.setDefault(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, false);
-        // Windows hi-res and Mac Retina use display scaling, Linux is 100
-        store.setDefault(SCALE_IMAGE_EXPORT, PlatformUtils.isLinux() ? false : ImageFactory.getDeviceZoom() > 100);
+        // Windows and Mac use display scaling, Linux is 100% scaling
+        store.setDefault(SCALE_IMAGE_EXPORT, PlatformUtils.isLinux() ? false : true);
         
         // Animation
         store.setDefault(ANIMATE_VIEW, false);

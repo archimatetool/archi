@@ -57,8 +57,7 @@ public class ImageFactory {
     /**
      * @return The zoom level for creating images.
      * On Linux scaleImages defaults to false and this should be 100%
-     * On Mac use the device zoom
-     * On Windows use the device zoom
+     * On Mac/Windows use the device zoom
      */
     public static int getImageDeviceZoom() {
         boolean scaleImages = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
