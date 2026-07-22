@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IRoundedRectangleFigure;
 
 
@@ -35,14 +36,14 @@ implements IRoundedRectangleFigure {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds();
         
         Dimension arc = getArc();
         
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
+        //FigureUtils.fillRoundRectanglePath(graphics, rect, arc.width, arc.height);
         graphics.fillRoundRectangle(rect, arc.width, arc.height);
         disposeGradientPattern(graphics, gradient);
 
@@ -53,8 +54,7 @@ implements IRoundedRectangleFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.setLineWidth(getLineWidth());
-        graphics.drawRoundRectangle(rect, arc.width, arc.height);
+        FigureUtils.drawRoundRectanglePath(graphics, rect, arc.width, arc.height, getLineWidth());
         
         graphics.popState();
     }

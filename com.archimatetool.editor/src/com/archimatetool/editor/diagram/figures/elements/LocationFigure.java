@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -58,10 +59,9 @@ public class LocationFigure extends AbstractTextControlContainerFigure implement
         drawIconImage(graphics, getBounds().getCopy());
         
         // Lines
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         
@@ -83,7 +83,7 @@ public class LocationFigure extends AbstractTextControlContainerFigure implement
             figureWidth = rect.height;
         }
 
-        int yMargin = (rect.height - figureHeight + getLineWidth() + 1) / 2;
+        int yMargin = (rect.height - figureHeight) / 2;
         int xCenter = rect.x + rect.width / 2;
         float diameter = (figureWidth  / 4) * 3;
 

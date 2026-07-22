@@ -11,6 +11,7 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.ISketchModelSticky;
@@ -42,8 +43,7 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
     protected void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Fill
         graphics.setAlpha(getAlpha());
@@ -59,9 +59,8 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
         if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getLineColor());
-            graphics.setLineWidth(getLineWidth());
             setLineStyle(graphics);
-            graphics.drawRectangle(rect);
+            FigureUtils.drawRectangle(graphics, rect, getLineWidth());
         }
         
         graphics.popState();

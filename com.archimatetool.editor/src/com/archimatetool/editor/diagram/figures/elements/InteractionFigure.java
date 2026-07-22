@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -48,14 +49,7 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Adjust size by line width
-        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
-        rect.shrink(shrink, shrink);
-
-        // And then set figure position
-        rect = getFigurePositionFromTextPosition(rect, 1 / 0.86); // Should match 'FRACTION' defined in getFigurePath()
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds(), 1 / 0.86); // Should match 'FRACTION' defined in getFigurePath()
         
         Path path = getFigurePath(rect);
 
@@ -70,10 +64,9 @@ public class InteractionFigure extends AbstractTextControlContainerFigure implem
         drawIconImage(graphics, getBounds().getCopy());
         
         // Line
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
 
         path.dispose();
         

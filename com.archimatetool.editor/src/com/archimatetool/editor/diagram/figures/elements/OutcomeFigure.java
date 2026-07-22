@@ -39,14 +39,7 @@ public class OutcomeFigure extends AbstractMotivationFigure {
 
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Adjust size by line width
-        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
-        rect.shrink(shrink, shrink);
-
-        // And then set the figure position
-        rect = getFigurePositionFromTextPosition(rect);
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds());
 
         int radius = getRadius(rect);
         int diameter = radius * 2;
@@ -66,10 +59,9 @@ public class OutcomeFigure extends AbstractMotivationFigure {
         drawIconImage(graphics, getBounds().getCopy());
         
         // Circle Line
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        FigureUtils.drawOvalPath(graphics, circleX, circleY, diameter, diameter);
+        FigureUtils.drawOvalPath(graphics, circleX, circleY, diameter, diameter, getLineWidth());
         
         graphics.setBackgroundColor(getLineColor());
         graphics.setLineWidth(getLineWidth());

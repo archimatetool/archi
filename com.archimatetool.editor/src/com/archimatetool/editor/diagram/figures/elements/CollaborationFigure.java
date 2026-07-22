@@ -44,13 +44,7 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Adjust size by line width
-        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
-        rect.shrink(shrink, shrink);
-
-        rect = getFigurePositionFromTextPosition(rect, 1.5); // Should match 'diameter'
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds(), 1.5); // Should match 'diameter'
         
         float diameter;
         float x1 = rect.x;
@@ -80,11 +74,11 @@ public class CollaborationFigure extends AbstractTextControlContainerFigure impl
         drawIconImage(graphics, getBounds().getCopy());
         
         // Lines
-        graphics.setLineWidth(getLineWidth());
+        int lineWidth = getLineWidth();
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        FigureUtils.drawOvalPath(graphics, x1, y, diameter, diameter);
-        FigureUtils.drawOvalPath(graphics, x2, y, diameter, diameter);
+        FigureUtils.drawOvalPath(graphics, x1, y, diameter, diameter, lineWidth);
+        FigureUtils.drawOvalPath(graphics, x2, y, diameter, diameter, lineWidth);
         
         graphics.popState();
     }

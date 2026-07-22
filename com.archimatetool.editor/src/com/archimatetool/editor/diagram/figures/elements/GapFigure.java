@@ -44,13 +44,7 @@ public class GapFigure extends AbstractTextControlContainerFigure implements IAr
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Adjust size by line width
-        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
-        rect.shrink(shrink, shrink);
-        
-        rect = getFigurePositionFromTextPosition(rect, 5/3.0); // Should match 'widthFraction' formula
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds(), 5/3.0); // Should match 'widthFraction' formula
         
         float widthFraction = 3f * (rect.width / 10f); // 3/10ths of width
         float circleRadius = widthFraction;
@@ -78,7 +72,7 @@ public class GapFigure extends AbstractTextControlContainerFigure implements IAr
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.setLineWidth(getLineWidth());
-        FigureUtils.drawOvalPath(graphics, xCenter - circleRadius, yCenter - circleRadius, circleRadius * 2, circleRadius * 2);
+        FigureUtils.drawOvalPath(graphics, xCenter - circleRadius, yCenter - circleRadius, circleRadius * 2, circleRadius * 2, getLineWidth());
 
         int x1 = (int)(xCenter - (circleRadius + circleRadius / 2));
         int x2 = (int)(xCenter + (circleRadius + circleRadius / 2));

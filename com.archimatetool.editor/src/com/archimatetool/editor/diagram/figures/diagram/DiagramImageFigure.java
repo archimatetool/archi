@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -78,8 +79,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         graphics.setAlpha(getDiagramModelObject().getAlpha());
         
-        boolean drawOutline = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         if(fImage != null) {
             // Draw the image with checks ensuring minimum width and height
@@ -93,12 +93,11 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         // Border
-        if(drawOutline) {
+        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             setLineStyle(graphics);
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.setLineWidth(getLineWidth());
-            graphics.drawRectangle(rect);
+            FigureUtils.drawRectangle(graphics, rect, getLineWidth());
         }
         
         graphics.popState();

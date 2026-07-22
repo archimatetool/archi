@@ -10,6 +10,7 @@ import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
@@ -36,19 +37,20 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
         
         graphics.setAntialias(SWT.ON);
         
+        Rectangle rect = getBounds().getCopy();
+        
         switch(((IJunction)getDiagramModelArchimateObject().getArchimateElement()).getType()) {
             case IJunction.AND_JUNCTION_TYPE:
             default:
                 graphics.setAlpha(getAlpha());
                 graphics.setBackgroundColor(getFillColor());
-                graphics.fillOval(getBounds());
+                graphics.fillOval(rect);
                 break;
 
             case IJunction.OR_JUNCTION_TYPE:
                 graphics.setAlpha(getLineAlpha());
                 graphics.setForegroundColor(getLineColor());
-                graphics.setLineWidth(getLineWidth());
-                FigureUtils.drawOvalPath(graphics, applyLineWidthOffset(graphics));
+                FigureUtils.drawOvalPath(graphics, rect, getLineWidth());
                 break;
         }
         

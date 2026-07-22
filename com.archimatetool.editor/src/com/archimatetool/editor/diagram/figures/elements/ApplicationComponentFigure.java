@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -47,8 +48,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds().getCopy();
         
         // Main Fill
         graphics.setAlpha(getAlpha());
@@ -60,7 +60,9 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         // Icon
         drawIconImage(graphics, getBounds().getCopy(), 0, 0, 0, INDENT * 2);
 
-        graphics.setLineWidth(getLineWidth());
+        // Outline
+        int lineWidth = getLineWidth();
+        
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         
@@ -75,7 +77,7 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         path.moveTo(rect.x + INDENT, rect.y + 23);
         path.lineTo(rect.x + INDENT, rect.y + 30);
         
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, lineWidth);
         path.dispose();
         
         // Nubs Fill
@@ -87,8 +89,8 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         // Nubs Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawRectangle(rect.x, rect.y + 10, INDENT * 2, 13);
-        graphics.drawRectangle(rect.x, rect.y + 30, INDENT * 2, 13);
+        FigureUtils.drawRectangle(graphics, new Rectangle(rect.x, rect.y + 10, INDENT * 2, 13), lineWidth);
+        FigureUtils.drawRectangle(graphics, new Rectangle(rect.x, rect.y + 30, INDENT * 2, 13), lineWidth);
         
         graphics.popState();
     }

@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
@@ -94,30 +95,34 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         
         graphics.setAntialias(SWT.ON);
         
+        Rectangle rect = getBounds().getCopy();
+        
         boolean drawBorder = getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        Rectangle rect = drawBorder ? applyLineWidthOffset(graphics) : getBounds().getCopy();
+        
+        if(drawBorder) {
+            graphics.setLineWidth(getLineWidth());
+            setLineStyle(graphics);
+        }
         
         // Dog ear
         if(getDiagramModelObject().getBorderType() == IDiagramModelNote.BORDER_DOGEAR) {
+            Path path = createDogEarPath(rect);
+
             // Fill
             graphics.setAlpha(getAlpha());
             graphics.setBackgroundColor(getFillColor());
             Pattern gradient = applyGradientPattern(graphics, rect);
-            Path path = createDogEarPath(rect);
             graphics.fillPath(path);
-            path.dispose();
             disposeGradientPattern(graphics, gradient);
+            
+            graphics.setAlpha(getLineAlpha());
+            graphics.setForegroundColor(getLineColor());
             
             // Icon
             drawIconImage(graphics, getBounds().getCopy());
 
             if(drawBorder) {
-                graphics.setAlpha(getLineAlpha());
-                graphics.setForegroundColor(getLineColor());
-                graphics.setLineWidth(getLineWidth());
-                setLineStyle(graphics);
-                path = createDogEarPath(rect);
-                graphics.drawPath(path);
+                FigureUtils.drawPath(graphics, path, getLineWidth());
                 path.dispose();
             }
             
@@ -135,9 +140,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
             if(drawBorder) {
                 graphics.setAlpha(getLineAlpha());
                 graphics.setForegroundColor(getLineColor());
-                graphics.setLineWidth(getLineWidth());
-                setLineStyle(graphics);
-                graphics.drawRectangle(rect);
+                FigureUtils.drawRectangle(graphics, rect, getLineWidth());
             }
         }
         
