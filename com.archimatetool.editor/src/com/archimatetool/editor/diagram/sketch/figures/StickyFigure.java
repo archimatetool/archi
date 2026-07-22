@@ -42,7 +42,8 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
     protected void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
         
         // Fill
         graphics.setAlpha(getAlpha());
@@ -60,7 +61,7 @@ public class StickyFigure extends AbstractTextControlContainerFigure {
             graphics.setForegroundColor(getLineColor());
             graphics.setLineWidth(getLineWidth());
             setLineStyle(graphics);
-            graphics.drawRectangle(applyLineWidthOffset(graphics));
+            graphics.drawRectangle(rect);
         }
         
         graphics.popState();

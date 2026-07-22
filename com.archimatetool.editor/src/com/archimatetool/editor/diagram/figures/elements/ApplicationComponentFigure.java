@@ -47,7 +47,8 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
+        // Apply the offset for the fill also so it lines up with the outline
+        Rectangle rect = applyLineWidthOffset(graphics);
         
         // Main Fill
         graphics.setAlpha(getAlpha());
@@ -59,8 +60,6 @@ public class ApplicationComponentFigure extends AbstractTextControlContainerFigu
         // Icon
         drawIconImage(graphics, getBounds().getCopy(), 0, 0, 0, INDENT * 2);
 
-        rect = applyLineWidthOffset(graphics);
-        
         graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());

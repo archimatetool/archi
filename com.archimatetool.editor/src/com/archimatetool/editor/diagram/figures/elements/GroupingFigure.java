@@ -48,9 +48,8 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
     protected void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
         final boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
         
         // Rectangle type
         if(getDiagramModelArchimateObject().getType() == 0) {
@@ -73,7 +72,7 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
                 setLineStyle(graphics);
                 graphics.setAlpha(getLineAlpha());
                 graphics.setLineWidth(getLineWidth());
-                graphics.drawRectangle(applyLineWidthOffset(graphics));
+                graphics.drawRectangle(rect);
             }
         }
         // Tabbed
@@ -118,8 +117,6 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
                 graphics.setLineWidth(getLineWidth());
                 setLineStyle(graphics);
                 
-                rect = applyLineWidthOffset(graphics);
-
                 // Main rectangle
                 graphics.drawRectangle(createMainRectangle(rect));
                 

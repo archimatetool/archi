@@ -94,9 +94,8 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
         
         graphics.setAntialias(SWT.ON);
         
-        Rectangle rect = getBounds().getCopy();
-        
         boolean drawBorder = getDiagramModelObject().getBorderType() != IDiagramModelNote.BORDER_NONE && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        Rectangle rect = drawBorder ? applyLineWidthOffset(graphics) : getBounds().getCopy();
         
         // Dog ear
         if(getDiagramModelObject().getBorderType() == IDiagramModelNote.BORDER_DOGEAR) {
@@ -117,7 +116,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
                 graphics.setForegroundColor(getLineColor());
                 graphics.setLineWidth(getLineWidth());
                 setLineStyle(graphics);
-                path = createDogEarPath(applyLineWidthOffset(graphics));
+                path = createDogEarPath(rect);
                 graphics.drawPath(path);
                 path.dispose();
             }
@@ -138,7 +137,7 @@ public class NoteFigure extends AbstractDiagramModelObjectFigure implements ITex
                 graphics.setForegroundColor(getLineColor());
                 graphics.setLineWidth(getLineWidth());
                 setLineStyle(graphics);
-                graphics.drawRectangle(applyLineWidthOffset(graphics));
+                graphics.drawRectangle(rect);
             }
         }
         

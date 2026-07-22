@@ -44,7 +44,8 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
             public void drawFigure(Graphics graphics) {
                 graphics.pushState();
                 
-                Rectangle rect = getBounds();
+                // Apply the offset for the fill also so it lines up with the outline
+                Rectangle rect = applyLineWidthOffset(graphics);
                 
                 // Fill
                 fill(graphics, rect);
@@ -53,7 +54,6 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
                 drawIconImage(graphics, rect);
                 
                 // Outline
-                rect = applyLineWidthOffset(graphics);
                 drawOutline(graphics, rect);
 
                 // Line

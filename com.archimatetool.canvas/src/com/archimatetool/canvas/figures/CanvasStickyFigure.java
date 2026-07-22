@@ -113,7 +113,8 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         
         graphics.setAlpha(getAlpha());
         
-        Rectangle rect = getBounds().getCopy();
+        boolean drawOutline = getBorderColor() != null;
+        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
         
         // Bug on Linux hi-res using Graphics.fillGradient()
         // See https://github.com/eclipse-platform/eclipse.platform.swt/issues/3107
@@ -131,8 +132,7 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         drawIconImage(graphics, getBounds().getCopy());
         
         // Border
-        if(getBorderColor() != null) {
-            rect = applyLineWidthOffset(graphics);
+        if(drawOutline) {
             graphics.setAlpha(getLineAlpha());
             graphics.setLineWidth(getLineWidth());
             

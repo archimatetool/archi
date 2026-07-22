@@ -28,7 +28,9 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        Rectangle rect = getBounds();
+        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        
+        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds();
         
         // Fill
         fill(graphics, rect);
@@ -37,10 +39,10 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         drawIconImage(graphics, rect);
         
         // Outline
-        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawOutline) {
             setLineStyle(graphics);
             graphics.setLineWidth(getLineWidth());
-            drawOutline(graphics, applyLineWidthOffset(graphics));
+            drawOutline(graphics, rect);
         }
         
         graphics.popState();

@@ -131,21 +131,24 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         
         graphics.setAntialias(SWT.ON);
         
+        boolean drawOutline = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
+        
         // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(background);
-        graphics.fillRectangle(getBounds().getCopy());
+        graphics.fillRectangle(rect);
         
         // Icon Image
         drawIconImage(graphics, getBounds().getCopy());
         
         // Border
-        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawOutline) {
             setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
             graphics.setLineWidth(getLineWidth());
-            graphics.drawRectangle(applyLineWidthOffset(graphics));
+            graphics.drawRectangle(rect);
         }
         
         graphics.popState();

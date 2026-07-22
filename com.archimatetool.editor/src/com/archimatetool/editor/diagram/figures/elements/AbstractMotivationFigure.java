@@ -37,17 +37,10 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
 
         graphics.pushState();
         
-        Rectangle rect;
-        
         final boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
         
         // Have to apply the offset for the fill also so it lines up with the outline
-        if(drawOutline) {
-            rect = applyLineWidthOffset(graphics);
-        }
-        else {
-            rect = getBounds().getCopy();
-        }
+        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
         
         // Fill
         graphics.setAlpha(getAlpha());

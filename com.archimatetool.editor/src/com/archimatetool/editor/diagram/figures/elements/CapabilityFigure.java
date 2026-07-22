@@ -46,6 +46,8 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
         
         Rectangle rect = getFigurePositionFromTextPosition(getBounds());
         
+        rect = applyLineWidthOffset(graphics, rect);
+        
         // block length
         float blockLength = Math.min(rect.height / 3.0f, rect.width / 3.0f);
         float figureLength = blockLength * 3;
@@ -70,8 +72,6 @@ public class CapabilityFigure extends AbstractTextControlContainerFigure impleme
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.setLineWidth(getLineWidth());
-        
-        rect = applyLineWidthOffset(graphics, rect);
         
         // Recaclulate these on new rect
         blockLength = Math.min(rect.height / 3.0f, rect.width / 3.0f);

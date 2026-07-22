@@ -78,7 +78,8 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         
         graphics.setAlpha(getDiagramModelObject().getAlpha());
         
-        Rectangle rect = getBounds().getCopy();
+        boolean drawOutline = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
         
         if(fImage != null) {
             // Draw the image with checks ensuring minimum width and height
@@ -92,12 +93,12 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
         }
         
         // Border
-        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
+        if(drawOutline) {
             setLineStyle(graphics);
             graphics.setAlpha(getDiagramModelObject().getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
             graphics.setLineWidth(getLineWidth());
-            graphics.drawRectangle(applyLineWidthOffset(graphics));
+            graphics.drawRectangle(rect);
         }
         
         graphics.popState();
