@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.util;
 import org.eclipse.draw2d.FreeformFigure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.GraphicalViewer;
@@ -16,17 +17,17 @@ import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
-import org.eclipse.swt.graphics.AutoscalingMode;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.DiagramEditorFactoryExtensionHandler;
 import com.archimatetool.editor.diagram.IDiagramEditorFactory;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
@@ -70,8 +71,7 @@ public final class DiagramUtils {
         }
         
         GraphicalViewerImpl viewer = new GraphicalViewerImpl();
-        viewer.createControl(parent).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops text clipping on Windows
-        
+        viewer.createControl(parent);
         viewer.setEditPartFactory(editPartFactory);
         
         RootEditPart rootPart = new FreeformGraphicalRootEditPart();
@@ -105,13 +105,13 @@ public final class DiagramUtils {
      */
     public static ModelReferencedImage createModelReferencedImage(IDiagramModel model, double scale, int margin) {
         Shell shell = new Shell();
-        shell.setLayout(new FillLayout());
-        
-        GraphicalViewer viewer = createViewer(model, shell);
-        ModelReferencedImage image = createModelReferencedImage(viewer, scale, margin);
-        shell.dispose();
-        
-        return image;
+        try {
+            GraphicalViewer viewer = createViewer(model, shell);
+            return createModelReferencedImage(viewer, scale, margin);
+        }
+        finally {
+            shell.dispose();
+        }
     }
 
     /**
@@ -155,27 +155,84 @@ public final class DiagramUtils {
             bounds.expand(margin / scale, margin / scale);
         }
         
-        Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale));
-        GC gc = new GC(image);
-        SWTGraphics graphics = new ImageGraphics(gc); // Use ImageGraphics so we can get actual scale
+        // On Windows use the scaled method else  just create image with scale
+        Image image = FigureUtils.isAutoScaleEnabled() ? createAutoScaledImage(figure, bounds, scale) : createImageAtScale(figure, bounds, 1.0, scale);
+        return new ModelReferencedImage(image, bounds);   
+    }
+    
+    /**
+     * Create a scaled image on Windows depending on device zoom
+     * Comes from https://github.com/eclipse-gef/gef-classic/discussions/1151
+     */
+    @SuppressWarnings("restriction")
+    private static Image createAutoScaledImage(IFigure figure, Rectangle bounds, double imageScale) {
+        int deviceZoom = DPIUtil.getDeviceZoom();
+        double displayScale = deviceZoom / 100.0;
         
-        if(scale != 1) {
-            graphics.scale(scale);
+        // Create the image at scale
+        Image imageZoom = createImageAtScale(figure, bounds, displayScale, imageScale);
+
+        // If device zoom is 100% no need for any more processing
+        if(deviceZoom == 100) {
+            return imageZoom;
         }
+
+        // Image is stored at 100% zoom, but is scaled by the monitor zoom
+        ImageData imageDataZoom = imageZoom.getImageData(100);
+        Image tmp = new Image(null, imageDataZoom);
+        imageZoom.dispose();
+
+        int width100 = imageDataZoom.width * 100 / deviceZoom;
+        int height100 = imageDataZoom.height * 100 / deviceZoom;
+        Image image = new Image(null, width100, height100);
+
+        GC gc = new GC(image);
+        image.getImageData(deviceZoom);
+        gc.drawImage(tmp, 0, 0, width100, height100);
+        gc.dispose();
+
+        tmp.dispose();
+        
+        return image;
+    }
+
+    /**
+     * Create a scaled image
+     * Parts from https://github.com/eclipse-gef/gef-classic/discussions/1151
+     */
+    private static Image createImageAtScale(IFigure figure, Rectangle bounds, double displayScale, double imageScale) {
+        Dimension size = bounds.getSize();
+        
+        // Scale size by display scale * image scale
+        size.scale(displayScale * imageScale);
+
+        Image image = new Image(null, size.width, size.height);
+
+        GC gc = new GC(image);
+        
+        // Force image to be drawn as if at 100% zoom
+        // This is the magic that stops text clipping
+        if(FigureUtils.isAutoScaleEnabled()) {
+            image.getImageData(100);
+        }
+
+        SWTGraphics graphics = new ImageGraphics(gc);
+        
+        // Scale by display and image scale
+        graphics.scale(displayScale * imageScale);
         
         // Compensate for negative co-ordinates
         graphics.translate(bounds.x * -1, bounds.y * -1);
-
-        // Paint onto graphics
+        
+        // Paint figure
         figure.paint(graphics);
-        
-        // Dispose
-        gc.dispose();
+
         graphics.dispose();
+        gc.dispose();
         
-        return new ModelReferencedImage(image, bounds);
+        return image;
     }
-    
+
     /**
      * Return the extents of the diagram by extending from the left-topmost child to the right-bottom-most child.
      * If there are no children in the diagram a minimal size of 100x100 is returned.
