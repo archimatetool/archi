@@ -89,15 +89,24 @@ public class GoalFigure extends AbstractMotivationFigure {
         return radius - radius % 2;
     }
     
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner cut off at a diagonal matching the figure's own "shaved corner" outline.
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIconChamfered(graphics, this, getIconDelegate(), ICON_PADDING, INSET);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
@@ -132,6 +141,13 @@ public class GoalFigure extends AbstractMotivationFigure {
 
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Nested full circles - the outer circle's bounds equal its own defining rectangle and contain
+            // the inner rings
+            return new Rectangle(0, 0, 13, 13);
+        }
     };
     
     public static IIconDelegate getIconDelegate() {
@@ -139,13 +155,13 @@ public class GoalFigure extends AbstractMotivationFigure {
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 19, rect.y + 6);
     }
-    
+
     @Override
     protected int getTextControlMarginHeight() {
         return getDiagramModelArchimateObject().getType() == 0 ? super.getTextControlMarginHeight() : 0;
@@ -153,6 +169,7 @@ public class GoalFigure extends AbstractMotivationFigure {
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
 }

@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -103,12 +104,29 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
         graphics.popState();
     }
     
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
+    private static final int ICON_BOX_CORNER_RADIUS = 0;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with the top-right corner of the figure (all corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
     
@@ -148,26 +166,47 @@ public class BusinessActorFigure extends AbstractTextControlContainerFigure impl
             // arms
             pt.translate(-4, -3);
             graphics.drawLine(pt.x, pt.y, pt.x + 8, pt.y);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the head (a full oval, so its bounds equal its own defining rectangle) and the straight
+            // body/legs/arms line segments in drawIcon() above (with pt = (0, 0)) - no curves besides the oval,
+            // so no Path is needed, just the endpoints each translate() lands on
+            Rectangle bounds = new Rectangle(0, 0, 6, 6); // head
+
+            // body: (3, 6) to (3, 12)
+            bounds = bounds.union(new Rectangle(3, 6, 0, 6));
+
+            // legs: (3, 12) to (-1, 17) and (3, 12) to (7, 17)
+            bounds = bounds.union(new Rectangle(-1, 12, 4, 5));
+            bounds = bounds.union(new Rectangle(3, 12, 4, 5));
+
+            // arms: (-1, 9) to (7, 9)
+            bounds = bounds.union(new Rectangle(-1, 9, 8, 0));
+
+            return bounds;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
     
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds().getCopy();
         return new Point(rect.x + rect.width - 11, rect.y + 4);
     }
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 17 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 17) : 0;
     }
     
     @Override

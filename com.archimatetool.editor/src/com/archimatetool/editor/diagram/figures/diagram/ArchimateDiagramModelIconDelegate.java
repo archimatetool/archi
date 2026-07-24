@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.diagram;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
@@ -67,6 +68,23 @@ public class ArchimateDiagramModelIconDelegate implements IIconDelegate {
         graphics.drawLine(origin.x, origin.y, origin.x + 2, origin.y);
         
         graphics.popState();
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        // Mirrors the shapes drawn in drawIcon() above (with origin = (0, 0)). drawIcon() repeatedly calls
+        // graphics.translate() to position the lines below the two squares - the translations are cumulative,
+        // so the absolute coordinates used below sum the successive offsets: (7, 2), then (0, 1), then (0, 8),
+        // then (0, 1), then (4, -5)
+        Rectangle bounds = new Rectangle(0, 0, 5, 5); // top square
+        bounds = bounds.union(new Rectangle(0, 9, 5, 5)); // bottom square
+        bounds = bounds.union(new Rectangle(8, 6, 2, 2)); // little square
+        bounds = bounds.union(new Rectangle(7, 2, 6, 0)); // line, after translate(7, 2)
+        bounds = bounds.union(new Rectangle(7, 3, 6, 0)); // line, after translate(7, 2) + (0, 1)
+        bounds = bounds.union(new Rectangle(7, 11, 6, 0)); // line, after translate(7, 2) + (0, 1) + (0, 8)
+        bounds = bounds.union(new Rectangle(7, 12, 6, 0)); // line, after translate(7, 2) + (0, 1) + (0, 8) + (0, 1)
+        bounds = bounds.union(new Rectangle(11, 7, 2, 0)); // small line, after translate(7, 2) + (0, 1) + (0, 8) + (0, 1) + (4, -5)
+        return bounds;
     }
 
 }

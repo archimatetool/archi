@@ -276,13 +276,20 @@ implements IDiagramModelObjectFigure {
      */
     @Override
     public Color getFillColor() {
+        if(isOutlineShapeStyle()) {
+            return getOutlineStyleFillColor();
+        }
+        return getRawFillColor();
+    }
+
+    private Color getRawFillColor() {
         // Cache this value
         return getCachedValue("fillColor", key -> { //$NON-NLS-1$
             Color color = ColorFactory.get(getDiagramModelObject().getFillColor());
             return color != null ? color : ColorFactory.getDefaultFillColor(getDiagramModelObject());
         });
     }
-    
+
     /**
      * Set the font color of the text control or Figure.
      * This actually sets the foreground color of the text control or Figure to that in the model object's font color
@@ -293,18 +300,46 @@ implements IDiagramModelObjectFigure {
             getTextControl().setForegroundColor(color != null ? color : ColorConstants.black); // Default to black in case of dark theme
         }
     }
-    
+
     @Override
     public Color getLineColor() {
+        if(isOutlineShapeStyle()) {
+            return getOutlineStyleLineColor();
+        }
+        return getRawLineColor();
+    }
+
+    private Color getRawLineColor() {
         // Cache this value
         return getCachedValue("lineColor", key -> { //$NON-NLS-1$
             if(getDiagramModelObject().getDeriveElementLineColor()) {
-                return ColorFactory.getDerivedLineColor(getFillColor()); // Calling getFillColor() will concurrently modify the cached Map!
+                return ColorFactory.getDerivedLineColor(getRawFillColor()); // Calling getRawFillColor() will concurrently modify the cached Map!
             }
             else {
                 Color color = ColorFactory.get(getDiagramModelObject().getLineColor());
                 return color != null ? color : ColorFactory.getDefaultLineColor(getDiagramModelObject());
             }
+        });
+    }
+
+    /**
+     * @return The Fill Color to use in Outline shape style: the current view's background ("paper") color.
+     */
+    protected Color getOutlineStyleFillColor() {
+        return getCachedValue("outlineFillColor", key -> ColorFactory.getViewBackgroundColor()); //$NON-NLS-1$
+    }
+
+    /**
+     * @return The Line Color to use in Outline shape style: the user's own custom line color if they have
+     * explicitly set one (independent of fill), otherwise what would otherwise have been the fill color -
+     * that's the whole point of this style, moving the shape's identifying color from fill to outline.
+     * The "Derive element line color" setting is not applicable in this style since the outline color is
+     * already derived from (or is) the shape's own color.
+     */
+    protected Color getOutlineStyleLineColor() {
+        return getCachedValue("outlineLineColor", key -> { //$NON-NLS-1$
+            Color color = ColorFactory.get(getDiagramModelObject().getLineColor());
+            return color != null ? color : getRawFillColor();
         });
     }
     
@@ -446,13 +481,48 @@ implements IDiagramModelObjectFigure {
         if(!isEnabled()) {
             return ColorConstants.lightGray;
         }
-        
+
         // Cache this value as it's from a FeaturesEList
         return getCachedValue(IDiagramModelObject.FEATURE_ICON_COLOR,
                 key -> {
                     String val = getDiagramModelObject().getIconColor();
                     return StringUtils.isSet(val) ? ColorFactory.get(val) : ColorConstants.black;
                 });
+    }
+
+    /**
+     * @return true if the user has explicitly set a custom icon color for this figure, independent of the
+     * fill/line color, as opposed to using the default icon color
+     */
+    public boolean hasCustomIconColor() {
+        // Cache this value as it's from a FeaturesEList
+        return getCachedValue("hasCustomIconColor", key -> //$NON-NLS-1$
+                Boolean.valueOf(StringUtils.isSet(getDiagramModelObject().getIconColor())));
+    }
+
+    /**
+     * @return true if this figure supports, and the user has selected, the alternative "Outline" shape style in
+     * Preferences. Individual figures opt in by overriding {@link #supportsOutlineShapeStyle()}; this method
+     * enforces that opt-in itself, so it's always safe to call directly from anywhere (including a shared
+     * *FigureDelegate that isn't itself an AbstractDiagramModelObjectFigure subclass) - a figure that hasn't
+     * been converted is unaffected regardless of the preference.
+     */
+    public boolean isOutlineShapeStyle() {
+        if(!supportsOutlineShapeStyle()) {
+            return false;
+        }
+        // Cache this value - invalidated on refreshVisuals() which is called when the SHAPE_STYLE preference changes
+        return getCachedValue("outlineShapeStyle", key -> Boolean.valueOf(IPreferenceConstants.SHAPE_STYLE_OUTLINE.equals( //$NON-NLS-1$
+                ArchiPlugin.getInstance().getPreferenceStore().getString(IPreferenceConstants.SHAPE_STYLE))));
+    }
+
+    /**
+     * @return true if this figure class supports the alternative "Outline" shape style. Default false - a figure
+     * that hasn't been converted to support the style is completely unaffected by {@link #isOutlineShapeStyle()}
+     * and always renders as Classic. Converted figure classes override this to return true.
+     */
+    protected boolean supportsOutlineShapeStyle() {
+        return false;
     }
 
     /**
@@ -463,13 +533,13 @@ implements IDiagramModelObjectFigure {
      */
     protected Pattern applyGradientPattern(Graphics graphics, Rectangle bounds) {
         Pattern gradient = null;
-        
-        // Apply gradient
-        if(getGradient() != IDiagramModelObject.GRADIENT_NONE) {
+
+        // Apply gradient - not in Outline shape style, where the fill is always a flat "paper" color
+        if(getGradient() != IDiagramModelObject.GRADIENT_NONE && !isOutlineShapeStyle()) {
             gradient = FigureUtils.createGradient(graphics, bounds, getFillColor(), getAlpha(), Direction.get(getGradient()));
             graphics.setBackgroundPattern(gradient);
         }
-        
+
         return gradient;
     }
     

@@ -16,6 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -48,62 +49,93 @@ public class ProcessFigure extends AbstractTextControlContainerFigure implements
         }
     }
     
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // Corner rounding for the containing box's top-right corner only, so it blends into the shape's own rounded corner
+    private static final int ICON_BOX_CORNER_RADIUS = 8;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with, and rounded to match, the top-right corner of the figure (its other
+     * corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     protected void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
-            
+
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
-            PointList points = new PointList();
-            
-            // Start at top left
-            points.addPoint(pt);
-            
-            pt.translate(8, 0);
-            points.addPoint(pt);
-            
-            pt.translate(0, -3);
-            points.addPoint(pt);
-            
-            pt.translate(6, 5);
-            points.addPoint(pt);
-            
-            pt.translate(-6, 5);
-            points.addPoint(pt);
-            
-            pt.translate(0, -3);
-            points.addPoint(pt);
-            
-            pt.translate(-8, 0);
-            points.addPoint(pt);
-            
+
+            PointList points = buildPoints(pt);
+
             if(backgroundColor != null) {
                 graphics.fillPolygon(points);
             }
             graphics.drawPolygon(points);
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // Polygon geometry has no curves, so PointList's own getBounds() is exact - no Path needed
+            return buildPoints(new Point(0, 0)).getBounds();
+        }
+
+        // The arrow shape, built as a chain of relative translations from "pt" (its top-left)
+        private PointList buildPoints(Point pt) {
+            PointList points = new PointList();
+
+            // Start at top left
+            points.addPoint(pt);
+
+            pt.translate(8, 0);
+            points.addPoint(pt);
+
+            pt.translate(0, -3);
+            points.addPoint(pt);
+
+            pt.translate(6, 5);
+            points.addPoint(pt);
+
+            pt.translate(-6, 5);
+            points.addPoint(pt);
+
+            pt.translate(0, -3);
+            points.addPoint(pt);
+
+            pt.translate(-8, 0);
+            points.addPoint(pt);
+
+            return points;
         }
     };
     
@@ -112,9 +144,9 @@ public class ProcessFigure extends AbstractTextControlContainerFigure implements
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    protected Point getIconOrigin() {
+    protected Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 18, rect.y + 10);
     }
@@ -131,6 +163,7 @@ public class ProcessFigure extends AbstractTextControlContainerFigure implements
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 20) : 0;
     }
 }

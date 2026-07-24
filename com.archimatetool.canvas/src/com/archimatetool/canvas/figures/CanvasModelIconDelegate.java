@@ -8,6 +8,7 @@ package com.archimatetool.canvas.figures;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
@@ -49,6 +50,14 @@ public class CanvasModelIconDelegate implements IIconDelegate {
         graphics.drawLine(origin.x + 10, origin.y, origin.x + 10, origin.y + 8);
         
         graphics.popState();
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        // The outer rectangle (drawn by fillRectangle/drawRectangle at (0, 0, 14, 12)) already encloses every
+        // other shape in drawIcon() above (the two blue fills and the three internal lines), so it alone
+        // defines the full bounds
+        return new Rectangle(0, 0, 14, 12);
     }
 
 }

@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -14,6 +15,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -114,25 +116,42 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         return path;
     }
     
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
+    private static final int ICON_BOX_CORNER_RADIUS = 0;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with the top-right corner of the figure (all corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidthFloat(1.2f);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
@@ -140,56 +159,78 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
-            int[] points = new int[] {
-                    pt.x + 4, pt.y - 7,
-                    pt.x - 4, pt.y - 7,
-                    
-                    pt.x - 8, pt.y,
-                    pt.x - 5, pt.y + 7,
-                    
-                    pt.x + 4, pt.y + 7,
-                    pt.x + 8, pt.y,
-            };
-            
+
+            int[] points = buildPolygonPoints(pt);
+
             if(backgroundColor != null) {
                 graphics.fillPolygon(points);
             }
             graphics.drawPolygon(points);
 
+            Path path = buildLinesPath(pt);
+            graphics.drawPath(path);
+            path.dispose();
+
+            graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the hexagon polygon and the 3 diagonal lines Path in drawIcon() above (pt = (0, 0)),
+            // unioned together (the lines fall entirely within the hexagon's own extent, but they're unioned
+            // anyway rather than assumed, so this stays correct if either geometry changes)
+            Rectangle bounds = new PointList(buildPolygonPoints(new Point(0, 0))).getBounds();
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(buildLinesPath(new Point(0, 0))));
+            return bounds;
+        }
+
+        // A hexagon "package" outline
+        private int[] buildPolygonPoints(Point pt) {
+            return new int[] {
+                    pt.x + 4, pt.y - 7,
+                    pt.x - 4, pt.y - 7,
+
+                    pt.x - 8, pt.y,
+                    pt.x - 5, pt.y + 7,
+
+                    pt.x + 4, pt.y + 7,
+                    pt.x + 8, pt.y,
+            };
+        }
+
+        // 3 diagonal lines inside the hexagon
+        private Path buildLinesPath(Point pt) {
             Path path = new Path(null);
 
             path.moveTo(pt.x - 2, pt.y - 5);
             path.lineTo(pt.x - 5.3f, pt.y + 0.5f);
-            
+
             path.moveTo(pt.x - 3.7f, pt.y + 4.5f);
             path.lineTo(pt.x + 3, pt.y + 4.5f);
-            
+
             path.moveTo(pt.x + 5f, pt.y + 0.5f);
             path.lineTo(pt.x + 2f, pt.y - 5);
-            
-            graphics.drawPath(path);
-            path.dispose();
-            
-            graphics.popState();
+
+            return path;
         }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 12, rect.y + 12);
     }
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
 
     @Override

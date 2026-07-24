@@ -38,9 +38,10 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         // Apply the offset for the fill also so it lines up with the outline
         Rectangle rect = applyLineWidthOffset(graphics);
         
-        // Fill the whole figure with a darker color
+        // Fill the whole figure with a darker color for the 3D edge effect - except in Outline shape style, where
+        // the fill is always a flat paper color and only the owner's outline conveys the shape's identity color
         graphics.setAlpha(getAlpha());
-        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+        graphics.setBackgroundColor(getOwner().isOutlineShapeStyle() ? getFillColor() : ColorFactory.getDarkerColor(getFillColor()));
         
         Path fillPath = new Path(null);
         fillPath.moveTo(rect.x, rect.y + EDGE_SIZE);

@@ -9,6 +9,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
@@ -106,8 +107,18 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
             
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the line segments drawn in drawIcon() above (with pt = (0, 0))
+            Rectangle bounds = new Rectangle(0, 0, 13, 13); // moveTo(0, 13) -> lineTo(13, 0)
+            bounds = bounds.union(new Rectangle(8, 0, 5, 5)); // moveTo(8, 0) -> lineTo(13, 0) -> lineTo(13, 5)
+            bounds = bounds.union(new Rectangle(9, 8, 4, 0)); // cross: moveTo(9, 8) -> lineTo(13, 8)
+            bounds = bounds.union(new Rectangle(11, 6, 0, 4)); // cross: moveTo(11, 6) -> lineTo(11, 10)
+            return bounds;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
