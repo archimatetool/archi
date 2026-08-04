@@ -2,4 +2,6 @@
 instructions.configure=\
 org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/Archic.exe);\
 org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/readme/);\
-org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/p2/org.eclipse.equinox.p2.core/);
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/p2/org.eclipse.equinox.p2.core/);\
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/p2/org.eclipse.equinox.p2.engine/.settings/);\
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/p2/org.eclipse.equinox.p2.repository/);
