@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -92,12 +93,29 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
         }
     }
 
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
+    private static final int ICON_BOX_CORNER_RADIUS = 0;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with the top-right corner of the figure (all corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
 
@@ -105,12 +123,12 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
             graphics.pushState();
-            
+
             // Ensure this is set
             graphics.setAntialias(SWT.ON);
 
             graphics.setLineWidth(1);
-            
+
             if(foregroundColor != null) {
                 graphics.setForegroundColor(foregroundColor);
             }
@@ -118,15 +136,21 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
             if(backgroundColor != null) {
                 graphics.setBackgroundColor(backgroundColor);
             }
-            
+
             Rectangle rect = new Rectangle(pt.x, pt.y, 13, 10);
             if(backgroundColor != null) {
                 graphics.fillRectangle(rect);
             }
             graphics.drawRectangle(rect);
             graphics.drawRectangle(pt.x, pt.y, 6, 3);
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // The outer rectangle defines the full extent - the nested header rectangle sits entirely inside it
+            return new Rectangle(0, 0, 13, 10);
         }
     };
     
@@ -135,16 +159,17 @@ public class ProductFigure extends AbstractTextControlContainerFigure implements
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds().getCopy();
         return new Point(rect.x + rect.width - 17, rect.y + 6);
     }
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 20) : 0;
     }
     
     @Override

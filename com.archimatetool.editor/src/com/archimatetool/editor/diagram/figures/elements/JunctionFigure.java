@@ -10,6 +10,7 @@ import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
@@ -83,8 +84,16 @@ public class JunctionFigure extends AbstractDiagramModelObjectFigure implements 
             graphics.drawLine(pt.x + 4, pt.y + 12, pt.x + 6, pt.y + 10);
             
             graphics.fillOval(pt.x + 5, pt.y + 5, 6, 6);
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // This delegate doesn't currently draw an Outline shape style corner badge (JunctionFigure hasn't
+            // been converted to that style), but IIconDelegate#getBounds() is not optional - mirrors the three
+            // small squares, three connecting lines (all within the squares' extent) and the central oval
+            return new Rectangle(2, 2, 14, 12);
         }
     };
     

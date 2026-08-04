@@ -31,6 +31,12 @@ public interface IPreferenceConstants {
 
     String DERIVE_ELEMENT_LINE_COLOR = "deriveElementLineColor";
     String SAVE_USER_DEFAULT_COLOR = "saveUserDefaultFillColorInFile";
+
+    // Default Colour Scheme - which bundled scheme currently supplies the default (non-user-set) colours.
+    // Classic Shape Style defaults to Standard; Outline Shape Style defaults to Saturated (see ColourSchemeManager).
+    String COLOUR_SCHEME = "colourScheme";
+    String COLOUR_SCHEME_STANDARD = "standard";
+    String COLOUR_SCHEME_SATURATED = "saturated";
     
     // Theme Color Definition IDs
     String VIEW_BACKGROUND_COLOR = "com.archimatetool.editor.VIEW_BACKGROUND";
@@ -128,7 +134,13 @@ public interface IPreferenceConstants {
     
     // Default Figures
 
-    String DEFAULT_FIGURE_PREFIX = "defaultFigure"; 
+    String DEFAULT_FIGURE_PREFIX = "defaultFigure";
+
+    // Shape Style - which stylistic set of ArchiMate figures to use.
+    // Individual figures opt-in to SHAPE_STYLE_OUTLINE; figures that haven't been converted always render as Classic.
+    String SHAPE_STYLE = "shapeStyle";
+    String SHAPE_STYLE_CLASSIC = "classic";
+    String SHAPE_STYLE_OUTLINE = "outline";
     
     
     // ======================================= General =======================================

@@ -7,10 +7,12 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
 
@@ -39,15 +41,24 @@ public class RequirementFigure extends AbstractMotivationFigure {
         drawIcon(graphics);
     }
     
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner cut off at a diagonal matching the figure's own "shaved corner" outline.
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     protected void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null,  getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIconChamfered(graphics, this, getIconDelegate(), ICON_PADDING, INSET);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
@@ -77,26 +88,34 @@ public class RequirementFigure extends AbstractMotivationFigure {
                 graphics.fillPolygon(points);
             }
             graphics.drawPolygon(points);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the polygon's points array above (with pt = (0, 0))
+            int[] points = new int[] { 0, 0, 12, 0, 8, 9, -4, 9 };
+            return new PointList(points).getBounds();
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    protected Point getIconOrigin() {
+    protected Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 19, rect.y + 8);
     }
-    
+
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 22 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 22) : 0;
     }
     
     @Override

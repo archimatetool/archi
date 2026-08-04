@@ -37,6 +37,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
@@ -83,12 +84,29 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fEditFillColorButton;
     private Button fResetFillColorButton;
     private Button fDeriveElementLineColorsButton;
+
+    // Default Colour Scheme
+    private Combo fColourSchemeCombo;
+
+    private String[] COLOUR_SCHEMES = {
+            Messages.ColoursPreferencePage_27,
+            Messages.ColoursPreferencePage_28
+    };
+
+    private String[] COLOUR_SCHEME_VALUES = {
+            COLOUR_SCHEME_STANDARD,
+            COLOUR_SCHEME_SATURATED
+    };
     
     // Tree
     private TreeViewer fTreeViewer;
 
     private IPropertyChangeListener themeChangeListener;
-    
+
+    // Listens for the active Colour Scheme changing externally (e.g. auto-applied by switching
+    // Shape Style on the Diagram Appearance preference page in the same session)
+    private IPropertyChangeListener colourSchemeChangeListener;
+
     private static List<String> themeColors = List.of(VIEW_BACKGROUND_COLOR,
                                                       VISUALISER_BACKGROUND_COLOR);
     
@@ -256,7 +274,23 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         Label label = new Label(client, SWT.NULL);
         label.setText(Messages.ColoursPreferencePage_0);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(label);
-        
+
+        // Default Colour Scheme
+        Composite schemeClient = new Composite(client, SWT.NULL);
+        GridLayoutFactory.fillDefaults().numColumns(2).applyTo(schemeClient);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(schemeClient);
+
+        Label schemeLabel = new Label(schemeClient, SWT.NULL);
+        schemeLabel.setText(Messages.ColoursPreferencePage_26);
+
+        fColourSchemeCombo = new Combo(schemeClient, SWT.READ_ONLY);
+        fColourSchemeCombo.setItems(COLOUR_SCHEMES);
+        GridDataFactory.create(GridData.FILL_HORIZONTAL).applyTo(fColourSchemeCombo);
+        fColourSchemeCombo.addSelectionListener(SelectionListener.widgetSelectedAdapter(event -> {
+            applySchemeColours(COLOUR_SCHEME_VALUES[fColourSchemeCombo.getSelectionIndex()]);
+            fResetFillColorButton.setEnabled(isResetEnabled());
+        }));
+
         // Tree
         fTreeViewer = new TreeViewer(client);
         GridDataFactory.create(GridData.FILL_BOTH).hint(SWT.DEFAULT, 200).applyTo(fTreeViewer.getTree());
@@ -467,11 +501,60 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         // Create Color Infos
         createColorInfos();
-        
+
         // Set tree input
         fTreeViewer.setInput(this);
-        
+
+        // Default Colour Scheme selection
+        selectColourScheme(fColourSchemeCombo, getPreferenceStore().getString(COLOUR_SCHEME));
+
         return client;
+    }
+
+    /**
+     * Select the Default Colour Scheme combo item matching the given preference value
+     */
+    private void selectColourScheme(Combo combo, String value) {
+        for(int i = 0; i < COLOUR_SCHEME_VALUES.length; i++) {
+            if(COLOUR_SCHEME_VALUES[i].equals(value)) {
+                combo.select(i);
+                return;
+            }
+        }
+        combo.select(0);
+    }
+
+    /**
+     * Apply a bundled default colour scheme's colours to the in-memory color infos (like Import, but from
+     * a scheme bundled with the app rather than a user-picked file)
+     */
+    private void applySchemeColours(String schemeId) {
+        try {
+            applyColoursFromStore(ColourSchemeManager.loadScheme(schemeId));
+        }
+        catch(IOException ex) {
+            Logger.error("Error applying colour scheme", ex); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Rebuild the color infos and refresh the tree/combo from the live preference store.
+     * Called when the active Colour Scheme was changed externally (not by this page), so that a
+     * Colours page already open in the same Preferences dialog session doesn't show stale colours
+     * or a stale Default Colour Scheme selection.
+     */
+    private void refreshColorInfos() {
+        fColorInfoMap.clear();
+        fImageRegistry.dispose();
+        fImageRegistry = new ImageRegistry();
+
+        createColorInfos();
+        fTreeViewer.refresh();
+
+        selectColourScheme(fColourSchemeCombo, getPreferenceStore().getString(COLOUR_SCHEME));
+
+        fEditFillColorButton.setEnabled(isEditEnabled());
+        fResetFillColorButton.setEnabled(isResetEnabled());
     }
     
     /**
@@ -645,25 +728,35 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
-        getPreferenceStore().setValue(DERIVE_ELEMENT_LINE_COLOR, fDeriveElementLineColorsButton.getSelection());
-        getPreferenceStore().setValue(SAVE_USER_DEFAULT_COLOR, fPersistUserDefaultColors.getSelection());
-        
-        saveColors(getPreferenceStore(), true);
-        saveThemeColors();
-        
+        // Remove listener so we are not notified of our own change to COLOUR_SCHEME below
+        getPreferenceStore().removePropertyChangeListener(colourSchemeChangeListener);
+
+        try {
+            getPreferenceStore().setValue(DERIVE_ELEMENT_LINE_COLOR, fDeriveElementLineColorsButton.getSelection());
+            getPreferenceStore().setValue(SAVE_USER_DEFAULT_COLOR, fPersistUserDefaultColors.getSelection());
+            getPreferenceStore().setValue(COLOUR_SCHEME, COLOUR_SCHEME_VALUES[fColourSchemeCombo.getSelectionIndex()]);
+
+            saveColors(getPreferenceStore(), true);
+            saveThemeColors();
+        }
+        finally {
+            getPreferenceStore().addPropertyChangeListener(colourSchemeChangeListener);
+        }
+
         return true;
     }
-    
+
     @Override
     protected void performDefaults() {
         fDeriveElementLineColorsButton.setSelection(getPreferenceStore().getDefaultBoolean(DERIVE_ELEMENT_LINE_COLOR));
         fPersistUserDefaultColors.setSelection(getPreferenceStore().getDefaultBoolean(SAVE_USER_DEFAULT_COLOR));
-        
+        selectColourScheme(fColourSchemeCombo, getPreferenceStore().getDefaultString(COLOUR_SCHEME));
+
         // Set colors to inbuilt defaults
         for(ColorInfo colorInfo : fColorInfoMap.values()) {
             setColor(colorInfo, null);
         }
-        
+
         super.performDefaults();
     }
     
@@ -683,7 +776,15 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         PreferenceStore store = new PreferenceStore(path);
         store.load();
-        
+
+        applyColoursFromStore(store);
+    }
+
+    /**
+     * Apply the colours in a preference store (loaded from an imported file or a bundled scheme) to the
+     * in-memory color infos
+     */
+    private void applyColoursFromStore(PreferenceStore store) {
         for(String prefKey : store.preferenceNames()) {
             RGB rgb = ColorFactory.convertStringToRGB(store.getString(prefKey));
             if(rgb != null) {
@@ -776,18 +877,29 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         };
 
         workbench.getThemeManager().addPropertyChangeListener(themeChangeListener);
+
+        // Listen for the active Colour Scheme changing externally (e.g. via the Diagram Appearance
+        // preference page's Shape Style combo) so this page's combo/tree don't show stale state
+        colourSchemeChangeListener = event -> {
+            if(COLOUR_SCHEME.equals(event.getProperty())) {
+                refreshColorInfos();
+            }
+        };
+
+        getPreferenceStore().addPropertyChangeListener(colourSchemeChangeListener);
     }
-    
+
     @Override
     public void dispose() {
         super.dispose();
-        
+
         fColorInfoMap.clear();
         fColorInfoMap = null;
-        
+
         fImageRegistry.dispose();
         fImageRegistry = null;
-        
+
         PlatformUI.getWorkbench().getThemeManager().removePropertyChangeListener(themeChangeListener);
+        getPreferenceStore().removePropertyChangeListener(colourSchemeChangeListener);
     }
 }

@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -120,15 +121,24 @@ public class AssessmentFigure extends AbstractMotivationFigure {
         return null;
     }
     
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner cut off at a diagonal matching the figure's own "shaved corner" outline.
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIconChamfered(graphics, this, getIconDelegate(), ICON_PADDING, INSET);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
@@ -152,26 +162,39 @@ public class AssessmentFigure extends AbstractMotivationFigure {
             }
             graphics.drawOval(pt.x, pt.y, 8, 8);
             graphics.drawLine(pt.x + 2, pt.y + 7, pt.x - 3, pt.y + 12);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // The magnifying glass circle is a full oval, so its bounds equal its own defining rectangle;
+            // unioned with the diagonal handle line's own extent (with pt = (0, 0))
+            Rectangle bounds = new Rectangle(0, 0, 8, 8);
+
+            Path linePath = new Path(null);
+            linePath.moveTo(2, 7);
+            linePath.lineTo(-3, 12);
+            return bounds.union(FigureUtils.getAndDisposePathBounds(linePath));
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 15, rect.y + 6);
     }
-    
+
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 21 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 21) : 0;
     }
     
     @Override

@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
@@ -94,8 +95,16 @@ public class RealizationConnectionFigure extends AbstractArchimateConnectionFigu
             
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the line segments drawn in drawIcon() above (with pt = (0, 0))
+            Rectangle bounds = new Rectangle(0, 3, 10, 10); // moveTo(0, 13) -> lineTo(10, 3)
+            bounds = bounds.union(new Rectangle(7, 0, 6, 6)); // moveTo(7, 0) -> lineTo(13, 0) -> lineTo(13, 6) -> close
+            return bounds;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }

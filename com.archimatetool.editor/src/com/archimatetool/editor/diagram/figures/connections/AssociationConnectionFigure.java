@@ -10,6 +10,7 @@ import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
@@ -90,8 +91,15 @@ public class AssociationConnectionFigure extends AbstractArchimateConnectionFigu
             
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the Path call in drawIcon() above (with pt = (0, 0))
+            // Diagonal line: (0, 13) -> (13, 0)
+            return new Rectangle(0, 0, 13, 13);
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }

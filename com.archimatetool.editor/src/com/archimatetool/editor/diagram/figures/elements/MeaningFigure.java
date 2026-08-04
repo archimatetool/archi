@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -87,15 +88,24 @@ public class MeaningFigure extends AbstractMotivationFigure {
         graphics.popState();
     }
     
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner cut off at a diagonal matching the figure's own "shaved corner" outline.
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null,  getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIconChamfered(graphics, this, getIconDelegate(), ICON_PADDING, INSET);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
@@ -157,22 +167,48 @@ public class MeaningFigure extends AbstractMotivationFigure {
 
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the four addArc calls in drawIcon() above (with pt = (0, 0)) so SWT computes the exact
+            // traced extent of each partial arc, rather than solving for it by hand
+            Rectangle rect = new Rectangle(0, 0, 14, 11);
+
+            Path path1 = new Path(null);
+            path1.addArc(rect.x, rect.y, rect.width / 3 * 2, rect.height / 3 * 2, 60, 149);
+            Rectangle bounds = FigureUtils.getAndDisposePathBounds(path1);
+
+            Path path2 = new Path(null);
+            path2.addArc(rect.x + rect.width / 3 - 1, rect.y, rect.width / 3 * 2, rect.height / 3 * 2, -38, 157);
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(path2));
+
+            Path path3 = new Path(null);
+            path3.addArc(rect.x, rect.y + rect.height / 3, rect.width / 5 * 3, rect.height / 3 * 2 - 1, -41, -171);
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(path3));
+
+            Path path4 = new Path(null);
+            path4.addArc(rect.x + rect.width / 3, rect.y + rect.height / 4, rect.width / 5 * 3, rect.height / 3 * 2, 7, -136);
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(path4));
+
+            return bounds;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds().getCopy();
         return new Point(rect.x + rect.width - 17, rect.y + 8);
     }
 
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 19 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 19) : 0;
     }
 }

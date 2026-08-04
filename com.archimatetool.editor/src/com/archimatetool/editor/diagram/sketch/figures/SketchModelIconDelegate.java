@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram.sketch.figures;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
@@ -53,6 +54,15 @@ public class SketchModelIconDelegate implements IIconDelegate {
         path.dispose();
         
         graphics.popState();
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        // Mirrors the shapes drawn in drawIcon() above (with origin = (0, 0))
+        Rectangle bounds = new Rectangle(0, 0, 8, 5); // top rectangle
+        bounds = bounds.union(new Rectangle(4, 8, 8, 5)); // bottom rectangle
+        bounds = bounds.union(new Rectangle(2, 5, 2, 6)); // line: moveTo(2, 5) -> lineTo(2, 11) -> lineTo(4, 11)
+        return bounds;
     }
 
 }

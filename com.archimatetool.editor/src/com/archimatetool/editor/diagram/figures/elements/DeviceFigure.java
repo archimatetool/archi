@@ -7,6 +7,7 @@ package com.archimatetool.editor.diagram.figures.elements;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -14,6 +15,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -61,8 +63,9 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         graphics.fillRoundRectangle(topRect, 30, 30);
         disposeGradientPattern(graphics, gradient2);
 
-        // Bottom part fill
-        graphics.setBackgroundColor(ColorFactory.getDarkerColor(getFillColor()));
+        // Bottom part fill - a plain paper fill in Outline shape style (matching the top part's flat fill), a
+        // subtly darker shade of the fill in Classic shape style (a 3D-ish "feet" effect)
+        graphics.setBackgroundColor(isOutlineShapeStyle() ? getFillColor() : ColorFactory.getDarkerColor(getFillColor()));
         Pattern gradient1 = applyGradientPattern(graphics, rect);
         Path path = getBottomPath(rect, height_indent);
         graphics.fillPath(path);
@@ -97,15 +100,32 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
         return path;
     }
     
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // The figure's own outline is a plain (unrounded) rectangle, so the containing box's top-right corner is square too
+    private static final int ICON_BOX_CORNER_RADIUS = 0;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner flush with the top-right corner of the figure (all corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
@@ -141,8 +161,25 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
                 graphics.fillPolygon(points);
             }
             graphics.drawPolygon(points);
-            
+
             graphics.popState();
+        }
+
+        @Override
+        public Rectangle getBounds() {
+            // Screen: a full rounded rectangle (not a partial arc), so its defining rectangle is already its
+            // exact bounds. Stand: a four-point polygon jutting out below, and slightly left/right of, the screen
+            Rectangle screen = new Rectangle(0, 0, 11, 8);
+
+            int[] points = new int[] {
+                    -1, 12,
+                     2, 8,
+                     9, 8,
+                    12, 12
+            };
+            Rectangle stand = new PointList(points).getBounds();
+
+            return screen.union(stand);
         }
     };
     
@@ -151,20 +188,21 @@ public class DeviceFigure extends AbstractTextControlContainerFigure implements 
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    protected Point getIconOrigin() {
+    protected Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 16, rect.y + 5);
     }
-    
+
     @Override
     public IFigureDelegate getFigureDelegate() {
         return getDiagramModelArchimateObject().getType() == 0 ? figureDelegate : null;
     }
-    
+
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 20 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 20) : 0;
     }
 }

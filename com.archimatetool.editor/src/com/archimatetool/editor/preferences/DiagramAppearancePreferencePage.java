@@ -54,7 +54,19 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     };
     
     private Combo fDefaultSketchBackgroundCombo;
-    
+
+    private Combo fShapeStyleCombo;
+
+    private String[] SHAPE_STYLES = {
+            Messages.DiagramAppearancePreferencePage_24,
+            Messages.DiagramAppearancePreferencePage_25
+    };
+
+    private String[] SHAPE_STYLE_VALUES = {
+            SHAPE_STYLE_CLASSIC,
+            SHAPE_STYLE_OUTLINE
+    };
+
     private Combo fDefaultTextAlignmentCombo, fDefaultTextPositionCombo;
     
     private String[] TEXT_ALIGNMENTS = {
@@ -102,7 +114,14 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fWordWrapStyleCombo = new Combo(globalGroup, SWT.READ_ONLY);
         fWordWrapStyleCombo.setItems(WORD_WRAP_STYLES);
         fWordWrapStyleCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        
+
+        // Shape Style
+        label = new Label(globalGroup, SWT.NULL);
+        label.setText(Messages.DiagramAppearancePreferencePage_26);
+        fShapeStyleCombo = new Combo(globalGroup, SWT.READ_ONLY);
+        fShapeStyleCombo.setItems(SHAPE_STYLES);
+        fShapeStyleCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
         // -------------- Defaults ----------------------------
         
         Group defaultsGroup = new Group(client, SWT.NULL);
@@ -167,7 +186,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void setValues() {
         fDefaultGradientCombo.select(getPreferenceStore().getInt(DEFAULT_GRADIENT) + 1); // Starts at -1
         fWordWrapStyleCombo.select(getPreferenceStore().getInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE));
-        
+
+        selectShapeStyle(fShapeStyleCombo, getPreferenceStore().getString(SHAPE_STYLE));
+
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
         fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
         
@@ -177,14 +198,35 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         // The values of these are 0, 1 and 2
         fDefaultTextPositionCombo.select(getPreferenceStore().getInt(DEFAULT_ARCHIMATE_FIGURE_TEXT_POSITION));
         
-        fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));        
+        fDefaultSketchBackgroundCombo.select(getPreferenceStore().getInt(SKETCH_DEFAULT_BACKGROUND));
     }
-    
+
+    /**
+     * Select the Shape Style combo item matching the given preference value
+     */
+    private void selectShapeStyle(Combo combo, String value) {
+        for(int i = 0; i < SHAPE_STYLE_VALUES.length; i++) {
+            if(SHAPE_STYLE_VALUES[i].equals(value)) {
+                combo.select(i);
+                return;
+            }
+        }
+        combo.select(0);
+    }
+
     @Override
     public boolean performOk() {
         getPreferenceStore().setValue(DEFAULT_GRADIENT, fDefaultGradientCombo.getSelectionIndex() - 1); // Starts at -1
         getPreferenceStore().setValue(ARCHIMATE_FIGURE_WORD_WRAP_STYLE, fWordWrapStyleCombo.getSelectionIndex());
-        
+
+        String newShapeStyle = SHAPE_STYLE_VALUES[fShapeStyleCombo.getSelectionIndex()];
+        if(!newShapeStyle.equals(getPreferenceStore().getString(SHAPE_STYLE))) {
+            // Apply the matching default colour scheme before the Shape Style change takes effect,
+            // so figures pick up the new colours as soon as they refresh
+            ColourSchemeManager.applySchemeForShapeStyleIfUnmodified(newShapeStyle);
+        }
+        getPreferenceStore().setValue(SHAPE_STYLE, newShapeStyle);
+
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_WIDTH, fDefaultArchimateFigureWidthSpinner.getSelection());
         getPreferenceStore().setValue(DEFAULT_ARCHIMATE_FIGURE_HEIGHT, fDefaultArchimateFigureHeightSpinner.getSelection());
         
@@ -200,7 +242,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     protected void performDefaults() {
         fDefaultGradientCombo.select(getPreferenceStore().getDefaultInt(DEFAULT_GRADIENT) + 1); // Starts at -1
         fWordWrapStyleCombo.select(getPreferenceStore().getDefaultInt(ARCHIMATE_FIGURE_WORD_WRAP_STYLE));
-        
+
+        selectShapeStyle(fShapeStyleCombo, getPreferenceStore().getDefaultString(SHAPE_STYLE));
+
         fDefaultArchimateFigureWidthSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_WIDTH));
         fDefaultArchimateFigureHeightSpinner.setSelection(getPreferenceStore().getDefaultInt(DEFAULT_ARCHIMATE_FIGURE_HEIGHT));
         

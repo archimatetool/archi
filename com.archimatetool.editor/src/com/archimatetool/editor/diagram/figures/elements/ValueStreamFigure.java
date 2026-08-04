@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -109,13 +110,38 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
         return path;
     }
     
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
+    // Corner rounding for the containing box's top-right corner only, so it blends into the shape's own rounded corner
+    private static final int ICON_BOX_CORNER_RADIUS = 8;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as a white outline so the box color shows through, and the box's top-right corner flush
+     * with, and rounded to match, the top-right corner of the figure (its other corners are square).
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null,  getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIcon(graphics, this, getIconDelegate(), ICON_PADDING, ICON_BOX_CORNER_RADIUS);
         }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
+        }
+    }
+
+    /**
+     * @return The icon start position for Classic shape style
+     */
+    private Point getClassicIconOrigin() {
+        Rectangle rect = getBounds();
+        return new Point(rect.getRight().x - 19, rect.y + 7);
     }
     
     private static IIconDelegate iconDelegate = new IIconDelegate() {
@@ -160,23 +186,42 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
                 graphics.fillPolygon(points);
             }
             graphics.drawPolygon(points);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the same translate sequence drawIcon() builds its PointList from above (with pt = (0, 0))
+            // - a polygon has no curves, so PointList's own getBounds() gives the exact extent, no Path needed
+            PointList points = new PointList();
+
+            Point pt = new Point(0, 0);
+            points.addPoint(pt);
+
+            pt.translate(10, 0);
+            points.addPoint(pt);
+
+            pt.translate(5, 5);
+            points.addPoint(pt);
+
+            pt.translate(-5, 5);
+            points.addPoint(pt);
+
+            pt.translate(-10, 0);
+            points.addPoint(pt);
+
+            pt.translate(5, -5);
+            points.addPoint(pt);
+
+            return points.getBounds();
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
 
-    /**
-     * @return The icon start position
-     */
-    protected Point getIconOrigin() {
-        Rectangle rect = getBounds();
-        return new Point(rect.getRight().x - 19, rect.y + 7);
-    }
-    
     @Override
     public IFigureDelegate getFigureDelegate() {
         return getDiagramModelArchimateObject().getType() == 0 ? fMainFigureDelegate : null;
@@ -184,6 +229,7 @@ public class ValueStreamFigure extends AbstractTextControlContainerFigure implem
     
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 25 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 25) : 0;
     }
 }

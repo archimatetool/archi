@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.IIconDelegate;
 
 
@@ -108,15 +109,24 @@ public class DriverFigure extends AbstractMotivationFigure {
         return radius - radius % 2;
     }
 
+    // Padding around the icon glyph inside its containing box, in Outline shape style
+    private static final int ICON_PADDING = 3;
+
     /**
-     * Draw the icon
+     * Draw the icon. In Outline shape style, on a small containing box colored the same as the outline, with the
+     * icon itself drawn as an outline in the view's background color so the box color shows through, and the
+     * box's top-right corner cut off at a diagonal matching the figure's own "shaved corner" outline.
+     * In Classic shape style, as a plain icon in the figure's icon color.
      */
     private void drawIcon(Graphics graphics) {
-        if(isIconVisible()) {
-            getIconDelegate().drawIcon(graphics, getIconColor(), null, getIconOrigin());
+        if(isOutlineShapeStyle()) {
+            FigureUtils.drawOutlineStyleIconChamfered(graphics, this, getIconDelegate(), ICON_PADDING, INSET);
+        }
+        else if(isIconVisible()) {
+            getIconDelegate().drawIcon(graphics, getIconColor(), null, getClassicIconOrigin());
         }
     }
-    
+
     private static IIconDelegate iconDelegate = new IIconDelegate() {
         @Override
         public void drawIcon(Graphics graphics, Color foregroundColor, Color backgroundColor, Point pt) {
@@ -166,26 +176,51 @@ public class DriverFigure extends AbstractMotivationFigure {
             
             graphics.drawPath(path);
             path.dispose();
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the two Path blocks drawn above (with pt = (0, 0)): the nested full circles, then the
+            // crosshair lines, so SWT computes the exact extent of each rather than solving for it by hand
+            Path circlesPath = new Path(null);
+            circlesPath.addArc(0, 0, 13, 13, 0, 360);
+            circlesPath.addArc(5f, 5f, 3, 3, 0, 360);
+            circlesPath.addArc(6f, 6f, 1f, 1f, 0, 360);
+            Rectangle bounds = FigureUtils.getAndDisposePathBounds(circlesPath);
+
+            Path linesPath = new Path(null);
+            linesPath.moveTo(-2, 6.5f);
+            linesPath.lineTo(15, 6.5f);
+            linesPath.moveTo(6.5f, -2);
+            linesPath.lineTo(6.5f, 15);
+            linesPath.moveTo(0.5f, 0.5f);
+            linesPath.lineTo(12.5f, 12.5f);
+            linesPath.moveTo(0.5f, 12.5f);
+            linesPath.lineTo(12.5f, 0.5f);
+            bounds = bounds.union(FigureUtils.getAndDisposePathBounds(linesPath));
+
+            return bounds;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }
 
     /**
-     * @return The icon start position
+     * @return The icon start position for Classic shape style
      */
-    private Point getIconOrigin() {
+    private Point getClassicIconOrigin() {
         Rectangle rect = getBounds();
         return new Point(rect.x + rect.width - 20, rect.y + 6);
     }
-    
+
     @Override
     public int getIconOffset() {
-        return getDiagramModelArchimateObject().getType() == 0 ? 23 : 0;
+        return getDiagramModelArchimateObject().getType() == 0
+                ? (isOutlineShapeStyle() ? FigureUtils.getOutlineIconBoxWidth(getIconDelegate(), ICON_PADDING) : 23) : 0;
     }
 
     @Override

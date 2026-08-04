@@ -5,10 +5,15 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.ScalableFigure;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
@@ -19,6 +24,7 @@ import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.diagram.util.ImageGraphics;
+import com.archimatetool.editor.ui.IIconDelegate;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -177,6 +183,28 @@ public class FigureUtils {
     }
     
     /**
+     * @return The given Path's precise bounding box (as a draw2d Rectangle - SWT's own Path#getBounds() returns
+     * an org.eclipse.swt.graphics.Rectangle, which this converts), disposing the Path afterwards. A building
+     * block for {@link com.archimatetool.editor.ui.IIconDelegate#getBounds()} implementations: build the same
+     * Path drawIcon() draws (with its origin at (0, 0)) and pass it here rather than hand-computing the extent
+     * of any arcs/curves it contains - SWT already knows how to do that precisely.
+     */
+    public static Rectangle getAndDisposePathBounds(Path path) {
+        // Path has no no-arg getBounds() - the real SWT API is getBounds(float[]), filling [x, y, width, height]
+        float[] bounds = new float[4];
+        path.getBounds(bounds);
+        path.dispose();
+
+        // Round outward (floor origin, ceil extent) so the returned int Rectangle always fully contains the
+        // path's true float bounds, rather than clipping it by rounding to the nearest integer
+        int x = (int)Math.floor(bounds[0]);
+        int y = (int)Math.floor(bounds[1]);
+        int right = (int)Math.ceil(bounds[0] + bounds[2]);
+        int bottom = (int)Math.ceil(bounds[1] + bounds[3]);
+        return new Rectangle(x, y, right - x, bottom - y);
+    }
+
+    /**
      * Draw an oval using a Path
      */
     public static void drawOvalPath(Graphics graphics, Rectangle rect) {
@@ -212,5 +240,172 @@ public class FigureUtils {
         Path path = new Path(null);
         path.addArc(x, y, width, height, 0, 360);
         return path;
+    }
+
+    /**
+     * Fill a rectangle with only the top-right corner rounded, the other three corners square.
+     * Used for a small "badge" box in the corner of a figure that should blend into a rounded figure's own corner.
+     */
+    public static void fillTopRightRoundedRectangle(Graphics graphics, Rectangle rect, int radius) {
+        Path path = createTopRightRoundedRectanglePath(rect, radius);
+        graphics.fillPath(path);
+        path.dispose();
+    }
+
+    private static Path createTopRightRoundedRectanglePath(Rectangle rect, int radius) {
+        Path path = new Path(null);
+        path.moveTo(rect.x, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y);
+        path.lineTo(rect.x + rect.width - radius, rect.y);
+        path.quadTo(rect.x + rect.width, rect.y, rect.x + rect.width, rect.y + radius);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height);
+        path.close();
+        return path;
+    }
+
+    /**
+     * Fill a rectangle with only the top-right corner cut off at a straight 45-degree diagonal, the other three
+     * corners square. Used for a small "badge" box in the corner of a figure whose own outline has a matching
+     * diagonal-cut corner (e.g. the Motivation elements' "shaved corner" shape), so the badge's own cut edge is
+     * colinear with, and sits flush inside, the figure's own cut corner instead of overhanging into the empty
+     * triangle the figure's outline leaves outside that cut.
+     */
+    public static void fillTopRightChamferedRectangle(Graphics graphics, Rectangle rect, int chamfer) {
+        Path path = createTopRightChamferedRectanglePath(rect, chamfer);
+        graphics.fillPath(path);
+        path.dispose();
+    }
+
+    private static Path createTopRightChamferedRectanglePath(Rectangle rect, int chamfer) {
+        Path path = new Path(null);
+        path.moveTo(rect.x, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y);
+        path.lineTo(rect.x + rect.width - chamfer, rect.y);
+        path.lineTo(rect.x + rect.width, rect.y + chamfer);
+        path.lineTo(rect.x + rect.width, rect.y + rect.height);
+        path.close();
+        return path;
+    }
+
+    /**
+     * Draw a figure's small in-built icon in the "Outline" shape style: a box filled with the figure's line color
+     * (or its custom icon color / greyed-out disabled color, if either applies - matching Classic mode's icon
+     * coloring), with its top-right corner flush with, and rounded to match, the figure's own top-right corner
+     * (its other corners are square), and the icon itself drawn as an outline in the view's background ("paper")
+     * color so the box color shows through, matching the figure's own paper-colored fill.
+     * <p>
+     * The box is sized and the icon positioned from {@link IIconDelegate#getBounds()} - callers don't need to
+     * hand-derive or pass the icon's own width/height/origin-offset.
+     *
+     * @param owner The figure to draw the icon on to (used for its bounds, line color and icon visibility)
+     * @param iconDelegate The delegate that draws the icon glyph itself
+     * @param padding The padding around the icon glyph inside its containing box
+     * @param cornerRadius The corner radius of the box's rounded top-right corner
+     */
+    public static void drawOutlineStyleIcon(Graphics graphics, AbstractDiagramModelObjectFigure owner, IIconDelegate iconDelegate,
+            int padding, int cornerRadius) {
+        drawOutlineStyleIconWithBoxFill(graphics, owner, iconDelegate, padding, padding, 0,
+                (g, box) -> fillTopRightRoundedRectangle(g, box, cornerRadius));
+    }
+
+    /**
+     * Draw a figure's small in-built icon in the "Outline" shape style, as {@link #drawOutlineStyleIcon(Graphics,
+     * AbstractDiagramModelObjectFigure, IIconDelegate, int, int)}, but with the box's top-right corner cut off at
+     * a straight diagonal (see {@link #fillTopRightChamferedRectangle(Graphics, Rectangle, int)}) instead of
+     * rounded - for figures whose own outline (e.g. the Motivation elements' "shaved corner" shape) has a
+     * matching diagonal-cut corner rather than a rounded one. Pass the figure's own corner cut size as
+     * {@code chamfer} so the badge's cut edge is colinear with the figure's own.
+     * <p>
+     * Unlike the rounded corner (whose radius is small relative to the box), {@code chamfer} is often a large
+     * fraction of a small badge box, so the icon can't just sit at the usual {@code padding} inset - some of it
+     * would fall in the cut-away corner and be invisible there (drawn in the "paper" color over the page, not
+     * the box). It's nudged left by {@link #CHAMFER_LEFT_NUDGE} first, away from the figure's own sharp corner
+     * point, which in turn lets it sit higher too (clearing the cut at a smaller y) than a purely top-inset fix
+     * would need - see {@link #drawOutlineStyleIconWithBoxFill}.
+     */
+    public static void drawOutlineStyleIconChamfered(Graphics graphics, AbstractDiagramModelObjectFigure owner, IIconDelegate iconDelegate,
+            int padding, int chamfer) {
+        // Clearing the cut only requires the icon's top-right corner to stay left of the diagonal (whose x, for
+        // a given y, is boxWidth - chamfer + y) - nudging the icon CHAMFER_LEFT_NUDGE further left than the
+        // plain padded position means that's satisfied already at a smaller y, so a smaller top inset than
+        // chamfer alone would need still clears it (+1 for a comfortable, non-tangent margin)
+        int topInset = Math.max(padding, chamfer - padding - CHAMFER_LEFT_NUDGE + 1);
+        drawOutlineStyleIconWithBoxFill(graphics, owner, iconDelegate, padding, topInset, CHAMFER_LEFT_NUDGE,
+                (g, box) -> fillTopRightChamferedRectangle(g, box, chamfer));
+    }
+
+    // How far left of the plain padded position to nudge a chamfered badge's icon, so it doesn't crowd the
+    // figure's own sharp corner point right up against the diagonal cut - see drawOutlineStyleIconChamfered()
+    private static final int CHAMFER_LEFT_NUDGE = 2;
+
+    // Extra width added to every Outline-style icon badge box, purely as breathing room to the left of the icon.
+    // The box's right edge stays flush with the figure's own corner (unaffected), and the icon's own position
+    // relative to that corner is unchanged too - see drawOutlineStyleIconWithBoxFill(). Public so
+    // getOutlineIconBoxWidth() (and, for figures pinned to an older explicit-constant call, any leftover manual
+    // ICON_BOX_WIDTH constant) can reference this value directly instead of hardcoding a matching literal.
+    public static final int LEFT_BREATHING_ROOM = 1;
+
+    // Icon delegates are stateless singletons shared by every instance of a figure class, and their glyph
+    // geometry never changes at runtime, so their bounds are computed once (building and disposing of an SWT
+    // Path) and cached forever rather than being rebuilt on every single icon paint
+    private static final Map<IIconDelegate, Rectangle> ICON_BOUNDS_CACHE = new ConcurrentHashMap<>();
+
+    private static Rectangle getIconBounds(IIconDelegate iconDelegate) {
+        return ICON_BOUNDS_CACHE.computeIfAbsent(iconDelegate, IIconDelegate::getBounds);
+    }
+
+    /**
+     * @return the width of the Outline-style icon badge box that {@link #drawOutlineStyleIcon} /
+     * {@link #drawOutlineStyleIconChamfered} draw for the given icon delegate and padding - the value a figure's
+     * getIconOffset() should reserve as its Outline-mode horizontal text margin. Derived from the same
+     * {@link IIconDelegate#getBounds()} the actual badge is drawn from, so it can't drift out of sync with it.
+     */
+    public static int getOutlineIconBoxWidth(IIconDelegate iconDelegate, int padding) {
+        return getIconBounds(iconDelegate).width + (padding * 2) + LEFT_BREATHING_ROOM;
+    }
+
+    /**
+     * Shared implementation behind {@link #drawOutlineStyleIcon} and {@link #drawOutlineStyleIconChamfered}: works
+     * out the badge box (from the icon delegate's own bounds) and its color, then delegates the actual corner
+     * shape to {@code boxFiller}.
+     * @param topInset The inset from the box's top edge to the icon's top edge - usually just {@code padding}, but
+     * larger for a chamfered corner so the icon clears the cut-away triangle (see
+     * {@link #drawOutlineStyleIconChamfered(Graphics, AbstractDiagramModelObjectFigure, IIconDelegate, int, int)})
+     * @param leftShift How far left of the plain padded position to additionally nudge the icon (used for the
+     * chamfered corner only, see {@link #CHAMFER_LEFT_NUDGE})
+     */
+    private static void drawOutlineStyleIconWithBoxFill(Graphics graphics, AbstractDiagramModelObjectFigure owner, IIconDelegate iconDelegate,
+            int padding, int topInset, int leftShift, BiConsumer<Graphics, Rectangle> boxFiller) {
+        if(!owner.isIconVisible()) {
+            return;
+        }
+
+        Rectangle iconBounds = getIconBounds(iconDelegate);
+
+        Rectangle rect = owner.getBounds();
+        // LEFT_BREATHING_ROOM is added to the box only - iconBox.x moves left with it, but origin.x below adds
+        // it back, so the icon itself doesn't move relative to the figure's corner; the extra width all goes to
+        // the gap between the icon's left edge and the box's left edge
+        int boxWidth = iconBounds.width + (padding * 2) + LEFT_BREATHING_ROOM;
+        int boxHeight = topInset + iconBounds.height + padding;
+        Rectangle iconBox = new Rectangle(rect.getRight().x - boxWidth, rect.y, boxWidth, boxHeight);
+
+        // A custom icon color or the disabled/greyed-out state take priority over the outline color, matching
+        // how Classic mode colors its (box-less) icon
+        Color boxColor = (!owner.isEnabled() || owner.hasCustomIconColor()) ? owner.getIconColor() : owner.getLineColor();
+
+        graphics.pushState();
+        graphics.setBackgroundColor(boxColor);
+        boxFiller.accept(graphics, iconBox);
+        graphics.popState();
+
+        // iconBounds.x/y is where the glyph's own top-left sits relative to whatever origin it's drawn at (may
+        // be non-zero if the glyph extends left of or above its own origin point) - solve for the origin that
+        // lands the glyph's top-left exactly at the box's padded top-left
+        Point origin = new Point(iconBox.x + padding + LEFT_BREATHING_ROOM - leftShift - iconBounds.x,
+                iconBox.y + topInset - iconBounds.y);
+        // Reuse the owner's own cached "paper" color rather than re-deriving it from the theme registry here -
+        // this is always the same value, since this method only ever runs while the owner is in Outline style
+        iconDelegate.drawIcon(graphics, owner.getOutlineStyleFillColor(), null, origin);
     }
 }

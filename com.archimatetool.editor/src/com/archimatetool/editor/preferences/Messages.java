@@ -65,6 +65,12 @@ public class Messages extends NLS {
 
     public static String ColoursPreferencePage_25;
 
+    public static String ColoursPreferencePage_26;
+
+    public static String ColoursPreferencePage_27;
+
+    public static String ColoursPreferencePage_28;
+
     public static String ColoursPreferencePage_3;
 
     public static String ColoursPreferencePage_4;
@@ -158,6 +164,12 @@ public class Messages extends NLS {
     public static String DiagramAppearancePreferencePage_22;
 
     public static String DiagramAppearancePreferencePage_23;
+
+    public static String DiagramAppearancePreferencePage_24;
+
+    public static String DiagramAppearancePreferencePage_25;
+
+    public static String DiagramAppearancePreferencePage_26;
 
     public static String DiagramAppearancePreferencePage_3;
 

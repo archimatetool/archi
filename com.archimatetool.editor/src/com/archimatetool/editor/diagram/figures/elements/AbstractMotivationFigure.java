@@ -27,7 +27,12 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
     protected AbstractMotivationFigure() {
         super(TEXT_FLOW_CONTROL);
     }
-    
+
+    @Override
+    protected boolean supportsOutlineShapeStyle() {
+        return true;
+    }
+
     @Override
     protected void drawFigure(Graphics graphics) {
         if(getFigureDelegate() != null) {

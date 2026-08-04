@@ -11,6 +11,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
@@ -125,11 +126,23 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
             
             // ball
             graphics.fillArc(pt.x - 1,  pt.y + 9, 5, 5, 0, 360);
-            
+
             graphics.popState();
         }
+
+        @Override
+        public Rectangle getBounds() {
+            // Mirrors the Path calls and fillArc() in drawIcon() above (with pt = (0, 0))
+            // Diagonal line: (0, 13) -> (13, 0)
+            Rectangle bounds = new Rectangle(0, 0, 13, 13);
+            // Arrow-head triangle: (8, 0) -> (13, 0) -> (13, 5)
+            bounds = bounds.union(new Rectangle(8, 0, 5, 5));
+            // Ball: fillArc(-1, 9, 5, 5, 0, 360) is a full oval, bounds = its rect
+            bounds = bounds.union(new Rectangle(-1, 9, 5, 5));
+            return bounds;
+        }
     };
-    
+
     public static IIconDelegate getIconDelegate() {
         return iconDelegate;
     }

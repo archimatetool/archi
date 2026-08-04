@@ -63,7 +63,15 @@ public class ColorFactory {
         
         return ColorRegistry.get(rgbValue);
     }
-    
+
+    /**
+     * @return The current diagram view's background color (the "paper" color), matching the app's active theme
+     */
+    public static Color getViewBackgroundColor() {
+        RGB rgb = ThemeUtils.getCurrentThemeColor(IPreferenceConstants.VIEW_BACKGROUND_COLOR);
+        return rgb != null ? get(rgb) : ColorConstants.white;
+    }
+
     /**
      * @param component
      * Set user default colors as set in prefs for a model object
