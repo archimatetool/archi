@@ -55,16 +55,19 @@ public class DiagramUtilsTests {
         assertTrue(dm instanceof IArchimateDiagramModel);
         
         Shell shell = new Shell();
-        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
-        
-        assertNotNull(viewer);
-        assertTrue(viewer.getEditPartFactory() instanceof ArchimateDiagramEditPartFactory);
-        assertTrue(viewer.getRootEditPart() instanceof FreeformGraphicalRootEditPart);
-        assertSame(dm, viewer.getContents().getModel());
-        
-        assertSame(shell, viewer.getControl().getShell());
-        
-        shell.dispose();
+        try {
+            GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
+            
+            assertNotNull(viewer);
+            assertTrue(viewer.getEditPartFactory() instanceof ArchimateDiagramEditPartFactory);
+            assertTrue(viewer.getRootEditPart() instanceof FreeformGraphicalRootEditPart);
+            assertSame(dm, viewer.getContents().getModel());
+            
+            assertSame(shell, viewer.getControl().getShell());
+        }
+        finally {
+            shell.dispose();
+        }
     }
 
     @Test
@@ -73,55 +76,54 @@ public class DiagramUtilsTests {
         assertTrue(dm instanceof ISketchModel);
         
         Shell shell = new Shell();
-        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
-        
-        assertNotNull(viewer);
-        assertTrue(viewer.getEditPartFactory() instanceof SketchEditPartFactory);
-        assertTrue(viewer.getRootEditPart() instanceof FreeformGraphicalRootEditPart);
-        assertSame(dm, viewer.getContents().getModel());
-        
-        assertSame(shell, viewer.getControl().getShell());
-        
-        shell.dispose();
+        try {
+            GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
+
+            assertNotNull(viewer);
+            assertTrue(viewer.getEditPartFactory() instanceof SketchEditPartFactory);
+            assertTrue(viewer.getRootEditPart() instanceof FreeformGraphicalRootEditPart);
+            assertSame(dm, viewer.getContents().getModel());
+
+            assertSame(shell, viewer.getControl().getShell());
+        }
+        finally {
+            shell.dispose();
+        }
     }
     
     @Test
     public void testCreateImage_Model_NoChildren() {
         // This is the blank View
         IDiagramModel dm = model.getDiagramModels().get(0);
-        Image img = DiagramUtils.createImage(dm, 1, 0);
         
         // Blank View is minimum 100 x 100
-        assertEquals(new Rectangle(0, 0, 100, 100), img.getBounds());
-        img.dispose();
+        Image img = DiagramUtils.createImage(dm, 1, 0);
+        assertImageBounds(img, new Rectangle(0, 0, 100, 100));
         
         // Margin will not be used for Blank View
         img = DiagramUtils.createImage(dm, 1, 20);
-        assertEquals(new Rectangle(0, 0, 100, 100), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 100, 100));
 
         // Margin & Ratio
         img = DiagramUtils.createImage(dm, 0.2, 0);
-        assertEquals(new Rectangle(0, 0, 20, 20), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 20, 20));
         
+        // 50% scale
         img = DiagramUtils.createImage(dm, 0.5, 10);
-        assertEquals(new Rectangle(0, 0, 50, 50), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 50, 50));
     }
-   
+    
     @Test
     public void testCreateImage_Model_NoChildren_Scaled() {
         IDiagramModel dm = model.getDiagramModels().get(0);
         
         // Blank View is minimum 100 x 100
         Image img = DiagramUtils.createImage(dm, 1, 0);
-        assertEquals(new Rectangle(0, 0, 100, 100), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 100, 100));
         
+        // 200% scale
         img = DiagramUtils.createImage(dm, 2, 0);
-        assertEquals(new Rectangle(0, 0, 200, 200), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 200, 200));
     }
     
     @Test
@@ -132,12 +134,10 @@ public class DiagramUtilsTests {
         int height = 468 + 85; // x of furthest object in diagram, and its height
         
         Image img = DiagramUtils.createImage(dm, 1, 0);
-        assertEquals(new Rectangle(0, 0, width, height), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, width, height));
         
         img = DiagramUtils.createImage(dm, 0.5, 0);
-        assertEquals(new Rectangle(0, 0, width / 2, height / 2), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, width / 2, height / 2));
     }
 
     @Test
@@ -145,13 +145,15 @@ public class DiagramUtilsTests {
         IDiagramModel dm = model.getDiagramModels().get(2);
         
         Shell shell = new Shell();
-        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
-        
-        Image img = DiagramUtils.createImage(viewer, 1, 0);
-        assertNotNull(img);
-
-        img.dispose();
-        shell.dispose();
+        try {
+            GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
+            Image img = DiagramUtils.createImage(viewer, 1, 0);
+            assertNotNull(img);
+            img.dispose();
+        }
+        finally {
+            shell.dispose();
+        }
     }
     
     @Test
@@ -162,8 +164,7 @@ public class DiagramUtilsTests {
         
         // Blank View is minimum 100 x 100
         Image img = DiagramUtils.createImage(rootFigure, 1, 0);
-        assertEquals(new Rectangle(0, 0, 100, 100), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 100, 100));
         
         IFigure childFigure1 = new Figure();
         org.eclipse.draw2d.geometry.Rectangle rect2 = new org.eclipse.draw2d.geometry.Rectangle(90, 90, 230, 190);
@@ -176,17 +177,16 @@ public class DiagramUtilsTests {
         rootFigure.add(childFigure2);
         
         img = DiagramUtils.createImage(rootFigure, 1, 0);
-        assertEquals(new Rectangle(0, 0, 260, 250), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 260, 250));
     }
     
     @Test
     public void testCreateImage_SimpleFigure() {
         IFigure figure = new Figure();
         figure.setSize(230, 190);
+
         Image img = DiagramUtils.createImage(figure, 1, 0);
-        assertEquals(new Rectangle(0, 0, 230, 190), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 230, 190));
     }
 
     @Test
@@ -201,55 +201,60 @@ public class DiagramUtilsTests {
         rootFigure.add(childFigure1);
         
         Image img = DiagramUtils.createImage(rootFigure, 1, 0);
-        assertEquals(new Rectangle(0, 0, 300, 200), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 300, 200));
         
         img = DiagramUtils.createImage(rootFigure, 0.25, 0);
-        assertEquals(new Rectangle(0, 0, 75, 50), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 75, 50));
         
         img = DiagramUtils.createImage(rootFigure, 5, 0);
-        assertEquals(new Rectangle(0, 0, 1500, 1000), img.getBounds());
-        img.dispose();
+        assertImageBounds(img, new Rectangle(0, 0, 1500, 1000));
     }
 
     @Test
     public void testGetDiagram_IsMinimumSize() {
-        IDiagramModel dm = model.getDiagramModels().get(0);
-        
         Shell shell = new Shell();
-        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
-        shell.dispose();
-        
-        org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);
-        assertEquals(new org.eclipse.draw2d.geometry.Rectangle(0, 0, 100, 100), rect);
+        try {
+            IDiagramModel dm = model.getDiagramModels().get(0);
+            
+            GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
+            org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);
+            assertEquals(new org.eclipse.draw2d.geometry.Rectangle(0, 0, 100, 100), rect);
+        }
+        finally {
+            shell.dispose();
+        }
     }
 
     @Test
     public void testGetDiagramExtents() {
-        IDiagramModel dm = model.getDiagramModels().get(2);
-        
-        int width = 720 + 193; // x of furthest object in diagram, and its width
-        int height = 468 + 85; // x of furthest object in diagram, and its height
-        
         Shell shell = new Shell();
-        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
-        shell.dispose();
-        
-        org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);
-        assertEquals(new org.eclipse.draw2d.geometry.Rectangle(0, 0, width, height), rect);
+        try {
+            IDiagramModel dm = model.getDiagramModels().get(2);
+            
+            int width = 720 + 193; // x of furthest object in diagram, and its width
+            int height = 468 + 85; // x of furthest object in diagram, and its height
+            
+            GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
+            org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);
+            assertEquals(new org.eclipse.draw2d.geometry.Rectangle(0, 0, width, height), rect);
+        }
+        finally {
+            shell.dispose();
+        }
     }
     
     @Test
     public void testGetDiagramExtents_WithConnections() {
-        IDiagramModel dm = model.getDiagramModels().get(3);
-        
         Shell shell = new Shell();
-        GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
-        shell.dispose();
-        
-        org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);
-        assertEquals(new org.eclipse.draw2d.geometry.Rectangle(12, 24, 587, 323), rect);
+        try {
+            IDiagramModel dm = model.getDiagramModels().get(3);
+            GraphicalViewer viewer = DiagramUtils.createViewer(dm, shell);
+            org.eclipse.draw2d.geometry.Rectangle rect = DiagramUtils.getDiagramExtents(viewer);
+            assertEquals(new org.eclipse.draw2d.geometry.Rectangle(12, 24, 587, 323), rect);
+        }
+        finally {
+            shell.dispose();
+        }
     }
 
     @Test
@@ -279,4 +284,18 @@ public class DiagramUtilsTests {
         assertEquals(new org.eclipse.draw2d.geometry.Rectangle(0, 0, 50, 50), DiagramUtils.getMinimumBounds(figure));
     }
 
+    /**
+     * Assert Image is not null and its bounds is equal to rect and dispose the image
+     */
+    private void assertImageBounds(Image img, Rectangle rect) {
+        try {
+            assertNotNull(img);
+            assertEquals(rect, img.getBounds());
+        }
+        finally {
+            if(img != null) {
+                img.dispose();
+            }
+        }
+    }
 }
