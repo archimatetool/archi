@@ -67,6 +67,13 @@ implements IDiagramModelObjectFigure {
     // Delegate to draw icon image
     private IconicDelegate iconicDelegate;
     
+    /**
+     * Scale used when exporting a figure to an image.
+     * This is not to be set or accessed by clients except DiagramUtils and this class.
+     * @noreference This field is not part of the public API.
+     */
+    public double imageScale;
+    
     protected AbstractDiagramModelObjectFigure() {
     }
     
@@ -180,7 +187,8 @@ implements IDiagramModelObjectFigure {
             return figureBounds;
         }
 
-        final double scale = FigureUtils.getFigureScale(graphics, this);
+        // If imageScale is set use that else use ancestor ScalableFigure
+        final double scale = imageScale > 0 ? imageScale : FigureUtils.getFigureScale(this);
         final int lineWidth = getLineWidth();
         
         // If line width is 1 and scale is 1 check whether to use an offset.

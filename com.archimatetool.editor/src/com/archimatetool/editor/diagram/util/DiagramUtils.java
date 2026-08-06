@@ -19,7 +19,6 @@ import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.graphics.AutoscalingMode;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -27,6 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 import com.archimatetool.editor.diagram.DiagramEditorFactoryExtensionHandler;
 import com.archimatetool.editor.diagram.IDiagramEditorFactory;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
+import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
@@ -105,13 +105,13 @@ public final class DiagramUtils {
      */
     public static ModelReferencedImage createModelReferencedImage(IDiagramModel model, double scale, int margin) {
         Shell shell = new Shell();
-        shell.setLayout(new FillLayout());
-        
-        GraphicalViewer viewer = createViewer(model, shell);
-        ModelReferencedImage image = createModelReferencedImage(viewer, scale, margin);
-        shell.dispose();
-        
-        return image;
+        try {
+            GraphicalViewer viewer = createViewer(model, shell);
+            return createModelReferencedImage(viewer, scale, margin);
+        }
+        finally {
+            shell.dispose();
+        }
     }
 
     /**
@@ -155,9 +155,12 @@ public final class DiagramUtils {
             bounds.expand(margin / scale, margin / scale);
         }
         
+        // Set figure scale for AbstractDiagramModelObjectFigure children
+        setFigureScale(figure, scale);
+        
         Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale));
         GC gc = new GC(image);
-        SWTGraphics graphics = new ImageGraphics(gc); // Use ImageGraphics so we can get actual scale
+        SWTGraphics graphics = new SWTGraphics(gc);
         
         if(scale != 1) {
             graphics.scale(scale);
@@ -174,6 +177,17 @@ public final class DiagramUtils {
         graphics.dispose();
         
         return new ModelReferencedImage(image, bounds);
+    }
+    
+    /**
+     * For each AbstractDiagramModelObjectFigure child set imagescale to the scale value
+     */
+    private static void setFigureScale(IFigure figure, double scale) {
+        if(figure instanceof AbstractDiagramModelObjectFigure dmoFigure) {
+            dmoFigure.imageScale = scale;
+        }
+        
+        figure.getChildren().forEach(child -> setFigureScale(child, scale));
     }
     
     /**
