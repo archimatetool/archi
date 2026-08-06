@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -27,7 +26,6 @@ import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 import com.archimatetool.model.IDiagramModelArchimateConnection;
-import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IDiagramModelObject;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -52,18 +50,9 @@ public class DeleteFromModelAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        List<?> list = getSelectedObjects();
-        
-        if(list.isEmpty()) {
-            return false;
-        }
-        
-        for(Object object : list) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(model instanceof IDiagramModelArchimateComponent) {
-                    return true;
-                }
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(editPart.getModel() instanceof IDiagramModelArchimateComponent) {
+                return true;
             }
         }
         
@@ -72,41 +61,29 @@ public class DeleteFromModelAction extends SelectionAction {
     
     @Override
     public void run() {
-        List<?> selection = getSelectedObjects();
-        Set<IArchimateConcept> archimateConcepts = new HashSet<IArchimateConcept>();
+        Set<IArchimateConcept> conceptsToDelete = new HashSet<>();
+        Set<IDiagramModelArchimateComponent> diagramComponentsToDelete = new HashSet<>();
+        boolean hasMultiple = false;
         
-        // Gather referenced model concepts
-        for(Object object : selection) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                
-                if(model instanceof IDiagramModelArchimateObject) {
-                    IArchimateElement element = ((IDiagramModelArchimateObject)model).getArchimateElement();
-                    archimateConcepts.add(element);
-                    
-                    // Element's relationships
-                    for(IArchimateRelationship relation : ArchimateModelUtils.getAllRelationshipsForConcept(element)) {
-                        archimateConcepts.add(relation);
-                        // Relation's relationships
-                        for(IArchimateRelationship r : ArchimateModelUtils.getAllRelationshipsForConcept(relation)) {
-                            archimateConcepts.add(r);
-                        }
-                    }
-                }
-                else if(model instanceof IDiagramModelArchimateConnection) {
-                    IArchimateRelationship relation = ((IDiagramModelArchimateConnection)model).getArchimateRelationship();
-                    archimateConcepts.add(relation);
-                    
-                    // Relation's relationships
-                    for(IArchimateRelationship r : ArchimateModelUtils.getAllRelationshipsForConcept(relation)) {
-                        archimateConcepts.add(r);
-                    }
-                }
+        // Gather referenced model concepts and connected relationships
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(editPart.getModel() instanceof IDiagramModelArchimateComponent component) {
+                conceptsToDelete.add(component.getArchimateConcept());
+                addRelationshipsToDelete(component.getArchimateConcept(), conceptsToDelete);
             }
         }
         
-        // Check whether any of these concepts are referenced in other diagrams
-        if(hasMoreThanOneReference(archimateConcepts)) {
+        // Gather referenced diagram components
+        for(IArchimateConcept concept : conceptsToDelete) {
+            List<? extends IDiagramModelArchimateComponent> list = concept.getReferencingDiagramComponents();
+            diagramComponentsToDelete.addAll(list);
+            if(list.size() > 1) {
+                hasMultiple = true;
+            }
+        }
+        
+        // If any of the concepts is referenced more than once in Views warn the user
+        if(hasMultiple) {
             if(!MessageDialog.openQuestion(Display.getDefault().getActiveShell(),
                     Messages.DeleteFromModelAction_0,
                     Messages.DeleteFromModelAction_1 +
@@ -119,28 +96,23 @@ public class DeleteFromModelAction extends SelectionAction {
         // Create commands
         CompoundCommand compoundCommand = new NonNotifyingCompoundCommand(TEXT);
         
-        for(IArchimateConcept archimateConcept : archimateConcepts) {
-            if(archimateConcept instanceof IArchimateElement) {
-                // Element
-                Command cmd = new DeleteArchimateElementCommand((IArchimateElement)archimateConcept);
-                compoundCommand.add(cmd);
-                
-                // Diagram Model Objects
-                for(IDiagramModelObject dmo : ((IArchimateElement)archimateConcept).getReferencingDiagramObjects()) {
-                    cmd = DiagramCommandFactory.createDeleteDiagramObjectCommand(dmo);
-                    compoundCommand.add(cmd);
-                }
+        // Concepts to delete
+        for(IArchimateConcept archimateConcept : conceptsToDelete) {
+            if(archimateConcept instanceof IArchimateElement element) {
+                compoundCommand.add(new DeleteArchimateElementCommand(element));
             }
-            else if(archimateConcept instanceof IArchimateRelationship) {
-                // Relationship
-                Command cmd = new DeleteArchimateRelationshipCommand((IArchimateRelationship)archimateConcept);
-                compoundCommand.add(cmd);
-                
-                // Diagram Model Connections
-                for(IDiagramModelArchimateConnection dmc : ((IArchimateRelationship)archimateConcept).getReferencingDiagramConnections()) {
-                    cmd = DiagramCommandFactory.createDeleteDiagramConnectionCommand(dmc);
-                    compoundCommand.add(cmd);
-                }
+            else if(archimateConcept instanceof IArchimateRelationship relationship) {
+                compoundCommand.add(new DeleteArchimateRelationshipCommand(relationship));
+            }
+        }
+        
+        // Diagram components to delete
+        for(IDiagramModelArchimateComponent component : diagramComponentsToDelete) {
+            if(component instanceof IDiagramModelObject dmo) {
+                compoundCommand.add(DiagramCommandFactory.createDeleteDiagramObjectCommand(dmo));
+            }
+            else if(component instanceof IDiagramModelArchimateConnection dmc) {
+                compoundCommand.add(DiagramCommandFactory.createDeleteDiagramConnectionCommand(dmc));
             }
         }
         
@@ -151,14 +123,11 @@ public class DeleteFromModelAction extends SelectionAction {
             }
         });
     }
-
-    private boolean hasMoreThanOneReference(Set<IArchimateConcept> archimateConcepts) {
-        for(IArchimateConcept archimateConcept : archimateConcepts) {
-            if(archimateConcept.getReferencingDiagramComponents().size() > 1) {
-                return true;
-            }
+    
+    private void addRelationshipsToDelete(IArchimateConcept concept, Set<IArchimateConcept> conceptsToDelete) {
+        for(IArchimateRelationship relationship : ArchimateModelUtils.getAllRelationshipsForConcept(concept)) {
+            conceptsToDelete.add(relationship);
+            addRelationshipsToDelete(relationship, conceptsToDelete); // recurse
         }
-        
-        return false;
     }
 }
