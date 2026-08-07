@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.List;
-
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -44,25 +42,18 @@ public class DefaultEditPartSizeAction extends SelectionAction {
 
     @Override
     public void run() {
-        execute(createDefaultSizeCommand(getSelectedObjects()));
+        execute(createDefaultSizeCommand());
     }
 
     @Override
     protected boolean calculateEnabled() {
-        List<?> selected = getSelectedObjects();
-        
-        // Quick checks
-        if(selected.isEmpty()) {
-            return false;
-        }
-        
-        return createDefaultSizeCommand(selected).canExecute();
+        return createDefaultSizeCommand().canExecute();
     }
 
-    private Command createDefaultSizeCommand(List<?> objects) {
+    private Command createDefaultSizeCommand() {
         CompoundCommand command = new CompoundCommand();
         
-        for(Object object : objects) {
+        for(Object object : getSelectedObjects()) {
             if(object instanceof AbstractBaseEditPart editPart) {
                 IDiagramModelObject model = editPart.getModel();
                 
@@ -79,7 +70,9 @@ public class DefaultEditPartSizeAction extends SelectionAction {
                 
                 if(bounds.getWidth() != model.getBounds().getWidth() || bounds.getHeight() != model.getBounds().getHeight()) {
                     Command cmd = new SetConstraintObjectCommand(model, bounds);
-                    command.add(cmd);
+                    if(cmd.canExecute()) {
+                        command.add(cmd);
+                    }
                 }
             }
         }

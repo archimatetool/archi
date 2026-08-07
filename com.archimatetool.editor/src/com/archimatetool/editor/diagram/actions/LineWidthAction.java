@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.List;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -48,65 +46,55 @@ public class LineWidthAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject() != null;
     }
 
-    private Object getFirstValidSelectedModelObject(List<?> selection) {
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    return model;
+    @Override
+    public void run() {
+        ILineObject lineObject = getFirstValidSelectedModelObject();
+        if(lineObject == null) {
+            return;
+        }
+        
+        // Set default line width on first selected connection
+        int lineWidth = lineObject.getLineWidth();
+
+        LineWidthDialog dialog = new LineWidthDialog(getWorkbenchPart().getSite().getShell(), lineWidth);
+        if(dialog.open() == Window.OK) {
+            CompoundCommand compoundCommand = new CompoundCommand(Messages.LineWidthAction_1);
+            
+            for(EditPart editPart : getSelectedEditParts()) {
+                Object model = editPart.getModel();
+                if(isValidObject(model)) {
+                    Command cmd = new LineWidthCommand((ILineObject)model, dialog.getLineWidth());
+                    if(cmd.canExecute()) {
+                        compoundCommand.add(cmd);
+                    }
                 }
+            }
+            
+            execute(compoundCommand.unwrap());
+        }
+    }
+    
+    private ILineObject getFirstValidSelectedModelObject() {
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(isValidObject(model)) {
+                return (ILineObject)model;
             }
         }
         
         return null;
     }
-    
-    @Override
-    public void run() {
-        List<?> selection = getSelectedObjects();
-        
-        ILineObject model = (ILineObject)getFirstValidSelectedModelObject(selection);
-        if(model == null) {
-            return;
-        }
-        
-        // Set default line width on first selected connection
-        int lineWidth = model.getLineWidth();
 
-        LineWidthDialog dialog = new LineWidthDialog(getWorkbenchPart().getSite().getShell(), lineWidth);
-        if(dialog.open() == Window.OK) {
-            execute(createCommand(selection, dialog.getLineWidth()));
-        }
-    }
-    
-    private Command createCommand(List<?> selection, int newLineWidth) {
-        CompoundCommand result = new CompoundCommand(Messages.LineWidthAction_1);
-        
-        for(Object object : selection) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    Command cmd = new LineWidthCommand((ILineObject)model, newLineWidth);
-                    if(cmd.canExecute()) {
-                        result.add(cmd);
-                    }
-                }
-            }
-        }
-        
-        return result.unwrap();
-    }
-    
-    private boolean shouldEnable(Object model) {
-        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+    private boolean isValidObject(Object object) {
+        if(object instanceof ILockable lockable && lockable.isLocked()) {
             return false;
         }
         
-        if(model instanceof ILineObject lo) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(lo);
+        if(object instanceof ILineObject lineObject) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(lineObject);
             return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_WIDTH.getName());
         }
         
@@ -115,8 +103,8 @@ public class LineWidthAction extends SelectionAction {
 
     
     private static class LineWidthDialog extends Dialog {
-        private Combo fCombo;
-        private int fLineWidth;
+        private Combo combo;
+        private int lineWidth;
         
         private static final String[] comboLineWidthItems = {
                 Messages.LineWidthAction_2,
@@ -126,7 +114,7 @@ public class LineWidthAction extends SelectionAction {
 
         protected LineWidthDialog(Shell parent, int lineWidth) {
             super(parent);
-            fLineWidth = lineWidth;
+            this.lineWidth = lineWidth;
         }
         
         @Override
@@ -139,21 +127,21 @@ public class LineWidthAction extends SelectionAction {
         protected Control createDialogArea(Composite parent) {
             Composite composite = (Composite)super.createDialogArea(parent);
             
-            fCombo = new Combo(composite, SWT.READ_ONLY);
-            fCombo.setItems(comboLineWidthItems);
-            fCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-            fCombo.select(fLineWidth - 1);
+            combo = new Combo(composite, SWT.READ_ONLY);
+            combo.setItems(comboLineWidthItems);
+            combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+            combo.select(lineWidth - 1);
             
             return composite;
         }
         
         protected int getLineWidth() {
-            return fLineWidth;
+            return lineWidth;
         }
         
         @Override
         protected void okPressed() {
-            fLineWidth = fCombo.getSelectionIndex() + 1;
+            lineWidth = combo.getSelectionIndex() + 1;
             super.okPressed();
         }
     }

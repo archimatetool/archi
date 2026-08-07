@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.List;
-
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -45,26 +43,19 @@ public class ResetAspectRatioAction extends SelectionAction {
 
     @Override
     public void run() {
-        execute(createCommand(getSelectedObjects()));
+        execute(createCommand());
     }
 
     @Override
     protected boolean calculateEnabled() {
-        List<?> selected = getSelectedObjects();
-        
-        if(selected.isEmpty()) {
-            return false;
-        }
-        
-        return createCommand(selected).canExecute();
+        return createCommand().canExecute();
     }
 
-    private Command createCommand(List<?> objects) {
+    private Command createCommand() {
         CompoundCommand result = new CompoundCommand();
         
-        for(Object object : objects) {
-            if(object instanceof AbstractConnectedEditPart) {
-                AbstractConnectedEditPart editPart = (AbstractConnectedEditPart)object;
+        for(Object object : getSelectedObjects()) {
+            if(object instanceof AbstractConnectedEditPart editPart) {
                 AbstractDiagramModelObjectFigure figure = (AbstractDiagramModelObjectFigure)editPart.getFigure();
                 IDiagramModelObject dmo = editPart.getModel();
                 
@@ -74,7 +65,7 @@ public class ResetAspectRatioAction extends SelectionAction {
                 }
                 
                 // Locked
-                if(dmo instanceof ILockable && ((ILockable)dmo).isLocked()) {
+                if(dmo instanceof ILockable lockable && lockable.isLocked()) {
                     continue;
                 }
                 
@@ -129,10 +120,10 @@ public class ResetAspectRatioAction extends SelectionAction {
     }
     
     private boolean isIconicWithImageFill(IDiagramModelObject dmo, AbstractDiagramModelObjectFigure figure) {
-        return dmo instanceof IIconic && ((IIconic)dmo).getImagePosition() == IIconic.ICON_POSITION_FILL && figure.hasIconImage();
+        return dmo instanceof IIconic iconic && iconic.getImagePosition() == IIconic.ICON_POSITION_FILL && figure.hasIconImage();
     }
     
     private boolean isDiagramObjectWithImage(IDiagramModelObject dmo) {
-        return dmo instanceof IDiagramModelImage && ((IDiagramModelImage)dmo).getImagePath() != null;
+        return dmo instanceof IDiagramModelImage dmImage && dmImage.getImagePath() != null;
     }
 }

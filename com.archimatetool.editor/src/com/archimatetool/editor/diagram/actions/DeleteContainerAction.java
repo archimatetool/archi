@@ -85,18 +85,17 @@ public class DeleteContainerAction extends SelectionAction {
     private List<IDiagramModelObject> getObjectsToBeDeleted() {
         List<IDiagramModelObject> list = new ArrayList<>();
         
-        for(Object object : getSelectedObjects()) {
-            if(isValidObject(object)) {
-                list.add((IDiagramModelObject)((EditPart)object).getModel());
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(isValidObject(editPart)) {
+                list.add((IDiagramModelObject)editPart.getModel());
             }
         }
         
         return list;
     }
     
-    private boolean isValidObject(Object object) {
-        return object instanceof EditPart editPart &&                             // Is an EditPart
-                editPart.getModel() instanceof IDiagramModelObject dmo &&         // Diagram Model Object
+    private boolean isValidObject(EditPart editPart) {
+        return  editPart.getModel() instanceof IDiagramModelObject dmo &&         // Diagram Model Object
                 dmo instanceof IDiagramModelContainer container &&                // And a container
                 dmo.eContainer() instanceof IDiagramModelContainer &&             // And parent is a container
                 !(dmo instanceof ILockable lockable && lockable.isLocked()) &&    // And not locked

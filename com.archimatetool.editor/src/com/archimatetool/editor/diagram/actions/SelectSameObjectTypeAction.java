@@ -47,8 +47,8 @@ public class SelectSameObjectTypeAction extends SelectionAction {
     
     @Override
     protected boolean calculateEnabled() {
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart editPart && getObjectClass(editPart.getModel()) != null) {
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(getObjectClass(editPart.getModel()) != null) {
                 return true;
             }
         }
@@ -80,12 +80,10 @@ public class SelectSameObjectTypeAction extends SelectionAction {
     private Set<EClass> getSelectedTypes() {
         Set<EClass> selected = new HashSet<>();
         
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart editPart) {
-                EClass eClass = getObjectClass(editPart.getModel());
-                if(eClass != null) {
-                    selected.add(eClass);
-                }
+        for(EditPart editPart : getSelectedEditParts()) {
+            EClass eClass = getObjectClass(editPart.getModel());
+            if(eClass != null) {
+                selected.add(eClass);
             }
         }
         

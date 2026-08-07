@@ -39,16 +39,11 @@ public class GenerateViewAction extends SelectionAction {
     }
 
     private List<IArchimateElement> getValidSelectedObjects() {
-        List<IArchimateElement> list = new ArrayList<IArchimateElement>();
+        List<IArchimateElement> list = new ArrayList<>();
         
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart) {
-                Object o = ((EditPart)object).getAdapter(IArchimateConcept.class);
-                if(o instanceof IArchimateElement) {
-                    if(!list.contains(o)) {
-                        list.add((IArchimateElement)o);
-                    }
-                }
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(editPart.getAdapter(IArchimateConcept.class) instanceof IArchimateElement element && !list.contains(element)) {
+                list.add(element);
             }
         }
         

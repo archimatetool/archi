@@ -29,14 +29,14 @@ import com.archimatetool.model.ILockable;
  */
 public class CopyAction extends SelectionAction {
     
-    protected PasteAction fPasteAction;
+    protected PasteAction pasteAction;
     
     public CopyAction(IWorkbenchPart part, PasteAction pasteAction) {
         super(part);
-        fPasteAction = pasteAction;
+        this.pasteAction = pasteAction;
     }
     
-    @Override
+    @Override 
     protected void init() {
         setText(Messages.CopyAction_0);
         setId(ActionFactory.COPY.getId());
@@ -49,23 +49,15 @@ public class CopyAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        List<?> selected = getSelectedObjects();
-        
-        if(selected.isEmpty()) {
-            return false;
-        }
-
         // Must select at least one Diagram Model Object
         // We don't copy connections or the Root Edit Part
-        for(Object object : selected) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                if(model instanceof IDiagramModelObject) {
-                    return true;
-                }
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(model instanceof ILockable lockable && lockable.isLocked()) {
+                continue;
+            }
+            if(model instanceof IDiagramModelObject) {
+                return true;
             }
         }
         
@@ -74,17 +66,15 @@ public class CopyAction extends SelectionAction {
 
     @Override
     public void run() {
-        List<IDiagramModelComponent> selected = new ArrayList<IDiagramModelComponent>();
+        List<IDiagramModelComponent> selected = new ArrayList<>();
         
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(model instanceof ILockable && ((ILockable)model).isLocked()) {
-                    continue;
-                }
-                if(model instanceof IDiagramModelComponent) {
-                    selected.add((IDiagramModelComponent)model);
-                }
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(model instanceof ILockable lockable && lockable.isLocked()) {
+                continue;
+            }
+            if(model instanceof IDiagramModelComponent dmc) {
+                selected.add(dmc);
             }
         }
         
@@ -92,6 +82,6 @@ public class CopyAction extends SelectionAction {
         LocalClipboard.getDefault().setContents(clipBoardCopy);
         
         // Reset Paste Action
-        fPasteAction.reset();
+        pasteAction.reset();
     }
 }

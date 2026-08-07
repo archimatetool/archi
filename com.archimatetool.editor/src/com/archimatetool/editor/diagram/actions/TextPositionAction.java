@@ -114,8 +114,8 @@ public class TextPositionAction extends SelectionAction {
     private List<ITextPosition> getValidSelectedObjects() {
         List<ITextPosition> list = new ArrayList<>();
         
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart editPart && editPart.getModel() instanceof ITextPosition textPositionObject
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(editPart.getModel() instanceof ITextPosition textPositionObject
                     && !(textPositionObject instanceof ILockable lockable && lockable.isLocked())
                     && ObjectUIFactory.INSTANCE.getProvider(textPositionObject) instanceof IGraphicalObjectUIProvider provider
                     && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_POSITION__TEXT_POSITION.getName())) {

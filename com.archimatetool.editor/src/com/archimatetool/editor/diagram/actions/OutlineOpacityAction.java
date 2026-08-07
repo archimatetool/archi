@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.List;
-
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
@@ -34,9 +32,7 @@ public class OutlineOpacityAction extends OpacityAction {
 
     @Override
     public void run() {
-        List<?> selection = getSelectedObjects();
-        
-        IDiagramModelObject dmo = (IDiagramModelObject)getFirstValidSelectedModelObject(selection);
+        IDiagramModelObject dmo = getFirstValidSelectedModelObject();
         if(dmo == null) {
             return;
         }
@@ -46,7 +42,7 @@ public class OutlineOpacityAction extends OpacityAction {
 
         OpacityDialog dialog = new OpacityDialog(getWorkbenchPart().getSite().getShell(), alpha);
         if(dialog.open() == Window.OK) {
-            execute(createCommand(selection, dialog.getAlpha()));
+            execute(createCommand(dialog.getAlpha()));
         }
     }
     

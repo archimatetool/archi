@@ -49,6 +49,7 @@ public class InvertConnectionAction extends SelectionAction {
         }
 
         CompoundCommand compoundCommand = new CompoundCommand(TEXT);
+        
         for(IArchimateRelationship relationship : relationships) {
             compoundCommand.add(new InvertConnectionCommand(relationship));
         }
@@ -59,8 +60,8 @@ public class InvertConnectionAction extends SelectionAction {
     private Set<IArchimateRelationship> getValidRelationships() {
         Set<IArchimateRelationship> result = new HashSet<>();
 
-        for(Object object : getSelectedObjects()) {
-            if(!(object instanceof EditPart editPart && editPart.getModel() instanceof IDiagramModelArchimateConnection connection)) {
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(!(editPart.getModel() instanceof IDiagramModelArchimateConnection connection)) {
                 continue;
             }
 

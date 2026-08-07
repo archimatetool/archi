@@ -38,8 +38,7 @@ public class CutAction extends CopyAction {
         setActionDefinitionId(ActionFactory.CUT.getCommandId());
         ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
         setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
-        setDisabledImageDescriptor(sharedImages.getImageDescriptor(
-                ISharedImages.IMG_TOOL_CUT_DISABLED));
+        setDisabledImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
         setEnabled(false);
     }
 
@@ -53,13 +52,10 @@ public class CutAction extends CopyAction {
             public void run() {
                 CompoundCommand result = new CompoundCommand(Messages.CutAction_1);
                 
-                for(Object object : getSelectedObjects()) {
-                    if(object instanceof EditPart) {
-                        Object model = ((EditPart)object).getModel();
-                        if(model instanceof IDiagramModelObject) {
-                            Command cmd = DiagramCommandFactory.createDeleteDiagramObjectCommand((IDiagramModelObject)model);
-                            result.add(cmd);
-                        }
+                for(EditPart editPart : getSelectedEditParts()) {
+                    if(editPart.getModel() instanceof IDiagramModelObject dmo) {
+                        Command cmd = DiagramCommandFactory.createDeleteDiagramObjectCommand(dmo);
+                        result.add(cmd);
                     }
                 }
                 

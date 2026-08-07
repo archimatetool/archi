@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.List;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -37,21 +35,23 @@ public class LockObjectAction extends SelectionAction {
 
     @Override
     public void run() {
-        execute(createLockCommand(getSelectedObjects()));
+        execute(createLockCommand());
         updateText();
     }
 
+    @Override
+    protected boolean calculateEnabled() {
+        updateText();
+        return createLockCommand().canExecute();
+    }
+
     /**
-     * Set Lock or Unlock based on first selected object
+     * Get Lock or Unlock based on first selected object
      */
     private boolean isToLock() {
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart) {
-                EditPart part = (EditPart)object;
-                if(part.getModel() instanceof ILockable) {
-                    ILockable model = (ILockable)part.getModel();
-                    return !model.isLocked();
-                }
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(editPart.getModel() instanceof ILockable lockable) {
+                return !lockable.isLocked();
             }
         }
         
@@ -61,52 +61,23 @@ public class LockObjectAction extends SelectionAction {
     private void updateText() {
         boolean lock = isToLock();
         setText(lock ? Messages.LockObjectAction_0 : Messages.LockObjectAction_2);
-        setImageDescriptor(lock ? IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCK) :
-            IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_UNLOCK));
+        setImageDescriptor(lock ? IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_LOCK) : IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_UNLOCK));
     }
 
-    @Override
-    protected boolean calculateEnabled() {
-        updateText();
+    private Command createLockCommand() {
+        CompoundCommand compoundCommand = new CompoundCommand();
         
-        List<?> selected = getSelectedObjects();
-        
-        // Quick checks
-        if(selected.isEmpty()) {
-            return false;
-        }
-        
-        for(Object object : selected) {
-            if(!(object instanceof EditPart)) {
-                return false;
-            }
-        }
-
-        Command command = createLockCommand(selected);
-        if(command == null) {
-            return false;
-        }
-        
-        return command.canExecute();
-    }
-
-    private Command createLockCommand(List<?> objects) {
-        CompoundCommand command = new CompoundCommand();
         boolean lock = isToLock();
         
-        for(Object object : objects) {
-            if(object instanceof EditPart) {
-                EditPart part = (EditPart)object;
-                if(part.getModel() instanceof ILockable) {
-                    ILockable model = (ILockable)part.getModel();
-                    if(model.isLocked() != lock) {
-                        Command cmd = new LockObjectCommand(model, lock);
-                        command.add(cmd);
-                    }
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(editPart.getModel() instanceof ILockable lockable) {
+                Command cmd = new LockObjectCommand(lockable, lock);
+                if(cmd.canExecute()) {
+                    compoundCommand.add(cmd);
                 }
             }
         }
 
-        return command.unwrap();
+        return compoundCommand.unwrap();
     }
 }

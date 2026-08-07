@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.List;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -49,27 +47,12 @@ public class OpacityAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject() != null;
     }
 
-    protected Object getFirstValidSelectedModelObject(List<?> selection) {
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    return model;
-                }
-            }
-        }
-        
-        return null;
-    }
-    
     @Override
     public void run() {
-        List<?> selection = getSelectedObjects();
-        
-        IDiagramModelObject dmo = (IDiagramModelObject)getFirstValidSelectedModelObject(selection);
+        IDiagramModelObject dmo = getFirstValidSelectedModelObject();
         if(dmo == null) {
             return;
         }
@@ -79,21 +62,30 @@ public class OpacityAction extends SelectionAction {
 
         OpacityDialog dialog = new OpacityDialog(getWorkbenchPart().getSite().getShell(), alpha);
         if(dialog.open() == Window.OK) {
-            execute(createCommand(selection, dialog.getAlpha()));
+            execute(createCommand(dialog.getAlpha()));
         }
     }
     
-    protected Command createCommand(List<?> selection, int alpha) {
+    protected IDiagramModelObject getFirstValidSelectedModelObject() {
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(isValidObject(model)) {
+                return (IDiagramModelObject)model;
+            }
+        }
+        
+        return null;
+    }
+    
+    protected Command createCommand(int alpha) {
         CompoundCommand result = new CompoundCommand(Messages.OpacityAction_0);
         
-        for(Object object : selection) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    Command cmd = getCommand((IDiagramModelObject)model, alpha);
-                    if(cmd.canExecute()) {
-                        result.add(cmd);
-                    }
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(isValidObject(model)) {
+                Command cmd = getCommand((IDiagramModelObject)model, alpha);
+                if(cmd.canExecute()) {
+                    result.add(cmd);
                 }
             }
         }
@@ -101,13 +93,13 @@ public class OpacityAction extends SelectionAction {
         return result.unwrap();
     }
     
-    private boolean shouldEnable(Object model) {
-        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+    private boolean isValidObject(Object object) {
+        if(object instanceof ILockable lockable && lockable.isLocked()) {
             return false;
         }
         
-        if(model instanceof IDiagramModelObject) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IDiagramModelObject)model));
+        if(object instanceof IDiagramModelObject dmo) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((dmo));
             return provider != null && provider.shouldExposeFeature(getFeatureName());
         }
         
@@ -123,12 +115,12 @@ public class OpacityAction extends SelectionAction {
     }
     
     protected static class OpacityDialog extends Dialog {
-        private Spinner fSpinner;
-        private int fAlpha;
+        private Spinner spinner;
+        private int alpha;
 
         protected OpacityDialog(Shell parent, int alpha) {
             super(parent);
-            fAlpha = alpha;
+            this.alpha = alpha;
         }
         
         @Override
@@ -146,23 +138,23 @@ public class OpacityAction extends SelectionAction {
             Label label = new Label(composite, SWT.NONE);
             label.setText(Messages.OpacityAction_1 + ": "); //$NON-NLS-1$
             
-            fSpinner = new Spinner(composite, SWT.BORDER);
-            fSpinner.setMinimum(0);
-            fSpinner.setMaximum(255);
-            fSpinner.setIncrement(5);
+            spinner = new Spinner(composite, SWT.BORDER);
+            spinner.setMinimum(0);
+            spinner.setMaximum(255);
+            spinner.setIncrement(5);
             
-            fSpinner.setSelection(fAlpha);
+            spinner.setSelection(alpha);
             
             return composite;
         }
         
         protected int getAlpha() {
-            return fAlpha;
+            return alpha;
         }
         
         @Override
         protected void okPressed() {
-            fAlpha = fSpinner.getSelection();
+            alpha = spinner.getSelection();
             super.okPressed();
         }
     }

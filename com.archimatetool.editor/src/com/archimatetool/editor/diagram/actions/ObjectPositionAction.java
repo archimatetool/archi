@@ -86,21 +86,21 @@ public class ObjectPositionAction extends SelectionAction {
     }
 
     private Command createCommand() {
-        CompoundCommand result = new CompoundCommand(getText());
+        CompoundCommand compoundCommand = new CompoundCommand(getText());
         
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart editPart && editPart.getModel() instanceof IDiagramModelObject dmo
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(editPart.getModel() instanceof IDiagramModelObject dmo
                     // Parent can be null under some circumstances when dragging from one container to another
                     && dmo.eContainer() instanceof IDiagramModelContainer
                     && !(dmo instanceof ILockable lockable && lockable.isLocked())) {
                 Command cmd = new PositionCommand(dmo, getText(), getId());
                 if(cmd.canExecute()) {
-                    result.add(cmd);
+                    compoundCommand.add(cmd);
                 }
             }
         }
 
-        return result.unwrap();
+        return compoundCommand.unwrap();
     }
     
     /**

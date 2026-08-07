@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.List;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -43,28 +41,13 @@ public class FontColorAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject() != null;
     }
     
-    private Object getFirstValidSelectedModelObject(List<?> selection) {
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    return model;
-                }
-            }
-        }
-        
-        return null;
-    }
-
     @Override
     public void run() {
-        List<?> selection = getSelectedObjects();
-        
-        IFontAttribute model = (IFontAttribute)getFirstValidSelectedModelObject(selection);
-        if(model == null) {
+        IFontAttribute fontObject = getFirstValidSelectedModelObject();
+        if(fontObject == null) {
             return;
         }
 
@@ -73,7 +56,7 @@ public class FontColorAction extends SelectionAction {
         // Set default RGB on first selected object
         RGB defaultRGB = null;
         
-        String s = model.getFontColor();
+        String s = fontObject.getFontColor();
         if(s != null) {
             defaultRGB = ColorFactory.convertStringToRGB(s);
         }
@@ -86,40 +69,47 @@ public class FontColorAction extends SelectionAction {
         }
         
         RGB newColor = colorDialog.open();
-        if(newColor != null) {
-            execute(createCommand(selection, newColor));
+        if(newColor == null) {
+            return;
         }
-    }
-    
-    private Command createCommand(List<?> selection, RGB newColor) {
-        CompoundCommand result = new CompoundCommand(Messages.FontColorAction_1);
         
-        for(Object object : selection) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    Command cmd = new FontColorCommand((IFontAttribute)model, ColorFactory.convertRGBToString(newColor));
-                    if(cmd.canExecute()) {
-                        result.add(cmd);
-                    }
+        CompoundCommand compoundCommand = new CompoundCommand(Messages.FontColorAction_1);
+        
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(isValidObject(model)) {
+                Command cmd = new FontColorCommand((IFontAttribute)model, ColorFactory.convertRGBToString(newColor));
+                if(cmd.canExecute()) {
+                    compoundCommand.add(cmd);
                 }
             }
         }
-
-        return result.unwrap();
+        
+        
+        execute(compoundCommand.unwrap());
     }
     
-    private boolean shouldEnable(Object model) {
-        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+    private IFontAttribute getFirstValidSelectedModelObject() {
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(isValidObject(model)) {
+                return (IFontAttribute)model;
+            }
+        }
+        
+        return null;
+    }
+    
+    private boolean isValidObject(Object object) {
+        if(object instanceof ILockable lockable && lockable.isLocked()) {
             return false;
         }
         
-        if(model instanceof IFontAttribute) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((IFontAttribute)model));
+        if(object instanceof IFontAttribute fontObject) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((fontObject));
             return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.FONT_ATTRIBUTE__FONT_COLOR.getName());
         }
         
         return false;
     }
-
 }

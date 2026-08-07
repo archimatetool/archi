@@ -5,8 +5,6 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
-import java.util.List;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -44,28 +42,13 @@ public class LineColorAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        return getFirstValidSelectedModelObject(getSelectedObjects()) != null;
+        return getFirstValidSelectedModelObject() != null;
     }
 
-    private Object getFirstValidSelectedModelObject(List<?> selection) {
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    return model;
-                }
-            }
-        }
-        
-        return null;
-    }
-    
     @Override
     public void run() {
-        List<?> selection = getSelectedObjects();
-        
-        ILineObject model = (ILineObject)getFirstValidSelectedModelObject(selection);
-        if(model == null) {
+        ILineObject lineObject = getFirstValidSelectedModelObject();
+        if(lineObject == null) {
             return;
         }
 
@@ -74,7 +57,7 @@ public class LineColorAction extends SelectionAction {
         // Set default RGB on first selected object
         RGB defaultRGB = null;
 
-        String s = model.getLineColor();
+        String s = lineObject.getLineColor();
         if(s != null) {
             defaultRGB = ColorFactory.convertStringToRGB(s);
         }
@@ -87,43 +70,50 @@ public class LineColorAction extends SelectionAction {
         }
         
         RGB newColor = colorDialog.open();
-        if(newColor != null) {
-            execute(createCommand(selection, newColor));
+        if(newColor == null) {
+            return;
         }
-    }
-    
-    private Command createCommand(List<?> selection, RGB newColor) {
-        CompoundCommand result = new CompoundCommand(Messages.LineColorAction_1);
         
-        for(Object object : selection) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(shouldEnable(model)) {
-                    Command cmd = new LineColorCommand((ILineObject)model, ColorFactory.convertRGBToString(newColor));
-                    if(cmd.canExecute()) {
-                        result.add(cmd);
-                    }
+        CompoundCommand compoundCommand = new CompoundCommand(Messages.FillColorAction_1);
+        
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(isValidObject(model)) {
+                Command cmd = new LineColorCommand((ILineObject)model, ColorFactory.convertRGBToString(newColor));
+                if(cmd.canExecute()) {
+                    compoundCommand.add(cmd);
                 }
             }
         }
-
-        return result.unwrap();
+        
+        execute(compoundCommand.unwrap());
     }
     
-    private boolean shouldEnable(Object model) {
-        if(model instanceof ILockable && ((ILockable)model).isLocked()) {
+    private ILineObject getFirstValidSelectedModelObject() {
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(isValidObject(model)) {
+                return (ILineObject)model;
+            }
+        }
+        
+        return null;
+    }
+    
+    private boolean isValidObject(Object object) {
+        if(object instanceof ILockable lockable && lockable.isLocked()) {
             return false;
         }
         
-        if(model instanceof IDiagramModelObject dmo) {
+        if(object instanceof IDiagramModelObject dmo) {
             // Disable if diagram model object line colours are derived from fill colours as set in Prefs
             if(dmo.getDeriveElementLineColor()) {
                 return false;
             }
         }
         
-        if(model instanceof ILineObject) {
-            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider(((ILineObject)model));
+        if(object instanceof ILineObject lineObject) {
+            IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProvider((lineObject));
             return provider != null && provider.shouldExposeFeature(IArchimatePackage.Literals.LINE_OBJECT__LINE_COLOR.getName());
         }
         

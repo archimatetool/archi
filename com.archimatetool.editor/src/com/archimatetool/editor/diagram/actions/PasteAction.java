@@ -79,26 +79,15 @@ public class PasteAction extends SelectionAction {
     
     @Override
     protected boolean calculateEnabled() {
-        Object obj = LocalClipboard.getDefault().getContents();
-        
-        if(obj instanceof CopySnapshot) {
-            CopySnapshot clipBoardCopy = (CopySnapshot)obj;
-            return clipBoardCopy.canPasteToDiagram(getTargetDiagramModel());
-        }
-        
-        return false;
+        return LocalClipboard.getDefault().getContents() instanceof CopySnapshot copySnapshot
+                && copySnapshot.canPasteToDiagram(getTargetDiagramModel());
     }
 
     @Override
     public void run() {
-        Object obj = LocalClipboard.getDefault().getContents();
-        
-        if(obj instanceof CopySnapshot) {
-            CopySnapshot clipBoardCopy = (CopySnapshot)obj;
-            if(clipBoardCopy.canPasteToDiagram(getTargetDiagramModel())) {
-                execute(clipBoardCopy.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition, fPasteSpecial));
-                fMousePosition = null;
-            }
+        if(LocalClipboard.getDefault().getContents() instanceof CopySnapshot copySnapshot && copySnapshot.canPasteToDiagram(getTargetDiagramModel())) {
+            execute(copySnapshot.getPasteCommand(getTargetDiagramModel(), fGraphicalViewer, fMousePosition, fPasteSpecial));
+            fMousePosition = null;
         }
     }
     

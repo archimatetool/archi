@@ -47,22 +47,18 @@ public class SelectElementInTreeAction extends SelectionAction {
 
     @Override
     public void run() {
-        List<?> selection = getSelectedObjects();
+        List<Object> elements = new ArrayList<>();
         
-        List<Object> elements = new ArrayList<Object>();
-        
-        for(Object object : selection) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(model instanceof IDiagramModel) {
-                    elements.add(model);
-                }
-                else if(model instanceof IDiagramModelReference) {
-                    elements.add(((IDiagramModelReference)model).getReferencedModel());
-                }
-                else if(model instanceof IDiagramModelArchimateComponent) {
-                    elements.add(((IDiagramModelArchimateComponent)model).getArchimateConcept());
-                }
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(model instanceof IDiagramModel) {
+                elements.add(model);
+            }
+            else if(model instanceof IDiagramModelReference ref) {
+                elements.add(ref.getReferencedModel());
+            }
+            else if(model instanceof IDiagramModelArchimateComponent dmac) {
+                elements.add(dmac.getArchimateConcept());
             }
         }
         
@@ -74,23 +70,14 @@ public class SelectElementInTreeAction extends SelectionAction {
 
     @Override
     protected boolean calculateEnabled() {
-        List<?> list = getSelectedObjects();
-        
-        if(list.isEmpty()) {
-            return false;
-        }
-        
-        for(Object object : list) {
-            if(object instanceof EditPart) {
-                Object model = ((EditPart)object).getModel();
-                if(model instanceof IDiagramModel || model instanceof IDiagramModelReference ||
-                        model instanceof IDiagramModelArchimateConnection || model instanceof IDiagramModelArchimateObject) {
-                    return true;
-                }
+        for(EditPart editPart : getSelectedEditParts()) {
+            Object model = editPart.getModel();
+            if(model instanceof IDiagramModel || model instanceof IDiagramModelReference ||
+                    model instanceof IDiagramModelArchimateConnection || model instanceof IDiagramModelArchimateObject) {
+                return true;
             }
         }
         
         return false;
     }
-
 }

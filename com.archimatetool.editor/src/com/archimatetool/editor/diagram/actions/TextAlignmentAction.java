@@ -114,8 +114,8 @@ public class TextAlignmentAction extends SelectionAction {
     private List<ITextAlignment> getValidSelectedObjects() {
         List<ITextAlignment> list = new ArrayList<>();
         
-        for(Object object : getSelectedObjects()) {
-            if(object instanceof EditPart editPart && editPart.getModel() instanceof ITextAlignment textAlignmentObject
+        for(EditPart editPart : getSelectedEditParts()) {
+            if(editPart.getModel() instanceof ITextAlignment textAlignmentObject
                     && !(textAlignmentObject instanceof ILockable lockable && lockable.isLocked())
                     && ObjectUIFactory.INSTANCE.getProvider(textAlignmentObject) instanceof IGraphicalObjectUIProvider provider
                     && provider.shouldExposeFeature(IArchimatePackage.Literals.TEXT_ALIGNMENT__TEXT_ALIGNMENT.getName())) {
