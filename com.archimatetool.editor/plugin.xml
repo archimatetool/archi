@@ -1437,6 +1437,26 @@
                tooltip="%command.tooltip.8">
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=edit">
+         <menu
+               id="com.archimatetool.editor.menu.view"
+               label="%menu.label.1">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeEditor">
+                  <instanceof
+                        value="com.archimatetool.editor.diagram.IDiagramModelEditor">
+                  </instanceof>
+               </with>
+            </visibleWhen>
+            <separator
+                  name="additions">
+            </separator>
+         </menu>
+      </menuContribution>
    </extension>
    <extension
          point="com.archimatetool.editor.compatibilityHandler">

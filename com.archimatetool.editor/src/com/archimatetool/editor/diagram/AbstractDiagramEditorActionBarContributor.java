@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.SnapToGrid;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
@@ -72,11 +73,14 @@ extends ActionBarContributor {
 
     protected ZoomComboContributionItem fZoomCombo;
     
+    protected static final String ADDITIONS = "additions"; //$NON-NLS-1$
     protected static final String GROUP_EDIT_MENU = "group_editMenu"; //$NON-NLS-1$
     protected static final String GROUP_TOOLBAR_END = "group_toolbarEnd"; //$NON-NLS-1$
     protected static final String GROUP_POSITION = "group_position"; //$NON-NLS-1$
     protected static final String GROUP_CONNECTIONS = "group_connections"; //$NON-NLS-1$
+    protected static final String GROUP_CONNECTIONS_END = "group_connections_end"; //$NON-NLS-1$
     protected static final String GROUP_EDIT_DELETE_MENU = "editDeleteMenuGroup"; //$NON-NLS-1$
+    protected static final String GROUP_VIEW = "group_view"; //$NON-NLS-1$
 
 
     @Override
@@ -125,9 +129,6 @@ extends ActionBarContributor {
         addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY, 
                 Messages.AbstractDiagramEditorActionBarContributor_2, IAction.AS_CHECK_BOX));
         
-        //addRetargetAction(new RetargetAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY, 
-        //        "Ruler", IAction.AS_CHECK_BOX));
-        
         // Default Size
         retargetAction = new RetargetAction(DefaultEditPartSizeAction.ID, DefaultEditPartSizeAction.TEXT);
         retargetAction.setActionDefinitionId(DefaultEditPartSizeAction.ID);
@@ -174,9 +175,6 @@ extends ActionBarContributor {
         // Connection Routers
         addRetargetAction(new RetargetAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID,
                 ConnectionRouterAction.CONNECTION_ROUTER_BENDPONT, IAction.AS_RADIO_BUTTON));
-// Doesn't work with Connection to Connection
-//      addRetargetAction(new RetargetAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID,
-//              ConnectionRouterAction.CONNECTION_ROUTER_SHORTEST_PATH, IAction.AS_RADIO_BUTTON));
         addRetargetAction(new RetargetAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID,
                 ConnectionRouterAction.CONNECTION_ROUTER_MANHATTAN, IAction.AS_RADIO_BUTTON));
         
@@ -224,31 +222,42 @@ extends ActionBarContributor {
     }
     
     /**
-     * Create the "View" Menu
+     * @deprecated use {@link #contributeToViewMenu(IMenuManager)}
      */
+    @Deprecated
     protected IMenuManager createViewMenu(IMenuManager menuManager) {
-        IMenuManager viewMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_4);
+        return contributeToViewMenu(menuManager);
+    }
+    
+    protected IMenuManager contributeToViewMenu(IMenuManager menuManager) {
+        if(!(menuManager.find("com.archimatetool.editor.menu.view") instanceof IMenuManager viewMenu)) { //$NON-NLS-1$
+            ILog.get().error("View menu not found", new IllegalArgumentException()); //$NON-NLS-1$
+            return null;
+        }
         
-        viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
-        viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
-        viewMenu.add(getAction(ZoomNormalAction.ID));
-        viewMenu.add(new Separator());
+        // GROUP_VIEW is inserted before ADDITIONS so that other plug-in contributions are added
+        // by default at the end of the View menu after ADDITIONS
+        viewMenu.insertBefore(ADDITIONS, new GroupMarker(GROUP_VIEW));
         
-        viewMenu.add(getAction(SnapToGrid.PROPERTY_GRID_ENABLED));
-        viewMenu.add(getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
-        viewMenu.add(getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
-        //viewMenu.add(getAction(GEFActionConstants.TOGGLE_RULER_VISIBILITY));
-        viewMenu.add(new Separator());
+        viewMenu.appendToGroup(GROUP_VIEW, getAction(GEFActionConstants.ZOOM_IN));
+        viewMenu.appendToGroup(GROUP_VIEW, getAction(GEFActionConstants.ZOOM_OUT));
+        viewMenu.appendToGroup(GROUP_VIEW, getAction(ZoomNormalAction.ID));
+        viewMenu.appendToGroup(GROUP_VIEW, new Separator());
+        
+        viewMenu.appendToGroup(GROUP_VIEW, getAction(SnapToGrid.PROPERTY_GRID_ENABLED));
+        viewMenu.appendToGroup(GROUP_VIEW, getAction(GEFActionConstants.TOGGLE_GRID_VISIBILITY));
+        viewMenu.appendToGroup(GROUP_VIEW, getAction(GEFActionConstants.TOGGLE_SNAP_TO_GEOMETRY));
+        viewMenu.appendToGroup(GROUP_VIEW, new Separator());
         
         IMenuManager orderMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_5, "menu_order"); //$NON-NLS-1$
-        viewMenu.add(orderMenu);
+        viewMenu.appendToGroup(GROUP_VIEW, orderMenu);
         for(ObjectPositionActionDefinition def : ObjectPositionAction.getActionDefinitions()) {
             orderMenu.add(getAction(def.id()));
         }
         
-        viewMenu.add(new GroupMarker(GROUP_POSITION));
+        viewMenu.appendToGroup(GROUP_VIEW, new GroupMarker(GROUP_POSITION));
         IMenuManager alignmentMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_6, "menu_position"); //$NON-NLS-1$
-        viewMenu.add(alignmentMenu);
+        viewMenu.appendToGroup(GROUP_VIEW, alignmentMenu);
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_LEFT));
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_CENTER));
         alignmentMenu.add(getAction(GEFActionConstants.ALIGN_RIGHT));
@@ -269,26 +278,25 @@ extends ActionBarContributor {
         alignmentMenu.add(getAction(DefaultEditPartSizeAction.ID));
         alignmentMenu.add(getAction(ResetAspectRatioAction.ID));
         
-        viewMenu.add(new Separator(GROUP_CONNECTIONS));
+        viewMenu.appendToGroup(GROUP_VIEW, new Separator(GROUP_CONNECTIONS));
         IMenuManager connectionMenu = new MenuManager(Messages.AbstractDiagramEditorActionBarContributor_7, "menu_connection_router"); //$NON-NLS-1$
-        viewMenu.add(connectionMenu);
+        viewMenu.appendToGroup(GROUP_VIEW, connectionMenu);
         connectionMenu.add(getAction(ConnectionRouterAction.BendPointConnectionRouterAction.ID));
-// Doesn't work with Connection to Connection
-//      connectionMenu.add(getAction(ConnectionRouterAction.ShortestPathConnectionRouterAction.ID));
         connectionMenu.add(getAction(ConnectionRouterAction.ManhattanConnectionRouterAction.ID));
-        viewMenu.add(new Separator("end_connection_router")); //$NON-NLS-1$
-
-        if(!PlatformUtils.isMac()) {
-            viewMenu.add(getAction(FullScreenAction.ID));
-        }
+        viewMenu.appendToGroup(GROUP_VIEW, new Separator(GROUP_CONNECTIONS_END));
         
-        menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
+        if(!PlatformUtils.isMac()) {
+            viewMenu.insertAfter(GROUP_CONNECTIONS_END, getAction(FullScreenAction.ID));
+        }
         
         return viewMenu;
     }
     
     protected IMenuManager contributeToFileMenu(IMenuManager menuManager) {
-        IMenuManager fileMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_FILE);
+        if(!(menuManager.find(IWorkbenchActionConstants.M_FILE) instanceof IMenuManager fileMenu)) {
+            ILog.get().error("File menu not found", new IllegalArgumentException()); //$NON-NLS-1$
+            return null;
+        }
         
         // Export menu items
         IMenuManager exportMenu = menuManager.findMenuUsingPath(IWorkbenchActionConstants.M_FILE + "/export_menu"); //$NON-NLS-1$
@@ -298,7 +306,11 @@ extends ActionBarContributor {
     }
     
     protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
-        IMenuManager editMenu = (IMenuManager)menuManager.find(IWorkbenchActionConstants.M_EDIT);
+        if(!(menuManager.find(IWorkbenchActionConstants.M_EDIT) instanceof IMenuManager editMenu)) {
+            ILog.get().error("Edit menu not found", new IllegalArgumentException()); //$NON-NLS-1$
+            return null;
+        }
+        
         editMenu.insertAfter(ArchiActionFactory.RENAME.getId(), new Separator(GROUP_EDIT_MENU));
         
         // Copy as Image to Clipboard

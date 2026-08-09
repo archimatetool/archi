@@ -26,6 +26,9 @@ extends AbstractDiagramEditorActionBarContributor {
     @Override
     protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
         IMenuManager editMenu = super.contributeToEditMenu(menuManager);
+        if(editMenu == null) {
+            return null;
+        }
         
         // Border Color
         editMenu.appendToGroup(GROUP_EDIT_MENU, getAction(BorderColorAction.ID));

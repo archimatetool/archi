@@ -53,6 +53,9 @@ extends AbstractDiagramEditorActionBarContributor {
     @Override
     protected IMenuManager contributeToEditMenu(IMenuManager menuManager) {
         IMenuManager editMenu = super.contributeToEditMenu(menuManager);
+        if(editMenu == null) {
+            return null;
+        }
         
         // Delete from Model
         editMenu.appendToGroup(GROUP_EDIT_DELETE_MENU, getAction(DeleteFromModelAction.ID));
@@ -61,13 +64,16 @@ extends AbstractDiagramEditorActionBarContributor {
     }
     
     @Override
-    protected IMenuManager createViewMenu(IMenuManager menuManager) {
-        IMenuManager viewMenu = super.createViewMenu(menuManager);
+    protected IMenuManager contributeToViewMenu(IMenuManager menuManager) {
+        IMenuManager viewMenu = super.contributeToViewMenu(menuManager);
+        if(viewMenu == null) {
+            return null;
+        }
         
         // Viewpoints
-        viewMenu.insertAfter("end_connection_router", new Separator()); //$NON-NLS-1$
+        viewMenu.insertAfter(GROUP_CONNECTIONS_END, new Separator());
         IMenuManager viewPointMenu = new MenuManager(Messages.ArchimateDiagramEditorActionBarContributor_0);
-        viewMenu.insertAfter("end_connection_router", viewPointMenu); //$NON-NLS-1$
+        viewMenu.insertAfter(GROUP_CONNECTIONS_END, viewPointMenu);
 
         for(IViewpoint viewPoint : ViewpointManager.INSTANCE.getAllViewpoints()) {
             viewPointMenu.add(getAction(viewPoint.toString()));
