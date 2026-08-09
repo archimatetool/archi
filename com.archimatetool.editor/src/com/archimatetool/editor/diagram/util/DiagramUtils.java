@@ -6,8 +6,11 @@
 package com.archimatetool.editor.diagram.util;
 
 import org.eclipse.draw2d.FreeformFigure;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.ImagePrintFigureOperation;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.GraphicalViewer;
@@ -16,10 +19,11 @@ import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
-import org.eclipse.swt.graphics.AutoscalingMode;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -27,6 +31,7 @@ import com.archimatetool.editor.diagram.DiagramEditorFactoryExtensionHandler;
 import com.archimatetool.editor.diagram.IDiagramEditorFactory;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
@@ -70,7 +75,7 @@ public final class DiagramUtils {
         }
         
         GraphicalViewerImpl viewer = new GraphicalViewerImpl();
-        viewer.createControl(parent).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops text clipping on Windows
+        viewer.createControl(parent);
         
         viewer.setEditPartFactory(editPartFactory);
         
@@ -158,6 +163,20 @@ public final class DiagramUtils {
         // Set figure scale for AbstractDiagramModelObjectFigure children
         setFigureScale(figure, scale);
         
+        // Use Image Operation
+        if(FigureUtils.isAutoScaleEnabled()) {
+            Shell shell = new Shell();
+            try {
+                ImagePrintDiagramOperation op = new ImagePrintDiagramOperation(shell, figure, scale, bounds);
+                Image image = op.run();
+                return new ModelReferencedImage(image, bounds);   
+            }
+            finally {
+                shell.dispose();
+            }
+        }
+        
+        // Use manual method
         Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale));
         GC gc = new GC(image);
         SWTGraphics graphics = new SWTGraphics(gc);
@@ -233,5 +252,42 @@ public final class DiagramUtils {
         }
         
         return minimumBounds;
+    }
+    
+    /**
+     * ImagePrintDiagramOperation
+     */
+    private static class ImagePrintDiagramOperation extends ImagePrintFigureOperation {
+        private final Rectangle bounds;
+        private final double scale;
+
+        public ImagePrintDiagramOperation(Control control, IFigure printSource, double scale, Rectangle bounds) {
+            super(control, printSource);
+            this.scale = scale;
+            this.bounds = bounds.getCopy(); // Important to use a copy in case bounds is changed elsewhere
+        }
+
+        @Override
+        protected ImageData getImageDataAtZoom(int zoom) {
+            // Zoom can be < 100 see https://github.com/eclipse-gef/gef-classic/issues/1146
+            if(zoom < 100) {
+                return null;
+            }
+            return super.getImageDataAtZoom(zoom);
+        }
+        
+        @Override
+        protected Dimension getImageSize() {
+            // Scale the size (width and height) of the bounds
+            return bounds.getSize().scale(scale);
+        }
+
+        @Override
+        protected void preparePrintSource(Graphics graphics) {
+            // Scale
+            graphics.scale(scale);
+            // Compensate for negative co-ordinates
+            graphics.translate(bounds.x * -1, bounds.y * -1);
+        }
     }
 }
