@@ -6,10 +6,9 @@
 package com.archimatetool.markdown;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
@@ -188,17 +187,21 @@ public final class MarkdownUtils {
     private static String wrapWithHTMLBody(String html, boolean darkMode) {
         // Load wrapper html from file
         if(htmlWrapper == null) {
-            final String fallback = "<div class=\"%s\">%s</div>";
+            htmlWrapper = "<div class=\"%s\">%s</div>"; // fallback
             
             Bundle bundle = FrameworkUtil.getBundle(MarkdownUtils.class);
             if(bundle != null) {
                 try {
-                    URL url = FileLocator.resolve(bundle.getEntry("/wrapper.html"));
-                    htmlWrapper = url != null ? Files.readString(Path.of(url.toURI())) : fallback;
+                    URL url = bundle.getEntry("/wrapper.html");
+                    if(url != null) {
+                        url = FileLocator.resolve(url);
+                        try(InputStream is = url.openStream()) {
+                            htmlWrapper = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                        }
+                    }
                 }
-                catch(IOException | URISyntaxException ex) {
-                    ILog.of(bundle).error("Error loading CSS file", ex);
-                    htmlWrapper = fallback;
+                catch(IOException ex) {
+                    ILog.of(bundle).error("Error loading HTML file", ex);
                 }
             }
         }
