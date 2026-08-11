@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
-        <target.file>${project.root}/com.archimatetool.editor.product/archi.target</target.file>
     </properties>
     
     <modules>
@@ -26,6 +25,7 @@
         <module>com.archimatetool.editor</module>
         <module>com.archimatetool.editor.browser</module>
         <module>com.archimatetool.editor.feature</module>
+        <module>com.archimatetool.editor.product</module>
         <module>com.archimatetool.editor.themes</module>
         <module>com.archimatetool.export.svg</module>
         <module>com.archimatetool.hammer</module>
@@ -63,7 +63,6 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
-                <module>com.archimatetool.editor.product</module>
                 <module>com.archimatetool.editor.product/site</module>
             </modules>
             <!-- Replace @build.timestamp@ in the plugin.properties file -->
@@ -148,8 +147,13 @@
                 <artifactId>target-platform-configuration</artifactId>
                 <version>${tycho-version}</version>
                 <configuration>
-                    <target>
-                        <file>${target.file}</file>
+                	<target>
+                    	<artifact>
+                            <groupId>com.archimatetool</groupId>
+                            <artifactId>com.archimatetool.editor.product</artifactId>
+                            <version>${revision}</version>
+                            <classifier>archi</classifier>
+                        </artifact>
                     </target>
                     <environments>
                         <environment>
