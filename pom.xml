@@ -15,22 +15,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <target.file>${project.root}/com.archimatetool.editor.product/archi.target</target.file>
     </properties>
     
-    <repositories>
-        <repository>
-            <id>Eclipse</id>
-            <layout>p2</layout>
-            <url>https://download.eclipse.org/releases/2026-06</url>
-        </repository>
-        <repository>
-            <id>GEF</id>
-            <layout>p2</layout>
-            <url>https://archimatetool.github.io/gef-classic/p2</url>
-            <!-- url>https://download.eclipse.org/tools/gef/classic/nightly/latest</url -->
-        </repository>
-    </repositories>
-
     <modules>
         <module>com.archimatetool.canvas</module>
         <module>com.archimatetool.commandline</module>
@@ -77,10 +64,19 @@
             </activation>
             <modules>
                 <module>com.archimatetool.editor.product</module>
-                <module>com.archimatetool.editor.site</module>
+                <module>com.archimatetool.editor.product/site</module>
             </modules>
             <!-- Replace @build.timestamp@ in the plugin.properties file -->
             <build>
+                <resources>
+                    <resource>
+                        <directory>${project.basedir}/com.archimatetool.editor</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>plugin.properties</include>
+                        </includes>
+                    </resource>
+                </resources>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -94,16 +90,8 @@
                                     <goal>resources</goal>
                                 </goals>
                                 <configuration>
-                                    <resources>
-                                        <resource>
-                                            <directory>${project.basedir}/com.archimatetool.editor</directory>
-                                            <filtering>true</filtering>
-                                            <includes>
-                                                <include>plugin.properties</include>
-                                            </includes>
-                                            <targetPath>${project.basedir}/com.archimatetool.editor</targetPath>
-                                        </resource>
-                                    </resources>
+                                    <outputDirectory>${project.basedir}/com.archimatetool.editor</outputDirectory>
+                                    <propertiesEncoding>UTF-8</propertiesEncoding>
                                 </configuration>
                             </execution>
                         </executions>
@@ -160,6 +148,9 @@
                 <artifactId>target-platform-configuration</artifactId>
                 <version>${tycho-version}</version>
                 <configuration>
+                    <target>
+                        <file>${target.file}</file>
+                    </target>
                     <environments>
                         <environment>
                             <os>win32</os>

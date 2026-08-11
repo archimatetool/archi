@@ -7,7 +7,7 @@
         <groupId>com.archimatetool</groupId>
         <artifactId>archi</artifactId>
         <version>${revision}</version>
-        <relativePath>..</relativePath>
+        <relativePath>../..</relativePath>
     </parent>
 
     <artifactId>com.archimatetool.editor.site</artifactId>
