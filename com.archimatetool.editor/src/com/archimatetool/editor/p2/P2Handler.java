@@ -216,9 +216,10 @@ public class P2Handler {
     private IProvisioningAgent getProvisioningAgent() throws ProvisionException {
         if(provisioningAgent == null) {
             BundleContext bundleContext = FrameworkUtil.getBundle(IProvisioningAgent.class).getBundleContext();
-            ServiceReference<?> sr = bundleContext.getServiceReference(IProvisioningAgentProvider.SERVICE_NAME);
-            IProvisioningAgentProvider agentProvider = (IProvisioningAgentProvider)bundleContext.getService(sr);
+            ServiceReference<IProvisioningAgentProvider> serviceRef = bundleContext.getServiceReference(IProvisioningAgentProvider.class);
+            IProvisioningAgentProvider agentProvider = (IProvisioningAgentProvider)bundleContext.getService(serviceRef);
             provisioningAgent = agentProvider.createAgent(null);
+            bundleContext.ungetService(serviceRef);
         }
         
         return provisioningAgent;
