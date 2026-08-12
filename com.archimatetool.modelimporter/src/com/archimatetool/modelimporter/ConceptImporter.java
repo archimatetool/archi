@@ -8,10 +8,10 @@ package com.archimatetool.modelimporter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateRelationship;
@@ -118,12 +118,11 @@ class ConceptImporter extends AbstractImporter {
                         targetObject.getProfiles().add(targetProfile);
                     }
                     else {
-                        Logger.error("Could not get referenced Profile!"); //$NON-NLS-1$
+                        ILog.get().error("Could not get referenced Profile!"); //$NON-NLS-1$
                     }
                 }
                 catch(ImportException ex) {
-                    Logger.error("Error getting referenced Profile!", ex); //$NON-NLS-1$
-                    ex.printStackTrace();
+                    ILog.get().error("Error getting referenced Profile!", ex); //$NON-NLS-1$
                 }
             }
             

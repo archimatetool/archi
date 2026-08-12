@@ -8,12 +8,12 @@ package com.archimatetool.canvas.templates.model;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.canvas.CanvasEditorPlugin;
 import com.archimatetool.canvas.ICanvasImages;
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.templates.model.ITemplate;
 import com.archimatetool.templates.model.ITemplateGroup;
 import com.archimatetool.templates.model.TemplateGroup;
@@ -43,7 +43,7 @@ public class CanvasTemplateManager extends TemplateManager {
                         group.addTemplate(createTemplate(file));
                     }
                     catch(IOException ex) {
-                        Logger.error("Error loading template", ex); //$NON-NLS-1$
+                        ILog.get().error("Error loading template", ex); //$NON-NLS-1$
                     }
                 }
             }

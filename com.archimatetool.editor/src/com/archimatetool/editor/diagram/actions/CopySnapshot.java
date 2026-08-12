@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -27,7 +28,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.DiagramModelUtils;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -862,7 +862,7 @@ public final class CopySnapshot {
                 }
                 catch(IOException ex) {
                     ex.printStackTrace();
-                    Logger.error("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
+                    ILog.get().error("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
                 }
             }
         }

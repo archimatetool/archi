@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.IFigure;
@@ -33,7 +34,6 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.diagram.directedit.MultiLineTextDirectEditManager;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
@@ -107,7 +107,7 @@ public class DiagramConnectionEditPart extends AbstractConnectionEditPart {
             return newFigure;
         }
         catch(Exception ex) {
-            Logger.error("Couldn't instantiate figure from class: " + figureClass, ex); //$NON-NLS-1$
+            ILog.get().error("Couldn't instantiate figure from class: " + figureClass, ex); //$NON-NLS-1$
             return null;
         }
     }

@@ -8,6 +8,7 @@ package com.archimatetool.editor.ui.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -15,7 +16,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.DiagramEditorFactoryExtensionHandler;
 import com.archimatetool.editor.diagram.DiagramEditorInput;
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
@@ -54,7 +54,7 @@ public class EditorManager {
             return page.openEditor(input, editorID, activate);
         }
         catch(PartInitException ex) {
-            Logger.error("Could not open Editor " + editorID); //$NON-NLS-1$
+            ILog.get().error("Could not open Editor " + editorID); //$NON-NLS-1$
             ex.printStackTrace();
             return null;
         }

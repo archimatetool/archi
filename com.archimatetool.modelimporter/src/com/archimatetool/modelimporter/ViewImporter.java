@@ -12,10 +12,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
@@ -219,12 +219,11 @@ class ViewImporter extends AbstractImporter {
                                 ref.setReferencedModel(targetDM);
                             }
                             else {
-                                Logger.error("Could not get referenced View!"); //$NON-NLS-1$
+                                ILog.get().error("Could not get referenced View!"); //$NON-NLS-1$
                             }
                         }
                         catch(ImportException ex) {
-                            Logger.error("Error getting referenced View!", ex); //$NON-NLS-1$
-                            ex.printStackTrace();
+                            ILog.get().error("Error getting referenced View!", ex); //$NON-NLS-1$
                         }
                     }
                 }

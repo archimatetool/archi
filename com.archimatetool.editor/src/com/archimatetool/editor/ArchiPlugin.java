@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -87,7 +88,7 @@ public class ArchiPlugin extends AbstractUIPlugin {
         Location instanceLoc = Platform.getInstanceLocation();
         
         if(instanceLoc == null) {
-            Logger.warning("Instance Location is null. Using user.home");
+            ILog.get().warn("Instance Location is null. Using user.home");
             return new File(System.getProperty("user.home"), "Archi");
         }
         

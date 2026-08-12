@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.dialog.ErrorMessageDialog;
 import com.archimatetool.editor.utils.StringUtils;
@@ -193,7 +193,7 @@ public class ModelChecker {
             sb.append('\n');
         }
         
-        Logger.error(sb.toString());
+        ILog.get().error(sb.toString());
     }
 
     protected List<String> checkFolderStructure() {

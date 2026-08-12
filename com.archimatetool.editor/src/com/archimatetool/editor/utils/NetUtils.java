@@ -20,12 +20,12 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.equinox.security.storage.StorageException;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 
 /**
@@ -55,7 +55,7 @@ public final class NetUtils  {
                     return new PasswordAuthentication(userName, pw.toCharArray());
                 }
                 catch(StorageException ex) {
-                    Logger.error("Could not get secure storage", ex);
+                    ILog.get().error("Could not get secure storage", ex);
                 }
             }
             
@@ -144,7 +144,7 @@ public final class NetUtils  {
 
             @Override
             public void connectFailed(URI uri, SocketAddress sa, IOException ex) {
-                Logger.error("Proxy connect failed", ex);
+                ILog.get().error("Proxy connect failed", ex);
             }
         });
     }

@@ -8,10 +8,10 @@ package com.archimatetool.templates.impl.model;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.swt.graphics.Image;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.templates.ArchiTemplatesPlugin;
 import com.archimatetool.templates.model.ITemplate;
@@ -47,7 +47,7 @@ public class ArchimateTemplateManager extends TemplateManager {
                             group.addTemplate(createTemplate(file));
                         }
                         catch(IOException ex) {
-                            Logger.error("Error loading template", ex); //$NON-NLS-1$
+                            ILog.get().error("Error loading template", ex); //$NON-NLS-1$
                         }
                     }
                 }

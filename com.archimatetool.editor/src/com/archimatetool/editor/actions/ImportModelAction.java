@@ -10,13 +10,13 @@ import java.util.Objects;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IModelImporter;
 
 
@@ -45,7 +45,7 @@ implements IWorkbenchAction {
             }
         }
         catch(IOException | CoreException ex) {
-            Logger.error("Error on Import", ex); //$NON-NLS-1$
+            ILog.get().error("Error on Import", ex); //$NON-NLS-1$
             MessageDialog.openError(workbenchWindow.getShell(), Messages.ImportModelAction_0, ex.getMessage());
         }
     }

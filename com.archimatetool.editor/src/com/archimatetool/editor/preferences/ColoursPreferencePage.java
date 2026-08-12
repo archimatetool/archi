@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
@@ -47,7 +48,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.editor.ui.IArchiImages;
@@ -431,7 +431,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 importUserColors();
             }
             catch(IOException ex) {
-                Logger.error("Error importing", ex); //$NON-NLS-1$
+                ILog.get().error("Error importing", ex); //$NON-NLS-1$
             }
         }));
         
@@ -444,7 +444,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
                 exportUserColors();
             }
             catch(IOException ex) {
-                Logger.error("Error exporting", ex); //$NON-NLS-1$
+                ILog.get().error("Error exporting", ex); //$NON-NLS-1$
             }
         }));
         

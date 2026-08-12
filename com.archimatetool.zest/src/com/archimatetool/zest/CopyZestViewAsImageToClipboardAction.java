@@ -5,6 +5,7 @@
  */
 package com.archimatetool.zest;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.commands.ActionHandler;
@@ -17,7 +18,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.IHandlerService;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.ui.ClipboardImageTransfer;
 import com.archimatetool.editor.ui.ImageFactory;
@@ -59,7 +59,7 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
                     ClipboardImageTransfer.copyImageDataToClipboard(imageData);
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors
-                    Logger.error("Error exporting image", ex); //$NON-NLS-1$
+                    ILog.get().error("Error exporting image", ex); //$NON-NLS-1$
                     
                     MessageDialog.openError(Display.getCurrent().getActiveShell(),
                             Messages.CopyZestViewAsImageToClipboardAction_0,

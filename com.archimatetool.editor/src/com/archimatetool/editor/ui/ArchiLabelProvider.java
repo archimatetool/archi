@@ -6,6 +6,7 @@
 package com.archimatetool.editor.ui;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -18,7 +19,6 @@ import org.eclipse.swt.graphics.ImageGcDrawer;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -174,7 +174,7 @@ public class ArchiLabelProvider {
                     }
                 }
                 catch(Exception ex) {
-                    Logger.error("Could not create specialization image", ex); //$NON-NLS-1$
+                    ILog.get().error("Could not create specialization image", ex); //$NON-NLS-1$
                     // Return default imageData rather than null
                     return getImageDescriptor(profile.getConceptClass()).getImageData(zoom);
                 }

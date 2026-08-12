@@ -10,10 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ui.IMemento;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IEditorModelManager;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
@@ -89,7 +89,7 @@ public class TreeStateHelper {
             }
             // We don't want to fail at this point
             catch(Exception ex) {
-                Logger.error("Error restoring tree state", ex);
+                ILog.get().error("Error restoring tree state", ex);
             }
         }
 

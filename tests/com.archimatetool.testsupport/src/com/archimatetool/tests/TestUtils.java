@@ -10,12 +10,19 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Map;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.log.LogLevel;
+import org.osgi.service.log.admin.LoggerAdmin;
+import org.osgi.service.log.admin.LoggerContext;
 
 
 
@@ -159,7 +166,7 @@ public class TestUtils {
     }
     
 
-    /*
+    /**
      * We need to call this in cases where Display.getDefault() has not yet been called yet.
      * Some Eclipse methods assume that a current Display has been created.
      * Note - Creating a new Shell() at some point in the sequence of tests will call Display.getDefault() but let's be explicit here.
@@ -167,6 +174,31 @@ public class TestUtils {
     public static void ensureDefaultDisplay() {
         if(Display.getCurrent() == null) {
             Display.getDefault();
+        }
+    }
+    
+    /**
+     * Set the log level for the bundle of a given class, run the action and set the log level back to what it was.
+     * 
+     * @param targetClass the target class for the bundle on which to set the log level
+     * @param level The level to set
+     * @param action The action to run
+     */
+    public static void setLogLevel(Class<?> targetClass, LogLevel level, Runnable action) {
+        BundleContext context = FrameworkUtil.getBundle(targetClass).getBundleContext();
+        ServiceReference<LoggerAdmin> serviceRef = context.getServiceReference(LoggerAdmin.class);
+        LoggerAdmin loggerAdmin = context.getService(serviceRef);
+        LoggerContext loggerContext = loggerAdmin.getLoggerContext(context.getBundle().getSymbolicName());
+        
+        Map<String, LogLevel> originalLevels = loggerContext.getLogLevels();
+        loggerContext.setLogLevels(Map.of("org.eclipse.equinox.logger", level));
+
+        try {
+            action.run();
+        }
+        finally {
+            loggerContext.setLogLevels(originalLevels);
+            context.ungetService(serviceRef);
         }
     }
 }

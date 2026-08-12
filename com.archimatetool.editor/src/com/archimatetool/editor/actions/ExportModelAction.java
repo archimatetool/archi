@@ -10,11 +10,11 @@ import java.util.Objects;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IModelExporter;
 import com.archimatetool.model.IArchimateModel;
 
@@ -42,7 +42,7 @@ public class ExportModelAction extends AbstractModelAction {
                 }
             }
             catch(IOException | CoreException ex) {
-                Logger.error("Error on Export", ex); //$NON-NLS-1$
+                ILog.get().error("Error on Export", ex); //$NON-NLS-1$
                 MessageDialog.openError(workbenchWindow.getShell(), Messages.ExportModelAction_0, ex.getMessage());
             }
         }

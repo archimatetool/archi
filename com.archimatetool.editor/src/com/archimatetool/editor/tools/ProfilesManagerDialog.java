@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
@@ -70,7 +71,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.commands.AddListMemberCommand;
 import com.archimatetool.editor.model.commands.RemoveListMemberCommand;
@@ -517,8 +517,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
                 fPreviewImage = archiveManager.createImage(profile.getImagePath());
             }
             catch(Exception ex) {
-                ex.printStackTrace();
-                Logger.error("Could not create image!", ex); //$NON-NLS-1$
+                ILog.get().error("Could not create image!", ex); //$NON-NLS-1$
             }
         }
         
@@ -567,8 +566,7 @@ public class ProfilesManagerDialog extends ExtendedTitleAreaDialog {
                     }
                 }
                 catch(Exception ex) {
-                    ex.printStackTrace();
-                    Logger.error("Could not create image!", ex); //$NON-NLS-1$
+                    ILog.get().error("Could not create image!", ex); //$NON-NLS-1$
                 }
 
                 // Select to update image preview

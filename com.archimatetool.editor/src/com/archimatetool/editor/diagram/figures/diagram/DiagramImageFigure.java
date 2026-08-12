@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.figures.diagram;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -14,7 +15,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -133,7 +133,7 @@ public class DiagramImageFigure extends AbstractDiagramModelObjectFigure {
                 return archiveManager.createImage(imagePath);
             }
             catch(Exception ex) {
-                Logger.error("Failed to create image: " + imagePath, ex); //$NON-NLS-1$
+                ILog.get().error("Failed to create image: " + imagePath, ex); //$NON-NLS-1$
             }
         }
         

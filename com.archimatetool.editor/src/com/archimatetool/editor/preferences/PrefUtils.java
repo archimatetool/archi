@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.preferences;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
@@ -12,7 +13,6 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.service.prefs.BackingStoreException;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 /**
@@ -95,7 +95,7 @@ public class PrefUtils {
                 prefs.flush();
             }
             catch(BackingStoreException ex) {
-                Logger.error("Could not save prefs", ex);
+                ILog.get().error("Could not save prefs", ex);
             }
         }
     }

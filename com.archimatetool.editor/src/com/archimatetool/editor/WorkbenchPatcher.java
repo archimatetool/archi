@@ -36,6 +36,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.ui.PlatformUI;
@@ -119,7 +120,7 @@ public class WorkbenchPatcher {
             }
         }
         catch(Throwable ex) {
-            Logger.error("Error patching workbench file: " + xmiFile, ex);
+            ILog.get().error("Error patching workbench file: " + xmiFile, ex);
         }
     }
     

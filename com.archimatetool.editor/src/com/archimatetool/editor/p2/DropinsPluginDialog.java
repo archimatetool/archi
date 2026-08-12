@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -34,7 +35,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 
@@ -118,7 +118,7 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
                     return handler.getInstalledPlugins().toArray();
                 }
                 catch(IOException ex) {
-                    Logger.error("Error getting installed plug-in", ex); //$NON-NLS-1$
+                    ILog.get().error("Error getting installed plug-in", ex); //$NON-NLS-1$
                 }
                 
                 return new Object[0];
@@ -201,7 +201,7 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
                     }
                 }
                 catch(IOException ex) {
-                    Logger.error("Error installing plug-in", ex); //$NON-NLS-1$
+                    ILog.get().error("Error installing plug-in", ex); //$NON-NLS-1$
                 }
                 break;
 
@@ -215,7 +215,7 @@ public class DropinsPluginDialog extends ExtendedTitleAreaDialog {
                     }
                 }
                 catch(IOException ex) {
-                    Logger.error("Error uninstalling plug-in", ex); //$NON-NLS-1$
+                    ILog.get().error("Error uninstalling plug-in", ex); //$NON-NLS-1$
                 }
                 break;
 

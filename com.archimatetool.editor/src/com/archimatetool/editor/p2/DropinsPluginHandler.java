@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
@@ -32,7 +33,6 @@ import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.ZipUtils;
@@ -218,7 +218,7 @@ public class DropinsPluginHandler {
                 addFileToDeleteOnExit(file);
             }
             else {
-                Logger.error(NLS.bind(Messages.DropinsPluginHandler_1, bundle.getLocation()));
+                ILog.get().error(NLS.bind(Messages.DropinsPluginHandler_1, bundle.getLocation()));
             }
         }
         
@@ -475,7 +475,7 @@ public class DropinsPluginHandler {
             }
         }
         catch(Exception ex) {
-            Logger.error("Error deleting file", ex); //$NON-NLS-1$
+            ILog.get().error("Error deleting file", ex); //$NON-NLS-1$
         }
     }
 }

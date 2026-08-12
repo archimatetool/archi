@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.actions;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -13,7 +14,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPart;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.ui.ClipboardImageTransfer;
 import com.archimatetool.editor.ui.ImageFactory;
@@ -54,7 +54,7 @@ public class ExportAsImageToClipboardAction extends WorkbenchPartAction {
                     ClipboardImageTransfer.copyImageDataToClipboard(imageData);
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors
-                    Logger.error("Error exporting image", ex); //$NON-NLS-1$
+                    ILog.get().error("Error exporting image", ex); //$NON-NLS-1$
                     
                     MessageDialog.openError(getWorkbenchPart().getSite().getShell(),
                             Messages.ExportAsImageToClipboardAction_0,

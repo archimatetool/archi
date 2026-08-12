@@ -9,7 +9,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.archimatetool.editor.Logger;
+import org.eclipse.core.runtime.ILog;
+
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
@@ -125,7 +126,7 @@ public class TextRenderer {
             } while((!resultSet.contains(result)));
         }
         catch(Throwable t) { // Catch all errors so that we can continue working in case we can't open a diagram
-            Logger.error("Error in Label Expression", t);
+            ILog.get().error("Error in Label Expression", t);
             return "*** Error in Label Expression ***";
         }
 

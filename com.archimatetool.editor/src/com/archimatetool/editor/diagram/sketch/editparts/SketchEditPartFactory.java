@@ -5,14 +5,14 @@
  */
 package com.archimatetool.editor.diagram.sketch.editparts;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
-import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
+import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.IDiagramModelGroup;
 import com.archimatetool.model.IDiagramModelReference;
 
@@ -53,7 +53,7 @@ implements EditPartFactory {
          * Returning null is disastrous and means the Diagram View won't open.
          */
         if(child == null) {
-            Logger.warning("Could not create EditPart in SketchEditPartFactory for: " + model); //$NON-NLS-1$
+            ILog.get().warn("Could not create EditPart in SketchEditPartFactory for: " + model); //$NON-NLS-1$
             child = new EmptyEditPart();
         }
 

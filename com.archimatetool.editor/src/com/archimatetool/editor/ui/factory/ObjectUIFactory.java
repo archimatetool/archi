@@ -13,11 +13,11 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.model.IDiagramModelArchimateComponent;
 
 
@@ -52,7 +52,7 @@ public class ObjectUIFactory {
                 }
             } 
             catch(CoreException ex) {
-                Logger.error("Cannot register UI Provider", ex); //$NON-NLS-1$
+                ILog.get().error("Cannot register UI Provider", ex); //$NON-NLS-1$
                 ex.printStackTrace();
             } 
         }

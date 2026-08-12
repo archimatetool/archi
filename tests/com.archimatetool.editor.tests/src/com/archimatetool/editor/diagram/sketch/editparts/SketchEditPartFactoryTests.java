@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.eclipse.gef.EditPart;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.osgi.service.log.LogLevel;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.editparts.DiagramConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
 import com.archimatetool.model.IArchimateFactory;
@@ -23,6 +23,7 @@ import com.archimatetool.model.IDiagramModelReference;
 import com.archimatetool.model.ISketchModel;
 import com.archimatetool.model.ISketchModelActor;
 import com.archimatetool.model.ISketchModelSticky;
+import com.archimatetool.tests.TestUtils;
 
 
 public class SketchEditPartFactoryTests {
@@ -41,8 +42,10 @@ public class SketchEditPartFactoryTests {
 
     @Test
     public void testEmptyEditPart() {
-        Logger.setEnabled(false); // Don't log the error message
-        assertTrue(editPartFactory.createEditPart(null, new Object()) instanceof EmptyEditPart);
+        // Don't log the warning message
+        TestUtils.setLogLevel(getClass(), LogLevel.ERROR, () -> {
+            assertTrue(editPartFactory.createEditPart(null, new Object()) instanceof EmptyEditPart);
+        });
     }
     
     @Test

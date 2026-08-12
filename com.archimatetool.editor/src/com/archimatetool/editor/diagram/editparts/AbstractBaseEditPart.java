@@ -5,6 +5,7 @@
  */
 package com.archimatetool.editor.diagram.editparts;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -15,7 +16,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.tools.SelectEditPartTracker;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.services.ViewManager;
@@ -55,7 +55,7 @@ public abstract class AbstractBaseEditPart extends AbstractFilteredEditPart {
             return newFigure;
         }
         catch(Exception ex) {
-            Logger.error("Couldn't instantiate figure from class: " + figureClass, ex);
+            ILog.get().error("Couldn't instantiate figure from class: " + figureClass, ex);
             return null;
         }
     }

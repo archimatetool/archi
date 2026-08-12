@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
@@ -32,7 +33,6 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.util.AnimationUtil;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.model.IEditorModelManager;
@@ -139,8 +139,7 @@ implements IEditorModelManager {
                 loadState();
             }
             catch(Exception ex) {
-                Logger.error("Error loading state", ex); //$NON-NLS-1$
-                ex.printStackTrace();
+                ILog.get().error("Error loading state", ex); //$NON-NLS-1$
             }
         }
         
@@ -680,8 +679,7 @@ implements IEditorModelManager {
             archiveManager.loadImages();
         }
         catch(IOException ex) {
-            Logger.error("Could not load images", ex); //$NON-NLS-1$
-            ex.printStackTrace();
+            ILog.get().error("Could not load images", ex); //$NON-NLS-1$
         }
         
         return archiveManager;

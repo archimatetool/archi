@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.swt.graphics.Image;
 import org.jdom2.Document;
 import org.jdom2.Element;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.jdom.JDOMUtils;
 
 
@@ -152,7 +152,7 @@ public abstract class TemplateManager implements ITemplateXMLTags {
             doc = JDOMUtils.readXMLFile(getUserTemplatesManifestFile());
         }
         catch(Exception ex) {
-            Logger.error("Error loading templates manifest", ex); //$NON-NLS-1$
+            ILog.get().error("Error loading templates manifest", ex); //$NON-NLS-1$
             return;
         }
         
@@ -175,7 +175,7 @@ public abstract class TemplateManager implements ITemplateXMLTags {
                         userTemplateMap.put(id, template);
                     }
                     catch(IOException ex) {
-                        Logger.error("Error loading template", ex); //$NON-NLS-1$
+                        ILog.get().error("Error loading template", ex); //$NON-NLS-1$
                     }
                 }
             }

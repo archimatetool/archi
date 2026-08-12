@@ -5,12 +5,12 @@
  */
 package com.archimatetool.editor.diagram.figures;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.model.IDiagramModelArchimateObject;
@@ -78,8 +78,7 @@ public class IconicDelegate {
                 }
             }
             catch(Exception ex) {
-                ex.printStackTrace();
-                Logger.error("Could not create image!", ex);
+                ILog.get().error("Could not create image!", ex);
             }
         }
     }

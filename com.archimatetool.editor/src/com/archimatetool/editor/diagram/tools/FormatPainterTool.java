@@ -8,13 +8,13 @@ package com.archimatetool.editor.diagram.tools;
 import java.io.IOException;
 import java.util.Objects;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.tools.AbstractTool;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.commands.BorderColorCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionLineTypeCommand;
 import com.archimatetool.editor.diagram.commands.ConnectionTextPositionCommand;
@@ -324,8 +324,7 @@ public class FormatPainterTool extends AbstractTool {
                             imagePath = targetArchiveManager.addByteContentEntry(imagePath, FormatPainterInfo.INSTANCE.getSourceImageBytes());
                         }
                         catch(IOException ex) {
-                            ex.printStackTrace();
-                            Logger.error("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
+                            ILog.get().error("Could not copy image bytes when copying and pasting objects.", ex); //$NON-NLS-1$
                         }
                     }
                 }

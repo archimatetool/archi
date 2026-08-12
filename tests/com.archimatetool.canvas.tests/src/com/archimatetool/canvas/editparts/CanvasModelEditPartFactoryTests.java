@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.eclipse.gef.EditPart;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.osgi.service.log.LogLevel;
 
 import com.archimatetool.canvas.model.ICanvasFactory;
 import com.archimatetool.canvas.model.ICanvasModel;
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.canvas.model.ICanvasModelSticky;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.editparts.DiagramConnectionEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.DiagramImageEditPart;
 import com.archimatetool.editor.diagram.editparts.diagram.EmptyEditPart;
@@ -25,6 +25,7 @@ import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IDiagramModelConnection;
 import com.archimatetool.model.IDiagramModelImage;
 import com.archimatetool.model.IDiagramModelReference;
+import com.archimatetool.tests.TestUtils;
 
 
 public class CanvasModelEditPartFactoryTests {
@@ -40,11 +41,13 @@ public class CanvasModelEditPartFactoryTests {
     public void testNull() {
         assertNull(editPartFactory.createEditPart(null, null));
     }
-
+    
     @Test
     public void testEmptyEditPart() {
-        Logger.setEnabled(false); // Don't log the error message
-        assertTrue(editPartFactory.createEditPart(null, new Object()) instanceof EmptyEditPart);
+        // Don't log the warning message
+        TestUtils.setLogLevel(getClass(), LogLevel.ERROR, () -> {
+            assertTrue(editPartFactory.createEditPart(null, new Object()) instanceof EmptyEditPart);
+        });
     }
     
     @Test

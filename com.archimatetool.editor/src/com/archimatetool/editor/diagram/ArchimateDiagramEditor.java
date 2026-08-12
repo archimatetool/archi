@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -24,7 +25,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.Logger;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
 import com.archimatetool.editor.diagram.actions.GenerateViewAction;
 import com.archimatetool.editor.diagram.actions.InvertConnectionAction;
@@ -125,7 +125,7 @@ implements IArchimateDiagramEditor {
                     handlerService.executeCommand(NewElementHandler.ID, event);
                 }
                 catch(Exception ex) {
-                    Logger.error("Could not execute command", ex); //$NON-NLS-1$
+                    ILog.get().error("Could not execute command", ex); //$NON-NLS-1$
                 }
             }
         });

@@ -8,11 +8,11 @@ package com.archimatetool.reports.html;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.archimatetool.editor.Logger;
 import com.archimatetool.model.IArchimateModel;
 
 
@@ -35,7 +35,7 @@ public class HTMLReportHandler extends AbstractHandler {
                 exporter.export();
             }
             catch(Exception ex) {
-                Logger.error("Error saving HTML Report", ex); //$NON-NLS-1$
+                ILog.get().error("Error saving HTML Report", ex); //$NON-NLS-1$
                 MessageDialog.openError(HandlerUtil.getActiveShell(event),
                         Messages.HTMLReportAction_0,
                         (ex.getMessage() == null ? ex.toString() : ex.getMessage()) );
