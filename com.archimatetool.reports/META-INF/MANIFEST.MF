@@ -13,8 +13,8 @@ Require-Bundle: org.eclipse.core.runtime,
  com.archimatetool.editor.browser,
  com.archimatetool.markdown
 Bundle-ClassPath: com.archimatetool.reports.jar,
- lib/ST-4.0.8.jar,
- lib/antlr-runtime-4.4.jar
+ lib/ST-4.3.4.jar,
+ lib/antlr-runtime-3.5.3.jar
 Bundle-Activator: com.archimatetool.reports.ArchiReportsPlugin
 Bundle-ActivationPolicy: lazy
 Export-Package: com.archimatetool.reports,
