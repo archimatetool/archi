@@ -8,11 +8,10 @@ package com.archimatetool.zest;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.zest.core.viewers.ISelfStyleProvider;
+import org.eclipse.zest.core.viewers.decorators.GraphLabelDecorator;
 import org.eclipse.zest.core.widgets.GraphConnection;
 import org.eclipse.zest.core.widgets.GraphNode;
 
@@ -52,7 +51,7 @@ import com.archimatetool.model.ITriggeringRelationship;
  * 
  * @author Phillip Beauvoir
  */
-public class ZestViewerLabelProvider extends LabelProvider implements ISelfStyleProvider {
+public class ZestViewerLabelProvider extends GraphLabelDecorator {
     
     private Color HIGHLIGHT_COLOR = new Color(255, 255, 255);
     private Color FOCUS_COLOR = new Color(200, 200, 255);
@@ -74,17 +73,21 @@ public class ZestViewerLabelProvider extends LabelProvider implements ISelfStyle
     }
 
     @Override
-    public void selfStyleNode(Object element, GraphNode node) {
+    public void decorateNode(GraphNode node) {
+        Object element = node.getData();
+        
         if(element == focusObject) {
             node.setBackgroundColor(FOCUS_COLOR);
         }
         
-        node.setHighlightColor(HIGHLIGHT_COLOR);
+        node.setBackgroundHighlightColor(HIGHLIGHT_COLOR);
         node.setTooltip(getTooltip(element));
     }
     
     @Override
-    public void selfStyleConnection(Object element, GraphConnection connection) {
+    public void decorateConnection(GraphConnection connection) {
+        Object element = connection.getData();
+        
         connection.setLineWidth(1);
         connection.setTooltip(getTooltip(element));
         connection.setLineColor(ColorConstants.black);
