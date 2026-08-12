@@ -10,6 +10,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.zest.core.viewers.decorators.GraphLabelDecorator;
 import org.eclipse.zest.core.widgets.GraphConnection;
@@ -28,6 +29,7 @@ import com.archimatetool.editor.diagram.figures.connections.ServingConnectionFig
 import com.archimatetool.editor.diagram.figures.connections.SpecializationConnectionFigure;
 import com.archimatetool.editor.diagram.figures.connections.TriggeringConnectionFigure;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IAggregationRelationship;
@@ -55,6 +57,7 @@ public class ZestViewerLabelProvider extends GraphLabelDecorator {
     
     private Color HIGHLIGHT_COLOR = new Color(255, 255, 255);
     private Color FOCUS_COLOR = new Color(200, 200, 255);
+    private Font ITALIC_FONT;
     
     private Object focusObject;
     
@@ -77,6 +80,10 @@ public class ZestViewerLabelProvider extends GraphLabelDecorator {
         Object element = node.getData();
         
         if(element == focusObject) {
+            if(ITALIC_FONT == null) {
+                ITALIC_FONT = FontFactory.getItalic(node.getFont());
+            }
+            node.setFont(ITALIC_FONT);
             node.setBackgroundColor(FOCUS_COLOR);
         }
         
