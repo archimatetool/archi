@@ -9,6 +9,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -47,7 +49,10 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
             @Override
             public void run() {
                 Image image = null;
+                IStructuredSelection selection = null;
                 try {
+                    selection = graphViewer.getStructuredSelection();
+                    graphViewer.setSelection(StructuredSelection.EMPTY);
                     IFigure figure = graphViewer.getGraphControl().getRootLayer().getChildren().get(0);
                     image = DiagramUtils.createImage(figure, 1, 10);
                     ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
@@ -62,6 +67,7 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
                                     (ex.getMessage() == null ? ex.toString() : ex.getMessage()));
                 }
                 finally {
+                    graphViewer.setSelection(selection);
                     if(image != null) {
                         image.dispose();
                     }
