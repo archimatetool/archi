@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.AbstractFigureDelegate;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.ui.ColorFactory;
 import com.archimatetool.model.ITextAlignment;
 import com.archimatetool.model.ITextPosition;
@@ -35,8 +36,7 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds();
         
         // Fill the whole figure with a darker color
         graphics.setAlpha(getAlpha());
@@ -75,17 +75,21 @@ public class BoxFigureDelegate extends AbstractFigureDelegate {
         linePath1.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
         linePath1.lineTo(rect.x, rect.y + rect.height);
         linePath1.close();
-        graphics.drawPath(linePath1);
+        FigureUtils.drawPath(graphics, linePath1, getLineWidth());
         linePath1.dispose();
         
+        int lineWidth = getLineWidth();
+        float half = lineWidth / 2.0f;
+        
+        graphics.setLineWidth(lineWidth);
         Path linePath2 = new Path(null);
         
-        linePath2.moveTo(rect.x, rect.y + EDGE_SIZE);
-        linePath2.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE);
+        linePath2.moveTo(rect.x + half, rect.y + EDGE_SIZE + half);
+        linePath2.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE + half);
         linePath2.lineTo(rect.x + rect.width, rect.y);
         
         linePath2.moveTo(rect.x + rect.width - EDGE_SIZE, rect.y + EDGE_SIZE);
-        linePath2.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height);
+        linePath2.lineTo(rect.x + rect.width - EDGE_SIZE, rect.y + rect.height - lineWidth);
         
         graphics.drawPath(linePath2);
         linePath2.dispose();

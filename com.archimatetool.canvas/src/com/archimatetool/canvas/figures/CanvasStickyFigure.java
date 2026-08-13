@@ -113,8 +113,7 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         
         graphics.setAlpha(getAlpha());
         
-        boolean drawOutline = getBorderColor() != null;
-        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Bug on Linux hi-res using Graphics.fillGradient()
         // See https://github.com/eclipse-platform/eclipse.platform.swt/issues/3107
@@ -132,25 +131,25 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         drawIconImage(graphics, getBounds().getCopy());
         
         // Border
-        if(drawOutline) {
+        if(getBorderColor() != null) {
+            graphics.setLineWidth(2); // twice line width for clip
             graphics.setAlpha(getLineAlpha());
-            graphics.setLineWidth(getLineWidth());
-            
-            float lineOffset = getLineWidth() / 2.0f;
             
             graphics.setForegroundColor(ColorFactory.getLighterColor(getBorderColor(), 0.82f));
             Path path = new Path(null);
-            path.moveTo(rect.x - lineOffset, rect.y);
+            path.moveTo(rect.x, rect.y);
             path.lineTo(rect.x + rect.width, rect.y);
             path.lineTo(rect.x + rect.width, rect.y + rect.height);
+            graphics.setClip(path);
             graphics.drawPath(path);
             path.dispose();
 
             graphics.setForegroundColor(getBorderColor());
             path = new Path(null);
-            path.moveTo(rect.x, rect.y - lineOffset);
+            path.moveTo(rect.x, rect.y);
             path.lineTo(rect.x, rect.y + rect.height);
-            path.lineTo(rect.x + rect.width + lineOffset, rect.y + rect.height);
+            path.lineTo(rect.x + rect.width, rect.y + rect.height);
+            graphics.setClip(path);
             graphics.drawPath(path);
             path.dispose();
         }

@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -46,9 +47,8 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
-
+        Rectangle rect = getBounds().getCopy();
+        
         // Main Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
@@ -65,8 +65,7 @@ public class DeliverableFigure extends AbstractTextControlContainerFigure implem
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.setLineWidth(getLineWidth());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         

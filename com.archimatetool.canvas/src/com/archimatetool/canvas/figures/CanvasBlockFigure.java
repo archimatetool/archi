@@ -21,6 +21,7 @@ import org.eclipse.swt.graphics.Color;
 
 import com.archimatetool.canvas.model.ICanvasModelBlock;
 import com.archimatetool.editor.diagram.figures.AbstractContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ITextFigure;
 import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
@@ -131,8 +132,7 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         
         graphics.setAntialias(SWT.ON);
         
-        boolean drawOutline = getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
+        Rectangle rect = getBounds().getCopy();
         
         // Fill
         graphics.setAlpha(getAlpha());
@@ -143,12 +143,11 @@ public class CanvasBlockFigure extends AbstractContainerFigure implements ITextF
         drawIconImage(graphics, getBounds().getCopy());
         
         // Border
-        if(drawOutline) {
+        if(getBorderColor() != null && getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setForegroundColor(getBorderColor());
-            graphics.setLineWidth(getLineWidth());
-            graphics.drawRectangle(rect);
+            FigureUtils.drawRectangle(graphics, rect, getLineWidth());
         }
         
         graphics.popState();

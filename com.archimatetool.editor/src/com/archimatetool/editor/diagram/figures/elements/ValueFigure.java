@@ -42,8 +42,7 @@ public class ValueFigure extends AbstractMotivationFigure {
         
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds().getCopy();
         
         // Fill
         graphics.setBackgroundColor(getFillColor());
@@ -81,8 +80,7 @@ public class ValueFigure extends AbstractMotivationFigure {
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.setLineWidth(getLineWidth());
-        FigureUtils.drawOvalPath(graphics, rect);
+        FigureUtils.drawOvalPath(graphics, rect, getLineWidth());
         
         graphics.popState();
     }

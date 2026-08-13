@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.ColorFactory;
@@ -49,8 +50,7 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
 
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds().getCopy();
         
         Path mainPath = createFigurePath(rect);
 
@@ -76,19 +76,21 @@ public class ArtifactFigure extends AbstractTextControlContainerFigure implement
         drawIconImage(graphics, getBounds().getCopy());
 
         // Lines
+        int lineWidth = getLineWidth();
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
         graphics.setLineWidth(getLineWidth());
         
         // Main outline
-        graphics.drawPath(mainPath);
+        FigureUtils.drawPath(graphics, mainPath, lineWidth);
         mainPath.dispose();
         
         // Fold outline
+        graphics.setLineWidth(lineWidth);
         Path foldPath2 = new Path(null);
-        foldPath2.moveTo(rect.x + rect.width, rect.y + FOLD_HEIGHT);
+        foldPath2.moveTo(rect.x + rect.width - lineWidth, rect.y + FOLD_HEIGHT);
         foldPath2.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + FOLD_HEIGHT);
-        foldPath2.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y);
+        foldPath2.lineTo(rect.x + rect.width - FOLD_HEIGHT, rect.y + lineWidth);
         graphics.drawPath(foldPath2);
         foldPath2.dispose();
         

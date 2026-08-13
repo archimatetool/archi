@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -46,13 +47,7 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         
         graphics.pushState();
         
-        Rectangle rect = getBounds().getCopy();
-        
-        // Adjust size by line width
-        int shrink = (int)Math.ceil(getLineWidth() / 2.0);
-        rect.shrink(shrink, shrink);
-        
-        rect = getFigurePositionFromTextPosition(rect, 10/9.0); // Should match 'figureHeight'
+        Rectangle rect = getFigurePositionFromTextPosition(getBounds(), 10/9.0); // Should match 'figureHeight'
         
         int figureWidth = rect.width;
         int figureHeight = rect.height;
@@ -83,11 +78,13 @@ public class MaterialFigure extends AbstractTextControlContainerFigure implement
         drawIconImage(graphics, getBounds().getCopy());
         
         // Lines
-        graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         path.dispose();
+        
+        // Inner lines
+        graphics.setLineWidth(getLineWidth());
         
         path = new Path(null);
         path.moveTo(rect.x + xMargin + 3 * figureWidth / 8, rect.y + yMargin + figureHeight / 10);

@@ -43,8 +43,7 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
         public void drawFigure(Graphics graphics) {
             graphics.pushState();
             
-            // Apply the offset for the fill also so it lines up with the outline
-            Rectangle rect = applyLineWidthOffset(graphics);
+            Rectangle rect = getBounds();
             
             // Fill
             fill(graphics, rect);
@@ -56,7 +55,10 @@ public class ObjectFigure extends AbstractTextControlContainerFigure implements 
             drawOutline(graphics, rect);
             
             // Line
-            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width, rect.y + TOP_MARGIN);
+            graphics.setLineWidth(getLineWidth());
+            graphics.setForegroundColor(getLineColor());
+            graphics.setAlpha(getLineAlpha());
+            graphics.drawLine(rect.x, rect.y + TOP_MARGIN, rect.x + rect.width - 1, rect.y + TOP_MARGIN);
             
             graphics.popState();
         }

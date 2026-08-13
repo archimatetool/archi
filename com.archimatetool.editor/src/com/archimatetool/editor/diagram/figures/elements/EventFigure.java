@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RoundedRectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -46,8 +47,7 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
 
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds().getCopy();
         
         Path path = createPath(rect);
         
@@ -64,8 +64,7 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
         // Outline
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.setLineWidth(getLineWidth());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         
@@ -76,12 +75,11 @@ public class EventFigure extends AbstractTextControlContainerFigure implements I
         int indent = Math.min(rect.height / 3, rect.width / 3);
         int centre_y = rect.y + rect.height / 2 - 1;
         int arc_startx = rect.x + rect.width - indent;
-        float lineOffset = getLineWidth() / 2.0f;
-
+        
         Path path = new Path(null);
-        path.moveTo(rect.x + lineOffset, rect.y);
+        path.moveTo(rect.x, rect.y);
         path.lineTo(rect.x + indent, centre_y);
-        path.lineTo(rect.x + lineOffset, rect.y + rect.height);
+        path.lineTo(rect.x, rect.y + rect.height);
         path.lineTo(arc_startx, rect.y + rect.height);
         path.addArc(arc_startx - indent, rect.y, indent * 2, rect.height, -90, 180);
         path.close();

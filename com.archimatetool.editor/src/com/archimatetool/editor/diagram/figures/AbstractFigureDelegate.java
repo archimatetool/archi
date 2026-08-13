@@ -102,25 +102,6 @@ public class AbstractFigureDelegate implements IFigureDelegate {
         return getOwner().getLineWidth();
     }
     
-    /**
-     * Adjust the figure's full bounds as necessary depending on the figure's line width.
-     * @param graphics The graphics instance.
-     * @return The adjusted bounds of the figure used to draw the figure (or a copy of the orginal bounds if no adjustment was made)
-     */
-    protected Rectangle applyLineWidthOffset(Graphics graphics) {
-        return getOwner().applyLineWidthOffset(graphics);
-    }
-
-    /**
-     * Adjust the provided bounds as necessary depending on the figure's line width.
-     * @param graphics The graphics instance.
-     * @param figureBounds The bounds of the part of the figure to be adjusted.
-     * @return The adjusted bounds of the figureBounds (or a copy of the orginal figureBounds if no adjustment was made)
-     */
-    protected Rectangle applyLineWidthOffset(Graphics graphics, Rectangle figureBounds) {
-        return getOwner().applyLineWidthOffset(graphics, figureBounds);
-    }
-
     protected int getLineStyle() {
         return getOwner().getLineStyle();
     }

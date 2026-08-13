@@ -28,9 +28,7 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     public void drawFigure(Graphics graphics) {
         graphics.pushState();
         
-        boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
-        
-        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds();
+        Rectangle rect = getBounds();
         
         // Fill
         fill(graphics, rect);
@@ -39,9 +37,8 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
         drawIconImage(graphics, rect);
         
         // Outline
-        if(drawOutline) {
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             setLineStyle(graphics);
-            graphics.setLineWidth(getLineWidth());
             drawOutline(graphics, rect);
         }
         
@@ -59,8 +56,7 @@ public class RectangleFigureDelegate extends AbstractFigureDelegate {
     protected void drawOutline(Graphics graphics, Rectangle rect) {
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.setLineWidth(getLineWidth());
-        graphics.drawRectangle(rect);
+        FigureUtils.drawRectangle(graphics, rect, getLineWidth());
     }
     
     protected void drawIconImage(Graphics graphics, Rectangle rect) {

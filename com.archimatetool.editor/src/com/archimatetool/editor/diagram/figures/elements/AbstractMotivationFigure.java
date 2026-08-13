@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.model.IDiagramModelObject;
 
 
@@ -37,18 +38,15 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
 
         graphics.pushState();
         
-        final boolean drawOutline = getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE;
+        Rectangle rect = getBounds().getCopy();
         
-        // Have to apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = drawOutline ? applyLineWidthOffset(graphics) : getBounds().getCopy();
+        Path path = createFigurePath(rect);
         
         // Fill
         graphics.setAlpha(getAlpha());
         graphics.setBackgroundColor(getFillColor());
         Pattern gradient = applyGradientPattern(graphics, rect);
-        Path path = createFigurePath(rect);
         graphics.fillPath(path);
-        path.dispose();
         disposeGradientPattern(graphics, gradient);
 
         // Image Icon
@@ -56,15 +54,15 @@ public abstract class AbstractMotivationFigure extends AbstractTextControlContai
         drawIconImage(graphics, getBounds().getCopy(), imageArea);
 
         // Line
-        if(drawOutline) {
+        if(getLineStyle() != IDiagramModelObject.LINE_STYLE_NONE) {
             setLineStyle(graphics);
             graphics.setAlpha(getLineAlpha());
             graphics.setLineWidth(getLineWidth());
             graphics.setForegroundColor(getLineColor());
-            path = createFigurePath(rect);
-            graphics.drawPath(path);
-            path.dispose();
+            FigureUtils.drawPath(graphics, path, getLineWidth());
         }
+        
+        path.dispose();
 
         graphics.popState();
     }

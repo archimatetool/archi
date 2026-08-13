@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IFigureDelegate;
 import com.archimatetool.editor.diagram.figures.RectangleFigureDelegate;
 import com.archimatetool.editor.ui.IIconDelegate;
@@ -45,8 +46,7 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
         
         graphics.pushState();
         
-        // Apply the offset for the fill also so it lines up with the outline
-        Rectangle rect = applyLineWidthOffset(graphics);
+        Rectangle rect = getBounds().getCopy();
         
         Dimension nubSize = new Dimension(rect.width / 12, rect.height / 3);
         
@@ -66,12 +66,12 @@ public class ResourceFigure extends AbstractTextControlContainerFigure implement
         graphics.setLineWidth(getLineWidth());
         graphics.setAlpha(getLineAlpha());
         graphics.setForegroundColor(getLineColor());
-        graphics.drawPath(path);
+        FigureUtils.drawPath(graphics, path, getLineWidth());
         
         path.dispose();
         
         Path pathLine = new Path(null);
-        float x = rect.x + rect.width - nubSize.width;
+        float x = rect.x + rect.width - nubSize.width - getLineWidth() / 2f;
         float y = rect.y + (rect.height - nubSize.height) / 2;
         pathLine.moveTo(x, y);
         pathLine.lineTo(x, y + nubSize.height);
