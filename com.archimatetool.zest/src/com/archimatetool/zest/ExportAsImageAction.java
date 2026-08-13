@@ -9,6 +9,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
@@ -46,6 +47,11 @@ public class ExportAsImageAction extends Action {
                 super.createButtonsForButtonBar(parent); // Change "Finish" to "Save"
                 Button b = getButton(IDialogConstants.FINISH_ID);
                 b.setText(Messages.ExportAsImageAction_3);
+            }
+            
+            @Override
+            protected Point getDefaultDialogSize() {
+                return new Point(700, 450);
             }
         };
         
