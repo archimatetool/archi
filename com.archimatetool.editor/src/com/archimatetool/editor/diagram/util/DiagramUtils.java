@@ -17,6 +17,7 @@ import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.graphics.AutoscalingMode;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -76,6 +77,13 @@ public final class DiagramUtils {
         
         RootEditPart rootPart = new FreeformGraphicalRootEditPart();
         viewer.setRootEditPart(rootPart);
+        
+        // Apply background color
+        // Get this from IDiagramModel and if not null...
+        LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
+        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
+        rootFigure.setOpaque(true);
+        rootFigure.setBackgroundColor(new Color(123, 123, 200));
         
         viewer.setContents(model);
         viewer.flush();
@@ -155,6 +163,10 @@ public final class DiagramUtils {
             bounds.expand(margin / scale, margin / scale);
         }
         
+        // Set the root figure's bounds as well so it is centred with the margin
+        Rectangle oldBounds = figure.getBounds();
+        figure.setBounds(bounds);
+
         // Set figure scale for AbstractDiagramModelObjectFigure children
         setFigureScale(figure, scale);
         
@@ -171,6 +183,8 @@ public final class DiagramUtils {
 
         // Paint onto graphics
         figure.paint(graphics);
+        
+        figure.setBounds(oldBounds);
         
         // Dispose
         gc.dispose();

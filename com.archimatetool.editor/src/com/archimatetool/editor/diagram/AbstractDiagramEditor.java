@@ -26,6 +26,7 @@ import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.MouseWheelHandler;
 import org.eclipse.gef.MouseWheelZoomHandler;
 import org.eclipse.gef.Request;
@@ -36,6 +37,7 @@ import org.eclipse.gef.commands.CommandStackEvent;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.GridLayer;
 import org.eclipse.gef.editparts.HierarchicalGridLayer;
+import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.CreationToolEntry;
@@ -76,6 +78,7 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -386,6 +389,16 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Set background color in case CSS theming is disabled
         ThemeUtils.setBackgroundColorIfCssThemingDisabled(viewer.getControl(), IPreferenceConstants.VIEW_BACKGROUND_COLOR);
+        
+        setBackgroundColor();
+    }
+    
+    protected void setBackgroundColor() {
+        // TODO: Get background color from diagram model and if not null...else setOpaque(false)
+        LayerManager layerManager = (LayerManager)getGraphicalViewer().getEditPartRegistry().get(LayerManager.ID);
+        IFigure rootFigure = layerManager.getLayer(LayerConstants.SCALABLE_LAYERS);
+        rootFigure.setOpaque(true);
+        rootFigure.setBackgroundColor(new Color(123, 123, 200));
     }
     
     protected void hookSelectionListener() {

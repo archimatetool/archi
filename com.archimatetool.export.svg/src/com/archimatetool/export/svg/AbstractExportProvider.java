@@ -55,6 +55,8 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
     
     protected Map<String, String> attributes;
     
+    private Rectangle oldBounds;
+    
     /**
      * Whether to draw text as shapes
      */
@@ -118,6 +120,9 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         // Paint the figure onto the graphics instance
         figure.paint(graphicsAdaptor);
         
+        // Restore old bounds
+        figure.setBounds(oldBounds);
+        
         // Dispose of this
         graphicsAdaptor.dispose();
     }
@@ -126,6 +131,7 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         this.figure = figure;
         
         // Get the outer bounds of the figure
+        oldBounds = figure.getBounds();
         viewPortBounds = getViewportBounds(figure);
     }
     
@@ -151,6 +157,9 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
         else {
             rect.expand(10, 10); // margins
         }
+        
+        figure.setBounds(rect); // Figure needs to be set as well if background color set
+        
         return rect;
     }
     
