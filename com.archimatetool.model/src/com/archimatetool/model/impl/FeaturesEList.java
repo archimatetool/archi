@@ -156,6 +156,16 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
         }
     }
     
+    private boolean updateFeatureValue(IFeature feature) {
+        IFeature existing = getFeature(feature.getName());
+        if(existing != null && !Objects.equals(existing.getValue(), feature.getValue())) {
+            existing.setValue(feature.getValue());
+            return true;
+        }
+        
+        return false;
+    }
+    
     /*
      * Over-ride these methods so duplicates can't be added.
      * 
@@ -165,6 +175,10 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
     
     @Override
     public boolean add(IFeature feature) {
+        if(updateFeatureValue(feature)) {
+            return true;
+        }
+        
         // If we are checking equality using Feature#equals() just call super()
         if(useEquals()) {
             return super.add(feature);
@@ -176,6 +190,10 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
     
     @Override
     public void add(int index, IFeature feature) {
+        if(updateFeatureValue(feature)) {
+            return;
+        }
+        
         if(!containsName(feature.getName())) {
             super.add(index, feature);
         }
@@ -183,6 +201,10 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
     
     @Override
     public void addUnique(IFeature feature) {
+        if(updateFeatureValue(feature)) {
+            return;
+        }
+        
         if(!containsName(feature.getName())) {
             super.addUnique(feature);
         }
@@ -190,6 +212,10 @@ public class FeaturesEList extends EObjectContainmentEList<IFeature> implements 
     
     @Override
     public void addUnique(int index, IFeature feature) {
+        if(updateFeatureValue(feature)) {
+            return;
+        }
+        
         if(!containsName(feature.getName())) {
             super.addUnique(index, feature);
         }

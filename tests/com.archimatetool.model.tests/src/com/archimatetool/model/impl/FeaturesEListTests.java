@@ -252,12 +252,16 @@ public class FeaturesEListTests {
         result = list.add(feature);
         assertFalse(result);
         
-        // Cannot add a different feature of the same name
+        // Cannot add new feature of same name and value
+        assertFalse(list.add(IArchimateFactory.eINSTANCE.createFeature("name", "value")));
+        
+        // Can add a different feature value of the same name
         IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature("name", "value2");
         result = list.add(feature2);
-        assertFalse(result);
-
-        // Cannot add the first feature again, even if name and value change
+        assertTrue(result);
+        assertEquals("value2", feature.getValue());
+        
+        // Cannot add the first feature again, even if name and value changed
         feature.setName("name2");
         feature.setValue("value2");
         result = list.add(feature);
@@ -281,9 +285,19 @@ public class FeaturesEListTests {
         list.add(0, feature);
         assertEquals(1, list.size());
         
-        // Cannot add a different feature of the same name
+        // Cannot add new feature of same name and value
+        list.add(0, IArchimateFactory.eINSTANCE.createFeature("name", "value"));
+        assertEquals(1, list.size());
+        
+        // Can add a different feature value of the same name
         IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature("name", "value2");
-        list.add(0, feature2);
+        list.add(feature2);
+        assertEquals(1, list.size());
+        assertEquals("value2", feature.getValue());
+        
+        // Cannot add a different feature of the same name
+        IFeature feature3 = IArchimateFactory.eINSTANCE.createFeature("name", "value2");
+        list.add(0, feature3);
         assertEquals(1, list.size());
         
         // Cannot add the first feature again, even if name and value change
@@ -293,10 +307,10 @@ public class FeaturesEListTests {
         assertEquals(1, list.size());
         
         // Can add another feature with a different name
-        IFeature feature3 = IArchimateFactory.eINSTANCE.createFeature("name3", "value3");
-        list.add(0, feature3);
+        IFeature feature4 = IArchimateFactory.eINSTANCE.createFeature("name3", "value3");
+        list.add(0, feature4);
         assertEquals(2, list.size());
-        assertEquals(0, list.indexOf(feature3));
+        assertEquals(0, list.indexOf(feature4));
     }
     
     @Test
@@ -317,12 +331,14 @@ public class FeaturesEListTests {
     @Test
     public void addAll2() {
         IFeature feature1 = IArchimateFactory.eINSTANCE.createFeature("same", "value");
-        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature("same", "value");
-        IFeature feature3 = IArchimateFactory.eINSTANCE.createFeature("same", "value");
+        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature("same", "value2");
+        IFeature feature3 = IArchimateFactory.eINSTANCE.createFeature("same", "value3");
         
         // Cannot add a list of non-unique names
         list.addAll(List.of(feature1, feature2, feature3));
         assertEquals(1, list.size());
+        assertEquals("same", list.get(0).getName());
+        assertEquals("value", list.get(0).getValue());
     }
     
     @Test
@@ -487,9 +503,15 @@ public class FeaturesEListTests {
         list.addUnique(feature1);
         assertEquals(1, list.size());
         
+        // Can add a different feature value of the same name
+        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature("name", "value2");
+        list.add(feature2);
+        assertEquals(1, list.size());
+        assertEquals("value2", feature1.getValue());
+
         // Cannot add a different feature of the same name
-        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature("name", "value");
-        list.addUnique(feature2);
+        IFeature feature3 = IArchimateFactory.eINSTANCE.createFeature("name", "value");
+        list.addUnique(feature3);
         assertEquals(1, list.size());
 
         // Cannot add the first feature again, even if name and value change
@@ -499,8 +521,8 @@ public class FeaturesEListTests {
         assertEquals(1, list.size());
 
         // Can add another feature with a different name
-        IFeature feature3 = IArchimateFactory.eINSTANCE.createFeature("name3", "value3");
-        list.addUnique(feature3);
+        IFeature feature4 = IArchimateFactory.eINSTANCE.createFeature("name3", "value3");
+        list.addUnique(feature4);
         assertEquals(2, list.size());
     }
     
@@ -516,9 +538,15 @@ public class FeaturesEListTests {
         list.addUnique(0, feature1);
         assertEquals(1, list.size());
         
+        // Can add a different feature value of the same name
+        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature("name", "value2");
+        list.add(0, feature2);
+        assertEquals(1, list.size());
+        assertEquals("value2", feature1.getValue());
+
         // Cannot add a different feature of the same name
-        IFeature feature2 = IArchimateFactory.eINSTANCE.createFeature("name", "value");
-        list.addUnique(0, feature2);
+        IFeature feature3 = IArchimateFactory.eINSTANCE.createFeature("name", "value");
+        list.addUnique(0, feature3);
         assertEquals(1, list.size());
 
         // Cannot add the first feature again, even if name and value change
@@ -528,8 +556,8 @@ public class FeaturesEListTests {
         assertEquals(1, list.size());
 
         // Can add another feature with a different name
-        IFeature feature3 = IArchimateFactory.eINSTANCE.createFeature("name3", "value3");
-        list.addUnique(0, feature3);
+        IFeature feature4 = IArchimateFactory.eINSTANCE.createFeature("name3", "value3");
+        list.addUnique(0, feature4);
         assertEquals(2, list.size());
     }
 
