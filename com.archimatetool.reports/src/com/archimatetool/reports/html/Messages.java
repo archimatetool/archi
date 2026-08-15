@@ -15,8 +15,6 @@ public class Messages extends NLS {
 
     public static String HTMLReportExporter_0;
 
-    public static String HTMLReportExporter_1;
-
     public static String HTMLReportExporter_10;
 
     public static String HTMLReportExporter_11;

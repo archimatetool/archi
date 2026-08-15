@@ -13,7 +13,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -436,40 +435,16 @@ public class HTMLReportExporter {
      * @throws IOException 
      */
     private void saveImages(File imagesFolder, List<IDiagramModel> diagramModels) throws IOException {
-        // Use this to generate unique name for image file
-        Hashtable<IDiagramModel, String> nameTable = new Hashtable<IDiagramModel, String>();
-        
-        int nameCount = 1;
         int total = diagramModels.size();
-        int i = 1;
+        int progress = 1;
         
         for(IDiagramModel dm : diagramModels) {
-            setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_4, i++, total));
+            setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_4, progress++, total));
 
             ModelReferencedImage geoImage = null;
             
             try {
                 geoImage = DiagramUtils.createModelReferencedImage(dm, 1, 10);
-                
-                // Generate file name
-                String diagramName = dm.getId();
-                if(StringUtils.isSet(diagramName)) {
-                    // removed this because ids can have hyphens in them (when imported from TOG format)
-                    // Let's hope that ids are filename friendly...
-                    //diagramName = FileUtils.getValidFileName(diagramName);
-
-                    int j = 2;
-                    String s = diagramName + ".png";  //$NON-NLS-1$
-                    while(nameTable.containsValue(s)) {
-                        s = diagramName + "_" + j++ + ".png"; //$NON-NLS-1$ //$NON-NLS-2$
-                    }
-                    diagramName = s;
-                }
-                else {
-                    diagramName = Messages.HTMLReportExporter_1 + " " + nameCount++ + ".png";  //$NON-NLS-1$//$NON-NLS-2$
-                }
-
-                nameTable.put(dm, diagramName);
 
                 // Get and store the bounds of the top-left element in the figure to act as overall x,y offset
                 Rectangle bounds = geoImage.getBounds();
@@ -478,7 +453,7 @@ public class HTMLReportExporter {
 
                 ImageLoader loader = new ImageLoader();
                 loader.data = new ImageData[] { geoImage.getImage().getImageData(ImageFactory.getImageDeviceZoom()) };
-                File file = new File(imagesFolder, diagramName);
+                File file = new File(imagesFolder, dm.getId() + ".png"); //$NON-NLS-1$
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }
             catch(Throwable t) {
