@@ -33,8 +33,7 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ThemeUtils;
-import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.markdown.MarkdownUtils;
+import com.archimatetool.markdown.MarkdownConverter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDocumentable;
 
@@ -185,7 +184,7 @@ public class MarkdownControl {
         }
         
         if(getBrowserControl() instanceof Browser browser) {
-            String html = MarkdownUtils.convertMarkdownToFullHtml(StringUtils.safeString(text), ThemeUtils.isDarkTheme());
+            String html = MarkdownConverter.getDefault().toHtmlBody(text, ThemeUtils.isDarkTheme());
             browser.setText(html);
         }
     }

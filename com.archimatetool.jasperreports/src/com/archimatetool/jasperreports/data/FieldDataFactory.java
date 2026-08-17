@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.markdown.MarkdownUtils;
+import com.archimatetool.markdown.MarkdownConverter;
 import com.archimatetool.model.IAccessRelationship;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
@@ -78,12 +78,12 @@ public class FieldDataFactory {
         
         if(DOCUMENTATION.equals(fieldName) && dataElement instanceof IDocumentable documentable) {
             String text = documentable.getDocumentation();
-            return StringUtils.isSet(text) ? MarkdownUtils.convertMarkdownToText(text) : null;
+            return StringUtils.isSet(text) ? MarkdownConverter.getDefault().toText(text) : null;
         }
         
         if(PURPOSE.equals(fieldName) && dataElement instanceof IArchimateModel model) {
             String text = model.getPurpose();
-            return StringUtils.isSet(text) ? MarkdownUtils.convertMarkdownToText(text) : null;
+            return StringUtils.isSet(text) ? MarkdownConverter.getDefault().toText(text) : null;
         }
         
         if(RELATION_SOURCE.equals(fieldName) && dataElement instanceof IArchimateRelationship relation) {

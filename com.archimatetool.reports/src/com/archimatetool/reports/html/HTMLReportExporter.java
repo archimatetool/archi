@@ -53,7 +53,7 @@ import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
-import com.archimatetool.markdown.MarkdownUtils;
+import com.archimatetool.markdown.MarkdownConverter;
 import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateConcept;
 import com.archimatetool.model.IArchimateModel;
@@ -97,7 +97,14 @@ public class HTMLReportExporter {
      */
     private final List<EStructuralFeature> markdownFeatures = List.of(IArchimatePackage.Literals.ARCHIMATE_MODEL__PURPOSE,
                                                                       IArchimatePackage.Literals.DOCUMENTABLE__DOCUMENTATION);
-
+    
+    /**
+     * MarkdownConverter that ensures that all links have "target=_blank"
+     */
+    private MarkdownConverter markdownConverter = MarkdownConverter.builder()
+                                                                   .externalLinks(true)
+                                                                   .build();
+                                                            
     /**
      * Record used for Markdown conversion
      */
@@ -477,9 +484,8 @@ public class HTMLReportExporter {
         
         // Check all potential features
         for(EStructuralFeature feature : markdownFeatures) {
-            if(eObject.eClass().getEStructuralFeature(feature.getName()) != null && eObject.eGet(feature) instanceof String oldValue
-                                                                           && MarkdownUtils.isMarkdown(oldValue)) {
-                String newValue = MarkdownUtils.convertMarkdownToDiv(oldValue, MarkdownUtils.Option.EXTERNAL_LINKS);
+            if(eObject.eClass().getEStructuralFeature(feature.getName()) != null && eObject.eGet(feature) instanceof String oldValue) {
+                String newValue = markdownConverter.toDiv(oldValue);
                 eObject.eSet(feature, newValue);
                 conversions.add(new MarkdownConversion(eObject, feature, oldValue));
             }

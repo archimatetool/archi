@@ -20,6 +20,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
     "com.archimatetool.help.AllTests",
     "com.archimatetool.jasperreports.AllTests",
     "com.archimatetool.jdom.AllTests",
+    "com.archimatetool.markdown.AllTests",
     "com.archimatetool.model.AllTests",
     "com.archimatetool.modelimporter.AllTests",
     "com.archimatetool.reports.AllTests",

@@ -26,6 +26,7 @@
         <module>com.archimatetool.help.tests</module>
         <module>com.archimatetool.jasperreports.tests</module>
         <module>com.archimatetool.jdom.tests</module>
+        <module>com.archimatetool.markdown.tests</module>
         <module>com.archimatetool.model.tests</module>
         <module>com.archimatetool.modelimporter.tests</module>
 		<module>com.archimatetool.reports.tests</module>

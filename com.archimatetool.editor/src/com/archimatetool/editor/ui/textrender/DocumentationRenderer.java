@@ -8,7 +8,7 @@ package com.archimatetool.editor.ui.textrender;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.archimatetool.markdown.MarkdownUtils;
+import com.archimatetool.markdown.MarkdownConverter;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IArchimateModelObject;
 import com.archimatetool.model.IDocumentable;
@@ -47,7 +47,7 @@ public class DocumentationRenderer extends AbstractTextRenderer {
             
             // Convert MD to plain text
             if(renderMarkdown) {
-                replacement = MarkdownUtils.convertMarkdownToText(replacement);
+                replacement = MarkdownConverter.getDefault().toText(replacement);
             }
             
             text = text.replace(matcher.group(), replacement);

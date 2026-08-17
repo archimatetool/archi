@@ -36,10 +36,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
    </license>
 
-   <includes
-         id="org.eclipse.rcp"
-         version="0.0.0"/>
-
    <plugin
          id="com.archimatetool.tests"
          version="0.0.0"/>
@@ -78,6 +74,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
    <plugin
          id="com.archimatetool.jdom.tests"
+         version="0.0.0"/>
+
+   <plugin
+         id="com.archimatetool.markdown.tests"
          version="0.0.0"/>
 
    <plugin
