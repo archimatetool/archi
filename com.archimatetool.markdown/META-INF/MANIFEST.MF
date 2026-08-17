@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Markdown Utils
 Bundle-SymbolicName: com.archimatetool.markdown
-Bundle-Version: 5.9.0.qualifier
+Bundle-Version: 5.10.0.qualifier
 Bundle-Vendor: Archi
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.markdown,
@@ -20,12 +20,12 @@ Export-Package: com.archimatetool.markdown,
  org.commonmark.text
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ClassPath: com.archimatetool.markdown.jar,
- autolink-0.12.0.jar,
- commonmark-0.28.0.jar,
- commonmark-ext-autolink-0.28.0.jar,
- commonmark-ext-gfm-strikethrough-0.28.0.jar,
- commonmark-ext-gfm-tables-0.28.0.jar,
- commonmark-ext-ins-0.28.0.jar
+ lib/autolink-0.12.0.jar,
+ lib/commonmark-0.30.0.jar,
+ lib/commonmark-ext-autolink-0.30.0.jar,
+ lib/commonmark-ext-gfm-strikethrough-0.30.0.jar,
+ lib/commonmark-ext-gfm-tables-0.30.0.jar,
+ lib/commonmark-ext-ins-0.30.0.jar
 Automatic-Module-Name: com.archimatetool.jdom
 Import-Package: org.osgi.framework;version="[1.10.0,2.0.0)"
 Require-Bundle: org.eclipse.core.runtime
