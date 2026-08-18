@@ -375,6 +375,14 @@ public class ModelChecker {
     protected List<String> checkProfiles(IProfiles profilesObject) {
         List<String> messages = new ArrayList<>();
         
+        // Check that there is only one IProfile.
+        // The original intent was to use an IProfile as a non-Specialization type
+        // Unfortunately IProfile has been used for a single Specialization not as a "Profile"
+        // everywhere in the code and assumes that isSpecialization() is always true and getConceptType() always returns a concept type
+        if(profilesObject.getProfiles().size() > 1) {
+            messages.add(NLS.bind(Messages.ModelChecker_32, ((IIdentifier)profilesObject).getId()));
+        }
+        
         for(IProfile profile : profilesObject.getProfiles()) {
             // Profile must exist in this model
             if(profile.getArchimateModel() != ((IArchimateModelObject)profilesObject).getArchimateModel()) {

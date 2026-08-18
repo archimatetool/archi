@@ -298,6 +298,30 @@ public class ModelCheckerTests {
     }
     
     @Test
+    public void checkMultipleProfiles() {
+        // Should only have one Profile
+        
+        IArchimateElement element = IArchimateFactory.eINSTANCE.createBusinessActor();
+        model.getFolder(FolderType.BUSINESS).getElements().add(element);
+        
+        IProfile profile1 = IArchimateFactory.eINSTANCE.createProfile();
+        profile1.setName("Specialization");
+        profile1.setConceptType(element.eClass().getName());
+        model.getProfiles().add(profile1);
+        element.getProfiles().add(profile1);
+        
+        IProfile profile2 = IArchimateFactory.eINSTANCE.createProfile();
+        profile2.setName("Specialization 2");
+        profile2.setConceptType(element.eClass().getName());
+        model.getProfiles().add(profile2);
+        element.getProfiles().add(profile2);
+        
+        List<String> messages = modelChecker.checkProfiles(element);
+        assertEquals(1, messages.size());
+        assertEquals("Concept has more than one Specialization Profile: " + element.getId(), messages.get(0));
+    }
+
+    @Test
     public void checkObject() {
         List<String> messages = modelChecker.checkObject(IArchimateFactory.eINSTANCE.createBusinessActor());
         assertTrue(messages.isEmpty());

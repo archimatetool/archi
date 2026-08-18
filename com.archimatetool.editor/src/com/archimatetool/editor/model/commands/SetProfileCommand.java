@@ -5,65 +5,49 @@
  */
 package com.archimatetool.editor.model.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.gef.commands.Command;
 
 import com.archimatetool.model.IProfile;
 import com.archimatetool.model.IProfiles;
 
 /**
- * Set Profile Command
+ * Set the Primary Profile (Specialization) Command
+ * There can be only one Profile that is a Specialization
  * 
  * @author Phillip Beauvoir
  */
 public class SetProfileCommand extends Command {
     private IProfiles owner;
-    private IProfile oldProfile, newProfile;
+    private List<IProfile> oldProfiles;
+    private IProfile newProfile;
 
     public SetProfileCommand(IProfiles owner, IProfile profile) {
         this.owner = owner;
+        oldProfiles = new ArrayList<>(owner.getProfiles());
         newProfile = profile;
         setLabel(Messages.SetProfileCommand_0);
     }
 
     @Override
     public void execute() {
-        // Contains no Profiles, so add it
-        if(owner.getProfiles().isEmpty()) {
+        // Clear all as we are currently making the assumption everywhere that a IProfile is a Specialization
+        // And that there is only one of them. Otherwise it would be
+        // owner.getProfiles().removeIf(IProfile::isSpecialization);
+        owner.getProfiles().clear();
+        
+        // If newProfile is null then that clears it else add it
+        if(newProfile != null) {
             owner.getProfiles().add(newProfile);
-        }
-        // Contains at least one Profile, so store old one and set to new one
-        else {
-            // Store old Profile
-            oldProfile = owner.getPrimaryProfile();
-            
-            // New profile is null so remove Profile
-            if(newProfile == null) {
-                owner.getProfiles().remove(oldProfile);
-            }
-            // Set to new Profile
-            else {
-                owner.getProfiles().set(0, newProfile);
-            }
         }
     }
 
     @Override
     public void undo() {
-        // We have an old Profile
-        if(oldProfile != null) {
-            // If Empty add it
-            if(owner.getProfiles().isEmpty()) {
-                owner.getProfiles().add(oldProfile);
-            }
-            // Else set it
-            else {
-                owner.getProfiles().set(0, oldProfile);
-            }
-        }
-        // Else remove it
-        else {
-            owner.getProfiles().remove(newProfile);
-        }
+        owner.getProfiles().clear();
+        owner.getProfiles().addAll(oldProfiles);
     }
 
     @Override
@@ -71,6 +55,11 @@ public class SetProfileCommand extends Command {
         // This first - If the new Profile is null and owner has no Profiles then can't execute
         if(newProfile == null) {
             return !owner.getProfiles().isEmpty();
+        }
+        
+        // If not a Specialization
+        if(!newProfile.isSpecialization() || newProfile.getConceptType() == null) {
+            return false;
         }
         
         // If Profile's concept type doesn't match owner type
@@ -89,7 +78,7 @@ public class SetProfileCommand extends Command {
     @Override
     public void dispose() {
         owner = null;
-        oldProfile = null;
+        oldProfiles = null;
         newProfile = null;
     }
 }
