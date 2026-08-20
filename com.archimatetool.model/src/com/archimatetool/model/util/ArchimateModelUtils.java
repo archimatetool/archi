@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -145,39 +146,27 @@ public class ArchimateModelUtils {
     }
     
     /**
-     * Get an array of all valid relationship class types between source and target Archimate components
+     * Get a list of all valid relationship class types between source and target Archimate components
      * @param sourceConcept The source concept
      * @param targetConcept The target concept
      * @return An array of all valid relationship class types between sourceElement and targetElement
      */
-    public static EClass[] getValidRelationships(IArchimateConcept sourceConcept, IArchimateConcept targetConcept) {
-        List<EClass> list = new ArrayList<EClass>();
-        
-        for(EClass eClass : getRelationsClasses()) {
-            if(isValidRelationship(sourceConcept, targetConcept, eClass)) {
-                list.add(eClass); 
-            }
-        }
-        
-        return list.toArray(new EClass[list.size()]);
+    public static List<EClass> getValidRelationships(IArchimateConcept sourceConcept, IArchimateConcept targetConcept) {
+        return Arrays.stream(getRelationsClasses())
+                            .filter(eClass -> isValidRelationship(sourceConcept, targetConcept, eClass))
+                            .collect(Collectors.toList()); 
     }
     
     /**
-     * Get an array of all valid relationship class types between source and target Archimate class types
+     * Get a list of all valid relationship class types between source and target Archimate class types
      * @param sourceType The source type
      * @param targetType The target type
      * @return All valid relationship types between sourceType and targetType
      */
-    public static EClass[] getValidRelationships(EClass sourceType, EClass targetType) {
-        List<EClass> list = new ArrayList<EClass>();
-        
-        for(EClass eClass : getRelationsClasses()) {
-            if(isValidRelationship(sourceType, targetType, eClass)) {
-                list.add(eClass); 
-            }
-        }
-        
-        return list.toArray(new EClass[list.size()]);
+    public static List<EClass> getValidRelationships(EClass sourceType, EClass targetType) {
+        return Arrays.stream(getRelationsClasses())
+                            .filter(eClass -> isValidRelationship(sourceType, targetType, eClass))
+                            .collect(Collectors.toList()); 
     }
     
     /**
@@ -309,6 +298,19 @@ public class ArchimateModelUtils {
         return folders;
     }
 
+    /**
+     * Sort a list of classes according to the order of the given classes array
+     * Example ArchimateModelUtils.sortClasses(list, ArchimateModelUtils.getBusinessClasses());
+     * @param listToSort The list to sort
+     * @param classes Can be getStrategyClasses(), getBusinessClasses(), getAllArchimateClasses, etc.
+     */
+    public static void sortClasses(List<EClass> listToSort, EClass[] classes) {
+        // Convert the master array into a List to look up indices easily
+        List<EClass> masterOrder = Arrays.asList(classes);
+        // Sort the list based on the index position in the master list
+        listToSort.sort(Comparator.comparingInt(masterOrder::indexOf));
+    }
+    
     /**
      * @return A list of all EClass types in the Strategy layer in preferred order
      */

@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -75,15 +78,15 @@ public class ArchimateModelUtilsTests {
         EClass sourceClass = IArchimatePackage.eINSTANCE.getBusinessActor();
         EClass targetClass = IArchimatePackage.eINSTANCE.getBusinessRole();
 
-        EClass[] classes = ArchimateModelUtils.getValidRelationships(sourceClass, targetClass);
-        assertEquals(5, classes.length);
+        List<EClass> classes = ArchimateModelUtils.getValidRelationships(sourceClass, targetClass);
+        assertEquals(5, classes.size());
         
         // The order of these is set in ArchimateModelUtils.getRelationsClasses()
-        assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), classes[0]);
-        assertEquals(IArchimatePackage.eINSTANCE.getServingRelationship(), classes[1]);
-        assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), classes[2]);
-        assertEquals(IArchimatePackage.eINSTANCE.getFlowRelationship(), classes[3]);
-        assertEquals(IArchimatePackage.eINSTANCE.getAssociationRelationship(), classes[4]);
+        assertEquals(IArchimatePackage.eINSTANCE.getAssignmentRelationship(), classes.get(0));
+        assertEquals(IArchimatePackage.eINSTANCE.getServingRelationship(), classes.get(1));
+        assertEquals(IArchimatePackage.eINSTANCE.getTriggeringRelationship(), classes.get(2));
+        assertEquals(IArchimatePackage.eINSTANCE.getFlowRelationship(), classes.get(3));
+        assertEquals(IArchimatePackage.eINSTANCE.getAssociationRelationship(), classes.get(4));
         
         // How much more can we test this...?
     }
@@ -215,6 +218,43 @@ public class ArchimateModelUtilsTests {
         assertEquals("Business/subFolder1/subFolder2/", ArchimateModelUtils.getParentFolderHierarchyAsString(element, true, '/'));
     }
     
+    @Test
+    public void testSortClasses_BusinessClasses() {
+        EClass[] classes = ArchimateModelUtils.getBusinessClasses();
+        
+        // Add them in reverse order
+        List<EClass> listToSort = new ArrayList<>(Arrays.asList(classes));
+        Collections.reverse(listToSort);
+        
+        // Sort them
+        ArchimateModelUtils.sortClasses(listToSort, classes);
+        
+        // Should be from first to last
+        for(int i = 0; i < listToSort.size(); i++) {
+            assertEquals(classes[i], listToSort.get(i));
+        }
+    }
+    
+    @Test
+    public void testSortClasses_Mixed() {
+        EClass[] classes = ArchimateModelUtils.getAllArchimateClasses();
+        
+        List<EClass> listToSort = new ArrayList<EClass>();
+        listToSort.add(ArchimateModelUtils.getApplicationClasses()[0]);
+        listToSort.add(ArchimateModelUtils.getBusinessClasses()[1]);
+        listToSort.add(ArchimateModelUtils.getBusinessClasses()[0]);
+        listToSort.add(ArchimateModelUtils.getStrategyClasses()[1]);
+        listToSort.add(ArchimateModelUtils.getStrategyClasses()[0]);
+        
+        ArchimateModelUtils.sortClasses(listToSort, classes);
+        
+        assertEquals(ArchimateModelUtils.getStrategyClasses()[0], listToSort.get(0));
+        assertEquals(ArchimateModelUtils.getStrategyClasses()[1], listToSort.get(1));
+        assertEquals(ArchimateModelUtils.getBusinessClasses()[0], listToSort.get(2));
+        assertEquals(ArchimateModelUtils.getBusinessClasses()[1], listToSort.get(3));
+        assertEquals(ArchimateModelUtils.getApplicationClasses()[0], listToSort.get(4));
+    }
+
     @Test
     public void testGetStrategyClasses() {
         EClass[] classes = ArchimateModelUtils.getStrategyClasses();
