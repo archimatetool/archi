@@ -135,6 +135,17 @@ $(document).ready(function() {
 			const $link = $(link);
 			$("iframe[name='view']").attr('src', $link.attr('href'));
 
+			// Get View name
+			const viewName = $link.text().trim();
+			
+			// Store the default title (model name) if it hasn't been stored yet
+			if (!window.originalModelName) {
+				window.originalModelName = document.title;
+			}
+			
+			// Set title to model + view name
+			document.title = window.originalModelName + " | " + viewName;
+
 			if (expandModelTree) {
 				let spans = [];
 				let $parentListItem = $link.parent().parent().parent();
