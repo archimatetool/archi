@@ -8,7 +8,6 @@ package com.archimatetool.editor.ui.dialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EClass;
@@ -26,7 +25,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -43,7 +41,6 @@ import com.archimatetool.editor.ui.components.ExtendedTitleAreaDialog;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.util.ArchimateModelUtils;
 import com.archimatetool.model.util.RelationshipsMatrix;
-import com.archimatetool.model.util.RelationshipsMatrix.TargetMatrix;
 
 
 
@@ -70,6 +67,8 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         shell.setText(Messages.RelationshipsMatrixDialog_0);
     }
     
+    private Grid grid;
+    
     private boolean modKeyPressed;
     private boolean shiftKeyPressed;
     private int lastColumnSelected;
@@ -89,14 +88,26 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         GridDataFactory.create(GridData.FILL_BOTH).applyTo(client);
         
         GridTableViewer viewer = new GridTableViewer(client);
-        GridDataFactory.create(GridData.FILL_BOTH).applyTo(viewer.getControl());
-        
-        Grid grid = viewer.getGrid();
+        grid = viewer.getGrid();
+        GridDataFactory.create(GridData.FILL_BOTH).applyTo(grid);
         
         grid.setHeaderVisible(true);
-        //grid.setRowHeaderVisible(true); // Don't set this here!
+        grid.setRowHeaderVisible(true);
         grid.setRowsResizeable(true);
         grid.setCellSelectionEnabled(true);
+        
+        // Relationships letter keys
+        StringBuilder sb = new StringBuilder();
+        for(Entry<Character, EClass> entry : RelationshipsMatrix.INSTANCE.getRelationsKeyMap().entrySet()) {
+            sb.append(entry.getKey());
+            sb.append(": "); //$NON-NLS-1$
+            sb.append(ArchiLabelProvider.INSTANCE.getDefaultName(entry.getValue()));
+            sb.append('\n');
+        }
+        
+        Label label = new Label(client, SWT.NULL);
+        label.setText(sb.toString());
+        label.setLayoutData(new GridData(SWT.TOP, SWT.TOP, false, true));
         
         // Row header label provider
         viewer.setRowHeaderLabelProvider(new CellLabelProvider() {
@@ -135,17 +146,11 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
             }
         });
         
-        // Measure min column width
-        GC gc = new GC(grid);
-        int columnWidth = gc.textExtent("acfginorstv").x + 8; //$NON-NLS-1$
-        gc.dispose();
-        
         // Add columns
         for(EClass eClass : getData()) {
-            GridColumn column = new GridColumn(grid, SWT.NONE);
-            column.setWidth(columnWidth);
+            GridColumn column = new GridColumn(grid, SWT.LEFT);
             
-            // Colum header
+            // Column header
             if(eClass == IArchimatePackage.eINSTANCE.getArchimateRelationship()) {
                 column.setImage(ArchiLabelProvider.INSTANCE.getImage(IArchimatePackage.eINSTANCE.getAssociationRelationship()));
                 column.setHeaderTooltip(Messages.RelationshipsMatrixDialog_3);
@@ -178,9 +183,10 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
             }));
         }
         
-        // Set row header visible *after* setting columns so that the correct width is displayed
-        grid.setRowHeaderVisible(true, columnWidth);
+        // Column label provider
+        viewer.setLabelProvider(new MatrixLabelProvider());
         
+        // Content Provider
         viewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public Object[] getElements(Object inputElement) {
@@ -188,25 +194,19 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
             }
         });
         
-        // Column label provider
-        viewer.setLabelProvider(new MatrixLabelProvider());
-        
         viewer.setInput(getData());
         
-        // Relationships letter keys
-        StringBuilder sb = new StringBuilder();
-        for(Entry<EClass, Character> entry : RelationshipsMatrix.INSTANCE.getRelationshipsValueMap().entrySet()) {
-            sb.append(entry.getValue());
-            sb.append(": "); //$NON-NLS-1$
-            sb.append(ArchiLabelProvider.INSTANCE.getDefaultName(entry.getKey()));
-            sb.append('\n');
-        }
-        
-        Label label = new Label(client, SWT.NULL);
-        label.setText(sb.toString());
-        label.setLayoutData(new GridData(SWT.TOP, SWT.TOP, false, true));
-        
         return composite;
+    }
+    
+    @Override
+    public void create() {
+        super.create();
+        
+        // Pack columns here not in createDialogArea
+        for(GridColumn column : grid.getColumns()) {
+            column.pack();
+        }
     }
     
     private List<EClass> getData() {
@@ -221,9 +221,6 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
     }
     
     private class MatrixLabelProvider extends BaseLabelProvider implements ITableLabelProvider {
-        Map<EClass, List<TargetMatrix>> matrixMap = RelationshipsMatrix.INSTANCE.getRelationshipsMatrix();
-        Map<EClass, Character> valueMap = RelationshipsMatrix.INSTANCE.getRelationshipsValueMap();
-        
         @Override
         public Image getColumnImage(Object element, int columnIndex) {
             return null;
@@ -231,19 +228,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
 
         @Override
         public String getColumnText(Object element, int columnIndex) {
-            EClass eClassRow = (EClass)element;
-            EClass eClassColumn = getData().get(columnIndex);
-            StringBuilder sb = new StringBuilder();
-            
-            matrixMap.getOrDefault(eClassRow, List.of())
-                                              .stream()
-                                              .filter(targetMatrix -> targetMatrix.getTargetClass() == eClassColumn)
-                                              .findFirst()
-                                              .ifPresent(targetMatrix -> targetMatrix.getRelationships().stream()
-                                                      .map(valueMap::get)
-                                                      .forEach(sb::append));
-            
-            return sb.toString();
+            return RelationshipsMatrix.INSTANCE.getRelationKeys((EClass)element, getData().get(columnIndex));
         }
     }
     

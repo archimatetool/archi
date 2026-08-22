@@ -6,14 +6,13 @@
 package com.archimatetool.model.util;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
@@ -34,29 +33,19 @@ import com.archimatetool.model.IArchimatePackage;
 @SuppressWarnings("nls")
 public class RelationshipsMatrix {
     
-    /**
-     * Singleton instance
-     */
+    // Singleton instance
     public static RelationshipsMatrix INSTANCE = new RelationshipsMatrix();
     
-    /**
-     * The Bundle ID
-     */
+    // The Bundle ID
     private static final String BUNDLE_ID = "com.archimatetool.model";
 
-    /**
-     * The Key letters XML file
-     */
+    // The Key letters XML file
     private static final String RELATIONSHIPS_KEYS_FILE = "model/relationships-keys.xml";
 
-    /**
-     * The Relationships XML file
-     */
+    // The Relationships XML file
     private static final String RELATIONSHIPS_FILE = "model/relationships.xml";
     
-    /*
-     * XML element and attribute names
-     */
+    // XML element and attribute names
     private static final String XML_ELEMENT_KEY = "key";
     private static final String XML_ELEMENT_SOURCE = "source";
     private static final String XML_ELEMENT_TARGET = "target";
@@ -68,148 +57,179 @@ public class RelationshipsMatrix {
     // Generic pseudo concept class name for all relationships
     private static final String RELATIONSHIP_CONCEPT = "Relationship";
 
-    public static class TargetMatrix {
-        EClass targetClass;
-        Set<EClass> relationships = new LinkedHashSet<>();
-        
-        public EClass getTargetClass() {
-            return targetClass;
-        }
-        
-        public Set<EClass> getRelationships() {
-            return relationships;
+    /*
+     * A collection of allowed relationships for a target concept.
+     * In XML it is <target concept="BusinessActor" relations="fotv" />
+     * The target concept is in the main matrixMap Map<EClass, TargetRelations>
+     * relationKeys - The key string like "fotv"
+     * relationships - Allowed relationship classes mapped to derived (true) or direct (false)
+     */
+    record TargetRelations(String relationKeys, Map<EClass, Boolean> relationships) {
+        TargetRelations(String relationKeys) {
+            this(relationKeys, new HashMap<>());
         }
     }
     
-    /**
-     * Mapping of source concepts to target concepts and possible relations
-     */
-    private Map<EClass, List<TargetMatrix>> matrixMap = new HashMap<>();
-    
-    /**
-     * Mapping of key letters to relationships
-     */
-    private Map<Character, EClass> relationsKeyMap = new LinkedHashMap<>();
-        
-    /**
-     * Mapping of relationships to key letters
-     */
-    private Map<EClass, Character> relationsValueMap = new LinkedHashMap<>();
+    // Mapping of key letters to relationships
+    final private Map<Character, EClass> relationsKeyMap;
+
+    // Mapping of source concepts to target concepts with allowed relations between them
+    // Source EClass -> Map of Target EClass -> Relations
+    final private Map<EClass, Map<EClass, TargetRelations>> matrixMap;
 
     private RelationshipsMatrix() {
         // Load Key letters file
-        loadKeyLetters();
+        relationsKeyMap = loadKeyLetters();
         
         // Load Relationships file
-        loadRelationships();
+        matrixMap = loadRelationships();
     }
     
-    public Map<EClass, List<TargetMatrix>> getRelationshipsMatrix() {
-        return Collections.unmodifiableMap(matrixMap);
+    /**
+     * @return The character key -> relationship EClass (for example, 'o' -> AssociationRelationship)
+     */
+    public Map<Character, EClass> getRelationsKeyMap() {
+        return relationsKeyMap;
     }
     
-    public Map<EClass, Character> getRelationshipsValueMap() {
-        return Collections.unmodifiableMap(relationsValueMap);
+    /**
+     * @return The relations key string ("cfgostv") for sourceType -> targetType or empty string if not found
+     */
+    public String getRelationKeys(EClass sourceType, EClass targetType) {
+        TargetRelations relations = getTargetRelations(sourceType, targetType);
+        return relations == null ? "" : relations.relationKeys();
     }
 
-    boolean isValidRelationshipStart(EClass sourceType, EClass relationshipType) {
-        // Use ArchimateRelationship as a generic super type
-        if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(sourceType)) {
-            sourceType = IArchimatePackage.eINSTANCE.getArchimateRelationship();
-        }
-        
-        List<TargetMatrix> listMatrix = matrixMap.get(sourceType);
-        if(listMatrix == null) {
+    /**
+     * @return true if relationType is a valid relation starting from sourceType
+     */
+    boolean isValidRelationshipStart(EClass sourceType, EClass relationType) {
+        Map<EClass, TargetRelations> targets = matrixMap.get(getMapEClass(sourceType));
+        if(targets == null || relationType == null) {
             return false;
         }
         
-        return listMatrix.stream()
-                         .anyMatch(targetMatrix -> targetMatrix.getRelationships().contains(relationshipType));
+        return targets.values().stream()
+                               .anyMatch(mapping -> mapping.relationships().containsKey(relationType));
     }
     
-    boolean isValidRelationship(EClass sourceType, EClass targetType, EClass relationshipType) {
-        if(relationshipType == null) {
-            return false;
-        }
-        
-        // relationshipType has to be a Relationship class
-        if(!IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(relationshipType)) {
-            return false;
-        }
-        
-        // Use ArchimateRelationship as a generic super type
-        if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(sourceType)) {
-            sourceType = IArchimatePackage.eINSTANCE.getArchimateRelationship();
-        }
-        
-        // Use ArchimateRelationship as a generic super type
-        if(IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(targetType)) {
-            targetType = IArchimatePackage.eINSTANCE.getArchimateRelationship();
-        }
-        
-        List<TargetMatrix> listMatrix = matrixMap.get(sourceType);
-        if(listMatrix == null) {
-            return false;
-        }
-        
-        final EClass targetClass = targetType;
-        
-        return listMatrix.stream()
-                .anyMatch(targetMatrix -> targetMatrix.getTargetClass() == targetClass
-                                          && targetMatrix.getRelationships().contains(relationshipType));
+    /**
+     * @return true if relationType is a valid relation from sourceType to targetType
+     */
+    boolean isValidRelationship(EClass sourceType, EClass targetType, EClass relationType) {
+        TargetRelations relations = getTargetRelations(sourceType, targetType);
+        return relations == null ? false : relations.relationships().containsKey(relationType);
     }
     
-    private void loadKeyLetters() {
-        //URL url = Platform.getBundle(BUNDLE_ID).getResource(RELATIONSHIPS_KEYS_FILE);
-        URL url = Platform.getBundle(BUNDLE_ID).getEntry(RELATIONSHIPS_KEYS_FILE);
-
+    /**
+     * TODO: Currently this will always return true if relationType is present until the relationships.xml
+     *       file has upper case characters to denote direct relations.
+     * @return RelationshipDerivation.INVALID if no relationship mapping is present for the given source and target types, or if relationType is missing.
+     *         Or RelationshipDerivation.DERIVED or RelationshipDerivation.DIRECT
+     */    
+    RelationshipDerivation getRelationshipDerivation(EClass sourceType, EClass targetType, EClass relationType) {
+        TargetRelations relations = getTargetRelations(sourceType, targetType);
+        if(relations == null) {
+            return RelationshipDerivation.INVALID;
+        }
+        
+        Boolean derived = relations.relationships().get(relationType);
+        return derived == null ? RelationshipDerivation.INVALID : derived ? RelationshipDerivation.DERIVED : RelationshipDerivation.DIRECT;    
+    }
+    
+    /**
+     * @param isDerived if true relationships are derived, if false they are direct
+     * @return a set of relationships from sourceType to targetType by their derived state.
+     */
+    Set<EClass> getRelationshipsByDerivation(EClass sourceType, EClass targetType, boolean isDerived) {
+        TargetRelations relations = getTargetRelations(sourceType, targetType);
+        if(relations == null) {
+            return Collections.emptySet();
+        }
+        
+        return relations.relationships().entrySet().stream() // stream  target relationships entrySet
+                                        .filter(entry -> entry.getValue() == isDerived) // filter by isDerived
+                                        .map(Entry::getKey) // map to the Key (EClass)
+                                        .collect(Collectors.toUnmodifiableSet()); // Add to unmodifiable Set
+    }
+    
+    /**
+     * @return a TargetRelations from sourceType to targetType or null
+     */
+    TargetRelations getTargetRelations(EClass sourceType, EClass targetType) {
+        Map<EClass, TargetRelations> targets = matrixMap.get(getMapEClass(sourceType));
+        return targets == null ? null : targets.get(getMapEClass(targetType));
+    }
+    
+    /**
+     * Load the key letters to EClass mapping from the relationships-keys.xml file
+     */
+    private Map<Character, EClass> loadKeyLetters() {
         // Load the JDOM Document from XML
         Document doc = null;
         try {
+            URL url = Platform.getBundle(BUNDLE_ID).getEntry(RELATIONSHIPS_KEYS_FILE);
             doc = new SAXBuilder().build(url);
         }
         catch(Exception ex) {
-            ILog.of(getClass()).error("Could not load key letters", ex);
-            return;
+            logError("Could not load relationships-keys.xml file", ex);
+            return Map.of();
         }
 
+        Map<Character, EClass> keymap = new TreeMap<>(); // TreeMap sorts by character
+        
         for(Element elementKey : doc.getRootElement().getChildren(XML_ELEMENT_KEY)) {
             String keyLetter = elementKey.getAttributeValue(XML_ATTRIBUTE_CHAR);
             if(keyLetter == null || keyLetter.length() != 1) {
-                ILog.of(getClass()).error(getClass() + ": Key letter incorrect: " + keyLetter);
+                logError("Key letter incorrect: " + keyLetter);
+                continue;
+            }
+
+            char key = Character.toLowerCase(keyLetter.charAt(0));
+            if(keymap.containsKey(key)) {
+                logError("Duplicate Key letter: " + keyLetter);
                 continue;
             }
 
             String relationName = elementKey.getAttributeValue(XML_ATTRIBUTE_RELATIONSHIP);
             if(relationName == null) {
-                ILog.of(getClass()).error(getClass() + ": Relationship name incorrect: " + relationName);
+                logError("Relationship name not found for: " + key);
                 continue;
             }
 
-            EClass relationship = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(relationName);
+            EClass relationship = getEClass(relationName);
             if(relationship == null) {
-                ILog.of(getClass()).error(getClass() + ": Couldn't find relationship " + relationName);
+                logError("Couldn't find relationship " + relationName);
                 continue;
             }
-
-            relationsKeyMap.put(keyLetter.charAt(0), relationship);
-            relationsValueMap.put(relationship, keyLetter.charAt(0));
+            
+            if(keymap.containsValue(relationship)) {
+                logError("Duplicate relationship already mapped: " + relationName);
+                continue;
+            }
+            
+            keymap.put(key, relationship);
         }
+        
+        return Collections.unmodifiableMap(keymap);
     }
 
-    private void loadRelationships() {
-        //URL url = Platform.getBundle(BUNDLE_ID).getResource(RELATIONSHIPS_FILE);
-        URL url = Platform.getBundle(BUNDLE_ID).getEntry(RELATIONSHIPS_FILE);
-        
+    /**
+     * Load the relationships matrix from the relationships.xml file
+     */
+    private Map<EClass, Map<EClass, TargetRelations>> loadRelationships() {
         // Load the JDOM Document from XML
         Document doc = null;
         try {
+            URL url = Platform.getBundle(BUNDLE_ID).getEntry(RELATIONSHIPS_FILE);
             doc = new SAXBuilder().build(url);
         }
         catch(Exception ex) {
-            ILog.of(getClass()).error("Could not relationships", ex);
-            return;
+            logError("Could not load relationships.xml file", ex);
+            return Map.of();
         }
+        
+        Map<EClass, Map<EClass, TargetRelations>> map = new HashMap<>();
         
         // Iterate through all "source" concepts
         for(Element elementSource : doc.getRootElement().getChildren(XML_ELEMENT_SOURCE)) {
@@ -219,28 +239,18 @@ public class RelationshipsMatrix {
                 continue;
             }
             
-            // Get EClass source from mapping
-            EClass source = null;
-            
-            // Use ArchimateRelationship as a generic super type
-            if(sourceName.equals(RELATIONSHIP_CONCEPT)) {
-                source = IArchimatePackage.eINSTANCE.getArchimateRelationship();
-            }
-            // Else use given class
-            else {
-                source = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(sourceName);
-            }
-            
+            // Get EClass source from sourceName
+            EClass source = getEClass(sourceName);
             if(source == null) {
-                ILog.of(getClass()).error(getClass() + ": Couldn't find source " + sourceName);
+                logError("Couldn't find source " + sourceName);
                 continue;
             }
             
-            // Create a new list of type TargetMatrix
-            List<TargetMatrix> matrixList = new ArrayList<>();
+            // Create a new map for target concepts
+            Map<EClass, TargetRelations> targets = new HashMap<>();
             
             // Put it in the main matrix map
-            matrixMap.put(source, matrixList);
+            map.put(source, targets);
             
             // Iterate through all child "target" concepts
             for(Element elementTarget : elementSource.getChildren(XML_ELEMENT_TARGET)) {
@@ -250,48 +260,70 @@ public class RelationshipsMatrix {
                     continue;
                 }
                 
-                EClass target = null;
-                
-                // Get EClass target from mapping
-
-                // Use ArchimateRelationship as a generic super type
-                if(targetName.equals(RELATIONSHIP_CONCEPT)) {
-                    target = IArchimatePackage.eINSTANCE.getArchimateRelationship();
-                }
-                // Else use given class
-                else {
-                    target = (EClass)IArchimatePackage.eINSTANCE.getEClassifier(targetName);
-                }
-                
+                // Get EClass target from targetName
+                EClass target = getEClass(targetName);
                 if(target == null) {
-                    ILog.of(getClass()).error(getClass() + ": Couldn't find target " + targetName);
+                    logError("Couldn't find target " + targetName);
                     continue;
                 }
                 
-                // Create a new TargetMatrix and add it to the list
-                TargetMatrix matrix = new TargetMatrix();
-                matrixList.add(matrix);
-                
-                // Set target class 
-                matrix.targetClass = target;
-                
-                // Get relations string
-                String relations = elementTarget.getAttributeValue(XML_ATTRIBUTE_RELATIONS);
-                if(relations == null) {
+                // Get relations key string
+                String relationKeys = elementTarget.getAttributeValue(XML_ATTRIBUTE_RELATIONS);
+                if(relationKeys == null) {
+                    logError("Couldn't find target relations for " + targetName);
                     continue;
                 }
                 
-                // Take each character and add the relationship from the mapping
-                for(char key : relations.toCharArray()) {
-                    EClass relationship = relationsKeyMap.get(key);
-                    if(relationship != null) {
-                        matrix.getRelationships().add(relationship);
+                // Create a new TargetRelations and put it in the map
+                TargetRelations relations = new TargetRelations(relationKeys);
+                targets.put(target, relations);
+                
+                // Take each character in the relations key string and add the mapped relationship.
+                // If the character is lowercase then it's a derived relationship.
+                for(char key : relationKeys.toCharArray()) {
+                    EClass relationship = relationsKeyMap.get(Character.toLowerCase(key));
+                    if(relationship == null) {
+                        logError("Unknown key '" + key + "' for " + source.getName() + " -> " + target.getName());
                     }
                     else {
-                        ILog.of(getClass()).error(getClass() + ": Found unmapped key char: " + key);
+                        if(relations.relationships().containsKey(relationship)) {
+                            logError("Duplicate key '" + key + "' for " + source.getName() + " -> " + target.getName());
+                        }
+                        else {
+                            relations.relationships().put(relationship, Character.isLowerCase(key));
+                        }
                     }
                 }
             }
         }
+        
+        return Collections.unmodifiableMap(map);
+    }
+    
+    /**
+     * @return the EClass to use in a map.
+     * If eClass is a super type of ArchimateRelationship then return the generic
+     * ArchimateRelationship EClass, else return eClass
+     */
+    private EClass getMapEClass(EClass eClass) {
+        return IArchimatePackage.eINSTANCE.getArchimateRelationship().isSuperTypeOf(eClass) ?
+                                           IArchimatePackage.eINSTANCE.getArchimateRelationship() : eClass;
+    }
+    
+    /**
+     * @return EClass for className
+     * If className is "Relationship" return generic ArchimateRelationship EClass
+     */
+    private EClass getEClass(String className) {
+        return RELATIONSHIP_CONCEPT.equals(className) ? IArchimatePackage.eINSTANCE.getArchimateRelationship()
+                                                        : (EClass)IArchimatePackage.eINSTANCE.getEClassifier(className);
+    }
+    
+    private void logError(String message) {
+        ILog.of(getClass()).error(getClass() + ": " + message);
+    }
+    
+    private void logError(String message, Exception ex) {
+        ILog.of(getClass()).error(message, ex);
     }
 }

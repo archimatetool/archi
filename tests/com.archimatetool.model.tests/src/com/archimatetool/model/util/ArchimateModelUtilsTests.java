@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -73,6 +74,37 @@ public class ArchimateModelUtilsTests {
         assertTrue(ArchimateModelUtils.hasDirectRelationship(relationship, sourceConcept));
     }
     
+    @Test
+    public void testGetRelationshipDerivation() {
+        // TODO: Add tests when the relationships.xml table has uppercase letters for direct relationships
+        EClass source = IArchimatePackage.eINSTANCE.getBusinessActor();
+        EClass target = IArchimatePackage.eINSTANCE.getBusinessActor();
+        EClass relationship = IArchimatePackage.eINSTANCE.getFlowRelationship();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            ArchimateModelUtils.getRelationshipDerivation(source, target, relationship);
+        });
+    }
+    
+    @Test
+    public void testGetDerivedRelationships() {
+        // TODO: Add tests when the relationships.xml table has uppercase letters for direct relationships
+        EClass source = IArchimatePackage.eINSTANCE.getBusinessActor();
+        EClass target = IArchimatePackage.eINSTANCE.getBusinessActor();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            ArchimateModelUtils.getDerivedRelationships(source, target);
+        });
+    }
+
+    @Test
+    public void testGetDirectRelationships() {
+        // TODO: Add tests when the relationships.xml table has uppercase letters for direct relationships
+        EClass source = IArchimatePackage.eINSTANCE.getBusinessActor();
+        EClass target = IArchimatePackage.eINSTANCE.getBusinessActor();
+        assertThrows(UnsupportedOperationException.class, () -> {
+            ArchimateModelUtils.getDirectRelationships(source, target);
+        });
+    }
+
     @Test
     public void testGetValidRelationships() {
         EClass sourceClass = IArchimatePackage.eINSTANCE.getBusinessActor();
@@ -223,7 +255,7 @@ public class ArchimateModelUtilsTests {
         EClass[] classes = ArchimateModelUtils.getBusinessClasses();
         
         // Add them in reverse order
-        List<EClass> listToSort = new ArrayList<>(Arrays.asList(classes));
+        List<EClass> listToSort = Arrays.asList(classes);
         Collections.reverse(listToSort);
         
         // Sort them
@@ -237,16 +269,14 @@ public class ArchimateModelUtilsTests {
     
     @Test
     public void testSortClasses_Mixed() {
-        EClass[] classes = ArchimateModelUtils.getAllArchimateClasses();
-        
-        List<EClass> listToSort = new ArrayList<EClass>();
+        List<EClass> listToSort = new ArrayList<>();
         listToSort.add(ArchimateModelUtils.getApplicationClasses()[0]);
         listToSort.add(ArchimateModelUtils.getBusinessClasses()[1]);
         listToSort.add(ArchimateModelUtils.getBusinessClasses()[0]);
         listToSort.add(ArchimateModelUtils.getStrategyClasses()[1]);
         listToSort.add(ArchimateModelUtils.getStrategyClasses()[0]);
         
-        ArchimateModelUtils.sortClasses(listToSort, classes);
+        ArchimateModelUtils.sortClasses(listToSort, ArchimateModelUtils.getAllArchimateClasses());
         
         assertEquals(ArchimateModelUtils.getStrategyClasses()[0], listToSort.get(0));
         assertEquals(ArchimateModelUtils.getStrategyClasses()[1], listToSort.get(1));

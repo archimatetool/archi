@@ -193,6 +193,46 @@ public class ArchimateModelUtils {
     }
     
     /**
+     * This is a placeholder for when the relationships.xml has uppercase key letters for direct relationships
+     * @param sourceType The source type
+     * @param targetType The target type
+     * @param relationshipType The relationship type to check
+     * @return a {@link RelationshipDerivation} containing the state of the relationship:
+     *         <ul>
+     *           <li>{@code RelationshipDerivation.DERIVED} - if the relationship mapping exists and is derived.</li>
+     *           <li>{@code RelationshipDerivation.DIRECT} - if the relationship mapping exists and is direct.</li>
+     *           <li>{@code RelationshipDerivation.INVALID} - if no relationship mapping is present for the 
+     *               given source and target types, or if relationType is missing.</li>
+     *         </ul>
+     */
+    /*public*/ static RelationshipDerivation getRelationshipDerivation(EClass sourceType, EClass targetType, EClass relationshipType) {
+        throw new UnsupportedOperationException("This method is not yet ready for use."); //$NON-NLS-1$
+        //return RelationshipsMatrix.INSTANCE.isDerivedRelationship(sourceType, targetType, relationshipType);
+    }
+    
+    /**
+     * This is a placeholder for when the relationships.xml has uppercase key letters for direct relationships
+     * @param sourceType The source type
+     * @param targetType The target type
+     * @return a set of derived relationship classes between sourceType and targetType
+     */
+    /*public*/ static Set<EClass> getDerivedRelationships(EClass sourceType, EClass targetType) {
+        throw new UnsupportedOperationException("This method is not yet ready for use."); //$NON-NLS-1$
+        //return RelationshipsMatrix.INSTANCE.getRelationshipsByDerivation(sourceType, targetType, true);
+    }
+    
+    /**
+     * This is a placeholder for when the relationships.xml has uppercase key letters for direct relationships
+     * @param sourceType The source type
+     * @param targetType The target type
+     * @return a set of direct relationship classes between sourceType and targetType
+     */
+    /*public*/ static Set<EClass> getDirectRelationships(EClass sourceType, EClass targetType) {
+        throw new UnsupportedOperationException("This method is not yet ready for use."); //$NON-NLS-1$
+        //return RelationshipsMatrix.INSTANCE.getRelationshipsByDerivation(sourceType, targetType, false);
+    }
+    
+    /**
      * @param concept The Archimate concept to get relationships for
      * @return A list of all relationships that a concept has, both as target and as source
      */
