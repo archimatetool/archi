@@ -55,16 +55,20 @@ import org.eclipse.ui.dialogs.SearchPattern;
 import org.eclipse.ui.dialogs.StyledStringHighlighter;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.ArchimateDiagramModelFactory;
 import com.archimatetool.editor.diagram.IArchimateDiagramEditor;
 import com.archimatetool.editor.diagram.commands.CreateDiagramArchimateObjectCommand;
 import com.archimatetool.editor.diagram.commands.CreateDiagramObjectCommand;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.IArchiImages;
+import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IArchimatePackage;
 import com.archimatetool.model.IDiagramModelContainer;
 import com.archimatetool.model.IDiagramModelNote;
 import com.archimatetool.model.util.ArchimateModelUtils;
+import com.archimatetool.model.viewpoints.ViewpointManager;
 
 
 
@@ -176,15 +180,15 @@ public class NewElementHandler extends AbstractHandler {
         
         List<Object> templates = new ArrayList<>();
 
-        Collections.addAll(templates, ArchimateModelUtils.getOtherClasses());
-        Collections.addAll(templates, ArchimateModelUtils.getStrategyClasses());
-        Collections.addAll(templates, ArchimateModelUtils.getBusinessClasses());
-        Collections.addAll(templates, ArchimateModelUtils.getApplicationClasses());
-        Collections.addAll(templates, ArchimateModelUtils.getTechnologyClasses());
-        Collections.addAll(templates, ArchimateModelUtils.getPhysicalClasses());
-        Collections.addAll(templates, ArchimateModelUtils.getMotivationClasses());
-        Collections.addAll(templates, ArchimateModelUtils.getImplementationMigrationClasses());
-        Collections.addAll(templates, ArchimateModelUtils.getConnectorClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getOtherClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getStrategyClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getBusinessClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getApplicationClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getTechnologyClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getPhysicalClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getMotivationClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getImplementationMigrationClasses());
+        addEClasses(editor, templates, ArchimateModelUtils.getConnectorClasses());
 
         templates.add(IArchimatePackage.eINSTANCE.getDiagramModelNote());
         templates.add(IArchimatePackage.eINSTANCE.getDiagramModelGroup());
@@ -214,6 +218,22 @@ public class NewElementHandler extends AbstractHandler {
         dialog.open();
         
         return null;
+    }
+    
+    // Add eClasses to templates if Viewpoint matches or preference set
+    private void addEClasses(IArchimateDiagramEditor editor, List<Object> templates, EClass[] classes) {
+        // Preference set to not hide according to Viewpoint
+        if(!ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_HIDE_PALETTE_ELEMENTS)) {
+            Collections.addAll(templates, classes);
+            return;
+        }
+        
+        // Add Eclasses according to Viewpoint
+        for(EClass eClass : classes) {
+            if(ViewpointManager.INSTANCE.isAllowedConceptForDiagramModel((IArchimateDiagramModel)editor.getModel(), eClass)) {
+                templates.add(eClass);
+            }
+        }
     }
     
     private void createNewElement(IArchimateDiagramEditor editor, Object template) {
