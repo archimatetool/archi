@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -73,6 +74,31 @@ public class ArchimateModelUtilsTests {
         assertTrue(ArchimateModelUtils.hasDirectRelationship(relationship, sourceConcept));
     }
     
+    @Test
+    public void testGetRelationshipDerivation() {
+        // TODO: Add proper tests when the relationships.xml table has uppercase letters for direct relationships
+        RelationshipDerivation state = ArchimateModelUtils.getRelationshipDerivation(IArchimatePackage.eINSTANCE.getBusinessActor(),
+                                                            IArchimatePackage.eINSTANCE.getBusinessActor(),
+                                                            IArchimatePackage.eINSTANCE.getFlowRelationship());
+        assertEquals(RelationshipDerivation.DERIVED, state); // will always return derived for now
+    }
+    
+    @Test
+    public void testGetDerivedRelationships() {
+        // TODO: Add proper tests when the relationships.xml table has uppercase letters for direct relationships
+        Set<EClass> result = ArchimateModelUtils.getDerivedRelationships(IArchimatePackage.eINSTANCE.getBusinessActor(),
+                                                  IArchimatePackage.eINSTANCE.getBusinessActor());
+        assertEquals(7, result.size());
+    }
+
+    @Test
+    public void testGetDirectRelationships() {
+        // TODO: Add proper tests when the relationships.xml table has uppercase letters for direct relationships
+        Set<EClass> result = ArchimateModelUtils.getDirectRelationships(IArchimatePackage.eINSTANCE.getBusinessActor(),
+                                                  IArchimatePackage.eINSTANCE.getBusinessActor());
+        assertEquals(0, result.size());
+    }
+
     @Test
     public void testGetValidRelationships() {
         EClass sourceClass = IArchimatePackage.eINSTANCE.getBusinessActor();
@@ -223,7 +249,7 @@ public class ArchimateModelUtilsTests {
         EClass[] classes = ArchimateModelUtils.getBusinessClasses();
         
         // Add them in reverse order
-        List<EClass> listToSort = new ArrayList<>(Arrays.asList(classes));
+        List<EClass> listToSort = Arrays.asList(classes);
         Collections.reverse(listToSort);
         
         // Sort them
@@ -237,16 +263,14 @@ public class ArchimateModelUtilsTests {
     
     @Test
     public void testSortClasses_Mixed() {
-        EClass[] classes = ArchimateModelUtils.getAllArchimateClasses();
-        
-        List<EClass> listToSort = new ArrayList<EClass>();
+        List<EClass> listToSort = new ArrayList<>();
         listToSort.add(ArchimateModelUtils.getApplicationClasses()[0]);
         listToSort.add(ArchimateModelUtils.getBusinessClasses()[1]);
         listToSort.add(ArchimateModelUtils.getBusinessClasses()[0]);
         listToSort.add(ArchimateModelUtils.getStrategyClasses()[1]);
         listToSort.add(ArchimateModelUtils.getStrategyClasses()[0]);
         
-        ArchimateModelUtils.sortClasses(listToSort, classes);
+        ArchimateModelUtils.sortClasses(listToSort, ArchimateModelUtils.getAllArchimateClasses());
         
         assertEquals(ArchimateModelUtils.getStrategyClasses()[0], listToSort.get(0));
         assertEquals(ArchimateModelUtils.getStrategyClasses()[1], listToSort.get(1));
