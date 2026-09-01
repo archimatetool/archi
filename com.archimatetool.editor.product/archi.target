@@ -11,8 +11,8 @@
         <unit id="org.eclipse.jgit.ssh.apache.feature.group"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <!-- repository location="https://download.eclipse.org/tools/gef/classic/release/3.29.0"/ -->
-        <repository location="https://archimatetool.github.io/gef-classic/p2"/>
+        <repository location="https://download.eclipse.org/tools/gef/classic/release/3.29.0"/>
+        <!-- repository location="https://archimatetool.github.io/gef-classic/p2"/ -->
         <unit id="org.eclipse.gef.sdk.feature.group"/>
         <unit id="org.eclipse.zest.sdk.feature.group"/>
     </location>
