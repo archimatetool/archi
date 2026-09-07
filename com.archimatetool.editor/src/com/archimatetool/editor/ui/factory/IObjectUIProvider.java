@@ -54,6 +54,13 @@ public interface IObjectUIProvider {
     }
     
     /**
+     * @return The iconic image descriptor to use for this object
+     */
+    default ImageDescriptor getLargeImageDescriptor() {
+        return getImageDescriptor();
+    }
+    
+    /**
      * @param featureName The feature in question. If null, default is to return false
      * @return True if this object should expose a feature in the UI
      */

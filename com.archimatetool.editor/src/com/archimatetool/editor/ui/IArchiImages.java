@@ -63,7 +63,8 @@ public interface IArchiImages {
     String ICON_APPLICATION_SERVICE = ARCHIMATE_IMGPATH + "application-service.png";
     String ICON_ARTIFACT = ARCHIMATE_IMGPATH + "artifact.png";
     String ICON_ASSESSMENT = ARCHIMATE_IMGPATH + "assessment.png";
-    String ICON_BUSINESS_ACTOR = ARCHIMATE_IMGPATH + "business-actor.png";
+    String ICON_BUSINESS_ACTOR16 = ARCHIMATE_IMGPATH + "business-actor16.svg";
+    String ICON_BUSINESS_ACTOR24 = ARCHIMATE_IMGPATH + "business-actor24.svg";
     String ICON_BUSINESS_COLLABORATION = ARCHIMATE_IMGPATH + "business-collaboration.png";
     String ICON_BUSINESS_EVENT = ARCHIMATE_IMGPATH + "business-event.png";
     String ICON_BUSINESS_FUNCTION = ARCHIMATE_IMGPATH + "business-function.png";

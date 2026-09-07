@@ -44,12 +44,17 @@ public class BusinessActorUIProvider extends AbstractArchimateElementUIProvider 
 
     @Override
     public Image getImage() {
-        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_BUSINESS_ACTOR);
+        return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_BUSINESS_ACTOR16);
     }
 
     @Override
     public ImageDescriptor getImageDescriptor() {
-        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_BUSINESS_ACTOR);
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_BUSINESS_ACTOR16);
+    }
+    
+    @Override
+    public ImageDescriptor getLargeImageDescriptor() {
+        return IArchiImages.ImageFactory.getImageDescriptor(IArchiImages.ICON_BUSINESS_ACTOR24);
     }
     
     @Override

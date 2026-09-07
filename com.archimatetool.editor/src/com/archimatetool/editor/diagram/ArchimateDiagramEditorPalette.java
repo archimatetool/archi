@@ -335,7 +335,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                 description,
                 new ArchimateDiagramModelFactory(eClass),
                 ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass),
-                ArchiLabelProvider.INSTANCE.getImageDescriptor(eClass));
+                ArchiLabelProvider.INSTANCE.getLargeImageDescriptor(eClass));
         
         PaletteKeyHandler.setKeyBinding(entry, eClass.getName());
         

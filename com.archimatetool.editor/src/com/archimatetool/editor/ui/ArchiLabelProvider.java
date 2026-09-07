@@ -144,6 +144,19 @@ public class ArchiLabelProvider {
         return null;
     }
     
+    public ImageDescriptor getLargeImageDescriptor(EClass eClass) {
+        if(eClass == null) {
+            return null;
+        }
+        
+        IObjectUIProvider provider = ObjectUIFactory.INSTANCE.getProviderForClass(eClass);
+        if(provider != null) {
+            return provider.getLargeImageDescriptor();
+        }
+        
+        return null;
+    }
+    
     /**
      * Create an ImageDescriptor icon for a Specialization from its image
      * The image data size is 16x16 or 32x32 depending on zoom.
