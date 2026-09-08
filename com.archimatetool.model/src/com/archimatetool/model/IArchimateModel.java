@@ -157,42 +157,29 @@ public interface IArchimateModel extends IFolderContainer, IArchimateModelObject
     EList<IProfile> getProfiles();
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
+     * Set the defaults for the model
      */
     void setDefaults();
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model objectRequired="true"
-     * @generated
+     * @param object The object to find the default folder for
+     * @return The default folder for an object or null
      */
     IFolder getDefaultFolderForObject(EObject object);
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model kind="operation"
-     * @generated
+     * @return the default diagram model for this mode or null
      */
     IDiagramModel getDefaultDiagramModel();
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model kind="operation"
-     * @generated
+     * @return a list of diagram models
      */
     EList<IDiagramModel> getDiagramModels();
 
     /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @model
-     * @generated
+     * @param type the type of folder
+     * @return the folder for type
      */
     IFolder getFolder(FolderType type);
     

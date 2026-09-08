@@ -283,11 +283,6 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         return fContentListeners.remove(listener);
     }
     
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
     @Override
     public void setDefaults() {
         addDefaultFolders();
@@ -319,60 +314,33 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         }
     }
     
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
     @Override
     public IFolder getDefaultFolderForObject(EObject object) {
         addDefaultFolders(); // Check they haven't been deleted
         
-        if(object instanceof IStrategyElement) {
-            return getFolder(FolderType.STRATEGY);
-        }
-        if(object instanceof IBusinessElement) {
-            return getFolder(FolderType.BUSINESS);
-        }
-        if(object instanceof IApplicationElement) {
-            return getFolder(FolderType.APPLICATION);
-        }
-        if(object instanceof ITechnologyElement || object instanceof IPhysicalElement) {
-            return getFolder(FolderType.TECHNOLOGY);
-        }
-        if(object instanceof IMotivationElement) {
-            return getFolder(FolderType.MOTIVATION);
-        }
-        if(object instanceof IImplementationMigrationElement) {
-            return getFolder(FolderType.IMPLEMENTATION_MIGRATION);
-        }
-        if(object instanceof IJunction || object instanceof ILocation || object instanceof IGrouping) {
-            return getFolder(FolderType.OTHER);
-        }
-        if(object instanceof IArchimateRelationship) {
-            return getFolder(FolderType.RELATIONS);
-        }
-        if(object instanceof IDiagramModel) {
-            return getFolder(FolderType.DIAGRAMS);
-        }
-        
-        return null;
+        return switch(object) {
+            case IStrategyElement e -> getFolder(FolderType.STRATEGY);
+            case IBusinessElement e -> getFolder(FolderType.BUSINESS);
+            case IApplicationElement e -> getFolder(FolderType.APPLICATION);
+            case ITechnologyElement e -> getFolder(FolderType.TECHNOLOGY);
+            case IPhysicalElement e -> getFolder(FolderType.TECHNOLOGY);
+            case IMotivationElement e -> getFolder(FolderType.MOTIVATION);
+            case IImplementationMigrationElement e -> getFolder(FolderType.IMPLEMENTATION_MIGRATION);
+            case IJunction e -> getFolder(FolderType.OTHER);
+            case ILocation e -> getFolder(FolderType.OTHER);
+            case IGrouping e -> getFolder(FolderType.OTHER);
+            case IArchimateRelationship e -> getFolder(FolderType.RELATIONS);
+            case IDiagramModel e -> getFolder(FolderType.DIAGRAMS);
+            case null, default -> null;
+        };
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
     @Override
     public IFolder getFolder(FolderType type) {
-        for(IFolder folder : getFolders()) {
-            if(folder.getType().equals(type)) {
-                return folder;
-            }
-        }
-        
-        return null;
+        return getFolders().stream()
+                           .filter(folder -> folder.getType().equals(type))
+                           .findFirst()
+                           .orElse(null);
     }
 
     /**
@@ -395,34 +363,22 @@ public class ArchimateModel extends EObjectImpl implements IArchimateModel {
         fAdapterMap = AdapterHelper.setValue(fAdapterMap, key, value);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * Return the first diagram model or null
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
     @Override
     public IDiagramModel getDefaultDiagramModel() {
-        EList<IDiagramModel> list = getDiagramModels();
-        return list.size() > 0 ? list.get(0) : null;
+        return getDiagramModels().stream()
+                                 .findFirst()
+                                 .orElse(null);
     }
 
-    /**
-     * <!-- begin-user-doc -->
-     * Return the Diagram Models - could be empty list
-     * <!-- end-user-doc -->
-     * @generated NOT
-     */
     @Override
     public EList<IDiagramModel> getDiagramModels() {
-        EList<IDiagramModel> list = new BasicEList<IDiagramModel>();
+        EList<IDiagramModel> list = new BasicEList<>();
         
         IFolder folder = getFolder(FolderType.DIAGRAMS);
         if(folder != null) {
             for(Iterator<EObject> iter = folder.eAllContents(); iter.hasNext();) {
-                EObject eObject = iter.next();
-                if(eObject instanceof IDiagramModel) {
-                    list.add((IDiagramModel)eObject);
+                if(iter.next() instanceof IDiagramModel dm) {
+                    list.add(dm);
                 }
             }
 

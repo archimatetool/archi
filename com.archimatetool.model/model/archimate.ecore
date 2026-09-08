@@ -178,15 +178,6 @@
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="model"/>
     </eAnnotations>
-    <eOperations name="setDefaults"/>
-    <eOperations name="getDefaultFolderForObject" eType="#//Folder">
-      <eParameters name="object" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="getDefaultDiagramModel" eType="#//DiagramModel"/>
-    <eOperations name="getDiagramModels" upperBound="-1" eType="#//DiagramModel"/>
-    <eOperations name="getFolder" eType="#//Folder">
-      <eParameters name="type" eType="#//FolderType"/>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="purpose" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
