@@ -122,7 +122,8 @@ public class Bounds extends EObjectImpl implements IBounds {
     }
     
     /* 
-     * Over-ride this not to
+     * This has been over-ridden since forever.
+     * The intention is to not send notifications when calling the setX, setY, setHeight and setWidth methods
      */
     @Override
     public boolean eNotificationRequired() {
@@ -221,11 +222,14 @@ public class Bounds extends EObjectImpl implements IBounds {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated NOT
+     * @generated
      */
     @Override
     public void setHeight(int newHeight) {
+        int oldHeight = height;
         height = newHeight;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, IArchimatePackage.BOUNDS__HEIGHT, oldHeight, height));
     }
 
     /**
