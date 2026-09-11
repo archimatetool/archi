@@ -8,6 +8,7 @@ package com.archimatetool.editor.diagram;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -49,13 +50,22 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
         super.buildContextMenu(menu);
 
         // Delete from Model
-        menu.appendToGroup(GROUP_EDIT, actionRegistry.getAction(DeleteFromModelAction.ID));
+        IAction action = actionRegistry.getAction(DeleteFromModelAction.ID);
+        if(action.isEnabled()) {
+            menu.appendToGroup(GROUP_EDIT, action);
+        }
 
         // Invert Connection Direction
-        menu.prependToGroup(GROUP_RENAME, actionRegistry.getAction(InvertConnectionAction.ID));
+        action = actionRegistry.getAction(InvertConnectionAction.ID);
+        if(action.isEnabled()) {
+            menu.prependToGroup(GROUP_RENAME, action);
+        }
 
         // Generate View For Element
-        menu.appendToGroup(GROUP_RENAME, actionRegistry.getAction(ArchiActionFactory.GENERATE_VIEW.getId()));
+        action = actionRegistry.getAction(ArchiActionFactory.GENERATE_VIEW.getId());
+        if(action.isEnabled()) {
+            menu.appendToGroup(GROUP_RENAME, action);
+        }
 
         // Viewpoints
         menu.appendToGroup(GROUP_CONNECTIONS, new Separator(GROUP_VIEWPOINTS));
