@@ -11,7 +11,9 @@ import java.util.Set;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.IHandlerService;
 
 import com.archimatetool.editor.diagram.commands.InvertConnectionCommand;
 import com.archimatetool.model.IArchimateRelationship;
@@ -33,7 +35,13 @@ public class InvertConnectionAction extends SelectionAction {
         super(part);
         setText(TEXT);
         setId(ID);
+        
+        // Register for key binding
         setActionDefinitionId(ID);
+        
+        // Register with the HandlerService because we are not using this action as a RetargetAction
+        IHandlerService service = part.getSite().getService(IHandlerService.class);
+        service.activateHandler(getActionDefinitionId(), new ActionHandler(this));
     }
 
     @Override
