@@ -1099,9 +1099,9 @@
       <command
             categoryId="org.eclipse.ui.category.edit"
             defaultHandler="com.archimatetool.editor.diagram.actions.NewElementHandler"
-            description="Add a new ArchiMate element"
+            description="%command.description.16"
             id="com.archimatetool.editor.action.newElement"
-            name="New ArchiMate Element">
+            name="%command.name.16">
       </command>
    </extension>
    <extension
@@ -1922,9 +1922,9 @@
    <extension
          point="org.eclipse.ui.contexts">
       <context
-            description="Editing Archi diagrams"
+            description="%context.description"
             id="com.archimatetool.editor.diagram.context"
-            name="In Archi Diagrams"
+            name="%context.name"
             parentId="org.eclipse.ui.contexts.window">
       </context>
    </extension>
