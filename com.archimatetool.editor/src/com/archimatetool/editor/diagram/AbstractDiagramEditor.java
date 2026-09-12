@@ -178,7 +178,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     /**
      * Actions that need to be updated after CommandStack changed
      */
-    protected List<UpdateAction> fUpdateCommandStackActions = new ArrayList<UpdateAction>();
+    private List<String> updateStackActions = new ArrayList<>();
+
+    /**
+     * @deprecated Use updateStackActions
+     */
+    protected List<UpdateAction> fUpdateCommandStackActions = new ArrayList<>();
     
     /**
      * Listen to User Preferences Changes
@@ -226,8 +231,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
     
     @Override
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-        if(input instanceof NullDiagramEditorInput) {
-            fNullInput = (NullDiagramEditorInput)input;
+        if(input instanceof NullDiagramEditorInput nullEditorInput) {
+            fNullInput = nullEditorInput;
             super.setSite(site);
             super.setInput(input); // Make sure to call super.setInput(input)
             setPartName(input.getName());
@@ -609,8 +614,8 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      */
     private ToolEntry findToolEntryAt(PaletteViewer viewer, Point pt) {
         EditPart ep = viewer.findObjectAt(pt);
-        if(ep != null && ep.getModel() instanceof ToolEntry) {
-            return (ToolEntry)ep.getModel();
+        if(ep != null && ep.getModel() instanceof ToolEntry toolEntry) {
+            return toolEntry;
         }
         return null;
     }
@@ -623,23 +628,55 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         super.stackChanged(event);
         
         if(event.isPostChangeEvent()) {
-            updateCommandStackActions(); // Need to update these too
-            refreshFiguresWithLabelFeature(); // Refresh Figures with Label Features
+            updateCommandStackActions();       // Update our stack actions
+            refreshFiguresWithLabelFeature();  // Refresh Figures with Label Features
         }
     }
     
     /**
-     * Update those actions that need updating when the Command Stack changes
+     * Update actions that need updating when the Command Stack changes.
+     * 
+     * When the "Lock" or "Unlock" action is performed in a Canvas, some other actions need to be enable/disabled.
+     * When Undo/Redo is performed other actions need to be updated (text alignment and text position actions, for example).
+     * 
+     * We use our own method here rather than getStackActions().add() because of 
+     * performance in case many editors that share the same Command Stack are open.
+     * 
+     * But Undo/Redo menu items must be updated on all actions in super.updateActions()
+     * because all open editors need to reflect that. 
      */
     protected void updateCommandStackActions() {
         // If not the active editor, ignore changed.
         if(this.equals(getSite().getPage().getActiveEditor())) {
+            ActionRegistry registry = getActionRegistry();
+            for(String id : updateStackActions) {
+                if(registry.getAction(id) instanceof UpdateAction action) {
+                    action.update();
+                }
+            }
+            
+            // Remove this at some point
             for(UpdateAction action : getUpdateCommandStackActions()) {
                 action.update();
             }
         }
     }
     
+    /**
+     * Returns the list of <em>IDs</em> of Actions that are dependent on the
+     * CommmandStack's state. The associated Actions can be found in the action
+     * registry. These actions should implement the {@link UpdateAction} interface
+     * so that they can be updated in response to command stack changes.
+     *
+     * @return the list of stack-dependant action IDs
+     */
+    protected List<String> getUpdateStackActions() {
+        return updateStackActions;
+    }
+
+    /**
+     * @deprecated Use getUpdateStackActions()
+     */
     protected List<UpdateAction> getUpdateCommandStackActions() {
         return fUpdateCommandStackActions;
     }
@@ -649,15 +686,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
      */
     protected void refreshFiguresWithLabelFeature() {
         for(Object editPart : getGraphicalViewer().getEditPartRegistry().values()) {
-            if(editPart instanceof GraphicalEditPart) {
-                IFigure figure = ((GraphicalEditPart)editPart).getFigure();
-                Object model = ((GraphicalEditPart)editPart).getModel();
-
+            if(editPart instanceof GraphicalEditPart graphicalEditPart) {
                 // If it is a text figure and has a label render feature update text
-                if(model instanceof IDiagramModelComponent
-                                        && TextRenderer.getDefault().hasFormatExpression((IDiagramModelComponent)model)
-                                        && figure instanceof ITextFigure) {
-                    ((ITextFigure)figure).setText();
+                if(graphicalEditPart.getModel() instanceof IDiagramModelComponent dmc
+                                        && TextRenderer.getDefault().hasFormatExpression(dmc)
+                                        && graphicalEditPart.getFigure() instanceof ITextFigure figure) {
+                    figure.setText();
                 }
             }
         }
@@ -733,14 +767,14 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action.setToolTipText(Messages.AbstractDiagramEditor_13);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Change the Delete Action label and add action definition id
         action = registry.getAction(ActionFactory.DELETE.getId());
         action.setText(Messages.AbstractDiagramEditor_2);
         action.setToolTipText(action.getText());
         action.setActionDefinitionId(ActionFactory.DELETE.getCommandId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Undo action has action definition id
         action = registry.getAction(ActionFactory.UNDO.getId());
@@ -754,6 +788,7 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new DeleteContainerAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
         
         // Paste
         PasteAction pasteAction = new PasteAction(this, viewer);
@@ -769,13 +804,13 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new CutAction(this, pasteAction);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Copy
         action = new CopyAction(this, pasteAction);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Use Grid Action
         action = new ToggleGridEnabledAction();
@@ -789,75 +824,80 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new ToggleSnapToAlignmentGuidesAction();
         registry.registerAction(action);
         
-        // Ruler
-        //IAction showRulers = new ToggleRulerVisibilityAction(getGraphicalViewer());
-        //registry.registerAction(showRulers);
-        
         action = new MatchWidthAction(this);
         action.setText(Messages.AbstractDiagramEditor_5); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_14);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
         
         action = new MatchHeightAction(this);
         registry.registerAction(action);
         action.setText(Messages.AbstractDiagramEditor_6); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_15);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
 
         action = new MatchSizeAction(this);
         registry.registerAction(action);
         action.setText(Messages.AbstractDiagramEditor_22); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_23);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.LEFT);
         action.setText(Messages.AbstractDiagramEditor_7); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_16);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.RIGHT);
         action.setText(Messages.AbstractDiagramEditor_8); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_17);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.TOP);
         action.setText(Messages.AbstractDiagramEditor_9); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_18);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.BOTTOM);
         action.setText(Messages.AbstractDiagramEditor_10); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_19);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.CENTER);
         action.setText(Messages.AbstractDiagramEditor_11); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_20);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
 
         action = new AlignmentAction((IWorkbenchPart)this, PositionConstants.MIDDLE);
         action.setText(Messages.AbstractDiagramEditor_12); // Externalise string as it's internal to GEF
         action.setToolTipText(Messages.AbstractDiagramEditor_21);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
         
         // Default Size
         action = new DefaultEditPartSizeAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Reset Aspect Ratio
         action = new ResetAspectRatioAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Properties
         action = new PropertiesAction(this);
@@ -868,43 +908,43 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         action = new FillColorAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Line Width
         action = new LineWidthAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Connection Line Color
         action = new LineColorAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
 
         // Font
         action = new FontAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
 
         // Font Colour
         action = new FontColorAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Fill Opacity
         action = new OpacityAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
 
         // Outline Opacity
         action = new OutlineOpacityAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
 
         // Export As Image
         action = new ExportAsImageAction(this);
@@ -924,34 +964,34 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         for(ObjectPositionAction a : ObjectPositionAction.createActions(this)) {
             registry.registerAction(a);
             getSelectionActions().add(a.getId());
-            getUpdateCommandStackActions().add(a);
+            getUpdateStackActions().add(a.getId());
         }
         
         // Text Alignment Actions
         for(TextAlignmentAction a : TextAlignmentAction.createActions(this)) {
             registry.registerAction(a);
             getSelectionActions().add(a.getId());
-            getUpdateCommandStackActions().add(a);
+            getUpdateStackActions().add(a.getId());
         }
         
         // Text Position Actions
         for(TextPositionAction a : TextPositionAction.createActions(this)) {
             registry.registerAction(a);
             getSelectionActions().add(a.getId());
-            getUpdateCommandStackActions().add(a);
+            getUpdateStackActions().add(a.getId());
         }
         
         // Lock Object
         action = new LockObjectAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
         
         // Border Color
         action = new BorderColorAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        getUpdateCommandStackActions().add((UpdateAction)action);
+        getUpdateStackActions().add(action.getId());
 
         // Full Screen
         if(!PlatformUtils.isMac()) {
@@ -1017,9 +1057,9 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         for(Object object : objects) {
             // Diagram Model so replace with diagram reference objects
-            if(object instanceof IDiagramModel) {
-                for(IDiagramModelComponent dc : DiagramModelUtils.findDiagramModelReferences(getModel(), (IDiagramModel)object)) {
-                    selection.add(dc);
+            if(object instanceof IDiagramModel dm) {
+                for(IDiagramModelComponent dmc : DiagramModelUtils.findDiagramModelReferences(getModel(), dm)) {
+                    selection.add(dmc);
                 }
             }
             // Else add it
@@ -1130,10 +1170,10 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
         
         // Release the reference to the IDiagramModel in the DiagramEditorInput because it is not released by the system
         // And can't be garbage collected
-        if(getEditorInput() instanceof DiagramEditorInput) {
+        if(getEditorInput() instanceof DiagramEditorInput input) {
             int openEditors = EditorManager.getDiagramEditorReferences(fDiagramModel).length;
             if(openEditors == 0) { // There may be more than one instance open (split editor) sharing the same DiagramEditorInput
-                ((DiagramEditorInput)getEditorInput()).dispose();
+                input.dispose();
             }
         }
 
