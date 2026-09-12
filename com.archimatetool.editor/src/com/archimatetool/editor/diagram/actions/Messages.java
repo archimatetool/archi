@@ -39,6 +39,8 @@ public class Messages extends NLS {
 
     public static String DefaultEditPartSizeAction_1;
 
+    public static String DeleteBendpointsAction_0;
+
     public static String DeleteContainerAction_0;
 
     public static String DeleteContainerAction_1;

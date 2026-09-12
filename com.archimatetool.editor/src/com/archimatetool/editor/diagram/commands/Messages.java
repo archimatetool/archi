@@ -43,6 +43,8 @@ public class Messages extends NLS {
 
     public static String DeleteBendpointCommand_0;
 
+    public static String DeleteBendpointsCommand_0;
+
     public static String DiagramModelObjectAlphaCommand_0;
 
     public static String DiagramModelObjectLineStyleCommand_0;

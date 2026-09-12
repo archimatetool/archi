@@ -9,6 +9,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.RetargetAction;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
@@ -58,7 +59,7 @@ extends AbstractDiagramEditorActionBarContributor {
         }
         
         // Delete from Model
-        editMenu.appendToGroup(GROUP_EDIT_DELETE_MENU, getAction(DeleteFromModelAction.ID));
+        editMenu.insertAfter(ActionFactory.DELETE.getId(), getAction(DeleteFromModelAction.ID));
         
         return editMenu;
     }

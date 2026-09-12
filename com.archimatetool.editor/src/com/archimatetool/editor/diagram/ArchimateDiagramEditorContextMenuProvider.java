@@ -12,6 +12,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.ui.actions.ActionFactory;
 
 import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.DeleteFromModelAction;
@@ -52,7 +53,7 @@ public class ArchimateDiagramEditorContextMenuProvider extends AbstractDiagramEd
         // Delete from Model
         IAction action = actionRegistry.getAction(DeleteFromModelAction.ID);
         if(action.isEnabled()) {
-            menu.appendToGroup(GROUP_EDIT, action);
+            menu.insertAfter(ActionFactory.DELETE.getId(), action);
         }
 
         // Invert Connection Direction

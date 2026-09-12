@@ -37,6 +37,7 @@ import com.archimatetool.editor.actions.ArchiActionFactory;
 import com.archimatetool.editor.diagram.actions.BorderColorAction;
 import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
+import com.archimatetool.editor.diagram.actions.DeleteBendpointsAction;
 import com.archimatetool.editor.diagram.actions.DeleteContainerAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
@@ -192,6 +193,12 @@ extends ActionBarContributor {
         addRetargetAction(new LabelRetargetAction(LockObjectAction.ID, Messages.AbstractDiagramEditorActionBarContributor_3));
         
         // Delete Container
+        retargetAction = new RetargetAction(DeleteBendpointsAction.ID, DeleteBendpointsAction.TEXT);
+        retargetAction.setActionDefinitionId(DeleteBendpointsAction.ID); // key binding
+        retargetAction.setToolTipText(DeleteBendpointsAction.TEXT);
+        addRetargetAction(retargetAction);
+        
+        // Delete Bendpoints
         retargetAction = new RetargetAction(DeleteContainerAction.ID, DeleteContainerAction.TEXT);
         retargetAction.setActionDefinitionId(DeleteContainerAction.ID); // key binding
         retargetAction.setToolTipText(DeleteContainerAction.TOOLTIP_TEXT);
@@ -351,7 +358,10 @@ extends ActionBarContributor {
         editMenu.insertAfter(ArchiActionFactory.DELETE.getId(), new GroupMarker(GROUP_EDIT_DELETE_MENU));
 
         // Delete Container
-        editMenu.appendToGroup(GROUP_EDIT_DELETE_MENU, getAction(DeleteContainerAction.ID));
+        editMenu.insertAfter(ArchiActionFactory.DELETE.getId(), getAction(DeleteContainerAction.ID));
+        
+        // Delete Bendpoints
+        editMenu.appendToGroup(GROUP_EDIT_DELETE_MENU, getAction(DeleteBendpointsAction.ID));
 
         return editMenu;
     }

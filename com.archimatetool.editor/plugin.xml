@@ -1103,6 +1103,12 @@
             id="com.archimatetool.editor.action.newElement"
             name="%command.name.16">
       </command>
+      <command
+            categoryId="org.eclipse.ui.category.edit"
+            description="%command.description.36"
+            id="com.archimatetool.editor.action.deleteBendpoints"
+            name="%command.name.36">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.commandImages">
