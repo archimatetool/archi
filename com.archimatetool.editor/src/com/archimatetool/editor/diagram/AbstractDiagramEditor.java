@@ -101,6 +101,7 @@ import com.archimatetool.editor.diagram.actions.ConnectionRouterAction;
 import com.archimatetool.editor.diagram.actions.CopyAction;
 import com.archimatetool.editor.diagram.actions.CutAction;
 import com.archimatetool.editor.diagram.actions.DefaultEditPartSizeAction;
+import com.archimatetool.editor.diagram.actions.DeleteBendpointsAction;
 import com.archimatetool.editor.diagram.actions.DeleteContainerAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageAction;
 import com.archimatetool.editor.diagram.actions.ExportAsImageToClipboardAction;
@@ -786,6 +787,12 @@ implements IDiagramModelEditor, IContextProvider, ITabbedPropertySheetPageContri
 
         // Delete Container
         action = new DeleteContainerAction(this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        getUpdateStackActions().add(action.getId());
+        
+        // Delete connection bendpoints
+        action = new DeleteBendpointsAction(this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
         getUpdateStackActions().add(action.getId());
