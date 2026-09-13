@@ -46,7 +46,6 @@ public final class AnimationUtil {
 
     /**
      * Register a CommandStack for Animation on some Undo/Redo events
-     * @param stack
      */
     public static void registerCommandStack(CommandStack stack) {
         if(!supportsAnimation()) {
@@ -54,36 +53,38 @@ public final class AnimationUtil {
         }
         
         stack.addCommandStackEventListener(new CommandStackEventListener() {
+            Command animatedCmd = null;
+
             @Override
             public void stackChanged(CommandStackEvent event) {
                 if(doAnimate()) {
-                    if(event.getDetail() == CommandStack.PRE_UNDO || event.getDetail() == CommandStack.PRE_REDO) {
-                        if(isAnimatableCommand(event.getCommand())) {
-                            Animation.markBegin();
-                        }
-                    }
+                    int detail = event.getDetail();
                     
-                    else if(event.getDetail() == CommandStack.POST_UNDO || event.getDetail() == CommandStack.POST_REDO) {
-                        if(isAnimatableCommand(event.getCommand())) {
-                            Animation.run(animationSpeed());
-                        }
+                    if((detail == CommandStack.PRE_UNDO || detail == CommandStack.PRE_REDO) && isAnimatableCommand(event.getCommand())) {
+                        animatedCmd = event.getCommand();
+                        Animation.markBegin();
+                    }
+                    else if(animatedCmd == event.getCommand() && (detail == CommandStack.POST_UNDO || detail == CommandStack.POST_REDO)) {
+                        animatedCmd = null;
+                        Animation.run(animationSpeed());
                     }
                 }
-            }
-            
-            private boolean isAnimatableCommand(Command cmd) {
-                if(cmd instanceof CompoundCommand && ((CompoundCommand)cmd).canExecute()) {
-                    for(Object command : ((CompoundCommand)cmd).getCommands()) {
-                        if(!(command instanceof IAnimatableCommand)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                
-                return cmd instanceof IAnimatableCommand;
             }
         });
+    }
+    
+    private static boolean isAnimatableCommand(Command cmd) {
+        if(cmd instanceof IAnimatableCommand) {
+            return true;
+        }
+        
+        // If a CompoundCommand all sub-commands must be IAnimatableCommand
+        if(cmd instanceof CompoundCommand compoundCmd) {
+            return !compoundCmd.isEmpty() && compoundCmd.getCommands().stream()
+                                            .allMatch(subCmd -> isAnimatableCommand(subCmd)); // recurse
+        }
+        
+        return false;
     }
     
     /**
