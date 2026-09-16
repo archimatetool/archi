@@ -121,8 +121,8 @@ public class TreeModelViewActionFactory {
                 
                 // Specializations
                 actionList.add(null);
-                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getPhysicalClasses(), selectedFolder));
                 actionList.addAll(createSpecializationActions(ArchimateModelUtils.getTechnologyClasses(), selectedFolder));
+                actionList.addAll(createSpecializationActions(ArchimateModelUtils.getPhysicalClasses(), selectedFolder));
                 break;
 
             case OTHER:
