@@ -397,6 +397,7 @@ public class MagicConnectionCreationTool extends ConnectionCreationTool {
         addElementActions(menu, Messages.MagicConnectionCreationTool_0, sourceDiagramModelComponent, ArchimateModelUtils.getBusinessClasses());
         addElementActions(menu, Messages.MagicConnectionCreationTool_1, sourceDiagramModelComponent, ArchimateModelUtils.getApplicationClasses());
         addElementActions(menu, Messages.MagicConnectionCreationTool_2, sourceDiagramModelComponent, ArchimateModelUtils.getTechnologyClasses());
+        addElementActions(menu, Messages.MagicConnectionCreationTool_9, sourceDiagramModelComponent, ArchimateModelUtils.getPhysicalClasses());
         addElementActions(menu, Messages.MagicConnectionCreationTool_3, sourceDiagramModelComponent, ArchimateModelUtils.getMotivationClasses());
         addElementActions(menu, Messages.MagicConnectionCreationTool_4, sourceDiagramModelComponent, ArchimateModelUtils.getImplementationMigrationClasses());
         addElementActions(menu, Messages.MagicConnectionCreationTool_8, sourceDiagramModelComponent, getOtherAndConnectorClasses());
