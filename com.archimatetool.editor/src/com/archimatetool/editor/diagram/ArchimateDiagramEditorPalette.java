@@ -289,7 +289,7 @@ public class ArchimateDiagramEditorPalette extends AbstractPaletteRoot {
                     fElementEntries.add(group);
                 }
                 
-                ToolEntry entry = createElementCreationToolEntry(eClass, Messages.ArchimateDiagramEditorPalette_20);
+                ToolEntry entry = createElementCreationToolEntry(eClass, title);
                 group.add(entry);
             }
         }
