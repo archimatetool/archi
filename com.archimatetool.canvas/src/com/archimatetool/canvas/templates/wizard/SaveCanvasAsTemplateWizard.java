@@ -31,6 +31,7 @@ import com.archimatetool.canvas.templates.model.CanvasTemplateManager;
 import com.archimatetool.editor.diagram.commands.DiagramCommandFactory;
 import com.archimatetool.editor.model.IArchiveManager;
 import com.archimatetool.editor.utils.ZipUtils;
+import com.archimatetool.model.FolderType;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModelReference;
@@ -184,7 +185,6 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
     
     private void createTempModel(ICanvasModel canvasModel) {
         fModel = IArchimateFactory.eINSTANCE.createArchimateModel();
-        fModel.setDefaults();
         fModel.setVersion(ModelVersion.VERSION);
         fModel.setName(Messages.SaveCanvasAsTemplateWizard_4);
         
@@ -192,6 +192,13 @@ public class SaveCanvasAsTemplateWizard extends Wizard {
         fCanvasModel = createCanvasCopy(canvasModel);
         IFolder folder = fModel.getDefaultFolderForObject(fCanvasModel);
         folder.getElements().add(fCanvasModel);
+        
+        // Remove all folders except Views
+        for(IFolder f : new ArrayList<>(fModel.getFolders())) {
+            if(f.getType() != FolderType.DIAGRAMS) {
+                fModel.getFolders().remove(f);
+            }
+        }
         
         // Clone the ArchiveManager for thumbnail generation and saving
         IArchiveManager archiveManager = ((IArchiveManager)canvasModel.getAdapter(IArchiveManager.class)).clone(fModel);
