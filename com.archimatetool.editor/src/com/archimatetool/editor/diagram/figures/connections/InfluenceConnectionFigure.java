@@ -51,10 +51,11 @@ public class InfluenceConnectionFigure extends AbstractArchimateConnectionFigure
         // Show Strength after Name if we don't show it already by means of the text expression
         if(getModelConnection().isNameVisible()) {
             String text = getConnectionLabel().getText();
-            String strength = ((IInfluenceRelationship)getDiagramModelArchimateConnection().getArchimateRelationship()).getStrength();
+            String strength = ((IInfluenceRelationship)getModelConnection().getArchimateRelationship()).getStrength();
             if(StringUtils.isSet(strength) && !text.contains(strength)) {
                 text += " " + strength; //$NON-NLS-1$
                 getConnectionLabel().setText(text);
+                getFlowPage().setVisible(!text.isEmpty()); // set visible if has text
             }
         }
     }

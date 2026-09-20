@@ -13,11 +13,18 @@ import com.archimatetool.model.IDiagramModelArchimateConnection;
  * @author Phillip Beauvoir
  */
 public interface IArchimateConnectionFigure extends IDiagramConnectionFigure {
-    
+
     /**
      * @return The casted getModelConnection()
+     * @deprecated use getModelConnection()
      */
     default IDiagramModelArchimateConnection getDiagramModelArchimateConnection() {
-        return (IDiagramModelArchimateConnection)getModelConnection();
+        return getModelConnection();
     }
+    
+    /**
+     * @return the Archimate Model Connection
+     */
+    @Override
+    IDiagramModelArchimateConnection getModelConnection();
 }

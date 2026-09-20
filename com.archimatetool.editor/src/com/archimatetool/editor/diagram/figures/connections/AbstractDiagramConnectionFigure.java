@@ -109,11 +109,9 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
     public TextFlow getConnectionLabel() {
         if(textFlow == null) {
             textFlow = new TextFlow();
-            //fTextFlow.setLayoutManager(new ParagraphTextLayout(fTextFlow, ParagraphTextLayout.WORD_WRAP_HARD));
-            
             FlowPage flowPage = new FlowPage();
+            flowPage.setVisible(false); // if no text set this as not visible which optimises things
             flowPage.add(textFlow);
-            
             add(flowPage);
         }
         
@@ -159,6 +157,7 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         }
         
         getConnectionLabel().setText(text);
+        getFlowPage().setVisible(!text.isEmpty()); // set visible
     }
     
     /**

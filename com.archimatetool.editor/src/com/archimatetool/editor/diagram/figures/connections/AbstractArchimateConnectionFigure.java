@@ -13,6 +13,7 @@ import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.model.IArchimateRelationship;
 import com.archimatetool.model.IConnectable;
+import com.archimatetool.model.IDiagramModelArchimateConnection;
 import com.archimatetool.model.IDiagramModelArchimateObject;
 import com.archimatetool.model.IJunction;
 import com.archimatetool.model.viewpoints.ViewpointManager;
@@ -36,7 +37,7 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
 
         // Set Enabled according to current Viewpoint
         if(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.VIEWPOINTS_GHOST_DIAGRAM_ELEMENTS)) {
-            enabled = ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getDiagramModelArchimateConnection());
+            enabled = ViewpointManager.INSTANCE.isAllowedDiagramModelComponent(getModelConnection());
         }
         
         setEnabled(enabled);
@@ -55,6 +56,11 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
     }
 
     @Override
+    public IDiagramModelArchimateConnection getModelConnection() {
+        return (IDiagramModelArchimateConnection)super.getModelConnection();
+    }
+    
+    @Override
     public IFigure getToolTip() {
         ToolTipFigure toolTipFigure = (ToolTipFigure)super.getToolTip();
         
@@ -62,7 +68,7 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
             return null;
         }
         
-        IArchimateRelationship relation = getDiagramModelArchimateConnection().getArchimateRelationship();
+        IArchimateRelationship relation = getModelConnection().getArchimateRelationship();
         
         String text = ArchiLabelProvider.INSTANCE.getLabel(relation);
         toolTipFigure.setText(text);

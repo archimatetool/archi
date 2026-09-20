@@ -58,7 +58,7 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
         boolean usePlainArrowHeadOnJunction = usePlainJunctionTargetDecoration();
         
         // Access type
-        IAccessRelationship relation = (IAccessRelationship)getDiagramModelArchimateConnection().getArchimateRelationship();
+        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();
         switch(relation.getAccessType()) {
             case IAccessRelationship.WRITE_ACCESS:
             default:
@@ -96,7 +96,7 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
         
         // Show access type in tooltip
         
-        IAccessRelationship relation = (IAccessRelationship)getDiagramModelArchimateConnection().getArchimateRelationship();
+        IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();
         String type = ArchiLabelProvider.INSTANCE.getDefaultName(relation.eClass());
         
         switch(relation.getAccessType()) {
