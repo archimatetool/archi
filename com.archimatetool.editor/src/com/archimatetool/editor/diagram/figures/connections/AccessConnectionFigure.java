@@ -55,7 +55,7 @@ public class AccessConnectionFigure extends AbstractArchimateConnectionFigure {
     
     @Override
     public void refreshVisuals() {
-        boolean usePlainArrowHeadOnJunction = usePlainJunctionTargetDecoration();
+        boolean usePlainArrowHeadOnJunction = usePlainJunctionDecoration(getModelConnection().getTarget());
         
         // Access type
         IAccessRelationship relation = (IAccessRelationship)getModelConnection().getArchimateRelationship();

@@ -86,8 +86,8 @@ public class AssignmentConnectionFigure extends AbstractArchimateConnectionFigur
 
     @Override
     public void refreshVisuals() {
-        setSourceDecoration(usePlainJunctionSourceDecoration() ? null : fDecoratorSource);
-        setTargetDecoration(usePlainJunctionTargetDecoration() ? null : fDecoratorTarget);
+        setSourceDecoration(usePlainJunctionDecoration(getModelConnection().getSource()) ? null : fDecoratorSource);
+        setTargetDecoration(usePlainJunctionDecoration(getModelConnection().getTarget()) ? null : fDecoratorTarget);
         
         // This last
         super.refreshVisuals();

@@ -83,37 +83,13 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
     }
     
     /**
-     * @return true if the option is set to hide incoming target connection arrows on a Junction
+     * @return true if the option is set to hide incoming connection arrows on a Junction
      */
-    protected boolean usePlainJunctionTargetDecoration() {
-        IConnectable target = getModelConnection().getTarget();
-        
-        if(target instanceof IDiagramModelArchimateObject && ((IDiagramModelArchimateObject)target).getArchimateElement() instanceof IJunction) {
-            return target
-                   .getFeatures()
-                   .getBoolean(IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS,
-                           IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS_DEFAULT);
-
+    protected boolean usePlainJunctionDecoration(IConnectable node) {
+        if(node instanceof IDiagramModelArchimateObject dmao && dmao.getArchimateElement() instanceof IJunction) {
+            return dmao.getFeatures().getBoolean(IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS,
+                                                 IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS_DEFAULT);
         }
-        
         return false;
     }
-    
-    /**
-     * @return true if the option is set to hide outgoing source connection ends on a Junction
-     */
-    protected boolean usePlainJunctionSourceDecoration() {
-        IConnectable source = getModelConnection().getSource();
-        
-        if(source instanceof IDiagramModelArchimateObject && ((IDiagramModelArchimateObject)source).getArchimateElement() instanceof IJunction) {
-            return source
-                   .getFeatures()
-                   .getBoolean(IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS,
-                           IDiagramModelArchimateObject.FEATURE_HIDE_JUNCTION_ARROWS_DEFAULT);
-
-        }
-        
-        return false;
-    }
-
 }

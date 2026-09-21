@@ -56,7 +56,7 @@ public class RealizationConnectionFigure extends AbstractArchimateConnectionFigu
     
     @Override
     public void refreshVisuals() {
-        setTargetDecoration(usePlainJunctionTargetDecoration() ? null : fDecoratorTarget);
+        setTargetDecoration(usePlainJunctionDecoration(getModelConnection().getTarget()) ? null : fDecoratorTarget);
         
         // This last
         super.refreshVisuals();
