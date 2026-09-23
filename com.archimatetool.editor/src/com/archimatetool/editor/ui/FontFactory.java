@@ -8,12 +8,12 @@ package com.archimatetool.editor.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.widgets.Display;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
@@ -52,26 +52,6 @@ public final class FontFactory {
      * Cache of scaled font data strings
      */
     private static Map<String, String> scaledFonts = new HashMap<>();
-    
-    /**
-     * DPI scale factor for Mac
-     */
-    private static final int MAC_DPI = 72;
-    
-    /**
-     * Current DPI for Windows
-     */
-    private static final int WINDOWS_DPI = Display.getCurrent().getDPI().y;
-    
-    /**
-     * Nominal DPI on Windows and Linux
-     */
-    private static final int DPI_96 = 96;
-    
-    /**
-     * Scale fonts on Windows if current DPI is not 96
-     */
-    private static final boolean SCALE_FONTS_WINDOWS = PlatformUtils.isWindows() && WINDOWS_DPI != DPI_96;
     
     /**
      * @deprecated since 5.8.0 use {@link #get(String, Font)
@@ -116,14 +96,14 @@ public final class FontFactory {
      * @since 5.8.0
      */
     public static Font getViewFont(String fontDataString) {
-        // Scale Font height on Windows if not DPI 96 and on Mac if scaling preference is set
-        if(SCALE_FONTS_WINDOWS || (PlatformUtils.isMac() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING))) {
+        // Scale Font height on Mac if scaling preference is set
+        if(PlatformUtils.isMac() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING)) {
             // A null fontDataString signifies "default" so get the default user font data string so we can scale that up
             if(fontDataString == null || fontDataString.isBlank()) {
                 fontDataString = getDefaultUserViewFontData().toString();
             }
             // Return scaled font data string
-            fontDataString = getScaledFontDataString(fontDataString, PlatformUtils.isWindows() ? WINDOWS_DPI : MAC_DPI);
+            fontDataString = getScaledFontDataString(fontDataString);
         }
         
         return get(fontDataString, getDefaultUserViewFont());
@@ -161,21 +141,11 @@ public final class FontFactory {
      * @return The default font to use in diagrams (Views) for each OS
      */
     public static FontData getDefaultViewOSFontData() {
-        // Windows
-        if(PlatformUtils.isWindows()) {
-            return new FontData("Segoe UI", 9, SWT.NORMAL);
-        }
-        // Mac
-        else if(PlatformUtils.isMac()) {
-            return getDefaultViewOSFontData(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING));
-        }
-        // Linux
-        else if(PlatformUtils.isLinux()) {
-            return new FontData("Sans", 9, SWT.NORMAL);
-        }
-
-        // Default
-        return new FontData("Sans", 9, SWT.NORMAL);
+        return switch(Platform.getOS()) {
+            case Platform.OS_WIN32 -> new FontData("Segoe UI", 9, SWT.NORMAL);
+            case Platform.OS_MACOSX -> getDefaultViewOSFontData(ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.FONT_SCALING));
+            default -> new FontData("Sans", 9, SWT.NORMAL); // and Linux
+        };
     }
     
     /**
@@ -248,15 +218,15 @@ public final class FontFactory {
     /**
      * @return a FontData string scaled from DPI.
      */
-    private static String getScaledFontDataString(String fontDataString, int dpi) {
-        if(fontDataString == null || dpi == DPI_96) { // No point in scaling 96 / 96
+    private static String getScaledFontDataString(String fontDataString) {
+        if(fontDataString == null) {
             return fontDataString;
         }
         
         return scaledFonts.computeIfAbsent(fontDataString, key -> {
             try {
                 FontData fd = new FontData(fontDataString);    // Create FontData
-                int newHeight = (fd.getHeight() * DPI_96) / dpi;   // New height is FontData height * 96 / DPI
+                int newHeight = (fd.getHeight() * 96) / 72;    // New height is FontData height * 96 / DPI
                 fd.setHeight(newHeight);
                 return fd.toString();
             }
