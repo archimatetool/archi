@@ -61,7 +61,9 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Text fTreeDisplayIncrementText;
     
     private Button fAddDocumentationNoteButton;
+    
     private Button fScaleImagesButton;
+    private Button fUpscaleImagesButton;
     
     private Button fUseEdgeBrowserButton;
     
@@ -170,6 +172,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fScaleImagesButton.setText(Messages.GeneralPreferencePage_13);
         fScaleImagesButton.setToolTipText(Messages.GeneralPreferencePage_14);
         
+        if(PlatformUtils.isWindows()) {
+            fUpscaleImagesButton = new Button(otherGroup, SWT.CHECK);
+            fUpscaleImagesButton.setText(Messages.GeneralPreferencePage_30);
+            fUpscaleImagesButton.setToolTipText(Messages.GeneralPreferencePage_31);
+        }
+        
         // Internal Browser
         Group browserGroup = new Group(client, SWT.NULL);
         browserGroup.setText(Messages.GeneralPreferencePage_19);
@@ -272,6 +280,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
 
         fScaleImagesButton.setSelection(getPreferenceStore().getBoolean(SCALE_IMAGE_EXPORT));
         
+        if(fUpscaleImagesButton != null) {
+            fUpscaleImagesButton.setSelection(getPreferenceStore().getBoolean(UPSCALE_IMAGE_EXPORT));
+        }
+        
         fAddDocumentationNoteButton.setSelection(getPreferenceStore().getBoolean(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
         
         if(fUseEdgeBrowserButton != null) {
@@ -306,6 +318,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, fUseLabelExpressionsButton.getSelection());
         
         getPreferenceStore().setValue(SCALE_IMAGE_EXPORT, fScaleImagesButton.getSelection());
+        
+        if(fUpscaleImagesButton != null) {
+            getPreferenceStore().setValue(UPSCALE_IMAGE_EXPORT, fUpscaleImagesButton.getSelection());
+        }
         
         getPreferenceStore().setValue(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, fAddDocumentationNoteButton.getSelection());
         
@@ -343,6 +359,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fUseLabelExpressionsButton.setSelection(getPreferenceStore().getDefaultBoolean(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE));
         
         fScaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(SCALE_IMAGE_EXPORT));
+        
+        if(fUpscaleImagesButton != null) {
+            fUpscaleImagesButton.setSelection(getPreferenceStore().getDefaultBoolean(UPSCALE_IMAGE_EXPORT));
+        }
         
         fAddDocumentationNoteButton.setSelection(getPreferenceStore().getDefaultBoolean(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE));
         

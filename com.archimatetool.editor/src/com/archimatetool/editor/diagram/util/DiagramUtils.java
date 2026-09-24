@@ -20,14 +20,18 @@ import org.eclipse.swt.graphics.AutoscalingMode;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.DiagramEditorFactoryExtensionHandler;
 import com.archimatetool.editor.diagram.IDiagramEditorFactory;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
+import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ISketchModel;
@@ -70,7 +74,10 @@ public final class DiagramUtils {
         }
         
         GraphicalViewerImpl viewer = new GraphicalViewerImpl();
-        viewer.createControl(parent).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops text clipping on Windows
+        Control control = viewer.createControl(parent);
+        if(!useImageOperation()) {
+            control.setAutoscalingMode(AutoscalingMode.ENABLED);  // Stops text clipping on Windows but text height can be increased
+        }
         
         viewer.setEditPartFactory(editPartFactory);
         
@@ -157,7 +164,21 @@ public final class DiagramUtils {
         
         // Set figure scale for AbstractDiagramModelObjectFigure children
         setFigureScale(figure, scale);
+
+        // Use Image Operation
+        if(useImageOperation()) {
+            Shell shell = new Shell(); // Don't use a Singleton Shell because its getZoom() method is invalid if display scale is changed
+            try {
+                ImagePrintFigureOperation op = new ImagePrintDiagramOperation(shell, figure, scale, bounds);
+                Image image = op.run();
+                return new ModelReferencedImage(image, bounds);   
+            }
+            finally {
+                shell.dispose();
+            }
+        }
         
+        // Use normal grophics method
         Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale));
         GC gc = new GC(image);
         SWTGraphics graphics = new SWTGraphics(gc);
@@ -233,5 +254,12 @@ public final class DiagramUtils {
         }
         
         return minimumBounds;
+    }
+    
+    /**
+     * @return true if preference set to use Image Operation
+     */
+    public static boolean useImageOperation() {
+        return FigureUtils.isAutoScaleEnabled() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.UPSCALE_IMAGE_EXPORT);
     }
 }

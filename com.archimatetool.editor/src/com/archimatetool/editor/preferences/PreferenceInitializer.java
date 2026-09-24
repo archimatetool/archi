@@ -134,8 +134,12 @@ implements IPreferenceConstants {
         store.setDefault(USE_LABEL_EXPRESSIONS_IN_ANALYSIS_TABLE, true);
 
         store.setDefault(ADD_DOCUMENTATION_NOTE_ON_RELATION_CHANGE, false);
+        
         // Windows and Mac use display scaling, Linux is 100% scaling
         store.setDefault(SCALE_IMAGE_EXPORT, PlatformUtils.isLinux() ? false : true);
+        
+        // On Windows
+        store.setDefault(UPSCALE_IMAGE_EXPORT, false);
         
         // Animation
         store.setDefault(ANIMATE_VIEW, false);
