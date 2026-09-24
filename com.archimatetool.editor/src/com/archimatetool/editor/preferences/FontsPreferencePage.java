@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -28,7 +27,6 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
@@ -48,7 +46,6 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.IArchiImages;
 import com.archimatetool.editor.ui.ThemeUtils;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
 /**
@@ -164,11 +161,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         @Override
         FontData getSystemFontData() {
-            // If using scaling get the scaled font size
-            if(fScaleFontsButton != null) {
-                return FontFactory.getDefaultViewOSFontData(fScaleFontsButton.getSelection());
-            }
-            
             return FontFactory.getDefaultViewOSFontData();
         }
     }
@@ -208,27 +200,13 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
             disposeLabelFont();
         });
         
-        // Scale fonts in Views on Mac
-        if(PlatformUtils.isMac()) {
-            fScaleFontsButton = new Button(client, SWT.CHECK);
-            fScaleFontsButton.setText(Messages.FontsPreferencePage_22);
-            fScaleFontsButton.setToolTipText(Messages.FontsPreferencePage_23);
-            fScaleFontsButton.setSelection(getPreferenceStore().getBoolean(FONT_SCALING));
-            fScaleFontsButton.setLayoutData(GridDataFactory.defaultsFor(fScaleFontsButton).span(2, 1).create());
-            
-            // When the button is selected update the default font if it is the current font
-            fScaleFontsButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
-                FontInfo fontInfo = getFontInfo(DEFAULT_VIEW_FONT);
-                
-                // If the current font data equals the system default font data reset it
-                // !fScaleFontsButton.getSelection() is the value before the click
-                if(Objects.equals(fontInfo.getFontData(), FontFactory.getDefaultViewOSFontData(!fScaleFontsButton.getSelection()))) {
-                    fontInfo.performDefault();
-                    fTableViewer.setSelection(fTableViewer.getSelection());
-                }
-            }));
-        }
-        
+        // Scale fonts in Views
+        fScaleFontsButton = new Button(client, SWT.CHECK);
+        fScaleFontsButton.setText(Messages.FontsPreferencePage_22);
+        fScaleFontsButton.setToolTipText(Messages.FontsPreferencePage_23);
+        fScaleFontsButton.setSelection(getPreferenceStore().getBoolean(FONT_SCALING));
+        fScaleFontsButton.setLayoutData(GridDataFactory.defaultsFor(fScaleFontsButton).span(2, 1).create());
+
         // Table
         createTable(client);
         
@@ -453,19 +431,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fontInfos.add(new FontInfo(Messages.FontsPreferencePage_19, Messages.FontsPreferencePage_20, ANALYSIS_TABLE_FONT));
     }
     
-    /**
-     * @return a FontInfo by its fontDefinitionId
-     */
-    private FontInfo getFontInfo(String fontDefinitionId) {
-        for(FontInfo fontInfo : fontInfos) {
-            if(Objects.equals(fontInfo.fontDefinitionId, fontDefinitionId)) {
-                return fontInfo;
-            }
-        }
-        
-        return null;
-    }
-    
     private FontData openFontDialog(FontInfo fontInfo) {
         FontDialog dialog = new FontDialog(fTableViewer.getControl().getShell());
         dialog.setEffectsVisible(false); // Don't allow underline/strikeout on Windows. See https://github.com/archimatetool/archi/issues/851
@@ -476,9 +441,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public void performDefaults() {
-        if(fScaleFontsButton != null) {
-            fScaleFontsButton.setSelection(getPreferenceStore().getDefaultBoolean(FONT_SCALING));
-        }
+        fScaleFontsButton.setSelection(getPreferenceStore().getDefaultBoolean(FONT_SCALING));
         
         for(FontInfo info : fontInfos) {
             info.performDefault();
@@ -496,9 +459,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
-        if(fScaleFontsButton != null) {
-            getPreferenceStore().setValue(FONT_SCALING, fScaleFontsButton.getSelection());
-        }
+        getPreferenceStore().setValue(FONT_SCALING, fScaleFontsButton.getSelection());
         
         for(FontInfo info : fontInfos) {
             info.performOK();

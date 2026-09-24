@@ -238,9 +238,9 @@ public class FontChooser extends EventManager {
     }
     
     protected void updateFont() {
-        fFontData = FontFactory.getDefaultUserViewFontData();
+        fFontData = FontFactory.getDefaultUserViewFontData(); // default
         
-        String fontValue = fFontObject.getFont();
+        String fontValue = FontFactory.getScaledFontDataString(fFontObject.getFont());
         if(fontValue != null) {
             try {
                 fFontData = new FontData(fontValue);

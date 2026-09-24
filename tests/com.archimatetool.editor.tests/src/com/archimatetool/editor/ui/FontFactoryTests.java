@@ -119,37 +119,43 @@ public class FontFactoryTests {
         assertNotNull(FontFactory.getDefaultViewOSFontData());
     }
     
+    private String macFont = "1|Arial|12.0|0|COCOA|1|";
+    private String linuxFont = "1|Arial|9.0|0|GTK|1|";
+    private String windowsFont = "1|Arial|9.0|0|WINDOWS|1|0|0|0|0|0|0|0|0|1|0|0|0|0|Arial";
+    
     @Test
-    @EnabledOnOs(OS.MAC)
-    public void getDefaultViewOSFontData_Mac_With_Preference() {
-        // No scaling 12 height
-        FontData fd = FontFactory.getDefaultViewOSFontData();
-        assertEquals(12, fd.height);
-        
-        // With scaling on font height should be 9
-        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.FONT_SCALING, true);
-        fd = FontFactory.getDefaultViewOSFontData();
-        assertEquals(9, fd.height);
-        
-        // Restore this
+    public void getScaledFontDataString_Same_If_Preference_False() {
         ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.FONT_SCALING, false);
-    }
-
-    @Test
-    public void getDefaultViewOSFontData_Scaling_False() {
-        assertEquals(FontFactory.getDefaultViewOSFontData(), FontFactory.getDefaultViewOSFontData(false));
+        assertEquals(macFont, FontFactory.getScaledFontDataString(macFont));
+        assertEquals(linuxFont, FontFactory.getScaledFontDataString(linuxFont));
+        assertEquals(windowsFont, FontFactory.getScaledFontDataString(windowsFont));
     }
 
     @Test
     @EnabledOnOs(OS.MAC)
-    public void getDefaultViewOSFontData_Scaling_Mac() {
-        // No scaling 12 height
-        FontData fd = FontFactory.getDefaultViewOSFontData(false);
-        assertEquals(12, fd.height);
-        
-        // With scaling on font height should be 9
-        fd = FontFactory.getDefaultViewOSFontData(true);
-        assertEquals(9, fd.height);
+    public void getScaledFontDataString_Mac() {
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.FONT_SCALING, true);
+        assertEquals(macFont, FontFactory.getScaledFontDataString(macFont));
+        assertEquals(macFont, FontFactory.getScaledFontDataString(linuxFont));
+        assertEquals(macFont, FontFactory.getScaledFontDataString(windowsFont));
+    }
+
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    public void getScaledFontDataString_Windows() {
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.FONT_SCALING, true);
+        assertEquals(windowsFont, FontFactory.getScaledFontDataString(macFont));
+        assertEquals(linuxFont, FontFactory.getScaledFontDataString(linuxFont));
+        assertEquals(windowsFont, FontFactory.getScaledFontDataString(windowsFont));
+    }
+
+    @Test
+    @EnabledOnOs(OS.LINUX)
+    public void getScaledFontDataString_Linux() {
+        ArchiPlugin.getInstance().getPreferenceStore().setValue(IPreferenceConstants.FONT_SCALING, true);
+        assertEquals(linuxFont, FontFactory.getScaledFontDataString(macFont));
+        assertEquals(linuxFont, FontFactory.getScaledFontDataString(linuxFont));
+        assertEquals(windowsFont, FontFactory.getScaledFontDataString(windowsFont));
     }
 
     @Test

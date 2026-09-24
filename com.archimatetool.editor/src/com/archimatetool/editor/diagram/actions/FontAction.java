@@ -52,12 +52,9 @@ public class FontAction extends SelectionAction {
             return;
         }
 
-        // Set default font on first selected object
-        FontData fontData = FontFactory.getDefaultUserViewFontData();
-        String rgbValue = null;
+        FontData fontData = FontFactory.getDefaultUserViewFontData(); // default
         
-        rgbValue = fontObject.getFontColor();
-        String fontValue = fontObject.getFont();
+        String fontValue = FontFactory.getScaledFontDataString(fontObject.getFont());
         if(fontValue != null) {
             try {
                 fontData = new FontData(fontValue);
@@ -71,7 +68,7 @@ public class FontAction extends SelectionAction {
         dialog.setText(Messages.FontAction_1);
         dialog.setEffectsVisible(false); // Don't allow underline/strikeout on Windows. See https://github.com/archimatetool/archi/issues/851
         dialog.setFontList(new FontData[] { fontData } );
-        dialog.setRGB(ColorFactory.convertStringToRGB(rgbValue));
+        dialog.setRGB(ColorFactory.convertStringToRGB(fontObject.getFontColor()));
 
         FontData selectedFontData = dialog.open();
         if(selectedFontData == null) {
