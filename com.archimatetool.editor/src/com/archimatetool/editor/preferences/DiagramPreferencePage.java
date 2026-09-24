@@ -40,7 +40,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private Button fViewTooltipsButton;
     private Button fEditNameOnNewObjectButton;
     private Button fShowSpecializationsPaletteButton;
-    private Button fQuickAddButton;
         
     private Button fViewpointsFilterModelTreeButton;
     private Button fViewpointsHidePaletteElementsButton;
@@ -114,11 +113,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fShowSpecializationsPaletteButton.setText(Messages.DiagramPreferencePage_9);
         GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fShowSpecializationsPaletteButton);
         
-        // Trigger to add new element
-        fQuickAddButton = new Button(viewGroup, SWT.CHECK);
-        fQuickAddButton.setText(Messages.DiagramPreferencePage_3);
-        GridDataFactory.create(GridData.FILL_HORIZONTAL).span(2, 1).applyTo(fQuickAddButton);
-        
         // -------------- Viewpoints ----------------------------
 
         Group viewpointsGroup = new Group(client, SWT.NULL);
@@ -181,7 +175,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewTooltipsButton.setSelection(getPreferenceStore().getBoolean(VIEW_TOOLTIPS));
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getBoolean(EDIT_NAME_ON_NEW_OBJECT));
         fShowSpecializationsPaletteButton.setSelection(getPreferenceStore().getBoolean(SHOW_SPECIALIZATIONS_IN_PALETTE));
-        fQuickAddButton.setSelection(getPreferenceStore().getBoolean(SHOW_QUICK_ADD_ON_TRIGGER));
         
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));
@@ -212,7 +205,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         getPreferenceStore().setValue(VIEW_TOOLTIPS, fViewTooltipsButton.getSelection());
         getPreferenceStore().setValue(EDIT_NAME_ON_NEW_OBJECT, fEditNameOnNewObjectButton.getSelection());
         getPreferenceStore().setValue(SHOW_SPECIALIZATIONS_IN_PALETTE, fShowSpecializationsPaletteButton.getSelection());
-        getPreferenceStore().setValue(SHOW_QUICK_ADD_ON_TRIGGER, fQuickAddButton.getSelection());
         
         getPreferenceStore().setValue(VIEWPOINTS_FILTER_MODEL_TREE, fViewpointsFilterModelTreeButton.getSelection());
         getPreferenceStore().setValue(VIEWPOINTS_HIDE_PALETTE_ELEMENTS, fViewpointsHidePaletteElementsButton.getSelection());
@@ -243,7 +235,6 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         fViewTooltipsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEW_TOOLTIPS));
         fEditNameOnNewObjectButton.setSelection(getPreferenceStore().getDefaultBoolean(EDIT_NAME_ON_NEW_OBJECT));
         fShowSpecializationsPaletteButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_SPECIALIZATIONS_IN_PALETTE));
-        fQuickAddButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_QUICK_ADD_ON_TRIGGER));
         
         fViewpointsFilterModelTreeButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_FILTER_MODEL_TREE));
         fViewpointsHidePaletteElementsButton.setSelection(getPreferenceStore().getDefaultBoolean(VIEWPOINTS_HIDE_PALETTE_ELEMENTS));

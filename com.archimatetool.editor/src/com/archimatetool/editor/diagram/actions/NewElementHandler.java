@@ -13,7 +13,6 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
@@ -44,7 +43,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -103,16 +101,10 @@ public class NewElementHandler extends AbstractHandler {
         
         Control viewerControl = editor.getGraphicalViewer().getControl();
         
-        // If x,y is set in the trigger Event it was triggered from the editor
-        if(event.getTrigger() instanceof Event e && e.x != 0 && e.y != 0) {
-            cursorLocation = viewerControl.toDisplay(e.x, e.y);
-        }
-        // Else the trigger was the shortcut key so get display cursor location if in viewer control
-        else {
-            cursorLocation = getCursorLocation(viewerControl);
-            if(cursorLocation == null) { // Not in viewer control
-                return null;
-            }
+        // Get the cursor location
+        cursorLocation = getCursorLocation(viewerControl);
+        if(cursorLocation == null) { // Not in viewer control
+            return null;
         }
         
         dialog = new Shell(viewerControl.getShell(), SWT.MODELESS); // Get parent shell from GraphicalViewer in case we are in full screen mode on Windows
@@ -253,8 +245,8 @@ public class NewElementHandler extends AbstractHandler {
         // Get the edit part onto which to create the element
         GraphicalEditPart editPart = (GraphicalEditPart)editor.getGraphicalViewer().findObjectAt(pt);
         
-        // If the edit part is selected and is a container type use that else use root
-        if(editPart == null || editPart.getSelected() == EditPart.SELECTED_NONE || !(editPart.getModel() instanceof IDiagramModelContainer)) {
+        // If the edit part is a container type use that else use root
+        if(editPart == null /*|| editPart.getSelected() == EditPart.SELECTED_NONE*/ || !(editPart.getModel() instanceof IDiagramModelContainer)) {
             editPart = (GraphicalEditPart)viewer.getRootEditPart().getContents(); // ArchimateDiagramPart
         }
 

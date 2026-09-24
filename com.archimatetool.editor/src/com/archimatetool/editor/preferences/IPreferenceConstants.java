@@ -104,7 +104,6 @@ public interface IPreferenceConstants {
     String VIEW_TOOLTIPS = "viewTooltips";
     String EDIT_NAME_ON_NEW_OBJECT = "editNameOnNewObject";
     String SHOW_SPECIALIZATIONS_IN_PALETTE = "showSpecializationsInPalette";
-    String SHOW_QUICK_ADD_ON_TRIGGER = "showQuickAddOnTrigger";
 
     String DIAGRAM_OBJECT_RESIZE_BEHAVIOUR = "resizeBehaviour"; 
     String DIAGRAM_PASTE_SPECIAL_BEHAVIOR = "pasteSpecialBehavior";
