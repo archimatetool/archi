@@ -22,7 +22,9 @@ import org.eclipse.nebula.jface.gridviewer.GridTableViewer;
 import org.eclipse.nebula.widgets.grid.ColumnSelector;
 import org.eclipse.nebula.widgets.grid.Grid;
 import org.eclipse.nebula.widgets.grid.GridColumn;
+import org.eclipse.nebula.widgets.grid.internal.DefaultTopLeftRenderer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -89,6 +91,37 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         grid.setRowHeaderVisible(true);
         grid.setRowsResizeable(true);
         grid.setCellSelectionEnabled(true);
+        
+        // From To in top left cell
+        grid.setTopLeftRenderer(new DefaultTopLeftRenderer() {
+            @Override
+            public void paint(GC gc, Object value) {
+                super.paint(gc, value);
+                gc.setForeground(getDisplay().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND));
+                
+                int startX = getBounds().x;
+                int startY = getBounds().y;
+                int cellWidth = getBounds().width;
+                int cellHeight = getBounds().height;
+                
+                String rowLabel = "From \u2193"; //$NON-NLS-1$
+                String colLabel = "To \u2192";   //$NON-NLS-1$
+                
+                // Calculate dimensions so labels sit neatly in corners
+                Point rowExtent = gc.stringExtent(rowLabel);
+                Point colExtent = gc.stringExtent(colLabel);
+                
+                // Bottom-Left calculation for Row header hint:
+                int rowX = startX + 6;
+                int rowY = startY + cellHeight - rowExtent.y - 3;
+                gc.drawString(rowLabel, rowX, rowY, true);
+
+                // Top-Right calculation for Column header hint:
+                int colX = startX + cellWidth - colExtent.x - 6; 
+                int colY = startY + 1;
+                gc.drawString(colLabel, colX, colY, true);
+            }
+        });
         
         // Relationships letter keys
         Label label = new Label(client, SWT.NONE);
@@ -163,6 +196,7 @@ public class RelationshipsMatrixDialog extends ExtendedTitleAreaDialog {
         // Pack columns here not in createDialogArea
         for(GridColumn column : grid.getColumns()) {
             column.pack();
+            column.setWidth(column.getWidth() + 3); // Add some padding
         }
     }
     
