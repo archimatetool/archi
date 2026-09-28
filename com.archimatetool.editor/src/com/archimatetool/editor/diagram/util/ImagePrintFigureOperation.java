@@ -132,8 +132,8 @@ public class ImagePrintFigureOperation {
 	 *
 	 * @return {@code true} if Draw2D-based scaling is enabled.
 	 */
-	@SuppressWarnings({"static-method", "restriction"})
-	protected boolean isDraw2DAutoScalingEnabled() {
+	@SuppressWarnings("restriction")
+    protected boolean isDraw2DAutoScalingEnabled() {
 		return InternalDraw2dUtils.isAutoScaleEnabled();
 	}
 
