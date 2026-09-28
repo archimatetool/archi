@@ -6,10 +6,12 @@
 package com.archimatetool.editor.preferences;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.PreferencePage;
@@ -18,7 +20,6 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
@@ -27,9 +28,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -40,6 +39,7 @@ import com.archimatetool.editor.ui.FigureImagePreviewFactory;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
+import com.archimatetool.model.util.ArchimateModelUtils;
 
 
 /**
@@ -52,31 +52,38 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private static String HELP_ID = "com.archimatetool.help.prefsDiagram"; //$NON-NLS-1$
     
-    private List<ImageChoice> fChoices = new ArrayList<ImageChoice>();
+    private final List<ImageChoice> imageChoices = new ArrayList<>();
     
-    private TableViewer fTableViewer;
+    private TableViewer tableViewer;
     
-    private final int itemWidth = 180;
-    private final int itemHeight = 72;
+    private final int ITEM_WIDTH = 180;
+    private final int ITEM_HEIGHT = 72;
+    private final int ALPHA = 100;
+    private final Color HILITE_COLOR = new Color(78, 178, 255);
     
-    private Color hiliteColor = new Color(78, 178, 255);
-    
-    private class ImageChoice {
-        String name;
-        String preferenceKey;
-        int chosenType = 0;
-        Image[] images = new Image[2];
+    private static class ImageChoice {
+        private final EClass eClass;
+        private final String preferenceKey;
+        private int chosenType = 0;
+        private final Image[] images = new Image[2];
         
         ImageChoice(IObjectUIProvider provider) {
-            name = provider.getDefaultName();
-            this.preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + provider.providerFor().getName();
+            eClass = provider.providerFor();
+            preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + provider.providerFor().getName();
             images[0] = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 0);
             images[1] = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 1);
             chosenType = ArchiPlugin.getInstance().getPreferenceStore().getInt(preferenceKey);
         }
         
-        Image getImage(int index) {
-            return images[index];
+        EClass eClass() { return eClass; }
+        String preferenceKey() { return preferenceKey; }
+        int chosenType() { return chosenType; }
+        void setChosenType(int chosenType) { this.chosenType = chosenType; }
+        Image getImage(int index) { return images[index]; }
+        
+        void dispose() {
+            images[0].dispose();
+            images[1].dispose();
         }
     }
     
@@ -115,7 +122,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         createTable(client2);
         
-        fTableViewer.setInput(fChoices);
+        tableViewer.setInput(imageChoices);
         
         // Weird bug on Windows where the table and scroll bars are sometimes not drawn correctly
         Display.getCurrent().asyncExec(() -> {
@@ -128,118 +135,100 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private void loadFigures() {
         // Find Providers that have alternate figures
         for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) {
-            if(provider instanceof IArchimateElementUIProvider && ((IArchimateElementUIProvider)provider).hasAlternateFigure()) {
-                fChoices.add(new ImageChoice(provider));
+            if(provider instanceof IArchimateElementUIProvider uiProvider && uiProvider.hasAlternateFigure()) {
+                imageChoices.add(new ImageChoice(uiProvider));
             }
         }
         
-        // Sort them by name
-        Collections.sort(fChoices, new Comparator<ImageChoice>() {
-            @Override
-            public int compare(ImageChoice o1, ImageChoice o2) {
-                return o1.name.compareTo(o2.name);
-            }
-        });
+        // Sort the figures by EClass order
+        
+        // Create a look-up map for fast index retrieval
+        Map<EClass, Integer> classOrderMap = new HashMap<>();
+        int index = 0;
+        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
+            classOrderMap.put(eClass, index++);
+        }
+
+        // Sort the list using a custom comparator
+        imageChoices.sort(Comparator.comparingInt(choice -> classOrderMap.getOrDefault(choice.eClass(), Integer.MAX_VALUE)));
     }
     
     private void createTable(Composite parent) {
-        fTableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
+        tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
         
         TableColumnLayout layout = (TableColumnLayout)parent.getLayout();
-        TableViewerColumn column = new TableViewerColumn(fTableViewer, SWT.NONE);
+        TableViewerColumn column = new TableViewerColumn(tableViewer, SWT.NONE);
         layout.setColumnData(column.getColumn(), new ColumnWeightData(100, false));
         
         // Fix row height
         // This is definitely needed on some Linux versions where the row height is stuck at 17 for some reason
-        fTableViewer.getTable().addListener(SWT.MeasureItem, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                event.height = itemHeight;
-             }
+        tableViewer.getTable().addListener(SWT.MeasureItem, event -> {
+            event.height = ITEM_HEIGHT;
         });
         
-        fTableViewer.getTable().addListener(SWT.PaintItem, new Listener() {
-            int alpha = 100;
-            
-            @Override
-            public void handleEvent(Event event) {
-                TableItem item = (TableItem)event.item;
-                if(item == null) {
-                    return;
-                }
-                
-                event.gc.setAntialias(SWT.ON);
-                
-                int row = fTableViewer.getTable().indexOf(item);
-                
-                ImageChoice ic = fChoices.get(row);
-                
-                Image image1 = ic.getImage(0);
-                int x = (itemWidth / 2) - (image1.getBounds().width / 2);
-                event.gc.setAlpha(ic.chosenType == 0 ? 255 : alpha);
-                event.gc.drawImage(image1, event.x + x, event.y + (itemHeight - image1.getBounds().height) / 2);
-                
-                Image image2 = ic.getImage(1);
-                x = itemWidth + ((itemWidth / 2) - (image2.getBounds().width / 2));
-                event.gc.setAlpha(ic.chosenType == 1 ? 255 : alpha);
-                event.gc.drawImage(image2, event.x + x, event.y + (itemHeight - image2.getBounds().height) / 2);
-                
-                // Highlight rectangle
-                int highlight_x = ic.chosenType == 0 ? 20 : itemWidth + 20;
-                event.gc.setForeground(hiliteColor);
-                event.gc.setAlpha(255);
-                event.gc.setLineWidth(2);
-                event.gc.drawRoundRectangle(event.x + highlight_x, event.y + 2, event.x + itemWidth - 39, itemHeight - 3,
-                        15, 15);
-             }
+        tableViewer.getTable().addListener(SWT.PaintItem, event -> {
+            TableItem item = (TableItem)event.item;
+            if(item == null) {
+                return;
+            }
+
+            event.gc.setAntialias(SWT.ON);
+
+            int row = tableViewer.getTable().indexOf(item);
+
+            ImageChoice imageChoice= imageChoices.get(row);
+
+            Image image1 = imageChoice.getImage(0);
+            int x = (ITEM_WIDTH / 2) - (image1.getBounds().width / 2);
+            event.gc.setAlpha(imageChoice.chosenType() == 0 ? 255 : ALPHA);
+            event.gc.drawImage(image1, event.x + x, event.y + (ITEM_HEIGHT - image1.getBounds().height) / 2);
+
+            Image image2 = imageChoice.getImage(1);
+            x = ITEM_WIDTH + ((ITEM_WIDTH / 2) - (image2.getBounds().width / 2));
+            event.gc.setAlpha(imageChoice.chosenType() == 1 ? 255 : ALPHA);
+            event.gc.drawImage(image2, event.x + x, event.y + (ITEM_HEIGHT - image2.getBounds().height) / 2);
+
+            // Highlight rectangle
+            int highlight_x = imageChoice.chosenType() == 0 ? 20 : ITEM_WIDTH + 20;
+            event.gc.setForeground(HILITE_COLOR);
+            event.gc.setAlpha(255);
+            event.gc.setLineWidth(2);
+            event.gc.drawRoundRectangle(event.x + highlight_x, event.y + 2, event.x + ITEM_WIDTH - 39, ITEM_HEIGHT - 3,
+                    15, 15);
         });
         
-        fTableViewer.getTable().addListener(SWT.EraseItem, new Listener() {   
-            @Override
-            public void handleEvent(Event event) {
-                // No selection or focus highlighting
-                event.detail &= ~(SWT.FOCUSED | SWT.HOT | SWT.SELECTED);
-            }
+        tableViewer.getTable().addListener(SWT.EraseItem, event -> {
+            // No selection or focus highlighting
+            event.detail &= ~(SWT.FOCUSED | SWT.HOT | SWT.SELECTED);
         });
         
-        fTableViewer.getTable().addListener(SWT.MouseDown, new Listener() {   
-            @Override
-            public void handleEvent(Event event) {
-                TableItem item = fTableViewer.getTable().getItem(new Point(event.x, event.y));
-                if(item == null) {
-                    return;
-                }
-                
-                int row = fTableViewer.getTable().indexOf(item);
-                ImageChoice ic = fChoices.get(row);
-                
-                if(event.x < itemWidth) {
-                    ic.chosenType = 0;
-                }
-                else {
-                    ic.chosenType = 1;
-                }
-                
-                fTableViewer.refresh(ic);
+        tableViewer.getTable().addListener(SWT.MouseDown, event -> {
+            TableItem item = tableViewer.getTable().getItem(new Point(event.x, event.y));
+            if(item == null) {
+                return;
             }
+
+            int row = tableViewer.getTable().indexOf(item);
+            ImageChoice imageChoice = imageChoices.get(row);
+
+            if(event.x < ITEM_WIDTH) {
+                imageChoice.setChosenType(0);
+            }
+            else {
+                imageChoice.setChosenType(1);
+            }
+
+            tableViewer.refresh(imageChoice);
         });
 
-        fTableViewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public void dispose() {
-            }
-
-            @Override
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-            }
-
+        tableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public Object[] getElements(Object inputElement) {
                 return ((List<?>)inputElement).toArray();
             }
         });
         
-        fTableViewer.setLabelProvider(new LabelProvider() {
+        tableViewer.setLabelProvider(new LabelProvider() {
             @Override
             public String getText(Object element) {
                 return null;
@@ -249,8 +238,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     public boolean performOk() {
-        for(ImageChoice choice : fChoices) {
-            ArchiPlugin.getInstance().getPreferenceStore().setValue(choice.preferenceKey, choice.chosenType);
+        for(ImageChoice choice : imageChoices) {
+            ArchiPlugin.getInstance().getPreferenceStore().setValue(choice.preferenceKey(), choice.chosenType());
         }
 
         return true;
@@ -258,11 +247,11 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     @Override
     protected void performDefaults() {
-        for(ImageChoice choice : fChoices) {
-            choice.chosenType = 0;
+        for(ImageChoice choice : imageChoices) {
+            choice.setChosenType(0);
         }
         
-        fTableViewer.getTable().redraw();
+        tableViewer.getTable().redraw();
         
         super.performDefaults();
     }
@@ -275,9 +264,8 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     public void dispose() {
         super.dispose();
         
-        for(ImageChoice imageChoice : fChoices) {
-            imageChoice.images[0].dispose();
-            imageChoice.images[1].dispose();
+        for(ImageChoice imageChoice : imageChoices) {
+            imageChoice.dispose();
         }
     }
 }
