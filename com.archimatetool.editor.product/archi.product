@@ -27,6 +27,7 @@ openFile
 -Declipse.p2.data.area=@config.dir/p2
 -Ddata.location=@user.home/Documents/Archi
 -Dslf4j.internal.verbosity=ERROR
+-Dorg.slf4j.simpleLogger.defaultLogLevel=off
 --add-modules=ALL-SYSTEM
       </vmArgs>
       <vmArgsLin>-Dosgi.instance.area=@user.home/.archi
