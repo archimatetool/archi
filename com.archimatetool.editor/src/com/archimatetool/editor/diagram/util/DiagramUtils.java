@@ -75,8 +75,10 @@ public final class DiagramUtils {
         
         GraphicalViewerImpl viewer = new GraphicalViewerImpl();
         Control control = viewer.createControl(parent);
-        if(!useImageOperation()) {
-            control.setAutoscalingMode(AutoscalingMode.ENABLED);  // Stops text clipping on Windows but text height can be increased
+        if(!doUpscaleImage()) {
+            // Stops text clipping on Windows but text height will be increased
+            // No effect on Mac and Linux
+            control.setAutoscalingMode(AutoscalingMode.ENABLED);
         }
         
         viewer.setEditPartFactory(editPartFactory);
@@ -166,7 +168,7 @@ public final class DiagramUtils {
         setFigureScale(figure, scale);
 
         // Use Image Operation
-        if(useImageOperation()) {
+        if(doUpscaleImage()) {
             Shell shell = new Shell(); // Don't use a Singleton Shell because its getZoom() method is invalid if display scale is changed
             try {
                 ImagePrintFigureOperation op = new ImagePrintDiagramOperation(shell, figure, scale, bounds);
@@ -257,9 +259,9 @@ public final class DiagramUtils {
     }
     
     /**
-     * @return true if preference set to use Image Operation
+     * @return true if preference set to upscale Image
      */
-    public static boolean useImageOperation() {
+    public static boolean doUpscaleImage() {
         return FigureUtils.isAutoScaleEnabled() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.UPSCALE_IMAGE_EXPORT);
     }
 }

@@ -139,7 +139,7 @@ implements IPreferenceConstants {
         store.setDefault(SCALE_IMAGE_EXPORT, PlatformUtils.isLinux() ? false : true);
         
         // On Windows
-        store.setDefault(UPSCALE_IMAGE_EXPORT, false);
+        store.setDefault(UPSCALE_IMAGE_EXPORT, true);
         
         // Animation
         store.setDefault(ANIMATE_VIEW, false);
