@@ -6,10 +6,7 @@
 package com.archimatetool.editor.preferences;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -37,7 +34,6 @@ import org.eclipse.ui.PlatformUI;
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.FigureImagePreviewFactory;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
-import com.archimatetool.editor.ui.factory.IObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.model.util.ArchimateModelUtils;
 
@@ -62,20 +58,17 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     private final Color HILITE_COLOR = new Color(78, 178, 255);
     
     private static class ImageChoice {
-        private final EClass eClass;
         private final String preferenceKey;
         private int chosenType = 0;
-        private final Image[] images = new Image[2];
+        private final Image[] images;
         
-        ImageChoice(IObjectUIProvider provider) {
-            eClass = provider.providerFor();
-            preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + provider.providerFor().getName();
-            images[0] = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 0);
-            images[1] = FigureImagePreviewFactory.getPreviewImage(provider.providerFor(), 1);
+        ImageChoice(EClass eClass) {
+            preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + eClass.getName();
+            images = new Image[] { FigureImagePreviewFactory.getPreviewImage(eClass, 0),
+                                   FigureImagePreviewFactory.getPreviewImage(eClass, 1) };
             chosenType = ArchiPlugin.getInstance().getPreferenceStore().getInt(preferenceKey);
         }
         
-        EClass eClass() { return eClass; }
         String preferenceKey() { return preferenceKey; }
         int chosenType() { return chosenType; }
         void setChosenType(int chosenType) { this.chosenType = chosenType; }
@@ -134,23 +127,12 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
     
     private void loadFigures() {
         // Find Providers that have alternate figures
-        for(IObjectUIProvider provider : ObjectUIFactory.INSTANCE.getProviders()) {
-            if(provider instanceof IArchimateElementUIProvider uiProvider && uiProvider.hasAlternateFigure()) {
-                imageChoices.add(new ImageChoice(uiProvider));
+        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
+            if(ObjectUIFactory.INSTANCE.getProviderForClass(eClass) instanceof IArchimateElementUIProvider uiProvider
+                                                                                && uiProvider.hasAlternateFigure()) {
+                imageChoices.add(new ImageChoice(eClass));
             }
         }
-        
-        // Sort the figures by EClass order
-        
-        // Create a look-up map for fast index retrieval
-        Map<EClass, Integer> classOrderMap = new HashMap<>();
-        int index = 0;
-        for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
-            classOrderMap.put(eClass, index++);
-        }
-
-        // Sort the list using a custom comparator
-        imageChoices.sort(Comparator.comparingInt(choice -> classOrderMap.getOrDefault(choice.eClass(), Integer.MAX_VALUE)));
     }
     
     private void createTable(Composite parent) {
