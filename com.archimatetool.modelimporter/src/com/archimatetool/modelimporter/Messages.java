@@ -50,6 +50,8 @@ public class Messages extends NLS {
 
     public static String ImportModelWizard_0;
 
+    public static String ModelImporter_0;
+
     public static String ModelImporter_1;
 
     public static String ModelImporter_2;
