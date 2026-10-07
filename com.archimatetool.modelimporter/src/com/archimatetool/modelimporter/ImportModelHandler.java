@@ -10,9 +10,7 @@ import java.io.File;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.runtime.ILog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -25,6 +23,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.archimatetool.editor.model.ModelChecker;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
+import com.archimatetool.editor.ui.dialog.ErrorMessageDialog;
 import com.archimatetool.model.IArchimateModel;
 
 
@@ -47,8 +46,7 @@ public class ImportModelHandler extends AbstractHandler {
                 doImport(window, model);
             }
             catch(Exception ex) {
-                ILog.get().error("Error on Export", ex); //$NON-NLS-1$
-                MessageDialog.openError(window.getShell(), Messages.ImportModelHandler_1, ex.getMessage());
+                ErrorMessageDialog.open(window.getShell(), Messages.ImportModelHandler_1, Messages.ImportModelHandler_1, ex);
             }
         }
         

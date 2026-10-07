@@ -114,8 +114,13 @@ public class ModelImporter {
         if(!importedFile.exists()) {
             throw new IOException(NLS.bind(Messages.ModelImporter_2, importedFile));
         }
+
+        IArchimateModel model = IEditorModelManager.INSTANCE.load(importedFile);
+        if(model == null) {
+            throw new IOException(NLS.bind(Messages.ModelImporter_0, importedFile));
+        }
         
-        return IEditorModelManager.INSTANCE.load(importedFile);
+        return model;
     }
     
     private Command getCommand() throws IOException, ImportException {

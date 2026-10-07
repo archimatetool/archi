@@ -5,6 +5,7 @@
  */
 package com.archimatetool.model.util;
 
+import java.io.UncheckedIOException;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
@@ -51,10 +52,22 @@ public class ConverterExtendedMetadata extends BasicExtendedMetaData {
     @Override
     public EClassifier getType(EPackage ePackage, String name) {
         if(ePackage == IArchimatePackage.eINSTANCE) {
+            // We have this one in our legacy map
             EClassifier eClassifier = TYPE_MAP.get(name);
             if(eClassifier != null) {
                 return eClassifier;
             }
+            
+            // Get it
+            eClassifier = super.getType(ePackage, name);
+            
+            // We don't have this so exit early in case of large model
+            // Note that "" is document root so check for that
+            if(eClassifier == null && (name != null && !name.isEmpty())) {
+                throw new UncheckedIOException(new UnsupportedModelException("Type '%s' not found.".formatted(name)));
+            }
+            
+            return eClassifier;
         }
 
         return super.getType(ePackage, name);

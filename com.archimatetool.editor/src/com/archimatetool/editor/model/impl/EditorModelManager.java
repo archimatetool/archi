@@ -51,6 +51,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ModelVersion;
 import com.archimatetool.model.util.IModelContentListener;
+import com.archimatetool.model.util.UnsupportedModelException;
 
 
 
@@ -258,6 +259,14 @@ implements IEditorModelManager {
         try {
             resource.load(null);
         }
+        catch(UnsupportedModelException ex) {
+            if(PlatformUI.isWorkbenchRunning()) {
+                MessageDialog.openError(Display.getCurrent().getActiveShell(),
+                        Messages.EditorModelManager_2,
+                        NLS.bind(Messages.EditorModelManager_11, file));
+            }
+            return null;
+        }
         catch(IOException ex) {
             // No Resource errors so must be file access exception
             if(resource.getErrors().isEmpty() && PlatformUI.isWorkbenchRunning()) {
@@ -289,8 +298,7 @@ implements IEditorModelManager {
 
         // Once loaded - check for later model version
         if(PlatformUI.isWorkbenchRunning()) {
-            boolean isLaterModelVersion = modelCompatibility.isLaterModelVersion(ModelVersion.VERSION);
-            if(isLaterModelVersion) {
+            if(modelCompatibility.isLaterModelVersion(ModelVersion.VERSION)) {
                 boolean answer = MessageDialog.openQuestion(Display.getCurrent().getActiveShell(),
                         Messages.EditorModelManager_4,
                         NLS.bind(Messages.EditorModelManager_5,
@@ -367,6 +375,9 @@ implements IEditorModelManager {
         // Load the model file
         try {
             resource.load(null);
+        }
+        catch(UnsupportedModelException ex) {
+            throw new IOException(NLS.bind(Messages.EditorModelManager_11, file) + "\n" + ex.getMessage()); //$NON-NLS-1$
         }
         catch(IOException ex) {
             // No errors so must be something else
