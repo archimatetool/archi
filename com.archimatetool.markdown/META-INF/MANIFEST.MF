@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Markdown Utils
 Bundle-SymbolicName: com.archimatetool.markdown
-Bundle-Version: 5.10.0.qualifier
+Bundle-Version: 5.11.0.qualifier
 Bundle-Vendor: Archi
 Eclipse-BundleShape: dir
 Export-Package: com.archimatetool.markdown,

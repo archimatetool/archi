@@ -2,12 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JUnit Tests for ArchiMate Open Exchange Plugin
 Bundle-SymbolicName: org.opengroup.archimate.xmlexchange.tests
-Bundle-Version: 5.10.0.qualifier
+Bundle-Version: 5.11.0.qualifier
 Fragment-Host: org.opengroup.archimate.xmlexchange
 Import-Package: com.archimatetool.canvas,
  com.archimatetool.testingtools,
  com.archimatetool.tests,
- org.junit.jupiter.api;version="[5.10.0,6.0.0)",
+ org.junit.jupiter.api;version="[5.11.0,6.0.0)",
  org.junit.platform.suite.api;version="[1.10.0,2.0.0)"
 Bundle-Vendor: Archi, The Open Group
 Bundle-RequiredExecutionEnvironment: JavaSE-21

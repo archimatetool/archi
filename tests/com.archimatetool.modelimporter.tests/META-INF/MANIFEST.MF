@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JUnit Tests for Archi Model Importer
 Bundle-SymbolicName: com.archimatetool.modelimporter.tests
-Bundle-Version: 5.10.0.qualifier
+Bundle-Version: 5.11.0.qualifier
 Fragment-Host: com.archimatetool.modelimporter
 Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-21
@@ -10,5 +10,5 @@ Eclipse-BundleShape: dir
 Automatic-Module-Name: com.archimatetool.modelimporter.tests
 Import-Package: com.archimatetool.testingtools,
  com.archimatetool.tests,
- org.junit.jupiter.api;version="[5.10.0,6.0.0)",
+ org.junit.jupiter.api;version="[5.11.0,6.0.0)",
  org.junit.platform.suite.api;version="[1.10.0,2.0.0)"
