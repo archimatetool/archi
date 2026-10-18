@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.archimatetool.export.svg.tests
 Bundle-Version: 5.11.0.qualifier
 Fragment-Host: com.archimatetool.export.svg
 Import-Package: com.archimatetool.tests,
- org.junit.jupiter.api;version="[5.11.0,6.0.0)",
+ org.junit.jupiter.api;version="[5.10.0,6.0.0)",
  org.junit.platform.suite.api;version="[1.10.0,2.0.0)"
 Bundle-Vendor: Archi
 Bundle-RequiredExecutionEnvironment: JavaSE-21
