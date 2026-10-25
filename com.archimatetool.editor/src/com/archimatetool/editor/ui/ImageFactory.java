@@ -103,6 +103,35 @@ public class ImageFactory {
     }
     
     /**
+     * Return a composite ImageDescriptor with overlay ImageDescriptor
+     * 
+     * @param underlay The underlay ImageDescriptor
+     * @param overlayName Name of the overlay ImageDescriptor
+     * @param quadrant the quadrant (one of {@link IDecoration} 
+     * ({@link IDecoration#TOP_LEFT}, {@link IDecoration#TOP_RIGHT},
+     * {@link IDecoration#BOTTOM_LEFT}, {@link IDecoration#BOTTOM_RIGHT} 
+     * or {@link IDecoration#UNDERLAY})
+     * @return The ImageDescriptor
+     */
+    public ImageDescriptor getOverlayImageDescriptor(ImageDescriptor underlay, String overlayName, int quadrant) {
+        String key = underlay.hashCode() + overlayName + quadrant;
+        
+        ImageDescriptor newImageDescriptor = getImageDescriptor(key);
+        if(newImageDescriptor == null) {
+            ImageDescriptor overlayDescripter = getImageDescriptor(overlayName);
+            if(overlayDescripter != null) {
+                newImageDescriptor = new DecorationOverlayIcon(underlay, overlayDescripter, quadrant);
+                if(newImageDescriptor != null) {
+                    ImageRegistry registry = fPlugin.getImageRegistry();
+                    registry.put(key, newImageDescriptor);
+                }
+            }
+        }
+        
+        return newImageDescriptor != null ? newImageDescriptor : underlay;
+    }
+
+    /**
      * Return a composite image with overlay image
      * 
      * @param underlay The underlay image
