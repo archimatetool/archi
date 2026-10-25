@@ -121,9 +121,7 @@ public abstract class AbstractDiagramEditorContextMenuProvider extends ContextMe
         
         // Rename
         action = actionRegistry.getAction(ActionFactory.RENAME.getId());
-        if(action.isEnabled()) {
-            menu.appendToGroup(GROUP_RENAME, action);
-        }
+        menu.appendToGroup(GROUP_RENAME, action);
 
         // Select Element in Model Tree
         menu.appendToGroup(GROUP_RENAME, new Separator());
