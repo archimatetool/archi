@@ -8,16 +8,16 @@ package com.archimatetool.editor.propertysections;
 import java.text.Collator;
 
 import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -104,14 +104,9 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
             }
         });
         
-        tableViewer.setLabelProvider(new CellLabelProvider() {
+        tableViewer.setLabelProvider(new ColumnLabelProvider() {
             @Override
-            public void update(ViewerCell cell) {
-                cell.setText(getText(cell.getElement()));
-                cell.setImage(IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM));
-            }
-            
-            private String getText(Object element) {
+            public String getText(Object element) {
                 IDiagramModel dm = (IDiagramModel)element;
 
                 // Display label according to ancestor folder's label expression, if present and preference is set
@@ -126,6 +121,11 @@ public class UsedInViewsSection extends AbstractECorePropertySection {
                 }
                 
                 return dm.getName();
+            }
+            
+            @Override
+            public Image getImage(Object element) {
+                return IArchiImages.ImageFactory.getImage(IArchiImages.ICON_DIAGRAM);
             }
             
             @Override
