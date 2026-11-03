@@ -134,7 +134,6 @@ import com.archimatetool.model.ITechnologyEvent;
 import com.archimatetool.model.ITechnologyFunction;
 import com.archimatetool.model.ITechnologyInteraction;
 import com.archimatetool.model.ITechnologyInterface;
-import com.archimatetool.model.ITechnologyObject;
 import com.archimatetool.model.ITechnologyProcess;
 import com.archimatetool.model.ITechnologyService;
 import com.archimatetool.model.ITextAlignment;
@@ -433,26 +432,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 if (result == null) result = caseNameable(technologyElement);
                 if (result == null) result = caseIdentifier(technologyElement);
                 if (result == null) result = caseFeatures(technologyElement);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case IArchimatePackage.TECHNOLOGY_OBJECT: {
-                ITechnologyObject technologyObject = (ITechnologyObject)theEObject;
-                T result = caseTechnologyObject(technologyObject);
-                if (result == null) result = caseTechnologyElement(technologyObject);
-                if (result == null) result = casePassiveStructureElement(technologyObject);
-                if (result == null) result = caseStructureElement(technologyObject);
-                if (result == null) result = caseArchimateElement(technologyObject);
-                if (result == null) result = caseArchimateConcept(technologyObject);
-                if (result == null) result = caseArchimateModelObject(technologyObject);
-                if (result == null) result = caseCloneable(technologyObject);
-                if (result == null) result = caseDocumentable(technologyObject);
-                if (result == null) result = caseProperties(technologyObject);
-                if (result == null) result = caseProfiles(technologyObject);
-                if (result == null) result = caseAdapter(technologyObject);
-                if (result == null) result = caseNameable(technologyObject);
-                if (result == null) result = caseIdentifier(technologyObject);
-                if (result == null) result = caseFeatures(technologyObject);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -869,7 +848,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
             case IArchimatePackage.ARTIFACT: {
                 IArtifact artifact = (IArtifact)theEObject;
                 T result = caseArtifact(artifact);
-                if (result == null) result = caseTechnologyObject(artifact);
                 if (result == null) result = caseTechnologyElement(artifact);
                 if (result == null) result = casePassiveStructureElement(artifact);
                 if (result == null) result = caseStructureElement(artifact);
@@ -1432,12 +1410,10 @@ public class ArchimateSwitch<T> extends Switch<T> {
                 IMaterial material = (IMaterial)theEObject;
                 T result = caseMaterial(material);
                 if (result == null) result = casePhysicalElement(material);
-                if (result == null) result = caseTechnologyObject(material);
-                if (result == null) result = caseTechnologyElement(material);
                 if (result == null) result = casePassiveStructureElement(material);
-                if (result == null) result = caseArchimateConcept(material);
                 if (result == null) result = caseStructureElement(material);
                 if (result == null) result = caseArchimateElement(material);
+                if (result == null) result = caseArchimateConcept(material);
                 if (result == null) result = caseArchimateModelObject(material);
                 if (result == null) result = caseCloneable(material);
                 if (result == null) result = caseDocumentable(material);
@@ -2918,21 +2894,6 @@ public class ArchimateSwitch<T> extends Switch<T> {
      * @generated
      */
     public T caseTechnologyInteraction(ITechnologyInteraction object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '<em>Technology Object</em>'.
-     * <!-- begin-user-doc -->
-     * This implementation returns null;
-     * returning a non-null result will terminate the switch.
-     * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Technology Object</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseTechnologyObject(ITechnologyObject object) {
         return null;
     }
 

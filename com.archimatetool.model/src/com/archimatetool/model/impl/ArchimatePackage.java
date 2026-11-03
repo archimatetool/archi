@@ -136,7 +136,6 @@ import com.archimatetool.model.ITechnologyEvent;
 import com.archimatetool.model.ITechnologyFunction;
 import com.archimatetool.model.ITechnologyInteraction;
 import com.archimatetool.model.ITechnologyInterface;
-import com.archimatetool.model.ITechnologyObject;
 import com.archimatetool.model.ITechnologyProcess;
 import com.archimatetool.model.ITechnologyService;
 import com.archimatetool.model.ITextAlignment;
@@ -374,13 +373,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
      * @generated
      */
     private EClass technologyInteractionEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass technologyObjectEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -1734,16 +1726,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
     @Override
     public EClass getTechnologyInteraction() {
         return technologyInteractionEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EClass getTechnologyObject() {
-        return technologyObjectEClass;
     }
 
     /**
@@ -3350,8 +3332,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
 
         technologyElementEClass = createEClass(TECHNOLOGY_ELEMENT);
 
-        technologyObjectEClass = createEClass(TECHNOLOGY_OBJECT);
-
         physicalElementEClass = createEClass(PHYSICAL_ELEMENT);
 
         motivationElementEClass = createEClass(MOTIVATION_ELEMENT);
@@ -3683,8 +3663,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         businessElementEClass.getESuperTypes().add(this.getArchimateElement());
         applicationElementEClass.getESuperTypes().add(this.getArchimateElement());
         technologyElementEClass.getESuperTypes().add(this.getArchimateElement());
-        technologyObjectEClass.getESuperTypes().add(this.getTechnologyElement());
-        technologyObjectEClass.getESuperTypes().add(this.getPassiveStructureElement());
         physicalElementEClass.getESuperTypes().add(this.getArchimateElement());
         motivationElementEClass.getESuperTypes().add(this.getArchimateElement());
         implementationMigrationElementEClass.getESuperTypes().add(this.getArchimateElement());
@@ -3719,7 +3697,8 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         applicationProcessEClass.getESuperTypes().add(this.getBehaviorElement());
         applicationServiceEClass.getESuperTypes().add(this.getApplicationElement());
         applicationServiceEClass.getESuperTypes().add(this.getBehaviorElement());
-        artifactEClass.getESuperTypes().add(this.getTechnologyObject());
+        artifactEClass.getESuperTypes().add(this.getTechnologyElement());
+        artifactEClass.getESuperTypes().add(this.getPassiveStructureElement());
         assessmentEClass.getESuperTypes().add(this.getMotivationElement());
         businessActorEClass.getESuperTypes().add(this.getBusinessElement());
         businessActorEClass.getESuperTypes().add(this.getActiveStructureElement());
@@ -3768,7 +3747,7 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         implementationEventEClass.getESuperTypes().add(this.getImplementationMigrationElement());
         locationEClass.getESuperTypes().add(this.getCompositeElement());
         materialEClass.getESuperTypes().add(this.getPhysicalElement());
-        materialEClass.getESuperTypes().add(this.getTechnologyObject());
+        materialEClass.getESuperTypes().add(this.getPassiveStructureElement());
         meaningEClass.getESuperTypes().add(this.getMotivationElement());
         nodeEClass.getESuperTypes().add(this.getTechnologyElement());
         nodeEClass.getESuperTypes().add(this.getActiveStructureElement());
@@ -3967,8 +3946,6 @@ public class ArchimatePackage extends EPackageImpl implements IArchimatePackage 
         initEClass(applicationElementEClass, IApplicationElement.class, "ApplicationElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(technologyElementEClass, ITechnologyElement.class, "TechnologyElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-
-        initEClass(technologyObjectEClass, ITechnologyObject.class, "TechnologyObject", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
         initEClass(physicalElementEClass, IPhysicalElement.class, "PhysicalElement", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 

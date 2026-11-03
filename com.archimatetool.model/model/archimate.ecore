@@ -146,8 +146,6 @@
       interface="true" eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="TechnologyElement" abstract="true" interface="true"
       eSuperTypes="#//ArchimateElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TechnologyObject" abstract="true" interface="true"
-      eSuperTypes="#//TechnologyElement #//PassiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="PhysicalElement" abstract="true" interface="true"
       eSuperTypes="#//ArchimateElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="MotivationElement" abstract="true" interface="true"
@@ -209,7 +207,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ApplicationInterface" eSuperTypes="#//ApplicationElement #//ActiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ApplicationProcess" eSuperTypes="#//ApplicationElement #//BehaviorElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ApplicationService" eSuperTypes="#//ApplicationElement #//BehaviorElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Artifact" eSuperTypes="#//TechnologyObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Artifact" eSuperTypes="#//TechnologyElement #//PassiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Assessment" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessActor" eSuperTypes="#//BusinessElement #//ActiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="BusinessCollaboration" eSuperTypes="#//BusinessElement #//ActiveStructureElement"/>
@@ -238,7 +236,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Grouping" eSuperTypes="#//CompositeElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ImplementationEvent" eSuperTypes="#//ImplementationMigrationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="#//CompositeElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Material" eSuperTypes="#//PhysicalElement #//TechnologyObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Material" eSuperTypes="#//PhysicalElement #//PassiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Meaning" eSuperTypes="#//MotivationElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#//TechnologyElement #//ActiveStructureElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Outcome" eSuperTypes="#//MotivationElement"/>

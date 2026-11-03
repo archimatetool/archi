@@ -98,7 +98,6 @@
     <genClasses image="false" ecoreClass="archimate.ecore#//BusinessElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//ApplicationElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//TechnologyElement"/>
-    <genClasses image="false" ecoreClass="archimate.ecore#//TechnologyObject"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//PhysicalElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//MotivationElement"/>
     <genClasses image="false" ecoreClass="archimate.ecore#//ImplementationMigrationElement"/>

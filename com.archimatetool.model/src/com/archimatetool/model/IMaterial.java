@@ -16,5 +16,5 @@ package com.archimatetool.model;
  * @model
  * @generated
  */
-public interface IMaterial extends IPhysicalElement, ITechnologyObject {
+public interface IMaterial extends IPhysicalElement, IPassiveStructureElement {
 } // IMaterial
