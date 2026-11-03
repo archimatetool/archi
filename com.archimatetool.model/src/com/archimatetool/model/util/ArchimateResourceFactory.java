@@ -6,12 +6,17 @@
 package com.archimatetool.model.util;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
 /**
@@ -21,6 +26,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
  * @see com.archimatetool.model.util.ArchimateResource
  * @generated
  */
+@SuppressWarnings("nls")
 public class ArchimateResourceFactory extends ResourceFactoryImpl {
     
     /**
@@ -75,7 +81,45 @@ public class ArchimateResourceFactory extends ResourceFactoryImpl {
      */
     @Override
     public Resource createResource(URI uri) {
-        return new ArchimateResource(uri);
+        ArchimateResource resource = new ArchimateResource(uri);
+        
+        // This is the key thing! If not set loading is slow.
+        resource.setIntrinsicIDToEObjectMap(new HashMap<String, EObject>());
+        
+        Map<Object, Object> loadOptions = resource.getDefaultLoadOptions();
+        Map<Object, Object> saveOptions = resource.getDefaultSaveOptions();
+        
+        // Ensure we have ExtendedMetaData for both Loading and Saving
+        loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, new ConverterExtendedMetadata());
+        saveOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, new BasicExtendedMetaData());
+
+        loadOptions.put(XMLResource.OPTION_ENCODING, "UTF-8");
+        saveOptions.put(XMLResource.OPTION_ENCODING, "UTF-8");
+        
+        loadOptions.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+        
+        // Don't allow loading an unregistered URI in case of exploits
+        loadOptions.put(XMLResource.OPTION_USE_PACKAGE_NS_URI_AS_LOCATION, false);
+        
+        // Don't allow DTD loading in case of XSS exploits
+        Map<String, Object> parserFeatures = new HashMap<>();
+        parserFeatures.put("http://apache.org/xml/features/disallow-doctype-decl", Boolean.TRUE);
+        parserFeatures.put("http://apache.org/xml/features/nonvalidating/load-external-dtd", Boolean.FALSE);
+        parserFeatures.put("http://xml.org/sax/features/external-general-entities", Boolean.FALSE);
+        parserFeatures.put("http://xml.org/sax/features/external-parameter-entities", Boolean.FALSE);
+        loadOptions.put(XMLResource.OPTION_PARSER_FEATURES, parserFeatures);
+        
+        // Not sure about this
+        // saveOptions.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+
+        // Don't set this as it prefixes a hash # to ID references
+        // loadOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+        // saveOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+
+        // Not sure about this
+        // loadOptions.put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
+
+        return resource;
     }
 
 } //ArchimateResourceFactory
