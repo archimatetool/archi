@@ -10,34 +10,44 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 
 /**
- * Handler that adjusts layout to show single or multi-column depending on user preference
+ * Handler that adjusts layout to show single (compact) or multi-column depending on user preference
  * 
  * @author Phillip Beauvoir
  */
 public class GridLayoutColumnHandler {
     
+    /**
+     * @deprecated Use GridLayoutColumnHandler(parent).expandedColumns(columns);
+     */
     public static GridLayoutColumnHandler create(Composite parent, int maxColumns) {
-        return new GridLayoutColumnHandler(parent, maxColumns);
+        return new GridLayoutColumnHandler(parent).expandedColumns(maxColumns);
     }
     
-    private int maxColumns;
+    public static GridLayoutColumnHandler create(Composite parent) {
+        return new GridLayoutColumnHandler(parent);
+    }
+    
+    private int compactColumns = 1;
+    private int expandedColumns = 2;
+    private int columnWidth = ITabbedLayoutConstants.COMPOSITE_WIDTH;
+    
     private Composite parent;
     
-    IPropertyChangeListener listener = event -> {
+    private IPropertyChangeListener listener = event -> {
         if(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN.equals(event.getProperty())) {
             updateColumns();
             parent.requestLayout();
         }
     };
     
-    private GridLayoutColumnHandler(Composite parent, int maxColumns) {
+    private GridLayoutColumnHandler(Composite parent) {
         this.parent = parent;
-        this.maxColumns = maxColumns;
         
         parent.addDisposeListener(e -> {
             ArchiPlugin.getInstance().getPreferenceStore().removePropertyChangeListener(listener);
@@ -47,16 +57,56 @@ public class GridLayoutColumnHandler {
         ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(listener);
     }
     
+    /**
+     * @param compactColumns the number of GridLayout columns to use when single column (compact) mode is on. Default is 1.
+     */
+    public GridLayoutColumnHandler compactColumns(int compactColumns) {
+        this.compactColumns = compactColumns;
+        return this;
+    }
+    
+    /**
+     * @param expandedColumns the number of GridLayout columns to use when single column (compact) mode is off. Default is 2.
+     */
+    public GridLayoutColumnHandler expandedColumns(int expandedColumns) {
+        this.expandedColumns = expandedColumns;
+        return this;
+    }
+    
+    /**
+     * @param width The column width to use for all child controls when there is more than one column.
+     * Can be set to SWT.DEFAULT for default widths.
+     * Default is ITabbedLayoutConstants.COMPOSITE_WIDTH.
+     */
+    public GridLayoutColumnHandler columnWidth(int width) {
+        columnWidth = width;
+        return this;
+    }
+    
     public void updateColumns() {
         // Set Grid Layout columns
-        int numColumns = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? 1 : maxColumns;
-        ((GridLayout)parent.getLayout()).numColumns = numColumns;
+        if(!(parent.getLayout() instanceof GridLayout gridLayout)) {
+            return;
+        }
         
-        // If numColumns == 1 set width of each child control to SWT.DEFAULT
-        // Else set all child controls except the last one to ITabbedLayoutConstants.COMPOSITE_WIDTH
-        for(int i = 0; i < parent.getChildren().length; i++) {
-            int width = numColumns == 1 ? SWT.DEFAULT : i < parent.getChildren().length - 1  ? ITabbedLayoutConstants.COMPOSITE_WIDTH : SWT.DEFAULT;
-            ((GridData)parent.getChildren()[i].getLayoutData()).widthHint = width;
+        int numColumns = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.PROPERTIES_SINGLE_COLUMN) ? compactColumns : expandedColumns;
+        gridLayout.numColumns = numColumns;
+
+        // If columnWidth is set, set each child control's GridData widthHint to columnWidth except the last one.
+        // The last column should be set to default width so there is no excess padding on the right.
+        // If numColumns == 1 set to SWT.DEFAULT
+        if(columnWidth != SWT.DEFAULT) {
+            Control[] children = parent.getChildren();
+            
+            for(int i = 0; i < children.length; i++) {
+                if(children[i].getLayoutData() instanceof GridData gridData) {
+                    int width = SWT.DEFAULT; // Have to set this to default in case the layout is changed from multi-column to single
+                    if(numColumns > 1 && i < children.length - 1) {
+                        width = columnWidth;
+                    }
+                    gridData.widthHint = width;
+                }
+            }
         }
     }
 }

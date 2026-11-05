@@ -5,7 +5,6 @@
  */
 package com.archimatetool.editor.propertysections;
 
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import com.archimatetool.model.IArchimateModelObject;
@@ -29,8 +28,9 @@ public abstract class AbstractMultiControlSection extends AbstractECorePropertyS
      */
     protected void init(Composite parent, int numColumns) {
         parentComposite = parent;
-        ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
-        columnHandler = GridLayoutColumnHandler.create(parentComposite, numColumns);
+
+        // Allow setting single (compact) column layout
+        columnHandler = GridLayoutColumnHandler.create(parentComposite).expandedColumns(numColumns);
     }
     
     /**

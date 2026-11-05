@@ -14,7 +14,6 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
@@ -152,16 +151,14 @@ public class FontSection extends AbstractECorePropertySection {
     
     @Override
     protected void createControls(final Composite parent) {
-        ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
-        
         Composite group1 = createComposite(parent, 2, false);
         createFontControl(group1);
         
         Composite group2 = createComposite(parent, 2, false);
         createColorControl(group2);
         
-        // Allow setting 1 or 2 columns
-        GridLayoutColumnHandler.create(parent, 2).updateColumns();
+        // Allow setting single (compact) column layout
+        GridLayoutColumnHandler.create(parent).updateColumns();
 
         ArchiPlugin.getInstance().getPreferenceStore().addPropertyChangeListener(prefsListener);
 

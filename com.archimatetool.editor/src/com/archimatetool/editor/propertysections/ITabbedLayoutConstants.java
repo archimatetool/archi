@@ -36,7 +36,7 @@ public interface ITabbedLayoutConstants {
     int COMBO_WIDTH = 100;
     
     /**
-     * Width of Composite when using 2 column layout
+     * Width of Composites when using multi-column layout
      */
-    int COMPOSITE_WIDTH = 280;
+    int COMPOSITE_WIDTH = 310;
 }

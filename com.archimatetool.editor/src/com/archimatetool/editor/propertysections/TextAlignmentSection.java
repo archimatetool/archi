@@ -12,7 +12,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -69,16 +68,14 @@ public class TextAlignmentSection extends AbstractECorePropertySection {
     protected void createControls(Composite parent) {
         parentComposite = parent;
         
-        ((GridLayout)parent.getLayout()).horizontalSpacing = 30;
-        
         Composite textAlignmentComposite = createComposite(parent, 2, false);
         createTextAlignmentControls(textAlignmentComposite);
         
         textPositionComposite = createComposite(parent, 2, false);
         createTextPositionControls(textPositionComposite);
         
-        // Allow setting 1 or 2 columns
-        GridLayoutColumnHandler.create(parent, 2).updateColumns();
+        // Allow setting single (compact) column layout
+        GridLayoutColumnHandler.create(parent).updateColumns();
         
         // Help
         PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, HELP_ID);
