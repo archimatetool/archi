@@ -3,7 +3,7 @@
 <target includeMode="feature" name="Archi">
 <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <repository location="https://download.eclipse.org/releases/2026-06"/>
+        <repository location="https://download.eclipse.org/releases/2026-09"/>
         <unit id="org.eclipse.sdk.feature.group"/>
         <unit id="org.eclipse.equinox.executable.feature.group"/>
         <unit id="org.eclipse.emf.compare.feature.group"/>
