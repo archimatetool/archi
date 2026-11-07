@@ -22,6 +22,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.tests.TestUtils;
@@ -269,7 +271,66 @@ public class FileUtilsTests {
     }
 
     // ---------------------------------------------------------------------------------------------
+    
+    @Test
+    public void safeDelete_File_IsReadOnly() throws Exception {
+        File file = TestUtils.createTempFile(null);
+        Path path = file.toPath();
+        
+        Files.setAttribute(path, "dos:readonly", true);
+        assertFalse(Files.isWritable(path));
+        
+        assertTrue(FileUtils.safeDelete(file));
+        assertFalse(file.exists());
+    }
+    
+    @Test
+    public void safeDelete_Directory_IsReadOnly() throws Exception {
+        File file = TestUtils.createTempFolder("subFolder");
+        Path path = file.toPath();
+        
+        Files.setAttribute(path, "dos:readonly", true);
+        
+        assertTrue(FileUtils.safeDelete(file));
+        assertFalse(file.exists());
+    }
 
+    @Test
+    public void safeDelete_PathFile_IsReadOnly() throws Exception {
+        File file = TestUtils.createTempFile(null);
+        Path path = file.toPath();
+        
+        Files.setAttribute(path, "dos:readonly", true);
+        assertFalse(Files.isWritable(path));
+        
+        FileUtils.safeDelete(path);
+        assertFalse(file.exists());
+    }
+    
+    @Test
+    public void safeDelete_PathDirectory_IsReadOnly() throws Exception {
+        File file = TestUtils.createTempFolder("subFolder");
+        Path path = file.toPath();
+        
+        Files.setAttribute(path, "dos:readonly", true);
+        
+        FileUtils.safeDelete(path);
+        assertFalse(file.exists());
+    }
+
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    public void clearWindowsReadOnlyAttribute() throws Exception {
+        File file = TestUtils.createTempFile(null);
+        Path path = file.toPath();
+        
+        Files.setAttribute(path, "dos:readonly", true);
+        assertFalse(Files.isWritable(path));
+        
+        FileUtils.clearWindowsReadOnlyAttribute(path);
+        assertTrue(Files.isWritable(path));
+    }
+    
     @Test
     public void deleteDir() throws Exception {
         File folder = TestUtils.createTempFolder("delete_folder");
