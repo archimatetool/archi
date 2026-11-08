@@ -214,7 +214,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         
         fUseThemes.setSelection(themeEngine != null);
         fShowStatusLineButton.setSelection(getPreferenceStore().getBoolean(SHOW_STATUS_LINE));
-        fUseDirtyIndicator.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.SHOW_DIRTY_INDICATOR_ON_TABS, false));
+        fUseDirtyIndicator.setSelection(ThemeUtils.getSwtRendererPreferences().getBoolean(ThemeUtils.SHOW_DIRTY_INDICATOR_ON_TABS, true));
         
         // Mac native item heightr
         if(fMacNativeItemHeightButton != null) {
@@ -286,7 +286,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         }
         
         fUseThemes.setSelection(true);
-        fUseDirtyIndicator.setSelection(ThemeUtils.getDefaultSwtRendererPreferences().getBoolean(ThemeUtils.SHOW_DIRTY_INDICATOR_ON_TABS, false));
+        fUseDirtyIndicator.setSelection(ThemeUtils.getDefaultSwtRendererPreferences().getBoolean(ThemeUtils.SHOW_DIRTY_INDICATOR_ON_TABS, true));
         fShowStatusLineButton.setSelection(getPreferenceStore().getDefaultBoolean(SHOW_STATUS_LINE));
         
         if(fMacNativeItemHeightButton != null) {
