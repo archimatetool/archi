@@ -20,6 +20,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.ui.ImageFactory;
@@ -67,6 +69,10 @@ public class ImageExportProviderTests {
     }
     
     @Test
+    @DisabledOnOs(OS.LINUX)
+    // TODO: Bug in Eclipse on Linux and Ubuntu 26.04 where JPEGs are saved as zero bytes
+    // leading to a failure when loading it in ImageData(tmp.getPath())
+    // Fixed in Eclipse 4.41
     public void testJPEGExport() throws Exception {
         testExport(ImageExportProvider.JPEG_IMAGE_EXPORT_PROVIDER);
     }
