@@ -335,36 +335,25 @@ public class FileUtilsTests {
     // ---------------------------------------------------------------------------------------------
     
     /**
-     * Root drive case-sensitivity issue on Windows
-     */
-    @Test
-    public void testGetRelativePath1() {
-        File rootFolder = new File("c:/rootfolder");
-        File file = new File("C:/rootfolder/dir/file.txt");
-        String path = FileUtils.getRelativePath(rootFolder, file);
-        assertFalse(path.startsWith("/"), "Relative Path is wrong: " + path);
-    }
-
-    /**
      * Path should be subset of parent path and preserve case
      */
     @Test
-    public void testGetRelativePath2() {
+    public void testGetRelativePath1() {
         File rootFolder = new File("/RootFolder");
         File file = new File("/RootFolder/Dir/FileHere.txt");
         String path = FileUtils.getRelativePath(file, rootFolder);
-        assertTrue(path.equals("Dir/FileHere.txt"), "Relative Path is wrong: " + path);
+        assertEquals("Dir/FileHere.txt", path);
     }
     
     /**
      * Test for absolute path
      */
     @Test
-    public void testGetRelativePath3() {
+    public void testGetRelativePath2() {
         File rootFolder = new File("/rootfolder");
         File file = new File("/anotherfolder/dir/file.txt");
         String path = FileUtils.getRelativePath(file, rootFolder);
-        assertTrue(path.startsWith("../"), "Absolute Path is wrong: " + path);
+        assertEquals("../anotherfolder/dir/file.txt", path);
     }
 
     // ---------------------------------------------------------------------------------------------

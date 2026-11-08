@@ -387,29 +387,10 @@ public final class FileUtils  {
 	/**
 	 * Get a relative path for a file given its relationship to basePath
 	 */
-    @SuppressWarnings("deprecation")
     public static String getRelativePath(File path, File basePath) {
-        try {
-            String dir = path.toURL().toExternalForm();
-            String baseDir = appendSeparator(basePath.toURL().toExternalForm(), "/");
-            StringBuffer result = new StringBuffer();
-            while (dir.indexOf(baseDir) == -1) {
-                basePath = basePath.getParentFile();
-                if(basePath == null) {
-                    return path.getName();
-                }
-                baseDir = appendSeparator(basePath.toURL().toExternalForm(), "/");
-                result.append("../");
-            }
-            if (dir.indexOf(baseDir) == 0) {
-                String delta = dir.substring(baseDir.length());
-                result.append(delta);
-            }
-            return result.toString();
-        } catch(Exception ex) {
-            ex.printStackTrace();
-            return path.getName();
-        }
+        Path target = path.toPath().toAbsolutePath().normalize();
+        Path base = basePath.toPath().toAbsolutePath().normalize();
+        return base.relativize(target).toString().replace("\\", "/");
     }
 	
     /**
