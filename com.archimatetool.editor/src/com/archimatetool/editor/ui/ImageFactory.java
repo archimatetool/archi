@@ -112,6 +112,7 @@ public class ImageFactory {
      * {@link IDecoration#BOTTOM_LEFT}, {@link IDecoration#BOTTOM_RIGHT} 
      * or {@link IDecoration#UNDERLAY})
      * @return The ImageDescriptor
+     * @since 5.11.0
      */
     public ImageDescriptor getOverlayImageDescriptor(ImageDescriptor underlay, String overlayName, int quadrant) {
         String key = underlay.hashCode() + overlayName + quadrant;

@@ -21,6 +21,7 @@ import com.archimatetool.model.ILockable;
  * Delete all bendpoints Action
  * 
  * @author Phillip Beauvoir
+ * @since 5.11.0
  */
 public class DeleteBendpointsAction extends SelectionAction {
 

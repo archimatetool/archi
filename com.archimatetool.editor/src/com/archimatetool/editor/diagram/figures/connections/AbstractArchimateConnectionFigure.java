@@ -84,6 +84,7 @@ extends AbstractDiagramConnectionFigure implements IArchimateConnectionFigure {
     
     /**
      * @return true if the option is set to hide incoming connection arrows on a Junction
+     * @since 5.11.0
      */
     protected boolean usePlainJunctionDecoration(IConnectable node) {
         if(node instanceof IDiagramModelArchimateObject dmao && dmao.getArchimateElement() instanceof IJunction) {

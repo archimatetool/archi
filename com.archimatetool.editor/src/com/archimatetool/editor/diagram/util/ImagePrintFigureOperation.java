@@ -38,6 +38,8 @@ import org.eclipse.swt.widgets.Display;
  * </p>
  *
  * @since 3.23
+ * 
+ * TODO: This is a copy of the original in Draw2d. After GEF 3.30 is released we can use the original.
  */
 public class ImagePrintFigureOperation {
 	private final Display display;

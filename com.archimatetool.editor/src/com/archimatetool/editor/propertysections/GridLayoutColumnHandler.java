@@ -29,6 +29,12 @@ public class GridLayoutColumnHandler {
         return new GridLayoutColumnHandler(parent).expandedColumns(maxColumns);
     }
     
+    /**
+     * Factory method for new GridLayoutColumnHandler
+     * @param parent The parent Composite
+     * @return a new GridLayoutColumnHandler
+     * @since 5.11
+     */
     public static GridLayoutColumnHandler create(Composite parent) {
         return new GridLayoutColumnHandler(parent);
     }
@@ -59,6 +65,7 @@ public class GridLayoutColumnHandler {
     
     /**
      * @param compactColumns the number of GridLayout columns to use when single column (compact) mode is on. Default is 1.
+     * @since 5.11.0
      */
     public GridLayoutColumnHandler compactColumns(int compactColumns) {
         this.compactColumns = compactColumns;
@@ -67,6 +74,7 @@ public class GridLayoutColumnHandler {
     
     /**
      * @param expandedColumns the number of GridLayout columns to use when single column (compact) mode is off. Default is 2.
+     * @since 5.11.0
      */
     public GridLayoutColumnHandler expandedColumns(int expandedColumns) {
         this.expandedColumns = expandedColumns;
@@ -77,6 +85,7 @@ public class GridLayoutColumnHandler {
      * @param width The column width to use for all child controls when there is more than one column.
      * Can be set to SWT.DEFAULT for default widths.
      * Default is ITabbedLayoutConstants.COMPOSITE_WIDTH.
+     * @since 5.11.0
      */
     public GridLayoutColumnHandler columnWidth(int width) {
         columnWidth = width;

@@ -18,6 +18,7 @@ import com.archimatetool.model.IDiagramModelConnection;
  * Delete all bendpoints from a connection
  * 
  * @author Phillip Beauvoir
+ * @since 5.11.0
  */
 public class DeleteBendpointsCommand extends Command implements IAnimatableCommand {
     

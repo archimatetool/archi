@@ -11,6 +11,7 @@ import java.io.IOException;
  * Unsupported model
  * 
  * @author Phillip Beauvoir
+ * @since 5.11.0
  */
 public class UnsupportedModelException extends IOException {
 

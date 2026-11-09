@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * Extension of ImagePrintFigureOperation for use in DiagramUtils
+ * @since 5.11.0
  */
 public class ImagePrintDiagramOperation extends ImagePrintFigureOperation {
     private final Rectangle bounds;
