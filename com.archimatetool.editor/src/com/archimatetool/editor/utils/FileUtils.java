@@ -13,10 +13,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.DosFileAttributeView;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -100,7 +102,7 @@ public final class FileUtils  {
                 deleteFolder(file);
             }
             else {
-                file.delete();
+                forceDelete(file);
             }
         }
 	}
@@ -270,9 +272,49 @@ public final class FileUtils  {
 	 */
 	public static void moveFile(File srcFile, File destFile) throws IOException {
 		copyFile(srcFile, destFile, false);
-		srcFile.delete();
+		forceDelete(srcFile);
 	}
 	
+    /**
+     * Force delete a file or directory so that if on Windows and Java 25 or later the readonly attribute is removed first
+     * @param file The file or directory to delete
+     * {@code true} if and only if the file or directory is
+     *          successfully deleted; {@code false} otherwise
+     * @throws IOException 
+     * @since 5.11.0
+     */
+    public static boolean forceDelete(File file) throws IOException {
+        clearWindowsReadOnlyAttribute(file.toPath());
+        return file.delete();
+    }
+    
+    /**
+     * Force delete a path so that if on Windows and Java 25 or later the readonly attribute is removed first
+     * @param path the path to delete
+     * @throws IOException
+     * @since 5.11.0
+     */
+    public static void forceDelete(Path path) throws IOException {
+        clearWindowsReadOnlyAttribute(path);
+        Files.delete(path);
+    }
+    
+    /**
+     * Java 25 won't delete read-only files on Windows so we have to explicitly set the attribute
+     * @param path path to file
+     * @throws IOException 
+     * @since 5.11.0
+     */
+    public static void clearWindowsReadOnlyAttribute(Path path) throws IOException {
+        if(PlatformUtils.isWindows()) {
+            // Safely retrieves the DOS view. Returns null if the OS/File System doesn't support it
+            DosFileAttributeView dosView = Files.getFileAttributeView(path, DosFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+            if(dosView != null) {
+                dosView.setReadOnly(false);
+            }
+        }
+    }
+    
 	/**
 	 * Delete a folder and its contents
 	 * Deprecated - use {@link #deleteDir(Path)}
@@ -297,7 +339,7 @@ public final class FileUtils  {
 	        if(files != null) {
 	            for(File file : files) {
 	                if(file.isFile()) {
-	                    file.delete();
+	                    forceDelete(file);
 	                }
 	                else if(file.isDirectory()) {
 	                    deleteFolder(file);
@@ -305,7 +347,7 @@ public final class FileUtils  {
 	            }
 	        }
 	        
-	        afolder.delete();
+	        forceDelete(afolder);
 	    }
 	}
 	
@@ -313,6 +355,7 @@ public final class FileUtils  {
 	 * Delete a directory and its contents
 	 * @param dir path to directory
 	 * @throws IOException
+	 * @since 5.8.0
 	 */
 	public static void deleteDir(Path dir) throws IOException {
 	    if(dir == null) {
@@ -340,7 +383,7 @@ public final class FileUtils  {
 	    Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Files.delete(file);
+                forceDelete(file);
                 return FileVisitResult.CONTINUE;
             }
             
@@ -349,7 +392,7 @@ public final class FileUtils  {
                 if(exc != null) {
                     throw exc;
                 }
-                Files.delete(dir);
+                forceDelete(dir);
                 return FileVisitResult.CONTINUE;
             }
         });

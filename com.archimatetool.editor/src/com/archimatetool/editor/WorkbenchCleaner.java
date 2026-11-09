@@ -6,9 +6,11 @@
 package com.archimatetool.editor;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -17,6 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.p2.P2;
+import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 
 
@@ -190,7 +193,7 @@ public class WorkbenchCleaner {
             }
             // Add a shutdown hook to delete files after Java has exited
             else {
-                Runtime.getRuntime().addShutdownHook(new Thread((runnable)));
+                Runtime.getRuntime().addShutdownHook(new Thread(runnable));
             }
         }
     }
@@ -207,30 +210,16 @@ public class WorkbenchCleaner {
     }
     
     private static void delete(File file) {
-        if(file.isDirectory()) {
-            deleteFolder(file);
-        }
-        else {
-            file.delete();
-        }
-    }
-    
-    private static void deleteFolder(File folder) {
-        if(folder.exists() && folder.isDirectory()) {
-            File[] files = folder.listFiles();
-            if(files != null) {
-                for(File file : files) {
-                    if(file.isFile()) {
-                        file.delete();
-                    }
-                    else if(file.isDirectory()) {
-                        deleteFolder(file);
-                    }
-                }
+        try {
+            if(file.isDirectory()) {
+                FileUtils.deleteFolder(file);
             }
-            
-            folder.delete();
+            else {
+                FileUtils.forceDelete(file);
+            }
+        }
+        catch(IOException ex) {
+            ILog.get().error("Error deleting file", ex); //$NON-NLS-1$
         }
     }
-
 }

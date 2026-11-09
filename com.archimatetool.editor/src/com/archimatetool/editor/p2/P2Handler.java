@@ -6,6 +6,7 @@
 package com.archimatetool.editor.p2;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +43,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
 import com.archimatetool.editor.ArchiPlugin;
+import com.archimatetool.editor.utils.FileUtils;
 
 /**
  * See https://github.com/EnFlexIT/AgentWorkbench/blob/master/eclipseProjects/org.agentgui/bundles/de.enflexit.common/src/de/enflexit/common/p2/P2OperationsHandler.java
@@ -111,7 +113,7 @@ public class P2Handler {
      * These are in .p2/org.eclipse.equinox.p2.engine/profileRegistry/DefaultProfile.profile
      * This can be called when exiting the app
      */
-    public void cleanProfileRegistry() throws ProvisionException {
+    public void cleanProfileRegistry() throws ProvisionException, IOException {
         File p2Folder = P2.getP2Location();
         if(p2Folder == null) {
             return;
@@ -124,7 +126,7 @@ public class P2Handler {
         for(long ts : getProfileRegistry().listProfileTimestamps(profile.getProfileId())) {
             if(ts < profile.getTimestamp()) { // Don't delete latest one
                 File file = new File(profileFolder, ts + ".profile.gz");
-                file.delete();
+                FileUtils.forceDelete(file);
             }
         }
     }

@@ -16,12 +16,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.attribute.DosFileAttributeView;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import com.archimatetool.editor.TestSupport;
 import com.archimatetool.tests.TestUtils;
@@ -269,7 +272,110 @@ public class FileUtilsTests {
     }
 
     // ---------------------------------------------------------------------------------------------
+    
+    @Test
+    public void forceDelete_File_IsReadOnly() throws Exception {
+        File tempFile = TestUtils.createTempFile(null);
+        Path tempPath = tempFile.toPath();
+        
+        if(PlatformUtils.isWindows()) {
+            DosFileAttributeView dosView = Files.getFileAttributeView(tempPath, DosFileAttributeView.class);
+            if(dosView != null) {
+                dosView.setReadOnly(true);
+            }
+        }
+        else {
+            tempFile.setReadOnly();
+        }
+        
+        assertFalse(Files.isWritable(tempPath));
+        
+        assertTrue(FileUtils.forceDelete(tempFile));
+        assertFalse(tempFile.exists());
+    }
+    
+    @Test
+    public void forceDelete_PathFile_IsReadOnly() throws Exception {
+        File tempFile = TestUtils.createTempFile(null);
+        Path tempPath = tempFile.toPath();
+        
+        if(PlatformUtils.isWindows()) {
+            DosFileAttributeView dosView = Files.getFileAttributeView(tempPath, DosFileAttributeView.class);
+            if(dosView != null) {
+                dosView.setReadOnly(true);
+            }
+        }
+        else {
+            tempFile.setReadOnly();
+        }
+        
+        assertFalse(Files.isWritable(tempPath));
+        
+        FileUtils.forceDelete(tempPath);
+        assertFalse(tempFile.exists());
+    }
+    
+    @Test
+    public void forceDelete_Directory_IsReadOnly() throws Exception {
+        File tempDirFile = TestUtils.createTempFolder("subFolder");
+        Path tempDirPath = tempDirFile.toPath();
+        
+        if(PlatformUtils.isWindows()) {
+            DosFileAttributeView dosView = Files.getFileAttributeView(tempDirPath, DosFileAttributeView.class);
+            if(dosView != null) {
+                dosView.setReadOnly(true);
+            }
+        }
+        else {
+            tempDirFile.setReadOnly();
+        }
+        
+        // Not working on Windows for directories
+        // assertFalse(Files.isWritable(tempDirPath));
+        
+        assertTrue(FileUtils.forceDelete(tempDirFile));
+        assertFalse(tempDirFile.exists());
+    }
 
+    @Test
+    public void forceDelete_PathDirectory_IsReadOnly() throws Exception {
+        File tempDirFile = TestUtils.createTempFolder("subFolder");
+        Path tempDirPath = tempDirFile.toPath();
+        
+        if(PlatformUtils.isWindows()) {
+            DosFileAttributeView dosView = Files.getFileAttributeView(tempDirPath, DosFileAttributeView.class);
+            if(dosView != null) {
+                dosView.setReadOnly(true);
+            }
+        }
+        else {
+            tempDirFile.setReadOnly();
+        }
+        
+        // Not working on Windows for directories
+        // assertFalse(Files.isWritable(path));
+        
+        FileUtils.forceDelete(tempDirPath);
+        assertFalse(tempDirFile.exists());
+    }
+
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    public void clearWindowsReadOnlyAttribute() throws Exception {
+        File tempFile = TestUtils.createTempFile(null);
+        Path tempPath = tempFile.toPath();
+        
+        DosFileAttributeView dosView = Files.getFileAttributeView(tempPath, DosFileAttributeView.class);
+        if(dosView != null) {
+            dosView.setReadOnly(true);
+        }
+
+        assertFalse(Files.isWritable(tempPath));
+        
+        FileUtils.clearWindowsReadOnlyAttribute(tempPath);
+        assertTrue(Files.isWritable(tempPath));
+    }
+    
     @Test
     public void deleteDir() throws Exception {
         File folder = TestUtils.createTempFolder("delete_folder");

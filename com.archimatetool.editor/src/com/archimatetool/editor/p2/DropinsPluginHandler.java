@@ -470,7 +470,7 @@ public class DropinsPluginHandler {
                     FileUtils.deleteDir(file.toPath());
                 }
                 else {
-                    file.delete();
+                    FileUtils.forceDelete(file);
                 }
             }
         }

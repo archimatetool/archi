@@ -363,7 +363,7 @@ public class ArchiveManager implements IArchiveManager {
                     String imagePath = "images/" + file.getName();
                     // If we don't reference the file in the model and it's loaded in memory (this checks that it's a valid image file)
                     if(!imagePaths.contains(imagePath) && loadedImagePaths.contains(imagePath)) {
-                        file.delete();
+                        FileUtils.forceDelete(file);
                     }
                 }
             }
