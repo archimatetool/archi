@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.ImagePrintFigureOperation;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
@@ -20,6 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.util.ImagePrintFigureOperation;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
@@ -125,7 +125,7 @@ public class FigureImagePreviewFactory {
     }
 
     /**
-     * Create the image using a ImagePrintFigureOperation. This is needed on Windows.
+     * Create the image using a ImagePrintFigureOperation. This is needed on Windows to stop clipped text.
      */
     private static Image createImageFromImagePrintFigureOperation(IFigure previewFigure) {
         Shell shell = new Shell();
