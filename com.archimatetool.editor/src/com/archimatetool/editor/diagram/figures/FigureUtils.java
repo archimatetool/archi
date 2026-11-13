@@ -17,6 +17,9 @@ import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
 
+import com.archimatetool.editor.ui.DPIUtils;
+import com.archimatetool.editor.utils.PlatformUtils;
+
 
 /**
  * Utils for Figures
@@ -38,6 +41,28 @@ public class FigureUtils {
         }
         
         return 1.0;
+    }
+    
+    /**
+     * Get the scale to use for line dashes in figures on Windows when diagram zoom < 100.
+     * 
+     * On Windows with monitor display scaling at 100% when a diagram is zoomed out to less than 100%
+     * line dashes are not scaled to match and are too big. This is a workaround to return the scale
+     * factor to use for line dashes.
+     * 
+     * Interestingly if the figure's line width > 1 the dashes scale correctly.
+     * 
+     * This doesn't affect Mac, Linux or Windows with monitor scale > 100%.
+     * 
+     * It will be 1 or less than 1 if figure scale is less than 1.
+     * @since 5.11.1
+     */
+    public static float getLineDashScale(IFigure figure) {
+        if(PlatformUtils.isWindows() && DPIUtils.getDeviceZoom() == 100) {
+            return (float)Math.min(getFigureScale(figure), 1.0);
+        }
+        
+        return 1;
     }
     
     /**

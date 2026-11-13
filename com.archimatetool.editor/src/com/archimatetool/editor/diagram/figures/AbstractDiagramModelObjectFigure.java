@@ -254,10 +254,12 @@ implements IDiagramModelObjectFigure {
                 graphics.setLineStyle(Graphics.LINE_SOLID);
             }
             case IDiagramModelObject.LINE_STYLE_DASHED -> {
-                graphics.setLineDash(new float[] { 8, 4 });
+                final float scale = FigureUtils.getLineDashScale(this);
+                graphics.setLineDash(new float[] { 8 * scale, 4 * scale });
             }
             case IDiagramModelObject.LINE_STYLE_DOTTED -> {
-                graphics.setLineDash(new float[] { 2, 4 });
+                final float scale = FigureUtils.getLineDashScale(this);
+                graphics.setLineDash(new float[] { 2 * scale, 4 * scale});
             }
         }
     }

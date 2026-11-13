@@ -12,6 +12,7 @@ import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.swt.SWT;
 
+import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.ToolTipFigure;
 import com.archimatetool.editor.diagram.figures.connections.AbstractDiagramConnectionFigure;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
@@ -68,20 +69,26 @@ public class LineConnectionFigure extends AbstractDiagramConnectionFigure {
             setTargetDecoration(null);
         }
         
-        // Line Style
+        repaint(); // repaint when figure changes
+    }
+    
+    @Override
+    protected void setLineDash() {
+        int connectionType = getModelConnection().getType();
+        
         if((connectionType & IDiagramModelConnection.LINE_DASHED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { 4 });
+            final float scale = FigureUtils.getLineDashScale(this);
+            setLineDash(new float[] { 4 * scale });
         }
         else if((connectionType & IDiagramModelConnection.LINE_DOTTED) != 0) {
             setLineStyle(SWT.LINE_CUSTOM);
-            setLineDash(new float[] { 1, 4 });
+            final float scale = FigureUtils.getLineDashScale(this);
+            setLineDash(new float[] { 1 * scale, 4 * scale });
         }
         else {
             setLineStyle(Graphics.LINE_SOLID);
         }
-        
-        repaint(); // repaint when figure changes
     }
     
     protected PolygonDecoration getArrowheadSourceFilled() {
