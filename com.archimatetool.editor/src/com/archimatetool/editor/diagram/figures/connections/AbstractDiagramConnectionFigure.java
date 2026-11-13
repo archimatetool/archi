@@ -199,6 +199,15 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
         }
     }
     
+    /**
+     * Set the line style if any.
+     * On Windows with display scalings of 100% and diagram zoom < 100% dots and dashes in line styles are not
+     * scaled correctly so sub-classes might need to set the scaling of the dashes or dots accordingly.
+     * @since 5.12.0
+     */
+    protected void setLineStyle() {
+    }
+    
     protected void setLineWidth() {
         setLineWidth(getModelConnection().getLineWidth());
     }
@@ -240,6 +249,8 @@ extends RoundedPolylineConnection implements IDiagramConnectionFigure {
             setForegroundColor(fLineColor);
         }
 
+        setLineStyle();
+        
         // Label strategy is clipped
         if(StringUtils.isSet(getConnectionLabel().getText()) && 
                                          ArchiPlugin.getInstance().getPreferenceStore().getInt(IPreferenceConstants.CONNECTION_LABEL_STRATEGY) == CONNECTION_LABEL_CLIPPED) {
