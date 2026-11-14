@@ -29,9 +29,9 @@ import com.archimatetool.editor.diagram.DiagramEditorFactoryExtensionHandler;
 import com.archimatetool.editor.diagram.IDiagramEditorFactory;
 import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
 import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.model.ISketchModel;
@@ -77,7 +77,7 @@ public final class DiagramUtils {
         Control control = viewer.createControl(parent);
         if(!doUpscaleImage()) {
             // Stops text clipping on Windows but text height will be increased
-            // No effect on Mac and Linux
+            // No effect on Mac and Linux or Windows at 100% scaling
             control.setAutoscalingMode(AutoscalingMode.ENABLED);
         }
         
@@ -113,7 +113,7 @@ public final class DiagramUtils {
      *         If model has no children a blank image of 100x100 is returned
      */
     public static ModelReferencedImage createModelReferencedImage(IDiagramModel model, double scale, int margin) {
-        Shell shell = new Shell();
+        Shell shell = DPIUtils.createShellForImage();
         try {
             GraphicalViewer viewer = createViewer(model, shell);
             return createModelReferencedImage(viewer, scale, margin);
@@ -169,7 +169,7 @@ public final class DiagramUtils {
 
         // Use Image Operation
         if(doUpscaleImage()) {
-            Shell shell = new Shell(); // Don't use a Singleton Shell because its getZoom() method is invalid if display scale is changed
+            Shell shell = DPIUtils.createShellForImage();
             try {
                 ImagePrintFigureOperation op = new ImagePrintDiagramOperation(shell, figure, scale, bounds);
                 Image image = op.run();
@@ -262,6 +262,8 @@ public final class DiagramUtils {
      * @return true if preference set to upscale Image
      */
     public static boolean doUpscaleImage() {
-        return FigureUtils.isAutoScaleEnabled() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.UPSCALE_IMAGE_EXPORT);
+        return DPIUtils.isDraw2dAutoScaleEnabled()
+                    && DPIUtils.getDeviceZoom() != 100 // Not needed on 100% scaling
+                    && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.UPSCALE_IMAGE_EXPORT);
     }
 }

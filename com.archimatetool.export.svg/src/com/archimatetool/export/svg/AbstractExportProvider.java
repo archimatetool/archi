@@ -29,6 +29,7 @@ import org.w3c.dom.Element;
 
 import com.archimatetool.editor.diagram.IImageExportProvider;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
 import com.archimatetool.model.IDiagramModel;
@@ -233,7 +234,7 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
      * Create a DOM element for the given IDiagramModel
      */
     protected Element createElementForView(IDiagramModel diagramModel, boolean setViewBox) {
-        Shell shell = new Shell();
+        Shell shell = DPIUtils.createShellForImage();
         
         try {
             // Create Draw2d figure

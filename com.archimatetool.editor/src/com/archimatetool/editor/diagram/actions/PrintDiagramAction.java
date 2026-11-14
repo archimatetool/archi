@@ -17,6 +17,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -59,7 +60,7 @@ public class PrintDiagramAction extends WorkbenchPartAction {
             Printer printer = null;
             
             try {
-                tempShell = new Shell();
+                tempShell = DPIUtils.createShellForImage();
                 GraphicalViewer viewer = DiagramUtils.createViewer(diagramModel, tempShell);
                 printer = new Printer(data);
                 

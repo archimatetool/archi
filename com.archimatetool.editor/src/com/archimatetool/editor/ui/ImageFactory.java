@@ -19,13 +19,9 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
-import org.eclipse.swt.internal.DPIUtil;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.components.CompositeMultiImageDescriptor;
 
 
@@ -41,27 +37,18 @@ public class ImageFactory {
     
     /**
      * @return The actual device zoom level.
+     * @deprecated Use {@link DPIUtils#getDeviceZoom()}
      */
-    @SuppressWarnings("restriction")
     public static int getDeviceZoom() {
-        // Note - Not sure if we need this any more...but just in case
-        Display.getDefault();
-        
-        return DPIUtil.getDeviceZoom();
-        
-        // Alternate method which I suppose is the official way
-        //String deviceZoom = System.getProperty("org.eclipse.swt.internal.deviceZoom"); //$NON-NLS-1$
-        //return deviceZoom == null ? 100 : Integer.parseInt(deviceZoom);
+        return DPIUtils.getDeviceZoom();
     }
 
     /**
      * @return The zoom level for creating images.
-     * On Linux scaleImages defaults to false and this should be 100%
-     * On Mac/Windows use the device zoom
+     * @deprecated Use {@link DPIUtils#getImageDeviceZoom()}
      */
     public static int getImageDeviceZoom() {
-        boolean scaleImages = ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.SCALE_IMAGE_EXPORT);
-        return scaleImages ? getDeviceZoom() : 100;
+        return DPIUtils.getImageDeviceZoom();
     }
     
     /**
@@ -328,7 +315,7 @@ public class ImageFactory {
         Image image;
         
         // If there is a transparency pixel set copy the source ImageData to preserve it
-        ImageData sourceImageData = source.getImageData(getDeviceZoom());
+        ImageData sourceImageData = source.getImageData(DPIUtils.getDeviceZoom());
         if(sourceImageData.transparentPixel != -1) {
             ImageData id = new ImageData(width, height, sourceImageData.depth, sourceImageData.palette);
             id.transparentPixel = sourceImageData.transparentPixel;

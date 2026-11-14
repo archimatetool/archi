@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
-import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.jasperreports.data.ArchimateModelDataSource;
 import com.archimatetool.model.IArchimateModel;
@@ -179,7 +179,7 @@ public class JasperReportsExporter {
                 image = DiagramUtils.createImage(dm, 1, 10);
                 String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
                 ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { image.getImageData(ImageFactory.getImageDeviceZoom()) };
+                loader.data = new ImageData[] { image.getImageData(DPIUtils.getImageDeviceZoom()) };
                 File file = new File(tmpFolder, diagramName);
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }

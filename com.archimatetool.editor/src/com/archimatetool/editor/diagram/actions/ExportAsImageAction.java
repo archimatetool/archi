@@ -21,6 +21,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.diagram.wizard.ExportAsImageWizard;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
 import com.archimatetool.model.IDiagramModel;
 
@@ -47,7 +48,7 @@ public class ExportAsImageAction extends WorkbenchPartAction {
 
     @Override
     public void run() {
-        Shell tempShell = new Shell();
+        Shell tempShell = DPIUtils.createShellForImage();
         IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
         GraphicalViewer viewer = DiagramUtils.createViewer(diagramModel, tempShell);
         

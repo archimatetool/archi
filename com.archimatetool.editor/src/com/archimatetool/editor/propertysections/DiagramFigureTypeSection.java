@@ -184,7 +184,7 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         void update(EClass eClass, int type) {
             if(!Objects.equals(eClass, this.eClass)) {
                 disposeImage();
-                image = FigureImagePreviewFactory.getPreviewImage(eClass, type);
+                image = FigureImagePreviewFactory.getPreviewImage(getShell(), eClass, type);
                 label.setImage(image);
             }
             

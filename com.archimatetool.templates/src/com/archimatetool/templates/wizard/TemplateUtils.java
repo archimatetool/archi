@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.model.IDiagramModel;
 import com.archimatetool.templates.model.TemplateManager;
 
@@ -38,7 +39,7 @@ public class TemplateUtils {
             label.setImage(null);
         }
 
-        Shell shell = new Shell();
+        Shell shell = DPIUtils.createShellForImage();
         GraphicalViewer diagramViewer = DiagramUtils.createViewer(diagramModel, shell);
         
         final int margin = 5;
@@ -58,7 +59,7 @@ public class TemplateUtils {
      * @return
      */
     public static Image createThumbnailImage(IDiagramModel diagramModel) {
-        Shell shell = new Shell();
+        Shell shell = DPIUtils.createShellForImage();
         GraphicalViewer diagramViewer = DiagramUtils.createViewer(diagramModel, shell);
         
         int padding = 5;

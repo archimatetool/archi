@@ -49,7 +49,7 @@ import com.archimatetool.editor.browser.IBrowserEditorInput;
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.diagram.util.ModelReferencedImage;
 import com.archimatetool.editor.model.IArchiveManager;
-import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -455,11 +455,11 @@ public class HTMLReportExporter {
 
                 // Get and store the bounds of the top-left element in the figure to act as overall x,y offset
                 Rectangle bounds = geoImage.getBounds();
-                bounds.performScale((double)ImageFactory.getImageDeviceZoom() / 100); // Account for device zoom level
+                bounds.performScale((double)DPIUtils.getImageDeviceZoom() / 100); // Account for device zoom level
                 diagramBoundsMap.put(dm, bounds);
 
                 ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { geoImage.getImage().getImageData(ImageFactory.getImageDeviceZoom()) };
+                loader.data = new ImageData[] { geoImage.getImage().getImageData(DPIUtils.getImageDeviceZoom()) };
                 File file = new File(imagesFolder, dm.getId() + ".png"); //$NON-NLS-1$
                 loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
             }
@@ -576,7 +576,7 @@ public class HTMLReportExporter {
      */
     private void addNewBounds(IDiagramModelObject dmo, int offsetX, int offsetY) {
         // Add new bounds caled to device zoom
-        BoundsWithAbsolutePosition newBounds = new BoundsWithAbsolutePosition(dmo.getBounds(), (double)ImageFactory.getImageDeviceZoom() / 100);
+        BoundsWithAbsolutePosition newBounds = new BoundsWithAbsolutePosition(dmo.getBounds(), (double)DPIUtils.getImageDeviceZoom() / 100);
         newBounds.setOffset(offsetX, offsetY); // Add offset
         childBoundsMap.put(dmo.getId(), newBounds);
         

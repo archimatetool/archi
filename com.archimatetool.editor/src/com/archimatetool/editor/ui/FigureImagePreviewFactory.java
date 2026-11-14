@@ -13,6 +13,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.AutoscalingMode;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -46,6 +47,14 @@ public class FigureImagePreviewFactory {
      * @return A preview image of the graphical Figure used by eClass of type
      */
     public static Image getPreviewImage(EClass eClass, int type) {
+        return getPreviewImage(null, eClass, type);
+    }
+
+    /**
+     * @param parentShell The parent Shell to use to create the figure. This is required on Windows to determine the current display scale
+     * @return A preview image of the graphical Figure used by eClass of type
+     */
+    public static Image getPreviewImage(Shell parentShell, EClass eClass, int type) {
         // Only two types
         if(type < 0 || type > 1) {
             return null;
@@ -107,7 +116,7 @@ public class FigureImagePreviewFactory {
         figure.setSize(new Dimension(FIGURE_WIDTH, FIGURE_HEIGHT));
         figure.refreshVisuals();
 
-        return PlatformUtils.isWindows() ? createImageFromImagePrintFigureOperation(figure) : createImage(figure);
+        return PlatformUtils.isWindows() ? createImageFromImagePrintFigureOperation(parentShell, figure) : createImage(figure);
     }
     
     /**
@@ -125,10 +134,11 @@ public class FigureImagePreviewFactory {
     }
 
     /**
-     * Create the image using a ImagePrintFigureOperation. This is needed on Windows to stop clipped text.
+     * Create the image using a ImagePrintFigureOperation.
+     * This is needed on Windows to stop clipped text and when moving between different monitor scales.
      */
-    private static Image createImageFromImagePrintFigureOperation(IFigure previewFigure) {
-        Shell shell = new Shell();
+    private static Image createImageFromImagePrintFigureOperation(Shell parentShell, IFigure previewFigure) {
+        Shell shell = new Shell(parentShell, SWT.NO_TRIM);
         try {
             previewFigure.validate(); // Call this here
             ImagePrintFigureOperation imagePrintOperation = new ImagePrintFigureOperation(shell, previewFigure);
@@ -145,8 +155,8 @@ public class FigureImagePreviewFactory {
      * but not on letters with a descender like "g".
      */
     @SuppressWarnings("unused")
-    private static Image createImageFromGraphicalViewer(IFigure previewFigure) {
-        Shell shell = new Shell();
+    private static Image createImageFromGraphicalViewer(Shell parentShell, IFigure previewFigure) {
+        Shell shell = new Shell(parentShell);
         Image image;
         
         try {

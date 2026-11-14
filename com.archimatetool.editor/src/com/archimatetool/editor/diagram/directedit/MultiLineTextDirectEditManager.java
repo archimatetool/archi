@@ -13,9 +13,9 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import com.archimatetool.editor.diagram.figures.FigureUtils;
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
 import com.archimatetool.editor.diagram.figures.connections.IDiagramConnectionFigure;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.editor.utils.StringUtils;
 import com.archimatetool.model.INameable;
 import com.archimatetool.model.ITextAlignment;
@@ -184,7 +184,7 @@ public class MultiLineTextDirectEditManager extends AbstractDirectEditManager {
             // referenceFigure.translateToAbsolute(d);
             // return d.width();
             
-            return Math.round(value * FigureUtils.getDisplayScale());
+            return Math.round(value * DPIUtils.getDraw2dDeviceZoom());
         }
     }
     

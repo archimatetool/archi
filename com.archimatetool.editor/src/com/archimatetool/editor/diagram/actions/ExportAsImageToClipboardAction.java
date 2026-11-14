@@ -16,7 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.archimatetool.editor.diagram.util.DiagramUtils;
 import com.archimatetool.editor.ui.ClipboardImageTransfer;
-import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -50,7 +50,7 @@ public class ExportAsImageToClipboardAction extends WorkbenchPartAction {
                 try {
                     IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
                     image = DiagramUtils.createImage(diagramModel, 1, 10);
-                    ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
+                    ImageData imageData = image.getImageData(DPIUtils.getImageDeviceZoom());
                     ClipboardImageTransfer.copyImageDataToClipboard(imageData);
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors

@@ -16,7 +16,6 @@ import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Path;
-import org.eclipse.swt.internal.DPIUtil;
 
 import com.archimatetool.canvas.model.ICanvasModelSticky;
 import com.archimatetool.editor.ArchiPlugin;
@@ -26,6 +25,7 @@ import com.archimatetool.editor.diagram.figures.IconicDelegate;
 import com.archimatetool.editor.diagram.figures.TextPositionDelegate;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.editor.utils.StringUtils;
 
@@ -104,7 +104,6 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         });
     }
 
-    @SuppressWarnings("restriction")
     @Override
     protected void paintFigure(Graphics graphics) {
         graphics.pushState();
@@ -118,7 +117,7 @@ extends AbstractDiagramModelObjectFigure implements ITextFigure {
         
         // Bug on Linux hi-res using Graphics.fillGradient()
         // See https://github.com/eclipse-platform/eclipse.platform.swt/issues/3107
-        if(PlatformUtils.isLinux() && DPIUtil.getDeviceZoom() > 100) {
+        if(PlatformUtils.isLinux() && DPIUtils.getDeviceZoom() > 100) {
             graphics.setBackgroundColor(getFillColor());
             graphics.fillRectangle(rect);
         }

@@ -26,6 +26,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -62,10 +63,10 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         private int chosenType = 0;
         private final Image[] images;
         
-        ImageChoice(EClass eClass) {
+        ImageChoice(Shell parentShell, EClass eClass) {
             preferenceKey = IPreferenceConstants.DEFAULT_FIGURE_PREFIX + eClass.getName();
-            images = new Image[] { FigureImagePreviewFactory.getPreviewImage(eClass, 0),
-                                   FigureImagePreviewFactory.getPreviewImage(eClass, 1) };
+            images = new Image[] { FigureImagePreviewFactory.getPreviewImage(parentShell, eClass, 0),
+                                   FigureImagePreviewFactory.getPreviewImage(parentShell, eClass, 1) };
             chosenType = ArchiPlugin.getInstance().getPreferenceStore().getInt(preferenceKey);
         }
         
@@ -130,7 +131,7 @@ implements IWorkbenchPreferencePage, IPreferenceConstants {
         for(EClass eClass : ArchimateModelUtils.getAllArchimateClasses()) {
             if(ObjectUIFactory.INSTANCE.getProviderForClass(eClass) instanceof IArchimateElementUIProvider uiProvider
                                                                                 && uiProvider.hasAlternateFigure()) {
-                imageChoices.add(new ImageChoice(eClass));
+                imageChoices.add(new ImageChoice(getShell(), eClass));
             }
         }
     }

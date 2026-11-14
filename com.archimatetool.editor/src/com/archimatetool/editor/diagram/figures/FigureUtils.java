@@ -15,10 +15,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
-import org.eclipse.swt.internal.DPIUtil;
 import org.eclipse.swt.widgets.Display;
-
-import com.archimatetool.editor.utils.PlatformUtils;
 
 
 /**
@@ -26,7 +23,6 @@ import com.archimatetool.editor.utils.PlatformUtils;
  * 
  * @author Phillip Beauvoir
  */
-@SuppressWarnings("nls")
 public class FigureUtils {
 
     /**
@@ -44,21 +40,6 @@ public class FigureUtils {
         return 1.0;
     }
     
-    /**
-     * Whether Draw2d scaling is enabled on Windows
-     */
-    public static boolean isAutoScaleEnabled() {
-        return PlatformUtils.isWindows() && Boolean.parseBoolean(System.getProperty("draw2d.enableAutoscale", Boolean.TRUE.toString()));
-    }
-
-    /**
-     * @return the display scaling if on Windows and draw2d enableAutoscale is true, else return 1
-     */
-    @SuppressWarnings("restriction")
-    public static float getDisplayScale() {
-        return isAutoScaleEnabled() ? DPIUtil.getDeviceZoom() / 100f : 1f;
-    }
-
     /**
      * Gradient Direction
      */
