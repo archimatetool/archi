@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.tests.TestUtils;
 
 /**
@@ -90,7 +90,7 @@ public class ImageExportProviderTests {
         assertTrue(tmp.exists());
 
         ImageData imageData = new ImageData(tmp.getPath());
-        float scale = ImageFactory.getImageDeviceZoom() / 100f; // Image Exporter exports using this
+        float scale = DPIUtils.getImageDeviceZoom() / 100f; // Image Exporter exports using this
         assertEquals(148 * scale, imageData.width); // 128 width + 10 margins
         assertEquals(72 * scale, imageData.height); // 52 height + 10 margins
         

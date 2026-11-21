@@ -20,15 +20,12 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.editparts.LayerManager;
-import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.archimatetool.editor.diagram.IImageExportProvider;
-import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.diagram.util.DiagramImageFactory;
 import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.export.svg.graphiti.GraphicsToGraphics2DAdaptor;
 import com.archimatetool.model.IDiagramModel;
@@ -144,7 +141,7 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
      * @return The bounds
      */
     protected Rectangle getViewportBounds(IFigure figure) {
-        Rectangle rect = DiagramUtils.getMinimumBounds(figure);
+        Rectangle rect = DiagramImageFactory.getMinimumBounds(figure);
         if(rect == null) {
             rect = new Rectangle(0, 0, 100, 100); // At least a minimum for a blank image
         }
@@ -233,21 +230,14 @@ public abstract class AbstractExportProvider implements IImageExportProvider {
      * Create a DOM element for the given IDiagramModel
      */
     protected Element createElementForView(IDiagramModel diagramModel, boolean setViewBox) {
-        Shell shell = new Shell();
-        
-        try {
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
             // Create Draw2d figure
-            GraphicalViewer viewer = DiagramUtils.createViewer(diagramModel, shell);
-            LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
-            IFigure figure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
-            setFigure(figure);
+            GraphicalViewer viewer = imageFactory.createViewer(diagramModel);
+            IFigure rootFigure = DiagramImageFactory.getPrintableLayer(viewer);
+            setFigure(rootFigure);
 
             // Initialise
             initialiseGraphics();
-        }
-        finally {
-            // Do this *after* creating the image
-            shell.dispose();
         }
         
         // Get the Element root from the SVGGraphics2D instance

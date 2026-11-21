@@ -18,7 +18,7 @@ import com.archimatetool.editor.diagram.policies.AllPoliciesTests;
 import com.archimatetool.editor.diagram.sketch.AllSketchTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterInfoTests;
 import com.archimatetool.editor.diagram.tools.FormatPainterToolTests;
-import com.archimatetool.editor.diagram.util.DiagramUtilsTests;
+import com.archimatetool.editor.diagram.util.DiagramImageFactoryTests;
 
 @Suite
 @SelectClasses({
@@ -44,7 +44,7 @@ import com.archimatetool.editor.diagram.util.DiagramUtilsTests;
     FormatPainterInfoTests.class,
     FormatPainterToolTests.class,
     // diagram.util
-    DiagramUtilsTests.class
+    DiagramImageFactoryTests.class,
 })
 @SuiteDisplayName("All Diagram Tests")
 public class AllDiagramTests {

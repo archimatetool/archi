@@ -12,11 +12,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.printing.PrintDialog;
 import org.eclipse.swt.printing.Printer;
 import org.eclipse.swt.printing.PrinterData;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 
-import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.diagram.util.DiagramImageFactory;
 import com.archimatetool.model.IDiagramModel;
 
 
@@ -55,12 +54,10 @@ public class PrintDiagramAction extends WorkbenchPartAction {
         if(data != null) {
             IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
             
-            Shell tempShell = null;
             Printer printer = null;
             
-            try {
-                tempShell = new Shell();
-                GraphicalViewer viewer = DiagramUtils.createViewer(diagramModel, tempShell);
+            try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
+                GraphicalViewer viewer = imageFactory.createViewer(diagramModel);
                 printer = new Printer(data);
                 
                 PrintGraphicalViewerOperation op = new PrintGraphicalViewerOperation(printer, viewer);
@@ -68,9 +65,6 @@ public class PrintDiagramAction extends WorkbenchPartAction {
                 op.run(getWorkbenchPart().getTitle());
             }
             finally {
-                if(tempShell != null) {
-                    tempShell.dispose();
-                }
                 if(printer != null) {
                     printer.dispose();
                 }

@@ -6,7 +6,6 @@
 package com.archimatetool.editor.ui;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.ImagePrintFigureOperation;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EClass;
@@ -20,9 +19,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import com.archimatetool.editor.diagram.figures.IDiagramModelObjectFigure;
+import com.archimatetool.editor.diagram.util.ImagePrintFigureOperation;
 import com.archimatetool.editor.ui.factory.IArchimateElementUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
-import com.archimatetool.editor.utils.PlatformUtils;
 import com.archimatetool.model.IArchimateElement;
 import com.archimatetool.model.IArchimateFactory;
 import com.archimatetool.model.IArchimatePackage;
@@ -107,7 +106,11 @@ public class FigureImagePreviewFactory {
         figure.setSize(new Dimension(FIGURE_WIDTH, FIGURE_HEIGHT));
         figure.refreshVisuals();
 
-        return PlatformUtils.isWindows() ? createImageFromImagePrintFigureOperation(figure) : createImage(figure);
+        // If using ImagePrintFigureOperation uncomment this.
+        // But there are issues when moving between monitors so better to just have a liitle bit of text clipping
+        // return PlatformUtils.isWindows() ? createImageFromImagePrintFigureOperation(figure) : createImage(figure);
+
+        return createImage(figure);
     }
     
     /**
@@ -125,10 +128,12 @@ public class FigureImagePreviewFactory {
     }
 
     /**
-     * Create the image using a ImagePrintFigureOperation. This is needed on Windows.
+     * Create the image using a ImagePrintFigureOperation.
+     * This is needed on Windows to stop clipped text and when moving between different monitor scales.
      */
+    @SuppressWarnings("unused")
     private static Image createImageFromImagePrintFigureOperation(IFigure previewFigure) {
-        Shell shell = new Shell();
+        Shell shell = DPIUtils.createShellForImage();
         try {
             previewFigure.validate(); // Call this here
             ImagePrintFigureOperation imagePrintOperation = new ImagePrintFigureOperation(shell, previewFigure);
@@ -146,12 +151,10 @@ public class FigureImagePreviewFactory {
      */
     @SuppressWarnings("unused")
     private static Image createImageFromGraphicalViewer(IFigure previewFigure) {
-        Shell shell = new Shell();
-        Image image;
-        
+        Shell shell = DPIUtils.createShellForImage();
         try {
             GraphicalViewer viewer = new GraphicalViewerImpl();
-            viewer.createControl(shell).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops text clipping on Windows
+            viewer.createControl(shell).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops horizontal text clipping on Windows
 
             viewer.setContents(new AbstractGraphicalEditPart() {
                 @Override
@@ -167,7 +170,7 @@ public class FigureImagePreviewFactory {
             // Call validate() here. Don't call viewer.flush() because the wrong figure size is used
             previewFigure.validate();
 
-            image = new Image(Display.getDefault(), (gc, width, height) -> {
+            return new Image(Display.getDefault(), (gc, width, height) -> {
                 SWTGraphics graphics = new SWTGraphics(gc);
                 previewFigure.paint(graphics);
                 graphics.dispose();
@@ -176,7 +179,5 @@ public class FigureImagePreviewFactory {
         finally {
             shell.dispose();
         }
-        
-        return image;
     }
 }

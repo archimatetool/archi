@@ -24,8 +24,7 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-import com.archimatetool.editor.diagram.util.DiagramUtils;
-import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.diagram.util.DiagramImageFactory;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.jasperreports.data.ArchimateModelDataSource;
 import com.archimatetool.model.IArchimateModel;
@@ -169,27 +168,29 @@ public class JasperReportsExporter {
         List<IDiagramModel> diagramModels = fModel.getDiagramModels();
         int total = diagramModels.size();
         int i = 1;
-
-        for(IDiagramModel dm : diagramModels) {
-            setProgressSubTask(NLS.bind(Messages.JasperReportsExporter_1, i++, total));
-            
-            Image image = null;
-            
-            try {
-                image = DiagramUtils.createImage(dm, 1, 10);
-                String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
-                ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { image.getImageData(ImageFactory.getImageDeviceZoom()) };
-                File file = new File(tmpFolder, diagramName);
-                loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
-            }
-            catch(Throwable t) {
-                throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
-                        (t.getMessage() == null ? t.toString() : t.getMessage()), t);
-            }
-            finally {
-                if(image != null) {
-                    image.dispose();
+        
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
+            for(IDiagramModel dm : diagramModels) {
+                setProgressSubTask(NLS.bind(Messages.JasperReportsExporter_1, i++, total));
+                
+                Image image = null;
+                
+                try {
+                    image = imageFactory.createImage(dm, 1, 10);
+                    String diagramName = dm.getId() + ".png"; //$NON-NLS-1$
+                    ImageLoader loader = new ImageLoader();
+                    loader.data = new ImageData[] { image.getImageData(imageFactory.getImageDeviceZoom()) };
+                    File file = new File(tmpFolder, diagramName);
+                    loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
+                }
+                catch(Throwable t) {
+                    throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
+                            (t.getMessage() == null ? t.toString() : t.getMessage()), t);
+                }
+                finally {
+                    if(image != null) {
+                        image.dispose();
+                    }
                 }
             }
         }

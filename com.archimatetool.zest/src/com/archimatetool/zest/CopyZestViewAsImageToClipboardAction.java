@@ -18,9 +18,8 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.IHandlerService;
 
-import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.diagram.util.DiagramImageFactory;
 import com.archimatetool.editor.ui.ClipboardImageTransfer;
-import com.archimatetool.editor.ui.ImageFactory;
 
 
 /**
@@ -50,12 +49,12 @@ public class CopyZestViewAsImageToClipboardAction extends Action {
             public void run() {
                 Image image = null;
                 IStructuredSelection selection = null;
-                try {
+                try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
                     selection = graphViewer.getStructuredSelection();
                     graphViewer.setSelection(StructuredSelection.EMPTY);
                     IFigure figure = graphViewer.getGraphControl().getRootLayer().getChildren().get(0);
-                    image = DiagramUtils.createImage(figure, 1, 10);
-                    ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
+                    image = imageFactory.createImage(figure, 1, 10);
+                    ImageData imageData = image.getImageData(imageFactory.getImageDeviceZoom());
                     ClipboardImageTransfer.copyImageDataToClipboard(imageData);
                 }
                 catch(Throwable ex) { // Catch Throwable for SWT errors

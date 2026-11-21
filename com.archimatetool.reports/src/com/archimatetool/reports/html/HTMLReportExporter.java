@@ -46,10 +46,9 @@ import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.browser.BrowserEditorInput;
 import com.archimatetool.editor.browser.IBrowserEditor;
 import com.archimatetool.editor.browser.IBrowserEditorInput;
-import com.archimatetool.editor.diagram.util.DiagramUtils;
-import com.archimatetool.editor.diagram.util.ModelReferencedImage;
+import com.archimatetool.editor.diagram.util.DiagramImageFactory;
+import com.archimatetool.editor.diagram.util.DiagramImageInfo;
 import com.archimatetool.editor.model.IArchiveManager;
-import com.archimatetool.editor.ui.ImageFactory;
 import com.archimatetool.editor.ui.services.EditorManager;
 import com.archimatetool.editor.utils.FileUtils;
 import com.archimatetool.editor.utils.StringUtils;
@@ -81,16 +80,6 @@ public class HTMLReportExporter {
     static final String PREFS_LAST_FOLDER = "Reports_LastFolder"; //$NON-NLS-1$
     
     private IArchimateModel fModel;
-    
-    /**
-     * Map of new bounds for each digram for bounds offset
-     */
-    private Map<IDiagramModel, Rectangle> diagramBoundsMap = new HashMap<IDiagramModel, Rectangle>();
-    
-    /**
-     * Map of new bounds for child objects in images for hit areas
-     */
-    private Map<String, BoundsWithAbsolutePosition> childBoundsMap = new HashMap<String, BoundsWithAbsolutePosition>();
     
     /**
      * Features that can be converted to Markdown
@@ -165,7 +154,6 @@ public class HTMLReportExporter {
         }
 
         if(exception[0] instanceof CancelledException) {
-            MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
             return;
         }
         else if(exception[0] != null) {
@@ -207,7 +195,6 @@ public class HTMLReportExporter {
         }
 
         if(exception[0] instanceof CancelledException) {
-            MessageDialog.openInformation(Display.getCurrent().getActiveShell(), Messages.HTMLReportExporter_2, exception[0].getMessage());
             return;
         }
         else if(exception[0] != null) {
@@ -400,79 +387,99 @@ public class HTMLReportExporter {
             return;
         }
         
-        // Save images
-        saveImages(imagesFolder, diagramModels);
+        int total = diagramModels.size();
+        int progress = 1;
         
-        setProgressSubTask(Messages.HTMLReportExporter_11);
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
+            for(IDiagramModel dm : diagramModels) {
+                setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_4, progress++, total, dm.getName()));
+                
+                // Map of bounds for diagram objects in images for hit areas
+                Map<String, BoundsWithAbsolutePosition> boundsMap = new HashMap<>();
+                
+                // Save image first
+                saveDiagramImage(imagesFolder, imageFactory, dm, boundsMap);
 
-        // Create html files
-        for(IDiagramModel dm : diagramModels) {
-            // Add the necessary bounds in order to get correct absolute coordinates for the elements in the generated image
-            Rectangle bounds = diagramBoundsMap.get(dm);
-            
-            // process the children
-            for(IDiagramModelObject dmo: dm.getChildren() ) {
-                addNewBounds(dmo, bounds.x * -1, bounds.y * -1);
+                // Create html file
+                writeDiagram(viewsFolder, dm, stFrame, boundsMap);
             }
-
-            stFrame.remove("element"); //$NON-NLS-1$
-            
-            List<MarkdownConversion> conversions = renderMarkdown(dm);
-
-            stFrame.add("element", dm); //$NON-NLS-1$
-            
-            stFrame.remove("map"); //$NON-NLS-1$
-            stFrame.add("map", childBoundsMap); //$NON-NLS-1$
-            
-            File viewFile = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
-            try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(viewFile), "UTF8")) { //$NON-NLS-1$
-                writer.write(stFrame.render());
-            }
-            
-            // Restore old value in case it is referenced elsewhere
-            restoreMarkdown(conversions);
-
-            checkProgressCancelled();
         }
     }
     
     /**
-     * Save diagram images
-     * @param diagramModels 
-     * @throws IOException 
+     * Save diagram image
      */
-    private void saveImages(File imagesFolder, List<IDiagramModel> diagramModels) throws IOException {
-        int total = diagramModels.size();
-        int progress = 1;
-        
-        for(IDiagramModel dm : diagramModels) {
-            setProgressSubTask(NLS.bind(Messages.HTMLReportExporter_4, progress++, total));
+    private void saveDiagramImage(File imagesFolder, DiagramImageFactory imageFactory, IDiagramModel dm, Map<String, BoundsWithAbsolutePosition> boundsMap) throws IOException {
+        DiagramImageInfo imageInfo = null;
 
-            ModelReferencedImage geoImage = null;
+        try {
+            imageInfo = imageFactory.createDiagramImageInfo(dm, 1, 10);
+
+            int imageDeviceZoom = imageFactory.getImageDeviceZoom();
+            double imageScale = imageDeviceZoom / 100.0; // Account for device zoom level
             
-            try {
-                geoImage = DiagramUtils.createModelReferencedImage(dm, 1, 10);
-
-                // Get and store the bounds of the top-left element in the figure to act as overall x,y offset
-                Rectangle bounds = geoImage.getBounds();
-                bounds.performScale((double)ImageFactory.getImageDeviceZoom() / 100); // Account for device zoom level
-                diagramBoundsMap.put(dm, bounds);
-
-                ImageLoader loader = new ImageLoader();
-                loader.data = new ImageData[] { geoImage.getImage().getImageData(ImageFactory.getImageDeviceZoom()) };
-                File file = new File(imagesFolder, dm.getId() + ".png"); //$NON-NLS-1$
-                loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
-            }
-            catch(Throwable t) {
-                throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
-                        (t.getMessage() == null ? t.toString() : t.getMessage()), t);
-            }
-            finally {
-                if(geoImage != null && geoImage.getImage() != null) {
-                    geoImage.getImage().dispose();
-                }
+            ImageLoader loader = new ImageLoader();
+            loader.data = new ImageData[] { imageInfo.image().getImageData(imageDeviceZoom) };
+            File file = new File(imagesFolder, dm.getId() + ".png"); //$NON-NLS-1$
+            loader.save(file.getAbsolutePath(), SWT.IMAGE_PNG);
+            
+            // Get the bounds of the top-left element in the figure to act as overall x,y offset
+            Rectangle bounds = imageInfo.bounds();
+            bounds.performScale(imageScale); // Scale it
+            
+            // Process children bounds
+            for(IDiagramModelObject dmo: dm.getChildren() ) {
+                addBounds(dmo, bounds.x * -1, bounds.y * -1, imageScale, boundsMap);
             }
         }
+        catch(Throwable t) {
+            throw new IOException("Error saving image for: " + dm.getName() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$
+                    (t.getMessage() == null ? t.toString() : t.getMessage()), t);
+        }
+        finally {
+            if(imageInfo != null && imageInfo.image() != null) {
+                imageInfo.image().dispose();
+            }
+        }
+    }
+    
+    /**
+     * Add bounds for each child diagram object in relation to its parent offset x,y
+     */
+    private void addBounds(IDiagramModelObject dmo, int offsetX, int offsetY, double scale, Map<String, BoundsWithAbsolutePosition> boundsMap) {
+        // Add new bounds scaled to device zoom
+        BoundsWithAbsolutePosition bounds = new BoundsWithAbsolutePosition(dmo.getBounds(), scale);
+        bounds.setOffset(offsetX, offsetY); // Add offset
+        boundsMap.put(dmo.getId(), bounds);
+        
+        // Children
+        if(dmo instanceof IDiagramModelContainer dmc) {
+            for(IDiagramModelObject child: dmc.getChildren() ) {
+                addBounds(child, bounds.getX1(), bounds.getY1(), scale, boundsMap);
+            }
+        }
+    }
+    
+    /**
+     * Write a diagram HTML file
+     */
+    private void writeDiagram(File viewsFolder, IDiagramModel dm, ST stFrame, Map<String, BoundsWithAbsolutePosition> boundsMap) throws IOException {
+        stFrame.remove("element"); //$NON-NLS-1$
+        
+        List<MarkdownConversion> conversions = renderMarkdown(dm);
+
+        stFrame.add("element", dm); //$NON-NLS-1$
+        
+        stFrame.remove("map"); //$NON-NLS-1$
+        stFrame.add("map", boundsMap); //$NON-NLS-1$
+        
+        File viewFile = new File(viewsFolder, dm.getId() + ".html"); //$NON-NLS-1$
+        try(OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(viewFile), "UTF8")) { //$NON-NLS-1$
+            writer.write(stFrame.render());
+        }
+        
+        // Restore old value in case it is referenced elsewhere
+        restoreMarkdown(conversions);
     }
     
     /**
@@ -570,22 +577,4 @@ public class HTMLReportExporter {
         
         return file == null ? "" : file.getAbsolutePath(); //$NON-NLS-1$
     }
-
-    /**
-     * Add new bounds for each diagram object in relation to its parent offset x,y
-     */
-    private void addNewBounds(IDiagramModelObject dmo, int offsetX, int offsetY) {
-        // Add new bounds caled to device zoom
-        BoundsWithAbsolutePosition newBounds = new BoundsWithAbsolutePosition(dmo.getBounds(), (double)ImageFactory.getImageDeviceZoom() / 100);
-        newBounds.setOffset(offsetX, offsetY); // Add offset
-        childBoundsMap.put(dmo.getId(), newBounds);
-        
-        // Children
-        if(dmo instanceof IDiagramModelContainer dmc) {
-            for(IDiagramModelObject child: dmc.getChildren() ) {
-                addNewBounds(child, newBounds.getX1(), newBounds.getY1());
-            }
-        }
-    }
-
 }

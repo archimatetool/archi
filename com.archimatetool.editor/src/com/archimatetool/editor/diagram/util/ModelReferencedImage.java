@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Image;
  * Image with bounds information
  * 
  * @author schlechter
+ * @deprecated Use {@link com.archimatetool.editor.diagram.util.DiagramImageInfo}
  */
 public class ModelReferencedImage {
 

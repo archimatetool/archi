@@ -22,13 +22,13 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Pattern;
-import org.eclipse.swt.internal.DPIUtil;
 
 import com.archimatetool.editor.ArchiPlugin;
 import com.archimatetool.editor.diagram.figures.FigureUtils.Direction;
 import com.archimatetool.editor.preferences.IPreferenceConstants;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.ColorFactory;
+import com.archimatetool.editor.ui.DPIUtils;
 import com.archimatetool.editor.ui.FontFactory;
 import com.archimatetool.editor.ui.factory.IGraphicalObjectUIProvider;
 import com.archimatetool.editor.ui.factory.ObjectUIFactory;
@@ -170,7 +170,6 @@ implements IDiagramModelObjectFigure {
      * @param figureBounds The bounds of the part of the figure to be adjusted.
      * @return The adjusted bounds of the figureBounds (or a copy of the original figureBounds if no adjustment was made)
      */
-    @SuppressWarnings("restriction")
     protected Rectangle applyLineWidthOffset(Graphics graphics, Rectangle figureBounds) {
         translatedOffset = false; // reset this
         
@@ -191,9 +190,8 @@ implements IDiagramModelObjectFigure {
         final double scale = imageScale > 0 ? imageScale : FigureUtils.getFigureScale(this);
         final int lineWidth = getLineWidth();
         
-        // If line width is 1 and scale is 1 check whether to use an offset.
-        // This is false on Mac/Linux and true on Windows with monitor scaling > 100%
-        if(lineWidth == 1 && scale == 1 && !(PlatformUtils.isWindows() && DPIUtil.getDeviceZoom() > 100)) {
+        // If line width is 1 and scale is 1 don't use an offset on Mac/Linux or on Windows if device zoom == 100%
+        if(lineWidth == 1 && scale == 1 && !(PlatformUtils.isWindows() && DPIUtils.getDeviceZoom() > 100)) {
             figureBounds.resize(-1, -1);
             return figureBounds;
         }
@@ -215,10 +213,9 @@ implements IDiagramModelObjectFigure {
         // x,y offset is half of line width
         float offset = lineWidth / 2.0f;
         
-        // If this is a non hi-res device and scale is 1 round up to integer to stop anti-aliasing
-        // Not sure if this is still needed so provide an option of -Dfigure.snapToOffset=true, the default is false
-        if(DPIUtil.getDeviceZoom() == 100 && scale == 1 && Boolean.getBoolean("figure.snapToOffset")) { //$NON-NLS-1$
-            offset = (float)Math.ceil(offset);
+        // If lineWidth is odd number like 3 and scale is 1 with device zoom == 100% round down offset so it's not fractional
+        if(scale == 1 && DPIUtils.getDeviceZoom() == 100) {
+            offset = (float)Math.floor(offset);
         }
         
         // Translate graphics x,y by the offset (0.5 or 1.5)
