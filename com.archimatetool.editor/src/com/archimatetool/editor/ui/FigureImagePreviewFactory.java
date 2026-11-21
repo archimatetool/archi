@@ -58,7 +58,14 @@ public class FigureImagePreviewFactory {
         if(type > 0 && !uiProvider.hasAlternateFigure()) {
             return null;
         }
-        
+
+        return createImage(uiProvider, eClass, type);
+    }
+    
+    /**
+     * Create the figure
+     */
+    private static IDiagramModelObjectFigure createFigure(IArchimateElementUIProvider uiProvider, EClass eClass, int type) {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
         dmo.setName(uiProvider.getDefaultName());
@@ -104,40 +111,45 @@ public class FigureImagePreviewFactory {
 
         IDiagramModelObjectFigure figure = (IDiagramModelObjectFigure)editPart.getFigure();
         figure.setSize(new Dimension(FIGURE_WIDTH, FIGURE_HEIGHT));
+        
         figure.refreshVisuals();
-
-        // If using ImagePrintFigureOperation uncomment this.
-        // But there are issues when moving between monitors so better to just have a liitle bit of text clipping
-        // return PlatformUtils.isWindows() ? createImageFromImagePrintFigureOperation(figure) : createImage(figure);
-
-        return createImage(figure);
+        
+        return figure;
     }
     
     /**
-     * Create the image using a ImageGcDrawer.
-     * This is safe to use on Mac and Linux.
+     * Create the image using an ImageGcDrawer.
+     * Image quality is good when moving between monitors but text is clipped.
      */
-    private static Image createImage(IFigure previewFigure) {
-        previewFigure.validate(); // Call this here
-        
+    private static Image createImage(IArchimateElementUIProvider uiProvider, EClass eClass, int type) {
         return new Image(Display.getDefault(), (gc, width, height) -> {
             SWTGraphics graphics = new SWTGraphics(gc);
+            
+            IDiagramModelObjectFigure previewFigure = createFigure(uiProvider, eClass, type);
+            previewFigure.validate(); // Call this here
             previewFigure.paint(graphics);
+            
             graphics.dispose();
+            previewFigure.dispose(); // dispose of figure
         }, FIGURE_WIDTH, FIGURE_HEIGHT);
     }
 
     /**
      * Create the image using a ImagePrintFigureOperation.
-     * This is needed on Windows to stop clipped text and when moving between different monitor scales.
+     * Clipped text problem is solved but image quality is worse and bad if the images are created on a 100% monitor then moved to a 200% monitor.
      */
     @SuppressWarnings("unused")
-    private static Image createImageFromImagePrintFigureOperation(IFigure previewFigure) {
+    private static Image createImageFromImagePrintFigureOperation(IArchimateElementUIProvider uiProvider, EClass eClass, int type) {
         Shell shell = DPIUtils.createShellForImage();
         try {
+            IDiagramModelObjectFigure previewFigure = createFigure(uiProvider, eClass, type);
             previewFigure.validate(); // Call this here
+            
             ImagePrintFigureOperation imagePrintOperation = new ImagePrintFigureOperation(shell, previewFigure);
-            return imagePrintOperation.run();
+            Image image = imagePrintOperation.run();
+            
+            previewFigure.dispose(); // dispose of figure
+            return image;
         }
         finally {
             shell.dispose();
@@ -146,38 +158,40 @@ public class FigureImagePreviewFactory {
     
     /**
      * Create the image using a GraphicalViewerImpl
-     * The viewer's control has AutoscalingMode enabled which stops text clipping on Windows on the right of text
-     * but not on letters with a descender like "g".
+     * Image quality is good when moving between monitors and text is not clipped on the right but text might be clipped on letters with a descender like "g".
      */
     @SuppressWarnings("unused")
-    private static Image createImageFromGraphicalViewer(IFigure previewFigure) {
-        Shell shell = DPIUtils.createShellForImage();
-        try {
-            GraphicalViewer viewer = new GraphicalViewerImpl();
-            viewer.createControl(shell).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops horizontal text clipping on Windows
+    private static Image createImageFromGraphicalViewer(IArchimateElementUIProvider uiProvider, EClass eClass, int type) {
+        return new Image(Display.getDefault(), (gc, width, height) -> {
+            Shell shell = DPIUtils.createShellForImage();
+            try {
+                IDiagramModelObjectFigure previewFigure = createFigure(uiProvider, eClass, type);
+                GraphicalViewer viewer = new GraphicalViewerImpl();
+                viewer.createControl(shell).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops horizontal text clipping on Windows
+                
+                viewer.setContents(new AbstractGraphicalEditPart() {
+                    @Override
+                    protected IFigure createFigure() {
+                        return previewFigure;
+                    }
 
-            viewer.setContents(new AbstractGraphicalEditPart() {
-                @Override
-                protected IFigure createFigure() {
-                    return previewFigure;
-                }
-
-                @Override
-                protected void createEditPolicies() {
-                }
-            });
-            
-            // Call validate() here. Don't call viewer.flush() because the wrong figure size is used
-            previewFigure.validate();
-
-            return new Image(Display.getDefault(), (gc, width, height) -> {
+                    @Override
+                    protected void createEditPolicies() {
+                    }
+                });
+                
+                // Call this here otherwise text is clipped.
+                previewFigure.validate();
+                
                 SWTGraphics graphics = new SWTGraphics(gc);
                 previewFigure.paint(graphics);
+                
                 graphics.dispose();
-            }, FIGURE_WIDTH, FIGURE_HEIGHT);
-        }
-        finally {
-            shell.dispose();
-        }
+                previewFigure.dispose(); // dispose of figure
+            }
+            finally {
+                shell.dispose();
+            }
+        }, FIGURE_WIDTH, FIGURE_HEIGHT);
     }
 }
