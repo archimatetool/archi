@@ -7,20 +7,18 @@ package com.archimatetool.editor.propertysections;
 
 import java.util.Objects;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 import com.archimatetool.editor.model.commands.EObjectFeatureCommand;
@@ -122,7 +120,6 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
 
     @Override
     public boolean shouldUseExtraSpace() {
-        // Need this so different image heights draw correctly
         return true;
     }
     
@@ -138,33 +135,35 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
         }
     }
     
-    private class ImageFigure extends Composite {
+    private class ImageFigure extends Canvas {
         boolean selected;
-        Label label;
         EClass eClass;
         Image image;
+        private static Color selectedColor = new Color(78, 168, 225);
 
         public ImageFigure(Composite parent, int value) {
-            super(parent, SWT.NULL);
-            setBackgroundMode(SWT.INHERIT_DEFAULT);
+            super(parent, SWT.DOUBLE_BUFFERED); // Stops flickering (at least on Windows) when resized because we use gc.setAntialias(SWT.ON)
             getWidgetFactory().adapt(this);
-            GridLayoutFactory.swtDefaults().margins(4, 4).applyTo(this);
             
-            addPaintListener(new PaintListener() {
-                @Override
-                public void paintControl(PaintEvent e) {
-                    if(selected) {
-                        GC graphics = e.gc;
-                        graphics.setForeground(ColorConstants.blue);
-                        graphics.setLineWidth(2);
-                        graphics.drawRectangle(1, 1, e.width - 2, e.height - 2);
-                    }
+            GridData gridData = new GridData(FigureImagePreviewFactory.FIGURE_WIDTH + 10, FigureImagePreviewFactory.FIGURE_HEIGHT + 10);
+            setLayoutData(gridData);
+            
+            addPaintListener(e -> {
+                GC gc = e.gc;
+                
+                if(image != null) {
+                    gc.drawImage(image, 5, 5);   
+                }
+
+                if(selected) {
+                    gc.setForeground(selectedColor);
+                    gc.setLineWidth(2);
+                    gc.setAntialias(SWT.ON);
+                    gc.drawRoundRectangle(1, 1, gridData.widthHint - 2, gridData.heightHint - 2, 10, 10);
                 }
             });
             
-            label = new Label(this, SWT.NONE);
-            
-            label.addListener(SWT.MouseDown, e -> {
+            addListener(SWT.MouseDown, e -> {
                 CompoundCommand result = new CompoundCommand();
 
                 for(EObject eObject : getEObjects()) {
@@ -185,7 +184,6 @@ public class DiagramFigureTypeSection extends AbstractECorePropertySection {
             if(!Objects.equals(eClass, this.eClass)) {
                 disposeImage();
                 image = FigureImagePreviewFactory.getPreviewImage(eClass, type);
-                label.setImage(image);
             }
             
             this.eClass = eClass;

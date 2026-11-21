@@ -5,15 +5,19 @@
  */
 package com.archimatetool.editor.ui;
 
+import java.util.Set;
+
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.StackLayout;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
 import org.eclipse.swt.graphics.AutoscalingMode;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -38,8 +42,59 @@ import com.archimatetool.model.ITextPosition;
  */
 public class FigureImagePreviewFactory {
     
-    private static final int FIGURE_WIDTH = 120;
-    private static final int FIGURE_HEIGHT = 55;
+    public static final int FIGURE_WIDTH = 120;
+    public static final int FIGURE_HEIGHT = 55;
+    
+    /**
+     * Preview figure consisting of parent that can have a dark or light background
+     */
+    private static class PreviewFigure extends Figure {
+        private static Color darkColor = new Color(47, 47, 47);
+        private IDiagramModelObjectFigure figure;
+        
+        public PreviewFigure(IDiagramModelObjectFigure figure) {
+            this.figure = figure;
+            
+            setLayoutManager(new StackLayout());
+            setOpaque(true);
+            setSize(FIGURE_WIDTH, FIGURE_HEIGHT);
+            add(figure);
+            
+            if(ThemeUtils.isDarkTheme()) {
+                setBackgroundColor(darkColor);
+            }
+        }
+
+        /**
+         * Dispose of child IDiagramModelObjectFigure
+         */
+        public void dispose() {
+            figure.dispose();
+        }
+    }
+    
+    /**
+     * Figures of these types have text at the bottom
+     */
+    private static Set<EClass> BOTTOM_TEXT_FIGURE_TYPES = Set.of(
+            IArchimatePackage.eINSTANCE.getAssessment(),
+            IArchimatePackage.eINSTANCE.getBusinessActor(),
+            IArchimatePackage.eINSTANCE.getCapability(),
+            IArchimatePackage.eINSTANCE.getCommunicationNetwork(),
+            IArchimatePackage.eINSTANCE.getCourseOfAction(),
+            IArchimatePackage.eINSTANCE.getDistributionNetwork(),
+            IArchimatePackage.eINSTANCE.getDriver(),
+            IArchimatePackage.eINSTANCE.getEquipment(),
+            IArchimatePackage.eINSTANCE.getFacility(),
+            IArchimatePackage.eINSTANCE.getGap(),
+            IArchimatePackage.eINSTANCE.getGoal(),
+            IArchimatePackage.eINSTANCE.getLocation(),
+            IArchimatePackage.eINSTANCE.getMaterial(),
+            IArchimatePackage.eINSTANCE.getOutcome(),
+            IArchimatePackage.eINSTANCE.getPlateau(),
+            IArchimatePackage.eINSTANCE.getPrinciple(),
+            IArchimatePackage.eINSTANCE.getSystemSoftware(),
+            IArchimatePackage.eINSTANCE.getWorkPackage());
     
     /**
      * @return A preview image of the graphical Figure used by eClass of type
@@ -65,41 +120,26 @@ public class FigureImagePreviewFactory {
     /**
      * Create the figure
      */
-    private static IDiagramModelObjectFigure createFigure(IArchimateElementUIProvider uiProvider, EClass eClass, int type) {
+    private static PreviewFigure createFigure(IArchimateElementUIProvider uiProvider, EClass eClass, int type) {
         IDiagramModelArchimateObject dmo = IArchimateFactory.eINSTANCE.createDiagramModelArchimateObject();
         dmo.setArchimateElement((IArchimateElement)IArchimateFactory.eINSTANCE.create(eClass));
         dmo.setName(uiProvider.getDefaultName());
         dmo.setType(type);
         dmo.setDeriveElementLineColor(false);
-
+        
+        // Dark theme needs a lighter text color
+        if(ThemeUtils.isDarkTheme()) {
+            dmo.setFontColor("#666666"); //$NON-NLS-1$
+        }
+        
         // Special case for text alignment
         if(eClass == IArchimatePackage.eINSTANCE.getGrouping() && type == 1) {
             dmo.setTextAlignment(ITextAlignment.TEXT_ALIGNMENT_LEFT);
         }
-
+        
         // Special cases for text position on icon type figures
-        if(type == 1) {
-            switch(eClass.getClassifierID()) {
-                case IArchimatePackage.ASSESSMENT,
-                     IArchimatePackage.BUSINESS_ACTOR,
-                     IArchimatePackage.CAPABILITY,
-                     IArchimatePackage.COMMUNICATION_NETWORK,
-                     IArchimatePackage.COURSE_OF_ACTION,
-                     IArchimatePackage.DISTRIBUTION_NETWORK,
-                     IArchimatePackage.DRIVER,
-                     IArchimatePackage.EQUIPMENT,
-                     IArchimatePackage.FACILITY,
-                     IArchimatePackage.GAP,
-                     IArchimatePackage.GOAL,
-                     IArchimatePackage.LOCATION,
-                     IArchimatePackage.MATERIAL,
-                     IArchimatePackage.OUTCOME,
-                     IArchimatePackage.PLATEAU,
-                     IArchimatePackage.PRINCIPLE,
-                     IArchimatePackage.SYSTEM_SOFTWARE,
-                     IArchimatePackage.WORK_PACKAGE
-                                                 -> dmo.setTextPosition(ITextPosition.TEXT_POSITION_BOTTOM);
-            }
+        if(type == 1 && BOTTOM_TEXT_FIGURE_TYPES.contains(eClass)) {
+            dmo.setTextPosition(ITextPosition.TEXT_POSITION_BOTTOM);
         }
 
         // Use inbuilt default colours
@@ -110,11 +150,9 @@ public class FigureImagePreviewFactory {
         editPart.setModel(dmo);
 
         IDiagramModelObjectFigure figure = (IDiagramModelObjectFigure)editPart.getFigure();
-        figure.setSize(new Dimension(FIGURE_WIDTH, FIGURE_HEIGHT));
-        
         figure.refreshVisuals();
-        
-        return figure;
+
+        return new PreviewFigure(figure);
     }
     
     /**
@@ -126,7 +164,7 @@ public class FigureImagePreviewFactory {
             SWTGraphics graphics = new SWTGraphics(gc);
             
             // Create a new figure on demand each time so we can call its dispose() method
-            IDiagramModelObjectFigure previewFigure = createFigure(uiProvider, eClass, type);
+            PreviewFigure previewFigure = createFigure(uiProvider, eClass, type);
             previewFigure.validate(); // Call this here
             previewFigure.paint(graphics);
             
@@ -143,7 +181,7 @@ public class FigureImagePreviewFactory {
     private static Image createImageFromImagePrintFigureOperation(IArchimateElementUIProvider uiProvider, EClass eClass, int type) {
         Shell shell = DPIUtils.createShellForImage();
         try {
-            IDiagramModelObjectFigure previewFigure = createFigure(uiProvider, eClass, type);
+            PreviewFigure previewFigure = createFigure(uiProvider, eClass, type);
             previewFigure.validate(); // Call this here
             
             ImagePrintFigureOperation imagePrintOperation = new ImagePrintFigureOperation(shell, previewFigure);
@@ -167,7 +205,7 @@ public class FigureImagePreviewFactory {
             Shell shell = DPIUtils.createShellForImage();
             try {
                 // Create a new figure on demand each time so we can call its dispose() method
-                IDiagramModelObjectFigure previewFigure = createFigure(uiProvider, eClass, type);
+                PreviewFigure previewFigure = createFigure(uiProvider, eClass, type);
                 GraphicalViewer viewer = new GraphicalViewerImpl();
                 viewer.createControl(shell).setAutoscalingMode(AutoscalingMode.ENABLED); // Stops horizontal text clipping on Windows
                 
