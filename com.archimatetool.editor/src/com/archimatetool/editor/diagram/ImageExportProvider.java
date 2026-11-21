@@ -19,8 +19,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.diagram.util.DiagramUtils;
-import com.archimatetool.editor.ui.ImageFactory;
+import com.archimatetool.editor.diagram.util.DiagramImageFactory;
 
 
 
@@ -49,9 +48,9 @@ public class ImageExportProvider implements IImageExportProvider {
     public void export(String providerID, File file) throws Exception {
         Image image = null;
         
-        try {
-            image = DiagramUtils.createImage(fFigure, (double)fScaleSpinner.getSelection() / 100, 10);
-            ImageData imageData = image.getImageData(ImageFactory.getImageDeviceZoom());
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
+            image = imageFactory.createImage(fFigure, (double)fScaleSpinner.getSelection() / 100, 10);
+            ImageData imageData = image.getImageData(imageFactory.getImageDeviceZoom());
             
             ImageLoader loader = new ImageLoader();
             loader.data = new ImageData[] { imageData };

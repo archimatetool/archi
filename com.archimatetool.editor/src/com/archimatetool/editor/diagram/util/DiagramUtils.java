@@ -5,38 +5,14 @@
  */
 package com.archimatetool.editor.diagram.util;
 
-import org.eclipse.draw2d.FreeformFigure;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
-import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.parts.GraphicalViewerImpl;
-import org.eclipse.swt.graphics.AutoscalingMode;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 
-import com.archimatetool.editor.ArchiPlugin;
-import com.archimatetool.editor.diagram.DiagramEditorFactoryExtensionHandler;
-import com.archimatetool.editor.diagram.IDiagramEditorFactory;
-import com.archimatetool.editor.diagram.editparts.ArchimateDiagramEditPartFactory;
-import com.archimatetool.editor.diagram.figures.AbstractDiagramModelObjectFigure;
-import com.archimatetool.editor.diagram.figures.FigureUtils;
-import com.archimatetool.editor.diagram.sketch.editparts.SketchEditPartFactory;
-import com.archimatetool.editor.preferences.IPreferenceConstants;
-import com.archimatetool.model.IArchimateDiagramModel;
 import com.archimatetool.model.IDiagramModel;
-import com.archimatetool.model.ISketchModel;
-
-
 
 
 /**
@@ -44,6 +20,7 @@ import com.archimatetool.model.ISketchModel;
  * 
  * @author Phillip Beauvoir
  */
+@Deprecated(since = "5.12")
 public final class DiagramUtils {
     
     /**
@@ -51,45 +28,13 @@ public final class DiagramUtils {
      * @param model The diagram model
      * @param parent the parent Composite (usually a Shell) on which to create the GraphicalViewer.
      * @return The Graphical Viewer which is actually a GraphicalViewerImpl
+     * @deprecated Use {@link DiagramImageFactory}
      */
+    @Deprecated(since = "5.12")
     public static GraphicalViewerImpl createViewer(IDiagramModel model, Composite parent) {
-        EditPartFactory editPartFactory = null;
-        
-        if(model instanceof IArchimateDiagramModel) {
-            editPartFactory = new ArchimateDiagramEditPartFactory();
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.noShell()) {
+            return (GraphicalViewerImpl)imageFactory.createViewer(model, parent);
         }
-        else if(model instanceof ISketchModel) {
-            editPartFactory = new SketchEditPartFactory();
-        }
-        else {
-            // Extensions
-            IDiagramEditorFactory factory = DiagramEditorFactoryExtensionHandler.INSTANCE.getFactory(model);
-            if(factory != null) {
-                editPartFactory = factory.createEditPartFactory();
-            }
-        }
-        
-        if(editPartFactory == null) {
-            throw new RuntimeException("Unsupported model type"); //$NON-NLS-1$
-        }
-        
-        GraphicalViewerImpl viewer = new GraphicalViewerImpl();
-        Control control = viewer.createControl(parent);
-        if(!doUpscaleImage()) {
-            // Stops text clipping on Windows but text height will be increased
-            // No effect on Mac and Linux
-            control.setAutoscalingMode(AutoscalingMode.ENABLED);
-        }
-        
-        viewer.setEditPartFactory(editPartFactory);
-        
-        RootEditPart rootPart = new FreeformGraphicalRootEditPart();
-        viewer.setRootEditPart(rootPart);
-        
-        viewer.setContents(model);
-        viewer.flush();
-        
-        return viewer;
     }
     
     /**
@@ -99,30 +44,13 @@ public final class DiagramUtils {
      * @return A Scaled Image from the given Diagram Model
      *         Clients must dispose of the Image when done.
      *         If model has no children a blank image of 100x100 is returned
+     * @deprecated Use {@link DiagramImageFactory}
      */
+    @Deprecated(since = "5.12")
     public static Image createImage(IDiagramModel model, double scale, int margin) {
         return createModelReferencedImage(model, scale, margin).getImage();
     }
     
-    /**
-     * @param model The model to create the image from
-     * @param scale The scale to use. 1 is full size.
-     * @param margin amount of white space margin to apply around the image
-     * @return ModelReferencedImage wrapper class containing a Scaled Image from the given Diagram Model and offset bounds
-     *         Clients must dispose of the Image when done.
-     *         If model has no children a blank image of 100x100 is returned
-     */
-    public static ModelReferencedImage createModelReferencedImage(IDiagramModel model, double scale, int margin) {
-        Shell shell = new Shell();
-        try {
-            GraphicalViewer viewer = createViewer(model, shell);
-            return createModelReferencedImage(viewer, scale, margin);
-        }
-        finally {
-            shell.dispose();
-        }
-    }
-
     /**
      * @param graphicalViewer The GraphicalViewer to create the image from
      * @param scale The scale to use. 1 is full size. Max of 4 is allowed.
@@ -130,138 +58,65 @@ public final class DiagramUtils {
      * @return A Scaled Image from the given GraphicalViewer trimming off whitespace
      *         Clients must dispose of the Image when done.
      *         If graphicalViewer has no children a blank image of 100x100 is returned
+     * @deprecated Use {@link DiagramImageFactory}
      */
+    @Deprecated(since = "5.12")
     public static Image createImage(GraphicalViewer graphicalViewer, double scale, int margin) {
-        return createModelReferencedImage(graphicalViewer, scale, margin).getImage();
-    }
-    
-    private static ModelReferencedImage createModelReferencedImage(GraphicalViewer graphicalViewer, double scale, int margin) {
-        LayerManager layerManager = (LayerManager)graphicalViewer.getEditPartRegistry().get(LayerManager.ID);
-        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
-        return createModelReferencedImage(rootFigure, scale, margin);
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
+            return imageFactory.createImage(graphicalViewer, scale, margin);
+        }
     }
     
     /**
      * @param figure The Figure to create the image from
      * @param scale The scale to use. 1 is full size. Max of 5 is allowed.
      * @param margin amount of white space margin to apply around the image
-     * @return A Scaled Image from the given GraphicalViewer trimming off whitespace
+     * @return A Scaled Image from the given IFigure trimming off whitespace
      *         Clients must dispose of the Image when done.
      *         If figure has no children a blank image of 100x100 is returned
+     * @deprecated Use {@link DiagramImageFactory}
      */
+    @Deprecated(since = "5.12")
     public static Image createImage(IFigure figure, double scale, int margin) {
-        return createModelReferencedImage(figure, scale, margin).getImage();
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
+            return imageFactory.createImage(figure, scale, margin);
+        }
     }
 
-    private static ModelReferencedImage createModelReferencedImage(IFigure figure, double scale, int margin) {
-        scale = Math.clamp(scale, 0.1, 5);
-        
-        Rectangle bounds = getMinimumBounds(figure);
-        if(bounds == null) {
-            bounds = new Rectangle(0, 0, 100, 100); // At least a minimum
-        }
-        else {
-            bounds.expand(margin / scale, margin / scale);
-        }
-        
-        // Set figure scale for AbstractDiagramModelObjectFigure children
-        setFigureScale(figure, scale);
-
-        // Use Image Operation
-        if(doUpscaleImage()) {
-            Shell shell = new Shell(); // Don't use a Singleton Shell because its getZoom() method is invalid if display scale is changed
-            try {
-                ImagePrintFigureOperation op = new ImagePrintDiagramOperation(shell, figure, scale, bounds);
-                Image image = op.run();
-                return new ModelReferencedImage(image, bounds);   
-            }
-            finally {
-                shell.dispose();
-            }
-        }
-        
-        // Use normal grophics method
-        Image image = new Image(Display.getDefault(), (int)(bounds.width * scale), (int)(bounds.height * scale));
-        GC gc = new GC(image);
-        SWTGraphics graphics = new SWTGraphics(gc);
-        
-        if(scale != 1) {
-            graphics.scale(scale);
-        }
-        
-        // Compensate for negative co-ordinates
-        graphics.translate(bounds.x * -1, bounds.y * -1);
-
-        // Paint onto graphics
-        figure.paint(graphics);
-        
-        // Dispose
-        gc.dispose();
-        graphics.dispose();
-        
-        return new ModelReferencedImage(image, bounds);
-    }
-    
     /**
-     * For each AbstractDiagramModelObjectFigure child set imagescale to the scale value
+     * @param model The model to create the image from
+     * @param scale The scale to use. 1 is full size.
+     * @param margin amount of white space margin to apply around the image
+     * @return ModelReferencedImage wrapper class containing a Scaled Image from the given Diagram Model and offset bounds
+     *         Clients must dispose of the Image when done.
+     *         If model has no children a blank image of 100x100 is returned
+     * @deprecated Use {@link DiagramImageFactory}
      */
-    private static void setFigureScale(IFigure figure, double scale) {
-        if(figure instanceof AbstractDiagramModelObjectFigure dmoFigure) {
-            dmoFigure.imageScale = scale;
+    @Deprecated(since = "5.12")
+    public static ModelReferencedImage createModelReferencedImage(IDiagramModel model, double scale, int margin) {
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
+            DiagramImageInfo imageInfo = imageFactory.createDiagramImageInfo(model, scale, margin);
+            return new ModelReferencedImage(imageInfo.image(), imageInfo.bounds());
         }
-        
-        figure.getChildren().forEach(child -> setFigureScale(child, scale));
     }
-    
+
     /**
      * Return the extents of the diagram by extending from the left-topmost child to the right-bottom-most child.
      * If there are no children in the diagram a minimal size of 100x100 is returned.
+     * @deprecated Use {@link DiagramImageFactory}
      */
+    @Deprecated(since = "5.12")
     public static Rectangle getDiagramExtents(GraphicalViewer graphicalViewer) {
-        LayerManager layerManager = (LayerManager)graphicalViewer.getEditPartRegistry().get(LayerManager.ID);
-        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
-        Rectangle r = getMinimumBounds(rootFigure);
-        return r == null ? new Rectangle(0, 0, 100, 100) : r;
+        return DiagramImageFactory.getDiagramExtents(graphicalViewer);
     }
     
     /**
      * @param figure
      * @return The minimum bounds for a figure or null if there are no children
+     * @deprecated Use {@link DiagramImageFactory}
      */
+    @Deprecated(since = "5.12")
     public static Rectangle getMinimumBounds(IFigure figure) {
-        // Simple Figure
-        if(!(figure instanceof FreeformFigure)) {
-            return figure.getBounds();
-        }
-        
-        Rectangle minimumBounds = null;
-        
-        for(IFigure child : figure.getChildren()) {
-            Rectangle bounds;
-            if(child instanceof FreeformFigure) {
-                bounds = getMinimumBounds(child);
-            }
-            else {
-                bounds = child.getBounds();
-            }
-            
-            if(bounds != null) {
-                if(minimumBounds == null) {
-                    minimumBounds = new Rectangle(bounds);
-                }
-                else {
-                    minimumBounds.union(bounds);
-                }
-            }
-        }
-        
-        return minimumBounds;
-    }
-    
-    /**
-     * @return true if preference set to upscale Image
-     */
-    public static boolean doUpscaleImage() {
-        return FigureUtils.isAutoScaleEnabled() && ArchiPlugin.getInstance().getPreferenceStore().getBoolean(IPreferenceConstants.UPSCALE_IMAGE_EXPORT);
+        return DiagramImageFactory.getMinimumBounds(figure);
     }
 }

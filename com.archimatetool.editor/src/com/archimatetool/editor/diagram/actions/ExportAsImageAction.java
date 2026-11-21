@@ -7,18 +7,15 @@ package com.archimatetool.editor.diagram.actions;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.ui.actions.WorkbenchPartAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 
-import com.archimatetool.editor.diagram.util.DiagramUtils;
+import com.archimatetool.editor.diagram.util.DiagramImageFactory;
 import com.archimatetool.editor.diagram.wizard.ExportAsImageWizard;
 import com.archimatetool.editor.ui.ArchiLabelProvider;
 import com.archimatetool.editor.ui.components.ExtendedWizardDialog;
@@ -47,34 +44,32 @@ public class ExportAsImageAction extends WorkbenchPartAction {
 
     @Override
     public void run() {
-        Shell tempShell = new Shell();
-        IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
-        GraphicalViewer viewer = DiagramUtils.createViewer(diagramModel, tempShell);
-        
-        LayerManager layerManager = (LayerManager)viewer.getEditPartRegistry().get(LayerManager.ID);
-        IFigure rootFigure = layerManager.getLayer(LayerConstants.PRINTABLE_LAYERS);
-        
-        WizardDialog dialog = new ExtendedWizardDialog(getWorkbenchPart().getSite().getShell(),
-                new ExportAsImageWizard(rootFigure, ArchiLabelProvider.INSTANCE.getLabel(diagramModel)),
-                "ExportAsImageWizard") { //$NON-NLS-1$
+        try(DiagramImageFactory imageFactory = DiagramImageFactory.withShell()) {
+            IDiagramModel diagramModel = getWorkbenchPart().getAdapter(IDiagramModel.class);
             
+            GraphicalViewer viewer = imageFactory.createViewer(diagramModel);
+            IFigure rootFigure = DiagramImageFactory.getPrintableLayer(viewer);
             
-            @Override
-            protected void createButtonsForButtonBar(Composite parent) {
-                super.createButtonsForButtonBar(parent); // Change "Finish" to "Save"
-                Button b = getButton(IDialogConstants.FINISH_ID);
-                b.setText(Messages.ExportAsImageAction_1);
-            }
+            WizardDialog dialog = new ExtendedWizardDialog(getWorkbenchPart().getSite().getShell(),
+                    new ExportAsImageWizard(rootFigure, ArchiLabelProvider.INSTANCE.getLabel(diagramModel)),
+                    "ExportAsImageWizard") { //$NON-NLS-1$
+                
+                
+                @Override
+                protected void createButtonsForButtonBar(Composite parent) {
+                    super.createButtonsForButtonBar(parent); // Change "Finish" to "Save"
+                    Button b = getButton(IDialogConstants.FINISH_ID);
+                    b.setText(Messages.ExportAsImageAction_1);
+                }
+                
+                @Override
+                protected Point getDefaultDialogSize() {
+                    return new Point(700, 450);
+                }
+            };
             
-            @Override
-            protected Point getDefaultDialogSize() {
-                return new Point(700, 450);
-            }
-        };
-        
-        dialog.open();
-        
-        tempShell.dispose();
+            dialog.open();
+        }
     }
 
     @Override

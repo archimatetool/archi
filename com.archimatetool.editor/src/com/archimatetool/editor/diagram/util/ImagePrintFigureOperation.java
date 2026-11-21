@@ -237,10 +237,13 @@ public class ImagePrintFigureOperation {
 
 		Image image100 = new Image(display, size100.width, size100.height);
 		GC gc100 = new GC(image100);
+        // EDIT: Remove this so we don't get a blank image when there's a mismatch between reported monitorZoom and actual zoom
+		/*
 		if (isDraw2DAutoScalingEnabled()) {
 			// Force image to be drawn at monitor zoom
 			image100.getImageData(monitorZoom);
 		}
+		*/
 		gc100.setInterpolation(SWT.NONE);
 		gc100.drawImage(imageTMP, 0, 0);
 		gc100.dispose();
