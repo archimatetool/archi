@@ -51,6 +51,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.archimatetool.editor.utils.FileUtils;
+
 
 /**
  * Patches workbench.xmi file to use actual part icons when switching versions
@@ -63,6 +65,9 @@ public class WorkbenchPatcher {
     
     // Location of workbench.xml file
     private static final String WORKBENCH_FILE = ".metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi";
+    
+    // Location of last_nl.properties file
+    private static final String NL_STATE_FILENAME = ".metadata/.plugins/org.eclipse.e4.workbench/last_nl.properties";
     
     // If this is set in Program arguments then don't patch
     private static final String NO_PATCH_WORKBENCH = "-noPatchWorkbench";
@@ -91,7 +96,15 @@ public class WorkbenchPatcher {
         if(instanceLocationFolder == null) {
             return;
         }
-
+        
+        Path nlPath = instanceLocationFolder.toPath().resolve(NL_STATE_FILENAME);
+        try {
+            deleteNLFile(nlPath);
+        }
+        catch(Throwable ex) {
+            ILog.get().error("Error deleting NL state file: " + nlPath, ex);
+        }
+        
         File xmiFile = new File(instanceLocationFolder, WORKBENCH_FILE);
         if(!xmiFile.exists()) {
             return;
@@ -154,6 +167,22 @@ public class WorkbenchPatcher {
         }
 
         return modified;
+    }
+    
+    /**
+     * Delete the last_nl.properties file and create dir with same name so the workbench state is not reset if -nl is changed
+     * See https://github.com/eclipse-platform/eclipse.platform.ui/issues/4565
+     */
+    private static boolean deleteNLFile(Path nlPath) throws IOException {
+        if(Files.isRegularFile(nlPath)) {
+            Path tempFile = Files.createTempFile(nlPath.getParent(), "del_", ".tmp"); // need to move the file before deleting it
+            Files.move(nlPath, tempFile, StandardCopyOption.REPLACE_EXISTING);
+            FileUtils.forceDelete(tempFile);
+            Files.createDirectories(nlPath);
+            return true;
+        }
+        
+        return false;
     }
     
     private static Map<String, PartDescriptor> getContributedParts() {
