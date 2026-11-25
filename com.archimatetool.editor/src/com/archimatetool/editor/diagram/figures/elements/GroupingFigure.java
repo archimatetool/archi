@@ -15,7 +15,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Pattern;
 
 import com.archimatetool.editor.diagram.figures.AbstractTextControlContainerFigure;
@@ -96,13 +95,15 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
             //rect = applyLineWidthOffset(graphics);
             
             // Top rectangle fill
+            Rectangle topRectangle = new Rectangle(rect.x, rect.y, tabWidth, tabHeight);
             graphics.setBackgroundColor(getFillColor());
             graphics.setAlpha(getAlpha());
             Pattern gradient = applyGradientPattern(graphics, rect);
-            graphics.fillRectangle(createTopRectangle(rect));
+            graphics.fillRectangle(topRectangle);
             
             // Main rectangle fill
-            graphics.fillRectangle(createMainRectangle(rect));
+            Rectangle mainRectangle = new Rectangle(rect.x, rect.y + tabHeight, rect.width, rect.height - tabHeight);
+            graphics.fillRectangle(mainRectangle);
             disposeGradientPattern(graphics, gradient);
 
             // Icon Image
@@ -117,17 +118,11 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
                 graphics.setLineWidth(getLineWidth());
                 setLineStyle(graphics);
                 
-                // Main rectangle
-                graphics.drawRectangle(createMainRectangle(rect));
-                
                 // Top rectangle
-                Path path = new Path(null);
-                path.moveTo(rect.x, rect.y + tabHeight);
-                path.lineTo(rect.x, rect.y);
-                path.lineTo(rect.x + tabWidth - 1, rect.y);
-                path.lineTo(rect.x + tabWidth - 1, rect.y + tabHeight);
-                graphics.drawPath(path);
-                path.dispose();
+                graphics.drawRectangle(topRectangle);
+                
+                // Main rectangle
+                graphics.drawRectangle(mainRectangle);
             }
         }
         
@@ -139,14 +134,6 @@ public class GroupingFigure extends AbstractTextControlContainerFigure implement
         }
     }
     
-    private Rectangle createTopRectangle(Rectangle rect) {
-        return new Rectangle(rect.x, rect.y, tabWidth, tabHeight);
-    }
-
-    private Rectangle createMainRectangle(Rectangle rect) {
-        return new Rectangle(rect.x, rect.y + tabHeight, rect.width, rect.height - tabHeight);
-    }
-
     @Override
     protected Rectangle calculateTextControlBounds() {
         Rectangle rect = getBounds().getCopy();
